@@ -1,0 +1,83 @@
+#include "Keys.hpp"
+
+VALUE checkKeys(VALUE self)
+{
+   oslReadKeys();
+   VALUE keys = rb_gv_get("$keys");
+
+   if (osl_pad.held.select)
+      rb_hash_aset(keys, rb_str_new2("select"), Qtrue);
+   else
+      rb_hash_aset(keys, rb_str_new2("select"), Qfalse);
+
+   if (osl_pad.held.start)
+      rb_hash_aset(keys, rb_str_new2("start"), Qtrue);
+   else
+      rb_hash_aset(keys, rb_str_new2("start"), Qfalse);
+
+   if (osl_pad.held.up)
+      rb_hash_aset(keys, rb_str_new2("up"), Qtrue);
+   else
+      rb_hash_aset(keys, rb_str_new2("up"), Qfalse);
+
+   if (osl_pad.held.down)
+      rb_hash_aset(keys, rb_str_new2("down"), Qtrue);
+   else
+      rb_hash_aset(keys, rb_str_new2("down"), Qfalse);
+
+   if (osl_pad.held.left)
+      rb_hash_aset(keys, rb_str_new2("left"), Qtrue);
+   else
+      rb_hash_aset(keys, rb_str_new2("left"), Qfalse);
+   
+   if (osl_pad.held.right)
+      rb_hash_aset(keys, rb_str_new2("right"), Qtrue);
+   else
+      rb_hash_aset(keys, rb_str_new2("right"), Qfalse);
+
+   if (osl_pad.held.L)
+      rb_hash_aset(keys, rb_str_new2("L"), Qtrue);
+   else
+      rb_hash_aset(keys, rb_str_new2("L"), Qfalse);
+
+   if (osl_pad.held.R)
+      rb_hash_aset(keys, rb_str_new2("R"), Qtrue);
+   else
+      rb_hash_aset(keys, rb_str_new2("R"), Qfalse);
+
+   if (osl_pad.held.circle)
+      rb_hash_aset(keys, rb_str_new2("circle"), Qtrue);
+   else
+      rb_hash_aset(keys, rb_str_new2("circle"), Qfalse);
+
+   if (osl_pad.held.triangle)
+      rb_hash_aset(keys, rb_str_new2("triangle"), Qtrue);
+   else
+      rb_hash_aset(keys, rb_str_new2("triangle"), Qfalse);
+
+   if (osl_pad.held.cross)
+      rb_hash_aset(keys, rb_str_new2("cross"), Qtrue);
+   else
+      rb_hash_aset(keys, rb_str_new2("cross"), Qfalse);
+
+   if (osl_pad.held.square)
+      rb_hash_aset(keys, rb_str_new2("square"), Qtrue);
+   else
+      rb_hash_aset(keys, rb_str_new2("square"), Qfalse);
+
+   if (osl_pad.held.hold)
+      rb_hash_aset(keys, rb_str_new2("hold"), Qtrue);
+   else
+      rb_hash_aset(keys, rb_str_new2("hold"), Qfalse);
+
+   rb_gv_set("$keys", keys);
+   
+   return Qnil;
+}
+void defineKeys()
+{
+   VALUE keys = rb_hash_new();
+   rb_gv_set("$keys", keys);
+   
+   rb_define_global_function("readKeys", (VALUE(*)(...))&checkKeys, 0);
+}
