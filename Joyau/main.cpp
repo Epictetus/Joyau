@@ -19,6 +19,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "Audio.hpp"
 #include "Graphics.hpp"
 #include "Keys.hpp"
+#include "Kernel.hpp"
 
 PSP_MODULE_INFO("Joyau", 0x1000, 1, 1);
 PSP_MAIN_THREAD_ATTR(THREAD_ATTR_VFPU);
@@ -83,6 +84,7 @@ int main(int argc, char** argv)
    defineAudio();
    defineGraphics();
    defineKeys();
+   defineKernel();
 
    ruby_init_loadpath();
    ruby_script("embeded");

@@ -28,7 +28,16 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include <ctime>
 #include <cstring>
 #include <pspkernel.h>
+#include <pspumd.h>
+#include <psploadexec.h>
+#include <psploadexec_kernel.h>
+#include <pspiofilemgr_kernel.h>
+#include <pspiofilemgr.h>
+#include <psptypes.h>
+#include <pspstdio.h>
+#include <pspsysmem_kernel.h>
 #include <pspdebug.h>
+#include <psputils.h>
 #include <pspctrl.h>
 #include <pspdisplay.h>
 #include <oslib/oslib.h>

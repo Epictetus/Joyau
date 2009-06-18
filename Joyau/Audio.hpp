@@ -27,6 +27,8 @@ struct Sound
    bool status;
 };
 
+VALUE wrapSound(VALUE info);
+
 VALUE Audio_init(VALUE self);
 VALUE Audio_stop(VALUE self);
 
