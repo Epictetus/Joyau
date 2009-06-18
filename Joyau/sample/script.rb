@@ -8,7 +8,6 @@ h = sprite.getH
 sprite.setPos(480 / 2 - w / 2, 272 / 2 - h / 2)
 
 while mayPlay
-  clearScreen
   readKeys
 
   if $keys["right"]
@@ -25,6 +24,7 @@ while mayPlay
   end
 
   startDraw
+  clearScreen
   sprite.draw
   endDraw
   
