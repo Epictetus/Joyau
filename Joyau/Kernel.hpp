@@ -49,6 +49,11 @@ VALUE File_getLine(VALUE self);
 
 VALUE File_write(VALUE self, VALUE text);
 
+VALUE File_remove(VALUE self, VALUE file);
+VALUE File_mkdir(VALUE self, VALUE dir);
+VALUE File_rmdir(VALUE self, VALUE dir);
+VALUE File_rename(VALUE self, VALUE old, VALUE newName);
+
 VALUE Kernel_cd(VALUE self, VALUE dir);
 
 VALUE Kernel_ExecEboot(VALUE self, VALUE exec);

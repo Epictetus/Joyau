@@ -252,6 +252,31 @@ VALUE Kernel_getModel(VALUE self)
       return rb_str_new2("brite");
 }
 
+VALUE File_remove(VALUE self, VALUE file)
+{
+   sceIoRemove(StringValuePtr(file));
+   return Qnil;
+}
+
+VALUE File_mkdir(VALUE self, VALUE dir)
+{
+   sceIoMkdir(StringValuePtr(dir), 0777);
+
+   return Qnil;
+}
+
+VALUE File_rmdir(VALUE self, VALUE dir)
+{
+   sceIoRmdir(StringValuePtr(dir));
+   return Qnil;
+}
+
+VALUE File_rename(VALUE self, VALUE old, VALUE newName)
+{
+   sceIoRename(StringValuePtr(old), StringValuePtr(newName));
+   return Qnil;
+}
+
 void defineKernel()
 {
    VALUE cDir = rb_define_class("PSPDir", rb_cObject);
@@ -286,4 +311,9 @@ void defineKernel()
 
    rb_define_global_function("timestamp", (VALUE(*)(...))&Kernel_Timestamp, 0);
    rb_define_global_function("model", (VALUE(*)(...))&Kernel_getModel, 0);
+
+   rb_define_global_function("mkdir", (VALUE(*)(...))&File_mkdir, 1);
+   rb_define_global_function("rmdir", (VALUE(*)(...))&File_rmdir, 1);
+   rb_define_global_function("rm", (VALUE(*)(...))&File_remove, 1);
+   rb_define_global_function("mv", (VALUE(*)(...))&File_rename, 2);
 }
