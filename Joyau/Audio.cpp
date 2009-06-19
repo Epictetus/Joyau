@@ -54,6 +54,7 @@ VALUE Audio_setChannel(VALUE self, VALUE id)
    return Qnil;
 }
 
+
 VALUE Audio_playStream(VALUE self)
 {
    Manager *m = Manager::getInstance();

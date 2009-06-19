@@ -79,6 +79,71 @@ VALUE Dir_List(VALUE self)
    return ret;
 }
 
+VALUE File_Wrap(VALUE info)
+{
+   fstream *item = new fstream;
+   VALUE tdata = Data_Wrap_Struct(info, 0, File_delete, item);
+   return tdata;
+}
+
+void File_delete(void *data)
+{
+   delete (fstream *)data;
+}
+
+VALUE File_open(VALUE self, VALUE name)
+{
+   fstream *item;
+   Data_Get_Struct(self, fstream, item);
+
+   item->open(StringValuePtr(name));
+
+   return Qnil;
+}
+
+VALUE File_close(VALUE self)
+{
+   fstream *item;
+   Data_Get_Struct(self, fstream, item);
+
+   item->close();
+
+   return Qnil;
+}
+
+VALUE File_getWord(VALUE self)
+{
+   fstream *item;
+   Data_Get_Struct(self, fstream, item);
+
+   string word;
+   (*item) >> word;
+
+   return rb_str_new2(word.c_str());
+}
+
+VALUE File_getLine(VALUE self)
+{
+   fstream *item;
+   Data_Get_Struct(self, fstream, item);
+
+   char line[256];
+   item->getline(line, 255);
+
+   return rb_str_new2(line);
+}
+
+VALUE File_write(VALUE self, VALUE text)
+{
+   fstream *item;
+   Data_Get_Struct(self, fstream, item);
+
+   char *str = StringValuePtr(text);
+   (*item) << str;
+
+   return Qnil;
+}
+
 VALUE Kernel_cd(VALUE self, VALUE dir)
 {
    sceIoChdir(StringValuePtr(dir));
@@ -181,7 +246,7 @@ VALUE Kernel_getModel(VALUE self)
 {
    if (sceKernelGetModel() == 0)
       return rb_str_new2("fat");
-   else if (sceKernelGetModel() == 0)
+   else if (sceKernelGetModel() == 1)
       return rb_str_new2("slim");
    else
       return rb_str_new2("brite");
@@ -194,6 +259,14 @@ void defineKernel()
    rb_define_singleton_method(cDir, "new", (VALUE(*)(...))&Dir_Wrap, 0);
    rb_define_method(cDir, "setDir", (VALUE(*)(...))&Dir_setDir, 1);
    rb_define_method(cDir, "ls", (VALUE(*)(...))&Dir_List, 0);
+
+   VALUE cFile = rb_define_class("PSPFile", rb_cObject);
+   rb_define_singleton_method(cFile, "new", (VALUE(*)(...))&File_Wrap, 0);
+   rb_define_method(cFile, "open", (VALUE(*)(...))&File_open, 1);
+   rb_define_method(cFile, "close", (VALUE(*)(...))&File_close, 0);
+   rb_define_method(cFile, "getWord", (VALUE(*)(...))&File_getWord, 0);
+   rb_define_method(cFile, "getLine", (VALUE(*)(...))&File_getLine, 0);
+   rb_define_method(cFile, "write", (VALUE(*)(...))&File_write, 1);
 
    rb_define_global_function("cd", (VALUE(*)(...))&Kernel_cd, 1);
    rb_define_global_function("execEboot", (VALUE(*)(...))&Kernel_ExecEboot, 1);

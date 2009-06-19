@@ -38,6 +38,17 @@ VALUE Dir_setDir(VALUE self, VALUE name);
 void Dir_delete(void *data);
 VALUE Dir_List(VALUE self);
 
+VALUE File_Wrap(VALUE info);
+void File_delete(void *data);
+
+VALUE File_open(VALUE self, VALUE name);
+VALUE File_close(VALUE self);
+
+VALUE File_getWord(VALUE self);
+VALUE File_getLine(VALUE self);
+
+VALUE File_write(VALUE self, VALUE text);
+
 VALUE Kernel_cd(VALUE self, VALUE dir);
 
 VALUE Kernel_ExecEboot(VALUE self, VALUE exec);

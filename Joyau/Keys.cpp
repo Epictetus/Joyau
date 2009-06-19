@@ -85,6 +85,11 @@ VALUE checkKeys(VALUE self)
       rb_hash_aset(keys, rb_str_new2("hold"), Qtrue);
    else
       rb_hash_aset(keys, rb_str_new2("hold"), Qfalse);
+   int analogX = osl_pad.analogX;
+   int analogY = osl_pad.analogY;
+
+   rb_hash_aset(keys, rb_str_new2("analogX"), INT2FIX(analogX));
+   rb_hash_aset(keys, rb_str_new2("analogY"), INT2FIX(analogY));
 
    rb_gv_set("$keys", keys);
    
