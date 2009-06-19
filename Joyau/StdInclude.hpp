@@ -33,6 +33,9 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include <psploadexec_kernel.h>
 #include <pspiofilemgr_kernel.h>
 #include <pspiofilemgr.h>
+#include <pspmodulemgr.h>
+#include <pspusb.h>
+#include <pspusbstor.h>
 #include <psptypes.h>
 #include <pspstdio.h>
 #include <pspsysmem_kernel.h>
