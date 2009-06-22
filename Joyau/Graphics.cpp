@@ -166,7 +166,7 @@ void defineGraphics()
    rb_define_global_function("setTextColor", 
 			     (VALUE(*)(...))&setTextColor, 1);
    rb_define_global_function("drawText", (VALUE(*)(...))&drawText, 3);
-   rb_define_global_function("clearScreen", (VALUE(*)(...))&Graphics_clear, 3);
+   rb_define_global_function("clearScreen", (VALUE(*)(...))&Graphics_clear, 0);
    rb_define_global_function("initGfx", (VALUE(*)(...))&Graphics_init, 0);
    rb_define_global_function("initLib", (VALUE(*)(...))&lib_start, 0);
    rb_define_global_function("stopLib", (VALUE(*)(...))&lib_stop, 0);

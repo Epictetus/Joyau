@@ -185,7 +185,7 @@ VALUE Sprite_getDirection(VALUE self)
    Sprite *item;
    Data_Get_Struct(self, Sprite, item);
 
-   return FIX2INT(item->getDirection()); 
+   return INT2FIX(item->getDirection()); 
 }
 
 VALUE Sprite_setPicture(VALUE self, VALUE pic)

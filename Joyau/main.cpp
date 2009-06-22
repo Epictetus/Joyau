@@ -66,6 +66,12 @@ __attribute__((constructor)) void stdoutInit()
    pspDebugInstallErrorHandler(exceptionHandler);
 }
 
+VALUE debug(VALUE text)
+{
+   oslDebug(StringValuePtr(text));
+   return Qnil;
+}
+
 int main(int argc, char** argv)
 {
    const char* scriptName = "script.rb";
@@ -88,8 +94,10 @@ int main(int argc, char** argv)
    defineKernel();
    defineUsb();
 
+   rb_define_global_function("debug", (VALUE(*)(...))&debug, 1);
+
    ruby_init_loadpath();
-   ruby_script("embeded");
+   ruby_script("embedded");
 
    rb_load_file(scriptFilename);
    ruby_run();
