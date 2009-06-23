@@ -30,6 +30,7 @@ struct Sound
 VALUE wrapSound(VALUE info);
 
 VALUE Audio_init(VALUE self);
+VALUE Audio_kinit(VALUE self);
 VALUE Audio_stop(VALUE self);
 
 VALUE Audio_setSound(VALUE self, VALUE name);

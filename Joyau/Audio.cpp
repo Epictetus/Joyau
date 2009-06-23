@@ -26,10 +26,14 @@ VALUE wrapSound(VALUE info)
 VALUE Audio_init(VALUE self)
 {
    oslInitAudio();
-   oslInitAudioME(OSL_FMT_ALL);
    return Qnil;
 }
 
+VALUE Audi_kinit(VALUE self)
+{
+   oslInitAudioME(OSL_FMT_ALL);
+   return Qnil;
+}
 VALUE Audio_stop(VALUE self)
 {
    oslDeinitAudio();
@@ -151,6 +155,7 @@ void defineAudio()
    rb_define_method(cStream, "stop", (VALUE(*)(...))&Audio_stopStream, 0);
 
    rb_define_global_function("initAudio", (VALUE(*)(...))&Audio_init, 0);
+   rb_define_global_function("kinitAudio", (VALUE(*)(...))&Audio_kinit, 0);
    rb_define_global_function("stopAudio", (VALUE(*)(...))&Audio_stop, 0);
    rb_define_global_function("audioSync", (VALUE(*)(...))&Audio_sync, 0);
 }
