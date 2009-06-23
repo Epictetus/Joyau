@@ -29,11 +29,12 @@ VALUE Audio_init(VALUE self)
    return Qnil;
 }
 
-VALUE Audi_kinit(VALUE self)
+VALUE Audio_kinit(VALUE self)
 {
    oslInitAudioME(OSL_FMT_ALL);
    return Qnil;
 }
+
 VALUE Audio_stop(VALUE self)
 {
    oslDeinitAudio();
