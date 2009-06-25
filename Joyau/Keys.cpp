@@ -16,6 +16,18 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include "Keys.hpp"
 
+VALUE Keys_repeatInit(VALUE self, VALUE time)
+{
+   oslSetKeyAutorepeatInit(FIX2INT(time));
+   return Qnil;
+}
+
+VALUE Keys_repeatInterval(VALUE self, VALUE time)
+{
+   oslSetKeyAutorepeatInterval(FIX2INT(time));
+   return Qnil;
+}
+
 VALUE checkKeys(VALUE self)
 {
    oslReadKeys();
@@ -235,8 +247,15 @@ VALUE checkKeys(VALUE self)
 }
 void defineKeys()
 {
+   // We'll automatically set some keys for automaticall repeat :
+   oslSetKeyAutorepeatMask(OSL_KEYMASK_UP | OSL_KEYMASK_RIGHT | 
+			   OSL_KEYMASK_DOWN | OSL_KEYMASK_LEFT | 
+			   OSL_KEYMASK_R | OSL_KEYMASK_L);
    VALUE keys = rb_hash_new();
    rb_gv_set("$keys", keys);
    
+   rb_define_global_function("repeatInit", (VALUE(*)(...))&Keys_repeatInit, 1);
+   rb_define_global_function("repeatInterval",
+			     (VALUE(*)(...))&Keys_repeatInterval, 1);
    rb_define_global_function("readKeys", (VALUE(*)(...))&checkKeys, 0);
 }

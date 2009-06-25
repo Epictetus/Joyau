@@ -19,6 +19,8 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include "StdInclude.hpp"
 
+VALUE Keys_repeatInit(VALUE self, VALUE time);
+VALUE Keys_repeatInterval(VALUE self, VALUE time);
 VALUE checkKeys(VALUE self);
 void defineKeys();
 
