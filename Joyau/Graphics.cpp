@@ -109,6 +109,19 @@ VALUE Graphics_drawFillRect(VALUE self, VALUE x1, VALUE y1, VALUE x2,
    return Qnil;
 }
 
+VALUE setTextFont(VALUE self, VALUE fontname)
+{
+   Manager *manager = Manager::getInstance();
+   oslSetFont(manager->getFont(StringValuePtr(fontname)));
+   return Qnil;
+}
+
+VALUE getTextSize(VALUE self, VALUE text)
+{
+   int val = oslGetStringWidth(StringValuePtr(text));
+   return INT2FIX(val);
+}
+
 VALUE setTextBackground(VALUE self, VALUE color)
 {
    int r = FIX2INT(rb_hash_aref(color, rb_str_new2("r")));
@@ -161,6 +174,8 @@ void defineGraphics()
    rb_define_global_function("drawFillRect", 
 			     (VALUE(*)(...))&Graphics_drawFillRect, 5);
    
+   rb_define_global_function("setFont", (VALUE(*)(...))&setTextFont, 1);
+   rb_define_global_function("getLength", (VALUE(*)(...))getTextSize, 1);
    rb_define_global_function("setTextBackground", 
 			     (VALUE(*)(...))&setTextBackground, 1);
    rb_define_global_function("setTextColor", 
