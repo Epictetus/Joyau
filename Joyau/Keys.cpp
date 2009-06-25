@@ -16,6 +16,18 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include "Keys.hpp"
 
+VALUE Keys_repeatInit(VALUE self, VALUE time)
+{
+   oslSetKeyAutorepeatInit(FIX2INT(time));
+   return Qnil;
+}
+
+VALUE Keys_repeatInterval(VALUE self, VALUE time)
+{
+   oslSetKeyAutorepeatInterval(FIX2INT(time));
+   return Qnil;
+}
+
 VALUE checkKeys(VALUE self)
 {
    oslReadKeys();
@@ -85,6 +97,143 @@ VALUE checkKeys(VALUE self)
       rb_hash_aset(keys, rb_str_new2("hold"), Qtrue);
    else
       rb_hash_aset(keys, rb_str_new2("hold"), Qfalse);
+
+   //Hum... I dont like copying and pasting but... I can't use a list...
+   //I've to use the oslib structure. Thus, yeah, the next block looks really
+   //like the last one.
+
+   if (osl_pad.pressed.select)
+      rb_hash_aset(keys, rb_str_new2("pressed_select"), Qtrue);
+   else
+      rb_hash_aset(keys, rb_str_new2("pressed_select"), Qfalse);
+
+   if (osl_pad.pressed.start)
+      rb_hash_aset(keys, rb_str_new2("pressed_start"), Qtrue);
+   else
+      rb_hash_aset(keys, rb_str_new2("pressed_start"), Qfalse);
+
+   if (osl_pad.pressed.up)
+      rb_hash_aset(keys, rb_str_new2("pressed_up"), Qtrue);
+   else
+      rb_hash_aset(keys, rb_str_new2("pressed_up"), Qfalse);
+
+   if (osl_pad.pressed.down)
+      rb_hash_aset(keys, rb_str_new2("pressed_down"), Qtrue);
+   else
+      rb_hash_aset(keys, rb_str_new2("pressed_down"), Qfalse);
+
+   if (osl_pad.pressed.left)
+      rb_hash_aset(keys, rb_str_new2("pressed_left"), Qtrue);
+   else
+      rb_hash_aset(keys, rb_str_new2("pressed_left"), Qfalse);
+   
+   if (osl_pad.pressed.right)
+      rb_hash_aset(keys, rb_str_new2("pressed_right"), Qtrue);
+   else
+      rb_hash_aset(keys, rb_str_new2("pressed_right"), Qfalse);
+
+   if (osl_pad.pressed.L)
+      rb_hash_aset(keys, rb_str_new2("pressed_L"), Qtrue);
+   else
+      rb_hash_aset(keys, rb_str_new2("pressed_L"), Qfalse);
+
+   if (osl_pad.pressed.R)
+      rb_hash_aset(keys, rb_str_new2("pressed_R"), Qtrue);
+   else
+      rb_hash_aset(keys, rb_str_new2("pressed_R"), Qfalse);
+
+   if (osl_pad.pressed.circle)
+      rb_hash_aset(keys, rb_str_new2("pressed_circle"), Qtrue);
+   else
+      rb_hash_aset(keys, rb_str_new2("pressed_circle"), Qfalse);
+
+   if (osl_pad.pressed.triangle)
+      rb_hash_aset(keys, rb_str_new2("pressed_triangle"), Qtrue);
+   else
+      rb_hash_aset(keys, rb_str_new2("pressed_triangle"), Qfalse);
+
+   if (osl_pad.pressed.cross)
+      rb_hash_aset(keys, rb_str_new2("pressed_cross"), Qtrue);
+   else
+      rb_hash_aset(keys, rb_str_new2("pressed_cross"), Qfalse);
+
+   if (osl_pad.pressed.square)
+      rb_hash_aset(keys, rb_str_new2("pressed_square"), Qtrue);
+   else
+      rb_hash_aset(keys, rb_str_new2("pressed_square"), Qfalse);
+
+   if (osl_pad.pressed.hold)
+      rb_hash_aset(keys, rb_str_new2("pressed_hold"), Qtrue);
+   else
+      rb_hash_aset(keys, rb_str_new2("pressed_hold"), Qfalse);
+
+   if (osl_pad.pressed.select)
+      rb_hash_aset(keys, rb_str_new2("pressed_select"), Qtrue);
+   else
+      rb_hash_aset(keys, rb_str_new2("pressed_select"), Qfalse);
+
+   if (osl_pad.pressed.start)
+      rb_hash_aset(keys, rb_str_new2("pressed_start"), Qtrue);
+   else
+      rb_hash_aset(keys, rb_str_new2("pressed_start"), Qfalse);
+
+   //Hum... should I copy and past the last comment ?
+
+   if (osl_pad.released.up)
+      rb_hash_aset(keys, rb_str_new2("released_up"), Qtrue);
+   else
+      rb_hash_aset(keys, rb_str_new2("released_up"), Qfalse);
+
+   if (osl_pad.released.down)
+      rb_hash_aset(keys, rb_str_new2("released_down"), Qtrue);
+   else
+      rb_hash_aset(keys, rb_str_new2("released_down"), Qfalse);
+
+   if (osl_pad.released.left)
+      rb_hash_aset(keys, rb_str_new2("released_left"), Qtrue);
+   else
+      rb_hash_aset(keys, rb_str_new2("released_left"), Qfalse);
+   
+   if (osl_pad.released.right)
+      rb_hash_aset(keys, rb_str_new2("released_right"), Qtrue);
+   else
+      rb_hash_aset(keys, rb_str_new2("released_right"), Qfalse);
+
+   if (osl_pad.released.L)
+      rb_hash_aset(keys, rb_str_new2("released_L"), Qtrue);
+   else
+      rb_hash_aset(keys, rb_str_new2("released_L"), Qfalse);
+
+   if (osl_pad.released.R)
+      rb_hash_aset(keys, rb_str_new2("released_R"), Qtrue);
+   else
+      rb_hash_aset(keys, rb_str_new2("released_R"), Qfalse);
+
+   if (osl_pad.released.circle)
+      rb_hash_aset(keys, rb_str_new2("released_circle"), Qtrue);
+   else
+      rb_hash_aset(keys, rb_str_new2("released_circle"), Qfalse);
+
+   if (osl_pad.released.triangle)
+      rb_hash_aset(keys, rb_str_new2("released_triangle"), Qtrue);
+   else
+      rb_hash_aset(keys, rb_str_new2("released_triangle"), Qfalse);
+
+   if (osl_pad.released.cross)
+      rb_hash_aset(keys, rb_str_new2("released_cross"), Qtrue);
+   else
+      rb_hash_aset(keys, rb_str_new2("released_cross"), Qfalse);
+
+   if (osl_pad.released.square)
+      rb_hash_aset(keys, rb_str_new2("released_square"), Qtrue);
+   else
+      rb_hash_aset(keys, rb_str_new2("released_square"), Qfalse);
+
+   if (osl_pad.released.hold)
+      rb_hash_aset(keys, rb_str_new2("released_hold"), Qtrue);
+   else
+      rb_hash_aset(keys, rb_str_new2("released_hold"), Qfalse);
+
    int analogX = osl_pad.analogX;
    int analogY = osl_pad.analogY;
 
@@ -100,5 +249,8 @@ void defineKeys()
    VALUE keys = rb_hash_new();
    rb_gv_set("$keys", keys);
    
+   rb_define_global_function("repeatInit", (VALUE(*)(...))&Keys_repeatInit, 1);
+   rb_define_global_function("repeatInterval",
+			     (VALUE(*)(...))&Keys_repeatInterval, 1);
    rb_define_global_function("readKeys", (VALUE(*)(...))&checkKeys, 0);
 }

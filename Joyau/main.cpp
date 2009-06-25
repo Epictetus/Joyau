@@ -74,6 +74,7 @@ VALUE debug(VALUE text)
 
 int main(int argc, char** argv)
 {
+   
    const char* scriptName = "script.rb";
    char* scriptFilename = new char[strlen(argv[0]) + strlen(scriptName)];
    strcpy(scriptFilename, argv[0]);
@@ -96,6 +97,7 @@ int main(int argc, char** argv)
 
    rb_define_global_function("debug", (VALUE(*)(...))&debug, 1);
 
+   
    ruby_init_loadpath();
    ruby_script("embedded");
 

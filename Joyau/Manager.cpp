@@ -35,6 +35,13 @@ OSL_IMAGE* Manager::getPic(char *name)
    return images[name];
 }
 
+OSL_FONT* Manager::getFont(char *name)
+{
+   if(fonts.find(name) == fonts.end())
+      fonts[name] = oslLoadFontFile(name);
+   return fonts[name];
+}
+
 OSL_SOUND* Manager::getStream(char *name)
 {
    if (streams.find(name) == streams.end())

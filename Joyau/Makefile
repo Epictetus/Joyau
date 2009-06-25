@@ -15,7 +15,7 @@
 #51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 TARGET = Joyau
-OBJS = main.o Manager.o Sprite.o Audio.o Graphics.o Keys.o
+OBJS = main.o Manager.o Graphics.o Keys.o Sprite.o Audio.o Kernel.o Usb.o
 
 INCDIR =
 CFLAGS = -O2 -G0 -Wall -D_PSP_
@@ -23,7 +23,7 @@ CXXFLAGS = $(CFLAGS) -fno-exceptions -fno-rtti
 ASFLAGS = $(CFLAGS)
 
 LIBDIR =
-LIBS = -losl -lpng -lz -lpspsdk -lpspvfpu -lpspctrl -lpspumd -lpsprtc -lpsppower -lpspgu -lpspmpeg -lpspaudiocodec -lpspaudiolib -lpspaudio -lruby -lm -lstdc++
+LIBS = -losl -lpng -lz -lpspsdk -lpspvfpu -lpspusb -lpspusbstor -lpspctrl -lpspumd -lpsprtc -lpsppower -lpspgu -lpspmpeg -lpspaudiocodec -lpspaudiolib -lpspaudio -lruby -lm -lstdc++
 LDFLAGS =
 
 EXTRA_TARGETS = EBOOT.PBP
