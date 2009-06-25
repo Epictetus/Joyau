@@ -55,12 +55,15 @@ public:
    
    OSL_IMAGE *getPic(char *name);
 
+   OSL_FONT *getFont(char *name);
+
    OSL_SOUND *getStream(char *name);
    OSL_SOUND *getSound(char *name);
 protected:
    map<string, OSL_IMAGE*> images;
    map<string, OSL_SOUND*> streams;
    map<string, OSL_SOUND*> sounds;
+   map<string, OSL_FONT*> fonts;
 };
 
 #endif

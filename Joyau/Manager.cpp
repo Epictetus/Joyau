@@ -29,26 +29,27 @@ Manager::~Manager()
 OSL_IMAGE* Manager::getPic(char *name)
 {
    if (images.find(name) == images.end())
-   {
       images[name] = oslLoadImageFile(name, OSL_IN_RAM, OSL_PF_8888);
-   }
    return images[name];
+}
+
+OSL_FONT* Manager::getFont(char *name)
+{
+   if(fonts.find(name) == fonts.end())
+      fonts[name] = oslLoadFontFile(name);
+   return fonts[name];
 }
 
 OSL_SOUND* Manager::getStream(char *name)
 {
    if (streams.find(name) == streams.end())
-   {
       streams[name] = oslLoadSoundFile(name, OSL_FMT_STREAM);
-   }
    return streams[name];
 }
 
 OSL_SOUND* Manager::getSound(char *name)
 {
    if (sounds.find(name) == sounds.end())
-   {
       sounds[name] = oslLoadSoundFile(name, OSL_FMT_NONE);
-   }
    return sounds[name];
 }
