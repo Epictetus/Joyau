@@ -55,5 +55,6 @@ void Container::setPos(int x, int y)
 
 void Container::addContent(Container *item)
 {
+   item->changeParent(this);
    contents.push_back(item);
 }
