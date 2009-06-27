@@ -21,6 +21,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "Keys.hpp"
 #include "Kernel.hpp"
 #include "Usb.hpp"
+#include "RubyContainer.hpp"
 
 PSP_MODULE_INFO("Joyau", 0x1000, 1, 1);
 PSP_MAIN_THREAD_ATTR(THREAD_ATTR_VFPU);
@@ -72,9 +73,9 @@ VALUE debug(VALUE text)
    return Qnil;
 }
 
+
 int main(int argc, char** argv)
 {
-   
    const char* scriptName = "script.rb";
    char* scriptFilename = new char[strlen(argv[0]) + strlen(scriptName)];
    strcpy(scriptFilename, argv[0]);
@@ -94,9 +95,9 @@ int main(int argc, char** argv)
    defineKeys();
    defineKernel();
    defineUsb();
+   defineContainer();
 
    rb_define_global_function("debug", (VALUE(*)(...))&debug, 1);
-
    
    ruby_init_loadpath();
    ruby_script("embedded");
@@ -105,7 +106,6 @@ int main(int argc, char** argv)
    ruby_run();
 
    Manager::deleteInstance();
-
    return 0;
 }
 
