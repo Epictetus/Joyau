@@ -123,17 +123,25 @@ void Sprite::defaultDraw()
    sprite->y = _y;
    sprite->angle = _angle;
 
-   oslSetImageTileSize(sprite, (animeState * getW()),
-		       getDirection() * getH(), getW(), getH());
+   if (animated)
+   {
+      oslSetImageTileSize(sprite, animeState * getW(),
+			  getDirection() * getH(), getW(), getH());
+   }
+   else
+   {
+      oslSetImageTileSize(sprite, 0,
+			  0, getW(), getH());
+   }
    passedTime++;
-   if (passedTime > nbrAnime)
+   if (passedTime == nbrAnime)
    {
       passedTime = 0;
       animeState++;
    }
-   if (animeState > _nbrX)
-      animeState = 0
-
+   if (animeState == _nbrX)
+      animeState = 0;
+      
    oslDrawImage(sprite);
    oslSetAlpha(OSL_FX_RGBA, _alpha);
 }
@@ -145,6 +153,10 @@ void Sprite::setDirection(int dir)
 
 void Sprite::setAnimation(int nbrX, int nbrY)
 {
+   if (nbrX != 1 || nbrY != 1)
+      animated = true;
+   else
+      animated = false;
    _nbrX =  nbrX; // We'll change the frame at the draw function, 
    _nbrY = nbrY; // so we can use the same OSL_IMAGE in multiple sprite :)
 }
@@ -206,6 +218,24 @@ VALUE Sprite_getDirection(VALUE self)
    Data_Get_Struct(self, Sprite, item);
 
    return INT2FIX(item->getDirection()); 
+}
+
+VALUE Sprite_setAnimation(VALUE self, VALUE nbrX, VALUE nbrY)
+{
+   Sprite *item;
+   Data_Get_Struct(self, Sprite, item);
+
+   item->setAnimation(FIX2INT(nbrX), FIX2INT(nbrY));
+   return Qnil;
+}
+
+VALUE Sprite_setAnimationTime(VALUE self, VALUE t)
+{
+   Sprite *item;
+   Data_Get_Struct(self, Sprite, item);
+
+   item->setAnimationTime(FIX2INT(t));
+   return Qnil;
 }
 
 VALUE Sprite_setPicture(VALUE self, VALUE pic)
@@ -378,4 +408,8 @@ void defineSprite()
 		    (VALUE(*)(...))&Sprite_setDirection, 1);
    rb_define_method(cSprite, "getDirection", 
 		    (VALUE(*)(...))&Sprite_getDirection, 0);
+   rb_define_method(cSprite, "setAnim", 
+		    (VALUE(*)(...))&Sprite_setAnimation, 2);
+   rb_define_method(cSprite, "setAnimTime", 
+		    (VALUE(*)(...))&Sprite_setAnimationTime, 1);
 }
