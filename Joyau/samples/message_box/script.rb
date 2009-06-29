@@ -1,9 +1,8 @@
-# -*- coding: utf-8 -*-
-
 def drawMessage(hero)
   message = Message.new
   message.setPos(0, 0)
-  message.setTitlePos(50, 5)
+  message.setTitlePos(477 - getLength("press X"), 10)
+
   message.resize(480, 40)
   message.setTitle("press X")
 
@@ -56,10 +55,10 @@ while mayPlay
     hero.move(0, 2)
   end
   if $keys["left"]
-    hero.move(2, 0)
+    hero.move(-2, 0)
   end
   if $keys["right"]
-    hero.move(-2, 0)
+    hero.move(2, 0)
   end
   if $keys["cross"]
     if hero.getAlpha - 2 > 30
