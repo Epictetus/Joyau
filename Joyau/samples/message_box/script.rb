@@ -9,8 +9,8 @@ def drawMessage(hero)
   red = Hash.new
   red["a"] = 255
   red["r"] = 255
+  red["g"] = 0
   red["b"] = 0
-  red["a"] = 0
   message.setTitleColor(red)
 
   message.setText("Alpha : " + hero.getAlpha.to_s)
