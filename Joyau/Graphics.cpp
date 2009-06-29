@@ -45,6 +45,7 @@ VALUE Graphics_init(VALUE self)
 {
    oslInitGfx(OSL_PF_8888, 1);
    
+   
    return Qnil;
 }
 

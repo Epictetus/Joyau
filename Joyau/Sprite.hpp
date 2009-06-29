@@ -32,6 +32,13 @@ public:
       manager = a_manager;
       _x = 0;
       _y = 0;
+      
+      _nbrX = 1;
+      _nbrY = 1;
+
+      passedTime = 0;
+      animeState = 0;
+      nbrAnime = 6;
    }
 
    void setPicture(char *pic);
@@ -58,16 +65,16 @@ public:
    bool collide(Sprite *spr);
 
    virtual void Draw();
-   virtual void play() {}
-
+   
    enum DIRECTION { DOWN, LEFT, RIGHT, UP, UP_LEFT, UP_RIGHT, DOWN_LEFT,
 		    DOWN_RIGHT };
 
    void setDirection(int dir);
    int getDirection() { return _dir; }
-
-   virtual int getPv() { return 0; }
-   virtual int getScore() { return 0; }
+   
+   // Configure the number of sprite.
+   void setAnimation(int nbrX, int nbrY);
+   void setAnimationTime(int t) { nbrAnime = t; }
 
 protected:
    string picName;
@@ -84,6 +91,12 @@ private:
    int _dir;
 
    OSL_IMAGE *sprite;
+   
+   int _nbrX;
+   int _nbrY;
+   int animeState;
+   int passedTime;
+   int nbrAnime;
 };
 
 VALUE wrapSprite(VALUE info);

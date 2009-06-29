@@ -52,8 +52,11 @@ int Sprite::getAlpha()
 
 int Sprite::getX() { return _x; }
 int Sprite::getY() { return _y; }
-int Sprite::getW() { return _w; }
-int Sprite::getH() { return _h; }
+
+//Since nbrX and nbrY are initialized to 1, we cane use them even in
+//not-animated sprites. 
+int Sprite::getW() { return _w / _nbrX; }
+int Sprite::getH() { return _h / _nbrY; }
 
 bool Sprite::isOn(int x, int y)
 {
@@ -120,6 +123,17 @@ void Sprite::defaultDraw()
    sprite->y = _y;
    sprite->angle = _angle;
 
+   oslSetImageTileSize(sprite, (animeState * getW()),
+		       getDirection() * getH(), getW(), getH());
+   passedTime++;
+   if (passedTime > nbrAnime)
+   {
+      passedTime = 0;
+      animeState++;
+   }
+   if (animeState > _nbrX)
+      animeState = 0
+
    oslDrawImage(sprite);
    oslSetAlpha(OSL_FX_RGBA, _alpha);
 }
@@ -127,6 +141,12 @@ void Sprite::defaultDraw()
 void Sprite::setDirection(int dir)
 {
    _dir = dir;
+}
+
+void Sprite::setAnimation(int nbrX, int nbrY)
+{
+   _nbrX =  nbrX; // We'll change the frame at the draw function, 
+   _nbrY = nbrY; // so we can use the same OSL_IMAGE in multiple sprite :)
 }
 
 void Sprite::zoom(int increase)
