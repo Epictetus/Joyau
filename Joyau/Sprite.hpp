@@ -32,6 +32,8 @@ public:
       manager = a_manager;
       _x = 0;
       _y = 0;
+
+      animated = false;
       
       _nbrX = 1;
       _nbrY = 1;
@@ -92,6 +94,7 @@ private:
 
    OSL_IMAGE *sprite;
    
+   bool animated;
    int _nbrX;
    int _nbrY;
    int animeState;
@@ -131,6 +134,9 @@ enum DIRECTION { DOWN, LEFT, RIGHT, UP, UP_LEFT, UP_RIGHT, DOWN_LEFT,
 
 VALUE Sprite_setDirection(VALUE self, VALUE dir);
 VALUE Sprite_getDirection(VALUE self);
+
+VALUE Sprite_setAnimation(VALUE self, VALUE nbrX, VALUE nbrY);
+VALUE Sprite_setAnimationTime(VALUE self, VALUE t);
 
 void Sprite_free(void*);
 void defineSprite();
