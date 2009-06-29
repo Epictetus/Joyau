@@ -24,6 +24,9 @@ Manager::~Manager()
    for (map<string, OSL_SOUND*>::iterator i = sounds.begin(); 
 	i != sounds.end(); ++i)
       oslDeleteSound(i->second);
+   for (map<string, OSL_IMAGE*>::iterator i = images.begin(); 
+	i != images.end(); ++i)
+      oslDeleteImage(i->second);
 }
 
 OSL_IMAGE* Manager::getPic(char *name)
