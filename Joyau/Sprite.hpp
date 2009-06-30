@@ -41,6 +41,12 @@ public:
       passedTime = 0;
       animeState = 0;
       nbrAnime = 6;
+
+      tiled = false;
+      xTile = 0;
+      yTile = 0;
+      wTile = 0;
+      hTile = 0;
    }
 
    void setPicture(char *pic);
@@ -78,6 +84,8 @@ public:
    void setAnimation(int nbrX, int nbrY);
    void setAnimationTime(int t) { nbrAnime = t; }
 
+   void setTile(int x, int y, int w, int h);
+
 protected:
    string picName;
    Manager *manager;
@@ -101,6 +109,11 @@ private:
    int passedTime;
    int nbrAnime;
 
+   bool tiled;
+   int xTile;
+   int yTile;
+   int wTile;
+   int hTile;
 };
 
 VALUE wrapSprite(VALUE info);
@@ -138,6 +151,8 @@ VALUE Sprite_getDirection(VALUE self);
 
 VALUE Sprite_setAnimation(VALUE self, VALUE nbrX, VALUE nbrY);
 VALUE Sprite_setAnimationTime(VALUE self, VALUE t);
+
+VALUE Sprite_setTile(VALUE self, VALUE x, VALUE y, VALUE w, VALUE h);
 
 void Sprite_free(void*);
 void defineSprite();

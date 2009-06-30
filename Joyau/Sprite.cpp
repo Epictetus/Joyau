@@ -123,25 +123,24 @@ void Sprite::defaultDraw()
    sprite->y = _y;
    sprite->angle = _angle;
 
-   if (animated)
+   if (!tiled)
    {
-      oslSetImageTileSize(sprite, animeState * getW(),
-			  getDirection() * getH(), getW(), getH());
+      if (animated)
+	 oslSetImageTileSize(sprite, animeState * getW(), 
+			     getDirection() * getH(), getW(), getH());
+      else
+	 oslSetImageTileSize(sprite, 0, 0, getW(), getH());
+      passedTime++;
+      if (passedTime == nbrAnime)
+      {
+	 passedTime = 0;
+	 animeState++;
+      }
+      if (animeState == _nbrX)
+	 animeState = 0;
    }
    else
-   {
-      oslSetImageTileSize(sprite, 0,
-			  0, getW(), getH());
-   }
-   passedTime++;
-   if (passedTime == nbrAnime)
-   {
-      passedTime = 0;
-      animeState++;
-   }
-   if (animeState == _nbrX)
-      animeState = 0;
-      
+      oslSetImageTileSize(sprite, xTile, yTile, wTile, hTile);
    oslDrawImage(sprite);
    oslSetAlpha(OSL_FX_RGBA, _alpha);
 }
@@ -166,6 +165,15 @@ void Sprite::zoom(int increase)
    _stretchX += increase;
    _stretchY += increase;
    _zoom += increase;
+}
+
+void Sprite::setTile(int x, int y, int w, int h)
+{
+   tiled = true;
+   xTile = x;
+   yTile = y;
+   wTile = w;
+   hTile = h;
 }
 
 VALUE wrapSprite(VALUE info)
@@ -366,6 +374,15 @@ VALUE Sprite_zoom(VALUE self, VALUE val)
    item->zoom(FIX2INT(val));
    
    return Qnil; 
+}
+
+VALUE Sprite_setTile(VALUE self, VALUE x, VALUE y, VALUE w, VALUE h)
+{
+   Sprite *item;
+   Data_Get_Struct(self, Sprite, item);
+
+   item->setTile(FIX2INT(x), FIX2INT(y), FIX2INT(w), FIX2INT(h));
+   return Qnil;
 }
 
 void defineSprite()
