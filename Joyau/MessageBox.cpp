@@ -37,12 +37,13 @@ void Message::draw()
    // If it's a picture :
    if (bg_pic)
    {
+      bg->setTile(0, 0, _w - 1, _h - 1);
       bg->setPos(_x + 1, _y + 1);
       bg->Draw();
    }
    else
    {
-      // We'll draw it in the border.
+      // We'll draw it in the border. We don't want to overwrit it.
       oslDrawFillRect(_x + 1, _y +1, _x + _w - 1, _y + _h - 1, bgColor);
    }
 
