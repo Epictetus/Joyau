@@ -55,8 +55,8 @@ int Sprite::getY() { return _y; }
 
 //Since nbrX and nbrY are initialized to 1, we cane use them even in
 //not-animated sprites. 
-int Sprite::getW() { return _w / _nbrX; }
-int Sprite::getH() { return _h / _nbrY; }
+int Sprite::getW() { return tiled ? wTile : _w / _nbrX; }
+int Sprite::getH() { return tiled ? hTile : _h / _nbrY; }
 
 bool Sprite::isOn(int x, int y)
 {
