@@ -58,11 +58,23 @@ public:
    OSL_SOUND *getStream(char *name);
    OSL_SOUND *getSound(char *name);
 
+   void clearImages();
+   void clearStreams();
+   void clearSounds();
+   void clearFonts();
+
 protected:
    map<string, OSL_IMAGE*> images;
    map<string, OSL_SOUND*> streams;
    map<string, OSL_SOUND*> sounds;
    map<string, OSL_FONT*> fonts;
 };
+
+VALUE clearImages(VALUE self);
+VALUE clearStreams(VALUE self);
+VALUE clearSounds(VALUE self);
+VALUE clearFonts(VALUE self);
+
+void defineManager();
 
 #endif

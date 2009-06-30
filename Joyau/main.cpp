@@ -89,6 +89,7 @@ int main(int argc, char** argv)
 
    ruby_init();
 
+   defineManager();
    defineSprite();
    defineAudio();
    defineGraphics();

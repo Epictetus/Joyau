@@ -100,6 +100,7 @@ private:
    int animeState;
    int passedTime;
    int nbrAnime;
+
 };
 
 VALUE wrapSprite(VALUE info);
