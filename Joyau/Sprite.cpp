@@ -429,4 +429,6 @@ void defineSprite()
 		    (VALUE(*)(...))&Sprite_setAnimation, 2);
    rb_define_method(cSprite, "setAnimTime", 
 		    (VALUE(*)(...))&Sprite_setAnimationTime, 1);
+   rb_define_method(cSprite, "setTile", 
+		    (VALUE(*)(...))&Sprite_setTile, 4);
 }
