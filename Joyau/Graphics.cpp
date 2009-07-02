@@ -160,12 +160,21 @@ VALUE drawText(VALUE self, VALUE x, VALUE y, VALUE text)
    return Qnil;
 }
 
+VALUE setAutoSwizzle(VALUE self)
+{
+   oslSetImageAutoSwizzle(1);
+   return Qnil;
+}
+
 void defineGraphics()
 {
-   rb_define_global_function("mayPlay", (VALUE(*)(...))&Graphics_mayPlay, 0);
+   rb_define_global_function("swizzle", (VALUE(*)(...))&setAutoSwizzle, 0);
+   rb_define_global_function("mayPlay", (VALUE(*)(...))&Graphics_mayPlay, 
+			     0);
    rb_define_global_function("startDraw", 
 			     (VALUE(*)(...))&Graphics_startDraw, 0);
-   rb_define_global_function("endDraw", (VALUE(*)(...))&Graphics_endDraw, 0);
+   rb_define_global_function("endDraw", (VALUE(*)(...))&Graphics_endDraw, 
+			     0);
    rb_define_global_function("sync", (VALUE(*)(...))&Graphics_sync, 0);
 
    rb_define_global_function("drawLine", 
@@ -182,7 +191,8 @@ void defineGraphics()
    rb_define_global_function("setTextColor", 
 			     (VALUE(*)(...))&setTextColor, 1);
    rb_define_global_function("drawText", (VALUE(*)(...))&drawText, 3);
-   rb_define_global_function("clearScreen", (VALUE(*)(...))&Graphics_clear, 0);
+   rb_define_global_function("clearScreen", (VALUE(*)(...))&Graphics_clear,
+			     0);
    rb_define_global_function("initGfx", (VALUE(*)(...))&Graphics_init, 0);
    rb_define_global_function("initLib", (VALUE(*)(...))&lib_start, 0);
    rb_define_global_function("stopLib", (VALUE(*)(...))&lib_stop, 0);
