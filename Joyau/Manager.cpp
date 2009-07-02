@@ -68,6 +68,7 @@ void Manager::clearImages()
    for (map<string, OSL_IMAGE*>::iterator i = images.begin(); 
 	i != images.end(); ++i)
       oslDeleteImage(i->second);
+   images.clear();
 }
 
 void Manager::clearStreams()
@@ -75,12 +76,14 @@ void Manager::clearStreams()
    for (map<string, OSL_SOUND*>::iterator i = streams.begin(); 
 	i != streams.end(); ++i)
       oslDeleteSound(i->second);
+   streams.clear();
 }
 void Manager::clearSounds()
 {
    for (map<string, OSL_SOUND*>::iterator i = sounds.begin(); 
 	i != sounds.end(); ++i)
       oslDeleteSound(i->second);
+   sounds.clear();
 }
 
 void Manager::clearFonts()
@@ -88,6 +91,7 @@ void Manager::clearFonts()
    for (map<string, OSL_FONT*>::iterator i = fonts.begin(); 
 	i != fonts.end(); ++i)
       oslDeleteFont(i->second);
+   fonts.clear();
 }
 
 VALUE clearImages(VALUE self)
