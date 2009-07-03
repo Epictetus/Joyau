@@ -24,7 +24,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 class Sprite
 {
 public:
-   Sprite(Manager *a_manager):
+   Sprite(Manager *a_manager = Manager::getInstance()):
       _alpha(255),
       _zoom(160),
       _angle(0)

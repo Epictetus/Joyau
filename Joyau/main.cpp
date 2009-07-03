@@ -22,6 +22,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "Kernel.hpp"
 #include "Usb.hpp"
 #include "MessageBox.hpp"
+#include "Scrolling.hpp"
 
 PSP_MODULE_INFO("Joyau", 0x1000, 1, 1);
 PSP_MAIN_THREAD_ATTR(THREAD_ATTR_VFPU);
@@ -73,7 +74,6 @@ VALUE debug(VALUE text)
    return Qnil;
 }
 
-
 int main(int argc, char** argv)
 {
    const char* scriptName = "script.rb";
@@ -97,6 +97,7 @@ int main(int argc, char** argv)
    defineKernel();
    defineUsb();
    defineMessageBox();
+   defineScrolling();
 
    rb_define_global_function("debug", (VALUE(*)(...))&debug, 1);
    
