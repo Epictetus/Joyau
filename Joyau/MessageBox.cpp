@@ -252,7 +252,7 @@ VALUE Message_setTitleFont(VALUE self, VALUE f)
    Data_Get_Struct(self, Message, item);
 
    string str = StringValuePtr(f);
-   item->setTextFont(str);
+   item->setTitleFont(str);
    return Qnil;
 }
 
