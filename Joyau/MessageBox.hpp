@@ -18,6 +18,7 @@
 #define __MESSAGE__
 
 #include "Sprite.hpp"
+#include "RubyWrapper.hpp"
 
 class Message
 {
@@ -67,9 +68,6 @@ private:
 
    int titleX, titleY; //relatively to _x and _y.
 };
-
-VALUE wrapMessage(VALUE info);
-void Message_free(void *info);
 
 VALUE Message_draw(VALUE self);
 

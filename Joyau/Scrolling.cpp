@@ -74,31 +74,18 @@ void Scrolling::draw()
    bg[1].Draw();
 }
 
-VALUE wrapScrolling(VALUE info)
-{
-   Scrolling *item = new Scrolling;
-   VALUE tdata = Data_Wrap_Struct(info, 0, Scrolling_free, item);
-   return tdata;
-}
-
-void Scrolling_free(void *info) { delete (Scrolling*)info; }
-
 VALUE Scrolling_setSprite(VALUE self, VALUE spr)
 {
-   Scrolling *item;
-   Data_Get_Struct(self, Scrolling, item);
-
+   Scrolling *item = getPtr<Scrolling>(self);
    char *str = StringValuePtr(spr);
-   item->setSprite(str);
 
+   item->setSprite(str);
    return Qnil;
 }
 
 VALUE Scrolling_setPos(VALUE self, VALUE x, VALUE y)
 {
-   Scrolling *item;
-   Data_Get_Struct(self, Scrolling, item);
-
+   Scrolling *item = getPtr<Scrolling>(self);
    int _x = FIX2INT(x);
    int _y = FIX2INT(y);
 
@@ -109,9 +96,7 @@ VALUE Scrolling_setPos(VALUE self, VALUE x, VALUE y)
 
 VALUE Scrolling_setDir(VALUE self, VALUE dir)
 {
-   Scrolling *item;
-   Data_Get_Struct(self, Scrolling, item);
-
+   Scrolling *item = getPtr<Scrolling>(self);
    int _dir = FIX2INT(dir);
    
    item->setDir(_dir);
@@ -120,9 +105,7 @@ VALUE Scrolling_setDir(VALUE self, VALUE dir)
 
 VALUE Scrolling_setSpeed(VALUE self, VALUE s)
 {
-   Scrolling *item;
-   Data_Get_Struct(self, Scrolling, item);
-
+   Scrolling *item = getPtr<Scrolling>(self);
    int speed = FIX2INT(s);
    
    item->setSpeed(speed);
@@ -131,29 +114,23 @@ VALUE Scrolling_setSpeed(VALUE self, VALUE s)
 
 VALUE Scrolling_play(VALUE self)
 {
-   Scrolling *item;
-   Data_Get_Struct(self, Scrolling, item);
+   Scrolling *item = getPtr<Scrolling>(self);
 
    item->play();
-
    return Qnil;
 }
 
 VALUE Scrolling_draw(VALUE self)
 {
-   Scrolling *item;
-   Data_Get_Struct(self, Scrolling, item);
+   Scrolling *item = getPtr<Scrolling>(self);
 
    item->draw();
-
    return Qnil;
 }
 
 void defineScrolling()
 {
-   VALUE cScroll = rb_define_class("Scrolling", rb_cObject);
-   rb_define_singleton_method(cScroll, "new", (VALUE(*)(...))&wrapScrolling,
-			      0);
+   VALUE cScroll = defClass<Scrolling>("Scrolling");
    rb_define_method(cScroll, "setSprite", 
 		    (VALUE(*)(...))&Scrolling_setSprite, 1);
    rb_define_method(cScroll, "setPos", 

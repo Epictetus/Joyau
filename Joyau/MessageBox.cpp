@@ -111,54 +111,37 @@ void Message::resize(int w, int h)
    _h = h;
 }
 
-VALUE wrapMessage(VALUE info)
-{
-   Message *item = new Message;
-   VALUE tdata = Data_Wrap_Struct(info, 0, Message_free, item);
-   return tdata;
-}
-
-void Message_free(void *info) { delete (Message*)info; }
-
 VALUE Message_draw(VALUE self)
 {
-   Message *item;
-   Data_Get_Struct(self, Message, item);
-
+   Message *item = getPtr<Message>(self);
    item->draw();
+
    return Qnil;
 }
 
 VALUE Message_setTitle(VALUE self, VALUE txt)
 {
-   Message *item;
-   Data_Get_Struct(self, Message, item);
-
+   Message *item = getPtr<Message>(self);
    string str = StringValuePtr(txt);
-   item->setTitle(str);
 
+   item->setTitle(str);
    return Qnil;
 }
 
 
 VALUE Message_setText(VALUE self, VALUE txt)
 {
-   Message *item;
-   Data_Get_Struct(self, Message, item);
-
+   Message *item = getPtr<Message>(self);
    string str = StringValuePtr(txt);
-   item->setText(str);
 
+   item->setText(str);
    return Qnil;
 }
 
 VALUE Message_setImage(VALUE self, VALUE pic)
 {
-   Message *item;
-   Data_Get_Struct(self, Message, item);
-
-   Sprite *spr;
-   Data_Get_Struct(pic, Sprite, spr);
+   Message *item  = getPtr<Message>(self);
+   Sprite *spr = getPtr<Sprite>(pic);
    
    item->setImage(spr);
    return Qnil;
@@ -166,26 +149,17 @@ VALUE Message_setImage(VALUE self, VALUE pic)
 
 VALUE Message_setBackground(VALUE self, VALUE pic)
 {
-   Message *item;
-   Data_Get_Struct(self, Message, item);
-
-   Sprite *spr;
-   Data_Get_Struct(pic, Sprite, spr);
-   
+   Message *item = getPtr<Message>(self);
+   Sprite *spr = getPtr<Sprite>(pic);
+ 
    item->setBackground(spr);
    return Qnil;
 }
 
 VALUE Message_setBgColor(VALUE self, VALUE col)
 {
-   Message *item;
-   Data_Get_Struct(self, Message, item);
-
-   int r = rb_hash_aref(col, rb_str_new2("r"));
-   int g = rb_hash_aref(col, rb_str_new2("g"));
-   int b = rb_hash_aref(col, rb_str_new2("b"));
-   int a = rb_hash_aref(col, rb_str_new2("a"));
-   OSL_COLOR color = RGBA(r, g, b, a);
+   Message *item = getPtr<Message>(self);
+   OSL_COLOR color = hash2col(col);
 
    item->setBgColor(color);
    return Qnil;
@@ -193,14 +167,8 @@ VALUE Message_setBgColor(VALUE self, VALUE col)
 
 VALUE Message_setTitleColor(VALUE self, VALUE col)
 {
-   Message *item;
-   Data_Get_Struct(self, Message, item);
-
-   int r = rb_hash_aref(col, rb_str_new2("r"));
-   int g = rb_hash_aref(col, rb_str_new2("g"));
-   int b = rb_hash_aref(col, rb_str_new2("b"));
-   int a = rb_hash_aref(col, rb_str_new2("a"));
-   OSL_COLOR color = RGBA(r, g, b, a);
+   Message *item = getPtr<Message>(self);
+   OSL_COLOR color = hash2col(col);
 
    item->setTitleColor(color);
    return Qnil;
@@ -208,14 +176,8 @@ VALUE Message_setTitleColor(VALUE self, VALUE col)
 
 VALUE Message_setTextColor(VALUE self, VALUE col)
 {
-   Message *item;
-   Data_Get_Struct(self, Message, item);
-
-   int r = rb_hash_aref(col, rb_str_new2("r"));
-   int g = rb_hash_aref(col, rb_str_new2("g"));
-   int b = rb_hash_aref(col, rb_str_new2("b"));
-   int a = rb_hash_aref(col, rb_str_new2("a"));
-   OSL_COLOR color = RGBA(r, g, b, a);
+   Message *item = getPtr<Message>(self);
+   OSL_COLOR color = hash2col(col);
 
    item->setTextColor(color);
    return Qnil;
@@ -223,14 +185,8 @@ VALUE Message_setTextColor(VALUE self, VALUE col)
 
 VALUE Message_setBorderColor(VALUE self, VALUE col)
 {
-   Message *item;
-   Data_Get_Struct(self, Message, item);
-
-   int r = rb_hash_aref(col, rb_str_new2("r"));
-   int g = rb_hash_aref(col, rb_str_new2("g"));
-   int b = rb_hash_aref(col, rb_str_new2("b"));
-   int a = rb_hash_aref(col, rb_str_new2("a"));
-   OSL_COLOR color = RGBA(r, g, b, a);
+   Message *item = getPtr<Message>(self);
+   OSL_COLOR color = hash2col(col);
 
    item->setBorderColor(color);
    return Qnil;
@@ -238,64 +194,55 @@ VALUE Message_setBorderColor(VALUE self, VALUE col)
 
 VALUE Message_setTextFont(VALUE self, VALUE f)
 {
-   Message *item;
-   Data_Get_Struct(self, Message, item);
-
+   Message *item = getPtr<Message>(self);
    string str = StringValuePtr(f);
+
    item->setTextFont(str);
    return Qnil;
 }
 
 VALUE Message_setTitleFont(VALUE self, VALUE f)
 {
-   Message *item;
-   Data_Get_Struct(self, Message, item);
-
+   Message *item = getPtr<Message>(self);
    string str = StringValuePtr(f);
+
    item->setTitleFont(str);
    return Qnil;
 }
 
 VALUE Message_setPos(VALUE self, VALUE x, VALUE y)
 {
-   Message *item;
-   Data_Get_Struct(self, Message, item);
-
+   Message *item = getPtr<Message>(self);
    int _x = FIX2INT(x);
    int _y = FIX2INT(y);
-   item->setPos(_x, _y);
 
+   item->setPos(_x, _y);
    return Qnil;
 }
 
 VALUE Message_setTitlePos(VALUE self, VALUE x, VALUE y)
 {
-   Message *item;
-   Data_Get_Struct(self, Message, item);
-
+   Message *item = getPtr<Message>(self);
    int _x = FIX2INT(x);
    int _y = FIX2INT(y);
-   item->setTitlePos(_x, _y);
 
+   item->setTitlePos(_x, _y);
    return Qnil;
 }
 
 VALUE Message_resize(VALUE self, VALUE w, VALUE h)
 {
-   Message *item;
-   Data_Get_Struct(self, Message, item);
-
+   Message *item = getPtr<Message>(self);
    int _w = FIX2INT(w);
    int _h = FIX2INT(h);
-   item->resize(_w, _h);
 
+   item->resize(_w, _h);
    return Qnil;
 }
 
 void defineMessageBox()
 {
-   VALUE cMessage = rb_define_class("Message", rb_cObject);
-   rb_define_singleton_method(cMessage, "new", (VALUE(*)(...))&wrapMessage, 0);
+   VALUE cMessage = defClass<Message>("Message");
    rb_define_method(cMessage, "draw", (VALUE(*)(...))&Message_draw, 0);
    rb_define_method(cMessage, "setTitle", (VALUE(*)(...))&Message_setTitle, 1);
    rb_define_method(cMessage, "setText", (VALUE(*)(...))&Message_setText, 1);

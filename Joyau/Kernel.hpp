@@ -18,6 +18,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #define __KERNEL_RUBY_PSP__
 
 #include "StdInclude.hpp"
+#include "RubyWrapper.hpp"
 
 class PSP_Directory
 {
@@ -33,13 +34,8 @@ private:
    string _name;
 };
 
-VALUE Dir_Wrap(VALUE info);
 VALUE Dir_setDir(VALUE self, VALUE name);
-void Dir_delete(void *data);
 VALUE Dir_List(VALUE self);
-
-VALUE File_Wrap(VALUE info);
-void File_delete(void *data);
 
 VALUE File_open(VALUE self, VALUE name);
 VALUE File_close(VALUE self);

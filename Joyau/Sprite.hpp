@@ -18,8 +18,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #define __SPRITE__
 
 #include "Manager.hpp"
-
-#include "Manager.hpp"
+#include "RubyWrapper.hpp"
 
 class Sprite
 {
@@ -116,7 +115,7 @@ private:
    int hTile;
 };
 
-VALUE wrapSprite(VALUE info);
+//VALUE wrapSprite(VALUE info);
 
 VALUE Sprite_setPicture(VALUE self, VALUE pic);
 
@@ -154,7 +153,7 @@ VALUE Sprite_setAnimationTime(VALUE self, VALUE t);
 
 VALUE Sprite_setTile(VALUE self, VALUE x, VALUE y, VALUE w, VALUE h);
 
-void Sprite_free(void*);
+//void Sprite_free(void*);
 void defineSprite();
 
 #endif

@@ -14,38 +14,40 @@ You should have received a copy of the GNU General Public License along
 with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.*/
 
-#ifndef __AUDIO__
-#define __AUDIO__
+#ifndef __JOYAU_WRAPPER__
+#define __JOYAU_WRAPPER__
 
 #include "StdInclude.hpp"
-#include "Manager.hpp"
-#include "RubyWrapper.hpp"
 
-struct Sound
+template<typename T> void wrapped_free(void *info)
 {
-   char *name;
-   int channel;
-   bool status;
-};
+   delete (T*)info;
+}
 
-VALUE Audio_init(VALUE self);
-VALUE Audio_kinit(VALUE self);
-VALUE Audio_stop(VALUE self);
+template<typename T> VALUE wrap(VALUE info)
+{
+   T *ptr = new T;
+   VALUE tdata = Data_Wrap_Struct(info, 0, wrapped_free<T>, ptr);
+   return tdata;
+}
 
-VALUE Audio_setSound(VALUE self, VALUE name);
-VALUE Audio_setChannel(VALUE self, VALUE id);
+template<typename T> T *getPtr(VALUE val)
+{
+   T *ptr;
+   Data_Get_Struct(val, T, ptr);
+   return ptr;
+}
 
-VALUE Audio_playStream(VALUE self);
-VALUE Audio_playSound(VALUE self);
+template<typename T> VALUE defClass(const char *name)
+{
+   VALUE ret = rb_define_class(name, rb_cObject);
+   VALUE (*func)(VALUE) = &wrap<T>;
+   
+   rb_define_singleton_method(ret, "new", (VALUE(*)(...))func, 0);
+   return ret;
+}
 
-VALUE Audio_toggleStream(VALUE self);
-VALUE Audio_toggleSound(VALUE self);
-
-VALUE Audio_stopStream(VALUE self);
-VALUE Audio_stopSound(VALUE self);
-
-VALUE Audio_sync(VALUE self);
-
-void defineAudio();
+// That code was really boring to write
+OSL_COLOR hash2col(VALUE hash);
 
 #endif

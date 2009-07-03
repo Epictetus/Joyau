@@ -19,6 +19,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include "StdInclude.hpp"
 #include "Manager.hpp"
+#include "RubyWrapper.hpp"
 
 VALUE Graphics_init(VALUE self);
 VALUE Graphics_stop(VALUE self);

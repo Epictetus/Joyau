@@ -18,9 +18,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 VALUE Graphics_mayPlay(VALUE self)
 {
-   if (!osl_quit)
-      return Qtrue;
-   return Qfalse;
+   return osl_quit ? Qfalse : Qtrue;
 }
 
 VALUE Graphics_startDraw(VALUE self)
@@ -44,15 +42,12 @@ VALUE Graphics_sync(VALUE self)
 VALUE Graphics_init(VALUE self)
 {
    oslInitGfx(OSL_PF_8888, 1);
-   
-   
    return Qnil;
 }
 
 VALUE Graphics_stop(VALUE self)
 {
    oslEndGfx();
-
    return Qnil;
 }
 
@@ -65,19 +60,13 @@ VALUE lib_start(VALUE self)
 VALUE lib_stop(VALUE self)
 {
    oslQuit();
-
    return Qnil;
 }
 
 VALUE Graphics_drawLine(VALUE self, VALUE x1, VALUE y1, VALUE x2, 
 			VALUE y2, VALUE color)
 {
-   int r = FIX2INT(rb_hash_aref(color, rb_str_new2("r")));
-   int g = FIX2INT(rb_hash_aref(color, rb_str_new2("g")));
-   int b = FIX2INT(rb_hash_aref(color, rb_str_new2("b")));
-   int a = FIX2INT(rb_hash_aref(color, rb_str_new2("a")));
-
-   OSL_COLOR c = RGBA(r, g, b, a);
+   OSL_COLOR c = hash2col(color);
    oslDrawLine(x1, y1, x2, y2, c);
    return Qnil;
 }
@@ -85,12 +74,7 @@ VALUE Graphics_drawLine(VALUE self, VALUE x1, VALUE y1, VALUE x2,
 VALUE Graphics_drawRect(VALUE self, VALUE x1, VALUE y1, VALUE x2, 
 			VALUE y2, VALUE color)
 {
-   int r = FIX2INT(rb_hash_aref(color, rb_str_new2("r")));
-   int g = FIX2INT(rb_hash_aref(color, rb_str_new2("g")));
-   int b = FIX2INT(rb_hash_aref(color, rb_str_new2("b")));
-   int a = FIX2INT(rb_hash_aref(color, rb_str_new2("a")));
-
-   OSL_COLOR c = RGBA(r, g, b, a);
+   OSL_COLOR c = hash2col(color);
    oslDrawRect(x1, y1, x2, y2, c);
 
    return Qnil;
@@ -99,12 +83,7 @@ VALUE Graphics_drawRect(VALUE self, VALUE x1, VALUE y1, VALUE x2,
 VALUE Graphics_drawFillRect(VALUE self, VALUE x1, VALUE y1, VALUE x2, 
 			    VALUE y2, VALUE color)
 {
-   int r = FIX2INT(rb_hash_aref(color, rb_str_new2("r")));
-   int g = FIX2INT(rb_hash_aref(color, rb_str_new2("g")));
-   int b = FIX2INT(rb_hash_aref(color, rb_str_new2("b")));
-   int a = FIX2INT(rb_hash_aref(color, rb_str_new2("a")));
-
-   OSL_COLOR c = RGBA(r, g, b, a);
+   OSL_COLOR c = hash2col(color);
    oslDrawFillRect(x1, y1, x2, y2, c);
 
    return Qnil;
@@ -125,12 +104,7 @@ VALUE getTextSize(VALUE self, VALUE text)
 
 VALUE setTextBackground(VALUE self, VALUE color)
 {
-   int r = FIX2INT(rb_hash_aref(color, rb_str_new2("r")));
-   int g = FIX2INT(rb_hash_aref(color, rb_str_new2("g")));
-   int b = FIX2INT(rb_hash_aref(color, rb_str_new2("b")));
-   int a = FIX2INT(rb_hash_aref(color, rb_str_new2("a")));
-
-   OSL_COLOR c = RGBA(r, g, b, a);
+   OSL_COLOR c = hash2col(color);
    oslSetBkColor(c);
 
    return Qnil;
@@ -138,12 +112,7 @@ VALUE setTextBackground(VALUE self, VALUE color)
 
 VALUE setTextColor(VALUE self, VALUE color)
 {
-   int r = FIX2INT(rb_hash_aref(color, rb_str_new2("r")));
-   int g = FIX2INT(rb_hash_aref(color, rb_str_new2("g")));
-   int b = FIX2INT(rb_hash_aref(color, rb_str_new2("b")));
-   int a = FIX2INT(rb_hash_aref(color, rb_str_new2("a")));
-
-   OSL_COLOR c = RGBA(r, g, b, a);
+   OSL_COLOR c = hash2col(color);
    oslSetTextColor(c);
    return Qnil;
 }

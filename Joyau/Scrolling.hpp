@@ -18,6 +18,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #define __JOYAU_SCROLLING__
 
 #include "Sprite.hpp"
+#include "RubyWrapper.hpp"
 
 // Just a background with scrolling.
 class Scrolling
@@ -37,9 +38,6 @@ private:
    Sprite bg[2];
    int speed;
 };
-
-VALUE wrapScrolling(VALUE info);
-void Scrolling_free(void *info);
 
 VALUE Scrolling_setSprite(VALUE self, VALUE spr);
 

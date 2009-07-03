@@ -176,19 +176,9 @@ void Sprite::setTile(int x, int y, int w, int h)
    hTile = h;
 }
 
-VALUE wrapSprite(VALUE info)
-{
-   Sprite *item = new Sprite(Manager::getInstance());
-   VALUE tdata = Data_Wrap_Struct(info, 0, Sprite_free, item);
-   return tdata;
-}
-
-void Sprite_free(void *p) { delete (Sprite *)p; }
-
 VALUE Sprite_rotate(VALUE self, VALUE angle) 
 {
-   Sprite *item;
-   Data_Get_Struct(self, Sprite, item);
+   Sprite *item = getPtr<Sprite>(self);
 
    item->rotate(FIX2INT(angle));
    return Qnil;
@@ -196,16 +186,14 @@ VALUE Sprite_rotate(VALUE self, VALUE angle)
 
 VALUE Sprite_getAngle(VALUE self) 
 {
-   Sprite *item;
-   Data_Get_Struct(self, Sprite, item);
+   Sprite *item = getPtr<Sprite>(self);
 
    return INT2FIX(item->getAngle()); 
 }
 
 VALUE Sprite_setAngle(VALUE self, VALUE angle) 
 {
-   Sprite *item;
-   Data_Get_Struct(self, Sprite, item);
+   Sprite *item = getPtr<Sprite>(self);
 
    item->setAngle(FIX2INT(angle));
 
@@ -214,24 +202,21 @@ VALUE Sprite_setAngle(VALUE self, VALUE angle)
 
 VALUE Sprite_getZoom(VALUE self)
 {
-   Sprite *item;
-   Data_Get_Struct(self, Sprite, item);
+   Sprite *item = getPtr<Sprite>(self);
 
    return INT2FIX(item->getZoom());
 }
 
 VALUE Sprite_getDirection(VALUE self) 
 { 
-   Sprite *item;
-   Data_Get_Struct(self, Sprite, item);
+   Sprite *item = getPtr<Sprite>(self);
 
    return INT2FIX(item->getDirection()); 
 }
 
 VALUE Sprite_setAnimation(VALUE self, VALUE nbrX, VALUE nbrY)
 {
-   Sprite *item;
-   Data_Get_Struct(self, Sprite, item);
+   Sprite *item = getPtr<Sprite>(self);
 
    item->setAnimation(FIX2INT(nbrX), FIX2INT(nbrY));
    return Qnil;
@@ -239,8 +224,7 @@ VALUE Sprite_setAnimation(VALUE self, VALUE nbrX, VALUE nbrY)
 
 VALUE Sprite_setAnimationTime(VALUE self, VALUE t)
 {
-   Sprite *item;
-   Data_Get_Struct(self, Sprite, item);
+   Sprite *item = getPtr<Sprite>(self);
 
    item->setAnimationTime(FIX2INT(t));
    return Qnil;
@@ -248,8 +232,7 @@ VALUE Sprite_setAnimationTime(VALUE self, VALUE t)
 
 VALUE Sprite_setPicture(VALUE self, VALUE pic)
 {
-   Sprite *item;
-   Data_Get_Struct(self, Sprite, item);
+   Sprite *item = getPtr<Sprite>(self);
 
    item->setPicture(StringValuePtr(pic));
 
@@ -258,8 +241,7 @@ VALUE Sprite_setPicture(VALUE self, VALUE pic)
 
 VALUE Sprite_setPos(VALUE self, VALUE x, VALUE y)
 {
-   Sprite *item;
-   Data_Get_Struct(self, Sprite, item);
+   Sprite *item = getPtr<Sprite>(self);
 
    item->setPos(FIX2INT(x), FIX2INT(y));
 
@@ -268,8 +250,7 @@ VALUE Sprite_setPos(VALUE self, VALUE x, VALUE y)
 
 VALUE Sprite_move(VALUE self, VALUE x, VALUE y)
 {
-   Sprite *item;
-   Data_Get_Struct(self, Sprite, item);
+   Sprite *item = getPtr<Sprite>(self);
 
    item->move(FIX2INT(x), FIX2INT(y));
    return Qnil;
@@ -277,8 +258,7 @@ VALUE Sprite_move(VALUE self, VALUE x, VALUE y)
 
 VALUE Sprite_setAlpha(VALUE self, VALUE alpha)
 {
-   Sprite *item;
-   Data_Get_Struct(self, Sprite, item);
+   Sprite *item = getPtr<Sprite>(self);
 
    item->setAlpha(FIX2INT(alpha));
 
@@ -287,46 +267,40 @@ VALUE Sprite_setAlpha(VALUE self, VALUE alpha)
 
 VALUE Sprite_getAlpha(VALUE self)
 {
-   Sprite *item;
-   Data_Get_Struct(self, Sprite, item);
+   Sprite *item = getPtr<Sprite>(self);
 
    return INT2FIX(item->getAlpha());
 }
 
 VALUE Sprite_getX(VALUE self) 
 {
-   Sprite *item;
-   Data_Get_Struct(self, Sprite, item);
+   Sprite *item = getPtr<Sprite>(self);
    
    return INT2FIX(item->getX());
 }
 VALUE Sprite_getY(VALUE self) 
 {
-   Sprite *item;
-   Data_Get_Struct(self, Sprite, item);
+   Sprite *item = getPtr<Sprite>(self);
 
    return INT2FIX(item->getY());
 }
 
 VALUE Sprite_getW(VALUE self) 
 {
-   Sprite *item;
-   Data_Get_Struct(self, Sprite, item);
+   Sprite *item = getPtr<Sprite>(self);
 
    return INT2FIX(item->getW());
 }
 VALUE Sprite_getH(VALUE self) 
 {
-   Sprite *item;
-   Data_Get_Struct(self, Sprite, item);
+   Sprite *item = getPtr<Sprite>(self);
 
    return INT2FIX(item->getH()); 
 }
 
 VALUE Sprite_isOn(VALUE self, VALUE rb_x, VALUE rb_y)
 {
-   Sprite *item;
-   Data_Get_Struct(self, Sprite, item);
+   Sprite *item = getPtr<Sprite>(self);
 
    if (item->isOn(FIX2INT(rb_x), FIX2INT(rb_y)))
       return Qtrue;
@@ -335,11 +309,8 @@ VALUE Sprite_isOn(VALUE self, VALUE rb_x, VALUE rb_y)
 
 VALUE Sprite_collide(VALUE self, VALUE spr)
 {
-   Sprite *item;
-   Data_Get_Struct(self, Sprite, item);
-
-   Sprite *adv;
-   Data_Get_Struct(spr, Sprite, adv);
+   Sprite *item = getPtr<Sprite>(self);
+   Sprite *adv = getPtr<Sprite>(spr);
 
    if (item->collide(adv))
       return Qtrue;
@@ -348,9 +319,7 @@ VALUE Sprite_collide(VALUE self, VALUE spr)
 
 VALUE Sprite_draw(VALUE self)
 {
-   Sprite *item;
-   Data_Get_Struct(self, Sprite, item);
-
+   Sprite *item = getPtr<Sprite>(self);
    item->Draw();
 
    return Qnil;
@@ -358,9 +327,7 @@ VALUE Sprite_draw(VALUE self)
 
 VALUE Sprite_setDirection(VALUE self, VALUE dir)
 {
-   Sprite *item;
-   Data_Get_Struct(self, Sprite, item);
-
+   Sprite *item = getPtr<Sprite>(self);
    item->setDirection(FIX2INT(dir));
 
    return Qnil;
@@ -368,9 +335,7 @@ VALUE Sprite_setDirection(VALUE self, VALUE dir)
 
 VALUE Sprite_zoom(VALUE self, VALUE val)
 {
-   Sprite *item;
-   Data_Get_Struct(self, Sprite, item);
-
+   Sprite *item = getPtr<Sprite>(self);
    item->zoom(FIX2INT(val));
    
    return Qnil; 
@@ -378,10 +343,9 @@ VALUE Sprite_zoom(VALUE self, VALUE val)
 
 VALUE Sprite_setTile(VALUE self, VALUE x, VALUE y, VALUE w, VALUE h)
 {
-   Sprite *item;
-   Data_Get_Struct(self, Sprite, item);
-
+   Sprite *item = getPtr<Sprite>(self);
    item->setTile(FIX2INT(x), FIX2INT(y), FIX2INT(w), FIX2INT(h));
+
    return Qnil;
 }
 
@@ -398,9 +362,10 @@ void defineSprite()
    rb_hash_aset(dirHash, rb_str_new2("DOWN_RIGHT"), INT2FIX(DOWN_RIGHT));
    rb_gv_set("$directions", dirHash);
 
-   VALUE cSprite = rb_define_class("Sprite", rb_cObject);
+   //VALUE cSprite = rb_define_class("Sprite", rb_cObject);
+   VALUE cSprite = defClass<Sprite>("Sprite");
 
-   rb_define_singleton_method(cSprite, "new", (VALUE(*)(...))&wrapSprite, 0);
+   //rb_define_singleton_method(cSprite, "new", (VALUE(*)(...))&wrapSprite, 0);
 
    rb_define_method(cSprite, "setPicture", (VALUE(*)(...))&Sprite_setPicture, 
 		    1);

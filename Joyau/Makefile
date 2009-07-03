@@ -17,7 +17,7 @@
 TARGET = Joyau
 
 OBJS = main.o Manager.o Graphics.o Keys.o Sprite.o Audio.o Kernel.o Usb.o \
-	MessageBox.o Scrolling.o
+	MessageBox.o Scrolling.o RubyWrapper.o
 
 INCDIR =
 CFLAGS += -O2 -G0 -Wall -D_PSP_

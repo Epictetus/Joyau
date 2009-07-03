@@ -14,38 +14,14 @@ You should have received a copy of the GNU General Public License along
 with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.*/
 
-#ifndef __AUDIO__
-#define __AUDIO__
-
-#include "StdInclude.hpp"
-#include "Manager.hpp"
 #include "RubyWrapper.hpp"
 
-struct Sound
+OSL_COLOR hash2col(VALUE hash)
 {
-   char *name;
-   int channel;
-   bool status;
-};
+   int r = FIX2INT(rb_hash_aref(hash, rb_str_new2("r")));
+   int g = FIX2INT(rb_hash_aref(hash, rb_str_new2("g")));
+   int b = FIX2INT(rb_hash_aref(hash, rb_str_new2("b")));
+   int a = FIX2INT(rb_hash_aref(hash, rb_str_new2("a")));
 
-VALUE Audio_init(VALUE self);
-VALUE Audio_kinit(VALUE self);
-VALUE Audio_stop(VALUE self);
-
-VALUE Audio_setSound(VALUE self, VALUE name);
-VALUE Audio_setChannel(VALUE self, VALUE id);
-
-VALUE Audio_playStream(VALUE self);
-VALUE Audio_playSound(VALUE self);
-
-VALUE Audio_toggleStream(VALUE self);
-VALUE Audio_toggleSound(VALUE self);
-
-VALUE Audio_stopStream(VALUE self);
-VALUE Audio_stopSound(VALUE self);
-
-VALUE Audio_sync(VALUE self);
-
-void defineAudio();
-
-#endif
+   return RGBA(r, g, b, a);
+}

@@ -39,13 +39,6 @@ list<string> PSP_Directory::ls()
    return theList;
 }
 
-VALUE Dir_Wrap(VALUE info)
-{
-   PSP_Directory *item = new PSP_Directory;
-   VALUE tdata = Data_Wrap_Struct(info, 0, Dir_delete, item);
-   return tdata;
-}
-
 VALUE Dir_setDir(VALUE self, VALUE name)
 {
    PSP_Directory *item;
@@ -56,17 +49,10 @@ VALUE Dir_setDir(VALUE self, VALUE name)
    return Qnil;
 }
 
-void Dir_delete(void *data)
-{
-   delete (PSP_Directory *)data;
-}
-
 VALUE Dir_List(VALUE self)
 {
-   PSP_Directory *item;
-   Data_Get_Struct(self, PSP_Directory, item);
-
-   list<string> aList = item->ls();
+   PSP_Directory *item = getPtr<PSP_Directory>(self);
+    list<string> aList = item->ls();
 
    VALUE ret = rb_ary_new();
 
@@ -79,23 +65,9 @@ VALUE Dir_List(VALUE self)
    return ret;
 }
 
-VALUE File_Wrap(VALUE info)
-{
-   fstream *item = new fstream;
-   VALUE tdata = Data_Wrap_Struct(info, 0, File_delete, item);
-   return tdata;
-}
-
-void File_delete(void *data)
-{
-   delete (fstream *)data;
-}
-
 VALUE File_open(VALUE self, VALUE name)
 {
-   fstream *item;
-   Data_Get_Struct(self, fstream, item);
-
+   fstream *item = getPtr<fstream>(self);
    item->open(StringValuePtr(name));
 
    return Qnil;
@@ -103,9 +75,7 @@ VALUE File_open(VALUE self, VALUE name)
 
 VALUE File_close(VALUE self)
 {
-   fstream *item;
-   Data_Get_Struct(self, fstream, item);
-
+   fstream *item = getPtr<fstream>(self);
    item->close();
 
    return Qnil;
@@ -113,8 +83,7 @@ VALUE File_close(VALUE self)
 
 VALUE File_getWord(VALUE self)
 {
-   fstream *item;
-   Data_Get_Struct(self, fstream, item);
+   fstream *item = getPtr<fstream>(self);
 
    string word;
    (*item) >> word;
@@ -124,8 +93,7 @@ VALUE File_getWord(VALUE self)
 
 VALUE File_getLine(VALUE self)
 {
-   fstream *item;
-   Data_Get_Struct(self, fstream, item);
+   fstream *item = getPtr<fstream>(self);
 
    char line[256];
    item->getline(line, 255);
@@ -135,8 +103,7 @@ VALUE File_getLine(VALUE self)
 
 VALUE File_write(VALUE self, VALUE text)
 {
-   fstream *item;
-   Data_Get_Struct(self, fstream, item);
+   fstream *item = getPtr<fstream>(self);
 
    char *str = StringValuePtr(text);
    (*item) << str;
@@ -279,14 +246,11 @@ VALUE File_rename(VALUE self, VALUE old, VALUE newName)
 
 void defineKernel()
 {
-   VALUE cDir = rb_define_class("PSPDir", rb_cObject);
-
-   rb_define_singleton_method(cDir, "new", (VALUE(*)(...))&Dir_Wrap, 0);
+   VALUE cDir = defClass<PSP_Directory>("PSPDir");
    rb_define_method(cDir, "setDir", (VALUE(*)(...))&Dir_setDir, 1);
    rb_define_method(cDir, "ls", (VALUE(*)(...))&Dir_List, 0);
 
-   VALUE cFile = rb_define_class("PSPFile", rb_cObject);
-   rb_define_singleton_method(cFile, "new", (VALUE(*)(...))&File_Wrap, 0);
+   VALUE cFile = defClass<fstream>("PSPFile");
    rb_define_method(cFile, "open", (VALUE(*)(...))&File_open, 1);
    rb_define_method(cFile, "close", (VALUE(*)(...))&File_close, 0);
    rb_define_method(cFile, "getWord", (VALUE(*)(...))&File_getWord, 0);
