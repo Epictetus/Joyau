@@ -243,26 +243,21 @@ VALUE Message_resize(VALUE self, VALUE w, VALUE h)
 void defineMessageBox()
 {
    VALUE cMessage = defClass<Message>("Message");
-   rb_define_method(cMessage, "draw", (VALUE(*)(...))&Message_draw, 0);
-   rb_define_method(cMessage, "setTitle", (VALUE(*)(...))&Message_setTitle, 1);
-   rb_define_method(cMessage, "setText", (VALUE(*)(...))&Message_setText, 1);
-   rb_define_method(cMessage, "setImage", (VALUE(*)(...))&Message_setImage, 1);
+   rb_define_method(cMessage, "draw", RPROTO(Message_draw), 0);
+   rb_define_method(cMessage, "setTitle", RPROTO(Message_setTitle), 1);
+   rb_define_method(cMessage, "setText", RPROTO(Message_setText), 1);
+   rb_define_method(cMessage, "setImage", RPROTO(Message_setImage), 1);
    rb_define_method(cMessage, "setBackground", 
-		    (VALUE(*)(...))&Message_setBackground, 1);
-   rb_define_method(cMessage, "setBgColor", 
-		    (VALUE(*)(...))&Message_setBgColor, 1);
+		    RPROTO(Message_setBackground), 1);
+   rb_define_method(cMessage, "setBgColor", RPROTO(Message_setBgColor), 1);
    rb_define_method(cMessage, "setTitleColor", 
-		    (VALUE(*)(...))&Message_setTitleColor, 1);
-   rb_define_method(cMessage, "setTextColor", 
-		    (VALUE(*)(...))&Message_setTextColor, 1);
+		    RPROTO(Message_setTitleColor), 1);
+   rb_define_method(cMessage, "setTextColor", RPROTO(Message_setTextColor), 1);
    rb_define_method(cMessage, "setBorderColor", 
-		    (VALUE(*)(...))&Message_setBorderColor, 1);
-   rb_define_method(cMessage, "setTextFont", 
-		    (VALUE(*)(...))&Message_setTextFont, 1);
-   rb_define_method(cMessage, "setTitleFont", 
-		    (VALUE(*)(...))&Message_setTitleFont, 1);
-   rb_define_method(cMessage, "setPos", (VALUE(*)(...))&Message_setPos, 2);
-   rb_define_method(cMessage, "setTitlePos", 
-		    (VALUE(*)(...))&Message_setTitlePos, 2);
-   rb_define_method(cMessage, "resize", (VALUE(*)(...))&Message_resize, 2);
+		    RPROTO(Message_setBorderColor), 1);
+   rb_define_method(cMessage, "setTextFont", RPROTO(Message_setTextFont), 1);
+   rb_define_method(cMessage, "setTitleFont", RPROTO(Message_setTitleFont), 1);
+   rb_define_method(cMessage, "setPos", RPROTO(Message_setPos), 2);
+   rb_define_method(cMessage, "setTitlePos", RPROTO(Message_setTitlePos), 2);
+   rb_define_method(cMessage, "resize", RPROTO(Message_resize), 2);
 }

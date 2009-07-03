@@ -247,37 +247,33 @@ VALUE File_rename(VALUE self, VALUE old, VALUE newName)
 void defineKernel()
 {
    VALUE cDir = defClass<PSP_Directory>("PSPDir");
-   rb_define_method(cDir, "setDir", (VALUE(*)(...))&Dir_setDir, 1);
-   rb_define_method(cDir, "ls", (VALUE(*)(...))&Dir_List, 0);
+   rb_define_method(cDir, "setDir", RPROTO(Dir_setDir), 1);
+   rb_define_method(cDir, "ls", RPROTO(Dir_List), 0);
 
    VALUE cFile = defClass<fstream>("PSPFile");
-   rb_define_method(cFile, "open", (VALUE(*)(...))&File_open, 1);
-   rb_define_method(cFile, "close", (VALUE(*)(...))&File_close, 0);
-   rb_define_method(cFile, "getWord", (VALUE(*)(...))&File_getWord, 0);
-   rb_define_method(cFile, "getLine", (VALUE(*)(...))&File_getLine, 0);
-   rb_define_method(cFile, "write", (VALUE(*)(...))&File_write, 1);
+   rb_define_method(cFile, "open", RPROTO(File_open), 1);
+   rb_define_method(cFile, "close", RPROTO(File_close), 0);
+   rb_define_method(cFile, "getWord", RPROTO(File_getWord), 0);
+   rb_define_method(cFile, "getLine", RPROTO(File_getLine), 0);
+   rb_define_method(cFile, "write", RPROTO(File_write), 1);
 
-   rb_define_global_function("cd", (VALUE(*)(...))&Kernel_cd, 1);
-   rb_define_global_function("execEboot", (VALUE(*)(...))&Kernel_ExecEboot, 1);
-   rb_define_global_function("execUpdater", (VALUE(*)(...))&Kernel_ExecUpdater,
+   rb_define_global_function("cd", RPROTO(Kernel_cd), 1);
+   rb_define_global_function("execEboot", RPROTO(Kernel_ExecEboot), 1);
+   rb_define_global_function("execUpdater", RPROTO(Kernel_ExecUpdater), 1);
+   rb_define_global_function("discExecEboot", RPROTO(Kernel_DiscExecEboot), 1);
+   rb_define_global_function("discExecUpdater", RPROTO(Kernel_DiscExecUpdater), 
 			     1);
-   rb_define_global_function("discExecEboot", 
-			     (VALUE(*)(...))&Kernel_DiscExecEboot, 1);
-   rb_define_global_function("discExecUpdater", 
-			     (VALUE(*)(...))&Kernel_DiscExecUpdater, 1);
+   rb_define_global_function("umdCheck", RPROTO(Kernel_UmdCheck), 0);
+   rb_define_global_function("umdWaitState", RPROTO(Kernel_UmdWaitState), 1);
+   rb_define_global_function("umdMount", RPROTO(Kernel_UmdMount), 0);
+   rb_define_global_function("umdUmount", RPROTO(Kernel_UmdUmount), 0);
+   rb_define_global_function("umdType", RPROTO(Kernel_UmdGetType), 0);
 
-   rb_define_global_function("umdCheck", (VALUE(*)(...))&Kernel_UmdCheck, 0);
-   rb_define_global_function("umdWaitState", 
-			     (VALUE(*)(...))&Kernel_UmdWaitState, 1);
-   rb_define_global_function("umdMount", (VALUE(*)(...))&Kernel_UmdMount, 0);
-   rb_define_global_function("umdUmount", (VALUE(*)(...))&Kernel_UmdUmount, 0);
-   rb_define_global_function("umdType", (VALUE(*)(...))&Kernel_UmdGetType, 0);
+   rb_define_global_function("timestamp", RPROTO(Kernel_Timestamp), 0);
+   rb_define_global_function("model", RPROTO(Kernel_getModel), 0);
 
-   rb_define_global_function("timestamp", (VALUE(*)(...))&Kernel_Timestamp, 0);
-   rb_define_global_function("model", (VALUE(*)(...))&Kernel_getModel, 0);
-
-   rb_define_global_function("mkdir", (VALUE(*)(...))&File_mkdir, 1);
-   rb_define_global_function("rmdir", (VALUE(*)(...))&File_rmdir, 1);
-   rb_define_global_function("rm", (VALUE(*)(...))&File_remove, 1);
-   rb_define_global_function("mv", (VALUE(*)(...))&File_rename, 2);
+   rb_define_global_function("mkdir", RPROTO(File_mkdir), 1);
+   rb_define_global_function("rmdir", RPROTO(File_rmdir), 1);
+   rb_define_global_function("rm", RPROTO(File_remove), 1);
+   rb_define_global_function("mv", RPROTO(File_rename), 2);
 }

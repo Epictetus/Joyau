@@ -131,14 +131,10 @@ VALUE Scrolling_draw(VALUE self)
 void defineScrolling()
 {
    VALUE cScroll = defClass<Scrolling>("Scrolling");
-   rb_define_method(cScroll, "setSprite", 
-		    (VALUE(*)(...))&Scrolling_setSprite, 1);
-   rb_define_method(cScroll, "setPos", 
-		    (VALUE(*)(...))&Scrolling_setPos, 2);
-   rb_define_method(cScroll, "setDir", 
-		    (VALUE(*)(...))&Scrolling_setDir, 1);
-   rb_define_method(cScroll, "setSpeed", 
-		    (VALUE(*)(...))&Scrolling_setSpeed, 1);
-   rb_define_method(cScroll, "play", (VALUE(*)(...))&Scrolling_play, 0);
-   rb_define_method(cScroll, "draw", (VALUE(*)(...))&Scrolling_draw, 0);
+   rb_define_method(cScroll, "setSprite", RPROTO(Scrolling_setSprite), 1);
+   rb_define_method(cScroll, "setPos", RPROTO(Scrolling_setPos), 2);
+   rb_define_method(cScroll, "setDir", RPROTO(Scrolling_setDir), 1);
+   rb_define_method(cScroll, "setSpeed", RPROTO(Scrolling_setSpeed), 1);
+   rb_define_method(cScroll, "play", RPROTO(Scrolling_play), 0);
+   rb_define_method(cScroll, "draw", RPROTO(Scrolling_draw), 0);
 }

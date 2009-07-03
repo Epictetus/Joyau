@@ -99,7 +99,7 @@ int main(int argc, char** argv)
    defineMessageBox();
    defineScrolling();
 
-   rb_define_global_function("debug", (VALUE(*)(...))&debug, 1);
+   rb_define_global_function("debug", RPROTO(debug), 1);
    
    ruby_init_loadpath();
    ruby_script("embedded");

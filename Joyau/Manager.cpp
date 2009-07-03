@@ -128,8 +128,8 @@ VALUE clearFonts(VALUE self)
 
 void defineManager()
 {
-   rb_define_global_function("clearImages", (VALUE(*)(...))&clearImages, 0);
-   rb_define_global_function("clearSounds", (VALUE(*)(...))&clearSounds, 0);
-   rb_define_global_function("clearStreams", (VALUE(*)(...))&clearStreams, 0);
-   rb_define_global_function("clearFonts", (VALUE(*)(...))&clearFonts, 0);
+   rb_define_global_function("clearImages", RPROTO(clearImages), 0);
+   rb_define_global_function("clearSounds", RPROTO(clearSounds), 0);
+   rb_define_global_function("clearStreams", RPROTO(clearStreams), 0);
+   rb_define_global_function("clearFonts", RPROTO(clearFonts), 0);
 }

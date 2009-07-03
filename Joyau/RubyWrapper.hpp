@@ -19,6 +19,8 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include "StdInclude.hpp"
 
+#define RPROTO(proto) (VALUE(*)(...))&proto
+
 template<typename T> void wrapped_free(void *info)
 {
    delete (T*)info;

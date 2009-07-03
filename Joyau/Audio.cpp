@@ -122,22 +122,21 @@ VALUE Audio_sync(VALUE self)
 void defineAudio()
 {
    VALUE cSound = defClass<Sound>("Sound");
-   rb_define_method(cSound, "setSound", (VALUE(*)(...))&Audio_setSound, 1);
-   rb_define_method(cSound, "setChannel", (VALUE(*)(...))&Audio_setChannel, 1);
-   rb_define_method(cSound, "play", (VALUE(*)(...))&Audio_playSound, 0);
-   rb_define_method(cSound, "toggle", (VALUE(*)(...))&Audio_toggleSound, 0);
-   rb_define_method(cSound, "stop", (VALUE(*)(...))&Audio_stopSound, 0);
+   rb_define_method(cSound, "setSound", RPROTO(Audio_setSound), 1);
+   rb_define_method(cSound, "setChannel", RPROTO(Audio_setChannel), 1);
+   rb_define_method(cSound, "play", RPROTO(Audio_playSound), 0);
+   rb_define_method(cSound, "toggle", RPROTO(Audio_toggleSound), 0);
+   rb_define_method(cSound, "stop", RPROTO(Audio_stopSound), 0);
 
    VALUE cStream = defClass<Sound>("Stream");
-   rb_define_method(cStream, "setSound", (VALUE(*)(...))&Audio_setSound, 1);
-   rb_define_method(cStream, "setChannel", (VALUE(*)(...))&Audio_setChannel
-		    , 1);
-   rb_define_method(cStream, "play", (VALUE(*)(...))&Audio_playStream, 0);
-   rb_define_method(cStream, "toggle", (VALUE(*)(...))&Audio_toggleStream, 0);
-   rb_define_method(cStream, "stop", (VALUE(*)(...))&Audio_stopStream, 0);
+   rb_define_method(cStream, "setSound", RPROTO(Audio_setSound), 1);
+   rb_define_method(cStream, "setChannel", RPROTO(Audio_setChannel), 1);
+   rb_define_method(cStream, "play", RPROTO(Audio_playStream), 0);
+   rb_define_method(cStream, "toggle", RPROTO(Audio_toggleStream), 0);
+   rb_define_method(cStream, "stop", RPROTO(Audio_stopStream), 0);
 
-   rb_define_global_function("initAudio", (VALUE(*)(...))&Audio_init, 0);
-   rb_define_global_function("kinitAudio", (VALUE(*)(...))&Audio_kinit, 0);
-   rb_define_global_function("stopAudio", (VALUE(*)(...))&Audio_stop, 0);
-   rb_define_global_function("audioSync", (VALUE(*)(...))&Audio_sync, 0);
+   rb_define_global_function("initAudio", RPROTO(Audio_init), 0);
+   rb_define_global_function("kinitAudio", RPROTO(Audio_kinit), 0);
+   rb_define_global_function("stopAudio", RPROTO(Audio_stop), 0);
+   rb_define_global_function("audioSync", RPROTO(Audio_sync), 0);
 }

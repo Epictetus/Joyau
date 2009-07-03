@@ -362,38 +362,29 @@ void defineSprite()
    rb_hash_aset(dirHash, rb_str_new2("DOWN_RIGHT"), INT2FIX(DOWN_RIGHT));
    rb_gv_set("$directions", dirHash);
 
-   //VALUE cSprite = rb_define_class("Sprite", rb_cObject);
    VALUE cSprite = defClass<Sprite>("Sprite");
-
-   //rb_define_singleton_method(cSprite, "new", (VALUE(*)(...))&wrapSprite, 0);
-
-   rb_define_method(cSprite, "setPicture", (VALUE(*)(...))&Sprite_setPicture, 
+   rb_define_method(cSprite, "setPicture", RPROTO(Sprite_setPicture), 1);
+   rb_define_method(cSprite, "setPos", RPROTO(Sprite_setPos), 2);
+   rb_define_method(cSprite, "move", RPROTO(Sprite_move), 2);
+   rb_define_method(cSprite, "rotate", RPROTO(Sprite_rotate), 1);
+   rb_define_method(cSprite, "getAngle", RPROTO(Sprite_getAngle), 0);
+   rb_define_method(cSprite, "setAngle", RPROTO(Sprite_setAngle), 1);
+   rb_define_method(cSprite, "zoom", RPROTO(Sprite_zoom), 1);
+   rb_define_method(cSprite, "getZoom", RPROTO(Sprite_getZoom), 0);
+   rb_define_method(cSprite, "setAngle", RPROTO(Sprite_setAngle), 1);
+   rb_define_method(cSprite, "setAlpha", RPROTO(Sprite_setAlpha), 1);
+   rb_define_method(cSprite, "getAlpha", RPROTO(Sprite_getAlpha), 0);
+   rb_define_method(cSprite, "getX", RPROTO(Sprite_getX), 0);
+   rb_define_method(cSprite, "getY", RPROTO(Sprite_getY), 0);
+   rb_define_method(cSprite, "getW", RPROTO(Sprite_getW), 0);
+   rb_define_method(cSprite, "getH", RPROTO(Sprite_getH), 0);
+   rb_define_method(cSprite, "isOn", RPROTO(Sprite_isOn), 2);
+   rb_define_method(cSprite, "collide", RPROTO(Sprite_collide), 1);
+   rb_define_method(cSprite, "draw", RPROTO(Sprite_draw), 0);
+   rb_define_method(cSprite, "setDirection", RPROTO(Sprite_setDirection), 1);
+   rb_define_method(cSprite, "getDirection", RPROTO(Sprite_getDirection), 0);
+   rb_define_method(cSprite, "setAnim", RPROTO(Sprite_setAnimation), 2);
+   rb_define_method(cSprite, "setAnimTime", RPROTO(Sprite_setAnimationTime), 
 		    1);
-   rb_define_method(cSprite, "setPos", (VALUE(*)(...))&Sprite_setPos, 2);
-   rb_define_method(cSprite, "move", (VALUE(*)(...))&Sprite_move, 2);
-   rb_define_method(cSprite, "rotate", (VALUE(*)(...))&Sprite_rotate, 1);
-   rb_define_method(cSprite, "getAngle", (VALUE(*)(...))&Sprite_getAngle, 0);
-   rb_define_method(cSprite, "setAngle", (VALUE(*)(...))&Sprite_setAngle, 1);
-   rb_define_method(cSprite, "zoom", (VALUE(*)(...))&Sprite_zoom, 1);
-   rb_define_method(cSprite, "getZoom", (VALUE(*)(...))&Sprite_getZoom, 0);
-   rb_define_method(cSprite, "setAngle", (VALUE(*)(...))&Sprite_setAngle, 1);
-   rb_define_method(cSprite, "setAlpha", (VALUE(*)(...))&Sprite_setAlpha, 1);
-   rb_define_method(cSprite, "getAlpha", (VALUE(*)(...))&Sprite_getAlpha, 0);
-   rb_define_method(cSprite, "getX", (VALUE(*)(...))&Sprite_getX, 0);
-   rb_define_method(cSprite, "getY", (VALUE(*)(...))&Sprite_getY, 0);
-   rb_define_method(cSprite, "getW", (VALUE(*)(...))&Sprite_getW, 0);
-   rb_define_method(cSprite, "getH", (VALUE(*)(...))&Sprite_getH, 0);
-   rb_define_method(cSprite, "isOn", (VALUE(*)(...))&Sprite_isOn, 2);
-   rb_define_method(cSprite, "collide", (VALUE(*)(...))&Sprite_collide, 1);
-   rb_define_method(cSprite, "draw", (VALUE(*)(...))&Sprite_draw, 0);
-   rb_define_method(cSprite, "setDirection", 
-		    (VALUE(*)(...))&Sprite_setDirection, 1);
-   rb_define_method(cSprite, "getDirection", 
-		    (VALUE(*)(...))&Sprite_getDirection, 0);
-   rb_define_method(cSprite, "setAnim", 
-		    (VALUE(*)(...))&Sprite_setAnimation, 2);
-   rb_define_method(cSprite, "setAnimTime", 
-		    (VALUE(*)(...))&Sprite_setAnimationTime, 1);
-   rb_define_method(cSprite, "setTile", 
-		    (VALUE(*)(...))&Sprite_setTile, 4);
+   rb_define_method(cSprite, "setTile", RPROTO(Sprite_setTile), 4);
 }

@@ -74,8 +74,8 @@ VALUE Usb_state(VALUE self)
 
 void defineUsb()
 {
-   rb_define_global_function("initUsb", (VALUE(*)(...))&Usb_Init, 0);
-   rb_define_global_function("activateUsb", (VALUE(*)(...))&Usb_mount, 0);
-   rb_define_global_function("deactivateUsb", (VALUE(*)(...))&Usb_umount, 0);
-   rb_define_global_function("usbState", (VALUE(*)(...))&Usb_state, 0);
+   rb_define_global_function("initUsb", RPROTO(Usb_Init), 0);
+   rb_define_global_function("activateUsb", RPROTO(Usb_mount), 0);
+   rb_define_global_function("deactivateUsb", RPROTO(Usb_umount), 0);
+   rb_define_global_function("usbState", RPROTO(Usb_state), 0);
 }

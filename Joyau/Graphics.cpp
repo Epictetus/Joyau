@@ -137,33 +137,22 @@ VALUE setAutoSwizzle(VALUE self)
 
 void defineGraphics()
 {
-   rb_define_global_function("swizzle", (VALUE(*)(...))&setAutoSwizzle, 0);
-   rb_define_global_function("mayPlay", (VALUE(*)(...))&Graphics_mayPlay, 
-			     0);
-   rb_define_global_function("startDraw", 
-			     (VALUE(*)(...))&Graphics_startDraw, 0);
-   rb_define_global_function("endDraw", (VALUE(*)(...))&Graphics_endDraw, 
-			     0);
-   rb_define_global_function("sync", (VALUE(*)(...))&Graphics_sync, 0);
-
-   rb_define_global_function("drawLine", 
-			     (VALUE(*)(...))&Graphics_drawLine, 5);
-   rb_define_global_function("drawRect", 
-			     (VALUE(*)(...))&Graphics_drawRect, 5);
-   rb_define_global_function("drawFillRect", 
-			     (VALUE(*)(...))&Graphics_drawFillRect, 5);
-   
-   rb_define_global_function("setFont", (VALUE(*)(...))&setTextFont, 1);
-   rb_define_global_function("getLength", (VALUE(*)(...))getTextSize, 1);
-   rb_define_global_function("setTextBackground", 
-			     (VALUE(*)(...))&setTextBackground, 1);
-   rb_define_global_function("setTextColor", 
-			     (VALUE(*)(...))&setTextColor, 1);
-   rb_define_global_function("drawText", (VALUE(*)(...))&drawText, 3);
-   rb_define_global_function("clearScreen", (VALUE(*)(...))&Graphics_clear,
-			     0);
-   rb_define_global_function("initGfx", (VALUE(*)(...))&Graphics_init, 0);
-   rb_define_global_function("initLib", (VALUE(*)(...))&lib_start, 0);
-   rb_define_global_function("stopLib", (VALUE(*)(...))&lib_stop, 0);
-   rb_define_global_function("stopGfx", (VALUE(*)(...))&Graphics_stop, 0);
+   rb_define_global_function("swizzle", RPROTO(setAutoSwizzle), 0);
+   rb_define_global_function("mayPlay", RPROTO(Graphics_mayPlay), 0);
+   rb_define_global_function("startDraw", RPROTO(Graphics_startDraw), 0);
+   rb_define_global_function("endDraw", RPROTO(Graphics_endDraw), 0);
+   rb_define_global_function("sync", RPROTO(Graphics_sync), 0);
+   rb_define_global_function("drawLine", RPROTO(Graphics_drawLine), 5);
+   rb_define_global_function("drawRect", RPROTO(Graphics_drawRect), 5);
+   rb_define_global_function("drawFillRect", RPROTO(Graphics_drawFillRect), 5);
+   rb_define_global_function("setFont", RPROTO(setTextFont), 1);
+   rb_define_global_function("getLength", RPROTO(getTextSize), 1);
+   rb_define_global_function("setTextBackground", RPROTO(setTextBackground),1);
+   rb_define_global_function("setTextColor", RPROTO(setTextColor), 1);
+   rb_define_global_function("drawText", RPROTO(drawText), 3);
+   rb_define_global_function("clearScreen", RPROTO(Graphics_clear), 0);
+   rb_define_global_function("initGfx", RPROTO(Graphics_init), 0);
+   rb_define_global_function("initLib", RPROTO(lib_start), 0);
+   rb_define_global_function("stopLib", RPROTO(lib_stop), 0);
+   rb_define_global_function("stopGfx", RPROTO(Graphics_stop), 0);
 }
