@@ -44,9 +44,13 @@ while mayPlay and life > 0
   # We'll let the hero play
   readKeys
   if $keys["down"]
-    hero.move(0, 1)
+    if hero.getY + 1 < 272 - hero.getW
+      hero.move(0, 1)
+    end
   elsif $keys["up"]
-    hero.move(0, -1)
+    if hero.getY - 1 > 0
+      hero.move(0, -1)
+    end
   end
 
   if $keys["right"]
