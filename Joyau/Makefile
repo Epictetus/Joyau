@@ -32,6 +32,8 @@ LDFLAGS =
 
 EXTRA_TARGETS = EBOOT.PBP
 PSP_EBOOT_TITLE = Joyau
+PSP_EBOOT_ICON = eboot/ICON0.png
+PSP_EBOOT_PIC1 = eboot/PIC1.png
 
 PSPSDK=$(shell psp-config --pspsdk-path)
 include $(PSPSDK)/lib/build.mak
