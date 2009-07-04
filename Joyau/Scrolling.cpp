@@ -28,6 +28,31 @@ void Scrolling::setPos(int x, int y)
    _y = y;
 }
 
+void Scrolling::setDir(int dir)
+{
+   _dir = dir;
+   if (_dir == Sprite::RIGHT)
+   {
+      bg[0].setPos(_x, _y);
+      bg[1].setPos(_x - 480, _y);
+   }
+   else if (_dir == Sprite::LEFT)
+   {
+      bg[0].setPos(_x, _y);
+      bg[1].setPos(_x + 480, _y);
+   }
+   else if (_dir == Sprite::UP)
+   {
+      bg[0].setPos(_x, _y);
+      bg[1].setPos(_x, _y + 272);
+   }
+   else if (_dir == Sprite::DOWN)
+   {
+      bg[0].setPos(_x, _y);
+      bg[1].setPos(_x, _y - 272);
+   }
+}
+
 void Scrolling::play()
 {
    if (_dir == Sprite::RIGHT)

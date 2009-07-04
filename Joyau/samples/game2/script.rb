@@ -9,12 +9,6 @@ scroll.setPos(0, 0)
 scroll.setSpeed(speed)
 scroll.setDir($directions["LEFT"])
 
-# I don't know why it works so.
-# Juste a little way to avoid a graphic glitch, thus
-for i in 0..480
-  scroll.play
-end
-
 obstacles = []
 for i in 0..4 # having 5 obstacles is great
   obstacles[i] = Sprite.new
@@ -68,7 +62,7 @@ while mayPlay and life > 0
     hero.move(10, 0)
   end
 
-  # Then, it's the for the obstacle :
+  # Then, it's the obstacle turn :
   for i in obstacles
     i.move(-speed, 0)
     if i.collide(hero)

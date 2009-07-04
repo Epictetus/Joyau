@@ -27,7 +27,7 @@ public:
    void setSprite(char *spr);
    
    void setPos(int x, int y);
-   void setDir(int dir) { _dir = dir; }
+   void setDir(int dir);
 
    void setSpeed(int s) { speed = s; }
 
