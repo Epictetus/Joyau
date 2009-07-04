@@ -89,6 +89,20 @@ VALUE Graphics_drawFillRect(VALUE self, VALUE x1, VALUE y1, VALUE x2,
    return Qnil;
 }
 
+VALUE Graphics_screenshot(VALUE self, VALUE pic)
+{
+   char *filename = StringValuePtr(pic);
+
+   oslWriteImageFile(OSL_SECONDARY_BUFFER, filename, OSL_WRI_ALPHA);
+   return Qnil;
+}
+
+VALUE Graphics_fade(VALUE self)
+{
+   oslFadeInEffect();
+   return Qnil;
+}
+
 VALUE setTextFont(VALUE self, VALUE fontname)
 {
    Manager *manager = Manager::getInstance();
@@ -145,6 +159,8 @@ void defineGraphics()
    rb_define_global_function("drawLine", RPROTO(Graphics_drawLine), 5);
    rb_define_global_function("drawRect", RPROTO(Graphics_drawRect), 5);
    rb_define_global_function("drawFillRect", RPROTO(Graphics_drawFillRect), 5);
+   rb_define_global_function("screenshot", RPROTO(Graphics_screenshot), 1);
+   rb_define_global_function("fade", RPROTO(Graphics_fade), 0);
    rb_define_global_function("setFont", RPROTO(setTextFont), 1);
    rb_define_global_function("getLength", RPROTO(getTextSize), 1);
    rb_define_global_function("setTextBackground", RPROTO(setTextBackground),1);

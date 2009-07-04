@@ -20,6 +20,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "StdInclude.hpp"
 #include "Manager.hpp"
 #include "RubyWrapper.hpp"
+#include "Sprite.hpp"
 
 VALUE Graphics_init(VALUE self);
 VALUE Graphics_stop(VALUE self);
@@ -40,6 +41,10 @@ VALUE Graphics_drawFillRect(VALUE self, VALUE x1, VALUE y1, VALUE x2,
 			    VALUE y2, VALUE color);
 
 VALUE Graphics_clear(VALUE self);
+
+VALUE Graphics_screenshot(VALUE self, VALUE pic);
+
+VALUE Graphics_fade(VALUE self);
 
 VALUE setTextFont(VALUE self, VALUE fontname);
 VALUE getTextSize(VALUE self, VALUE text);
