@@ -85,6 +85,14 @@ public:
 
    void setTile(int x, int y, int w, int h);
 
+   // This function would set the correct position, ...
+   // before returning the pointer
+   // ( It's safe because the sprite change these value when the picture is
+   // drawn )
+   OSL_IMAGE *getImage();
+
+   void saveImage(const char *fname);
+
 protected:
    string picName;
    Manager *manager;
@@ -115,7 +123,8 @@ private:
    int hTile;
 };
 
-//VALUE wrapSprite(VALUE info);
+enum DIRECTION { DOWN, LEFT, RIGHT, UP, UP_LEFT, UP_RIGHT, DOWN_LEFT,
+		 DOWN_RIGHT };
 
 VALUE Sprite_setPicture(VALUE self, VALUE pic);
 
@@ -141,9 +150,7 @@ VALUE Sprite_isOn(VALUE self, VALUE x, VALUE y);
 VALUE Sprite_collide(VALUE self, VALUE spr);
 
 VALUE Sprite_draw(VALUE self);
-
-enum DIRECTION { DOWN, LEFT, RIGHT, UP, UP_LEFT, UP_RIGHT, DOWN_LEFT,
-		 DOWN_RIGHT };
+VALUE Sprite_saveFile(VALUE self, VALUE pic);
 
 VALUE Sprite_setDirection(VALUE self, VALUE dir);
 VALUE Sprite_getDirection(VALUE self);
@@ -153,7 +160,6 @@ VALUE Sprite_setAnimationTime(VALUE self, VALUE t);
 
 VALUE Sprite_setTile(VALUE self, VALUE x, VALUE y, VALUE w, VALUE h);
 
-//void Sprite_free(void*);
 void defineSprite();
 
 #endif

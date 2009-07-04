@@ -115,33 +115,7 @@ void Sprite::defaultDraw()
      change theses attributes value.
     */
 
-   oslSetAlpha(OSL_FX_ALPHA , _alpha);
-
-   sprite->stretchX = _stretchX;
-   sprite->stretchY = _stretchY;
-   sprite->x = _x;
-   sprite->y = _y;
-   sprite->angle = _angle;
-
-   if (!tiled)
-   {
-      if (animated)
-	 oslSetImageTileSize(sprite, animeState * getW(), 
-			     getDirection() * getH(), getW(), getH());
-      else
-	 oslSetImageTileSize(sprite, 0, 0, getW(), getH());
-      passedTime++;
-      if (passedTime == nbrAnime)
-      {
-	 passedTime = 0;
-	 animeState++;
-      }
-      if (animeState == _nbrX)
-	 animeState = 0;
-   }
-   else
-      oslSetImageTileSize(sprite, xTile, yTile, wTile, hTile);
-   oslDrawImage(sprite);
+   oslDrawImage(getImage());
    oslSetAlpha(OSL_FX_RGBA, _alpha);
 }
 
@@ -174,6 +148,44 @@ void Sprite::setTile(int x, int y, int w, int h)
    yTile = y;
    wTile = w;
    hTile = h;
+}
+
+OSL_IMAGE *Sprite::getImage()
+{
+   oslSetAlpha(OSL_FX_ALPHA , _alpha);
+
+   sprite->stretchX = _stretchX;
+   sprite->stretchY = _stretchY;
+   sprite->x = _x;
+   sprite->y = _y;
+   sprite->angle = _angle;
+
+   if (!tiled)
+   {
+      if (animated)
+	 oslSetImageTileSize(sprite, animeState * getW(), 
+			     getDirection() * getH(), getW(), getH());
+      else
+	 oslSetImageTileSize(sprite, 0, 0, getW(), getH());
+      passedTime++;
+      if (passedTime == nbrAnime)
+      {
+	 passedTime = 0;
+	 animeState++;
+      }
+      if (animeState == _nbrX)
+	 animeState = 0;
+   }
+   else
+      oslSetImageTileSize(sprite, xTile, yTile, wTile, hTile);
+
+   return sprite;
+}
+
+void Sprite::saveImage(const char *fname)
+{
+   oslWriteImageFile(getImage(), fname, OSL_WRI_ALPHA);
+   oslSetAlpha(OSL_FX_RGBA, _alpha);
 }
 
 VALUE Sprite_rotate(VALUE self, VALUE angle) 
@@ -349,6 +361,15 @@ VALUE Sprite_setTile(VALUE self, VALUE x, VALUE y, VALUE w, VALUE h)
    return Qnil;
 }
 
+VALUE Sprite_saveFile(VALUE self, VALUE pic)
+{
+   Sprite *item = getPtr<Sprite>(self);
+   const char *file = StringValuePtr(pic);
+
+   item->saveImage(file);
+   return Qnil;
+}
+
 void defineSprite()
 {
    VALUE dirHash = rb_hash_new();
@@ -381,6 +402,7 @@ void defineSprite()
    rb_define_method(cSprite, "isOn", RPROTO(Sprite_isOn), 2);
    rb_define_method(cSprite, "collide", RPROTO(Sprite_collide), 1);
    rb_define_method(cSprite, "draw", RPROTO(Sprite_draw), 0);
+   rb_define_method(cSprite, "saveFile", RPROTO(Sprite_saveFile), 1);
    rb_define_method(cSprite, "setDirection", RPROTO(Sprite_setDirection), 1);
    rb_define_method(cSprite, "getDirection", RPROTO(Sprite_getDirection), 0);
    rb_define_method(cSprite, "setAnim", RPROTO(Sprite_setAnimation), 2);
