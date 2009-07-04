@@ -183,7 +183,13 @@ VALUE Graphics_clear(VALUE self)
 
 VALUE drawText(VALUE self, VALUE x, VALUE y, VALUE text)
 {
-   oslDrawString(FIX2INT(x), FIX2INT(y), StringValuePtr(text));
+   oslScriptText(FIX2INT(x), FIX2INT(y), StringValuePtr(text));
+   return Qnil;
+}
+
+VALUE drawStirringText(VALUE self, VALUE x, VALUE y, VALUE text)
+{
+   oslPrintStirringString(FIX2INT(x), FIX2INT(y), StringValuePtr(text));
    return Qnil;
 }
 
@@ -205,8 +211,8 @@ void defineGraphics()
    rb_define_global_function("drawFillRect", RPROTO(Graphics_drawFillRect), 5);
    rb_define_global_function("drawTriangle", RPROTO(Graphics_drawTriangle), 9);
    rb_define_global_function("drawCircle", RPROTO(Graphics_drawCircle), 4);
-   rb_define_global_function("drawFillCircle", RPROTO(Graphics_drawFillCircle), 
-			     4);
+   rb_define_global_function("drawFillCircle", 
+			     RPROTO(Graphics_drawFillCircle), 4);
    rb_define_global_function("screenshot", RPROTO(Graphics_screenshot), 1);
    rb_define_global_function("fade", RPROTO(Graphics_fade), 0);
    rb_define_global_function("setFont", RPROTO(setTextFont), 1);
@@ -214,6 +220,7 @@ void defineGraphics()
    rb_define_global_function("setTextBackground", RPROTO(setTextBackground),1);
    rb_define_global_function("setTextColor", RPROTO(setTextColor), 1);
    rb_define_global_function("drawText", RPROTO(drawText), 3);
+   rb_define_global_function("drawStirringText", RPROTO(drawStirringText), 3);
    rb_define_global_function("clearScreen", RPROTO(Graphics_clear), 0);
    rb_define_global_function("initGfx", RPROTO(Graphics_init), 0);
    rb_define_global_function("initLib", RPROTO(lib_start), 0);

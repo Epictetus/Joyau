@@ -57,6 +57,7 @@ VALUE getTextSize(VALUE self, VALUE text);
 VALUE setTextBackground(VALUE self, VALUE color);
 VALUE setTextColor(VALUE self, VALUE color);
 VALUE drawText(VALUE self, VALUE x, VALUE y, VALUE text);
+VALUE drawStirringText(VALUE self, VALUE x, VALUE y, VALUE text);
 
 VALUE setAutoSwizzle(VALUE self);
 
