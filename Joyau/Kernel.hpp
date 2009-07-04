@@ -67,6 +67,9 @@ VALUE Kernel_Timestamp(VALUE self);
 
 VALUE Kernel_getModel(VALUE self);
 
+VALUE Kernel_getPowerTime(VALUE self);
+VALUE Kernel_getPowerPercent(VALUE self);
+
 void defineKernel();
 
 #endif

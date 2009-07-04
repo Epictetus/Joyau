@@ -244,6 +244,16 @@ VALUE File_rename(VALUE self, VALUE old, VALUE newName)
    return Qnil;
 }
 
+VALUE Kernel_getPowerTime(VALUE self)
+{
+   return INT2FIX(scePowerGetBatteryLifeTime());
+}
+
+VALUE Kernel_getPowerPercent(VALUE self)
+{
+   return INT2FIX(scePowerGetBatteryLifePercent());
+}
+
 void defineKernel()
 {
    VALUE cDir = defClass<PSP_Directory>("PSPDir");
@@ -271,6 +281,9 @@ void defineKernel()
 
    rb_define_global_function("timestamp", RPROTO(Kernel_Timestamp), 0);
    rb_define_global_function("model", RPROTO(Kernel_getModel), 0);
+
+   rb_define_global_function("powerTime", RPROTO(Kernel_getPowerTime), 0);
+   rb_define_global_function("powerPercent", RPROTO(Kernel_getPowerPercent), 0);
 
    rb_define_global_function("mkdir", RPROTO(File_mkdir), 1);
    rb_define_global_function("rmdir", RPROTO(File_rmdir), 1);
