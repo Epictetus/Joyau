@@ -22,6 +22,8 @@
 class Particles
 {
 public:
+   ~Particles() { oslDeleteParticles(part); }
+
    void setFile(char *str);
    void setParam(int time, int speed, int gravity, int mspeed);
 
