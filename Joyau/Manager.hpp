@@ -62,6 +62,7 @@ public:
    void clearStreams();
    void clearSounds();
    void clearFonts();
+   void clearParticles();
 
 protected:
    map<string, OSL_IMAGE*> images;

@@ -23,6 +23,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "Usb.hpp"
 #include "MessageBox.hpp"
 #include "Scrolling.hpp"
+#include "Particles.hpp"
 
 PSP_MODULE_INFO("Joyau", 0x1000, 1, 1);
 PSP_MAIN_THREAD_ATTR(THREAD_ATTR_VFPU);
@@ -98,6 +99,7 @@ int main(int argc, char** argv)
    defineUsb();
    defineMessageBox();
    defineScrolling();
+   defineParticles();
 
    rb_define_global_function("debug", RPROTO(debug), 1);
    

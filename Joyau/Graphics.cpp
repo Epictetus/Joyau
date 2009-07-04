@@ -177,7 +177,7 @@ VALUE setTextColor(VALUE self, VALUE color)
 
 VALUE Graphics_clear(VALUE self)
 {
-   oslClearScreen(RGB(0, 0, 0));
+   oslCls();
    return Qnil;
 }
 
