@@ -1,37 +1,40 @@
 /*Copyright (C) 2009 Verhetsel Kilian
 
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation; either version 2 of the License, or
+  (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License along
-with this program; if not, write to the Free Software Foundation, Inc.,
-51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.*/
+  You should have received a copy of the GNU General Public License along
+  with this program; if not, write to the Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.*/
 
 #include "Keys.hpp"
 
 void Cursor::updatePos()
 {
-   oslReadKeys();
-   int analogX = osl_pad.analogX;
-   int analogY = osl_pad.analogY;
+   if (sensibility != 0)
+   {
+      oslReadKeys();
+      int analogX = osl_pad.analogX;
+      int analogY = osl_pad.analogY;
 
-   _x += analogX / sensibility;
-   _y += analogY / sensibility;
-   
-   _x = _x > 480 ? 480 : _x;
-   _x = _x < 0 ? 0 : _x;
+      _x += analogX / sensibility;
+      _y += analogY / sensibility;
 
-   _y = _y > 272 ? 272 : _y;
-   _y = _y < 0 ? 0 : _y;
+      _x = _x > 480 ? 480 : _x;
+      _x = _x < 0 ? 0 : _x;
 
-   picture->setPos(_x, _y);
+      _y = _y > 272 ? 272 : _y;
+      _y = _y < 0 ? 0 : _y;
+
+      picture->setPos(_x, _y);
+   }
 }
 
 void Cursor::move(int x, int y)
@@ -52,9 +55,9 @@ void Cursor::setPos(int x, int y)
 
 VALUE Keys_repeatInit(VALUE self, VALUE time)
 {
-   oslSetKeyAutorepeat(OSL_KEYMASK_UP | OSL_KEYMASK_RIGHT | 
-		       OSL_KEYMASK_DOWN | OSL_KEYMASK_LEFT | 
-		       OSL_KEYMASK_R|OSL_KEYMASK_L, 40, FIX2INT(time));
+   oslSetKeyAutorepeat(OSL_KEYMASK_UP | OSL_KEYMASK_RIGHT |
+                       OSL_KEYMASK_DOWN | OSL_KEYMASK_LEFT |
+                       OSL_KEYMASK_R|OSL_KEYMASK_L, 40, FIX2INT(time));
    oslSetKeyAutorepeatInit(FIX2INT(time));
    return Qnil;
 }
@@ -94,7 +97,7 @@ VALUE checkKeys(VALUE self)
       rb_hash_aset(keys, rb_str_new2("left"), Qtrue);
    else
       rb_hash_aset(keys, rb_str_new2("left"), Qfalse);
-   
+
    if (osl_pad.held.right)
       rb_hash_aset(keys, rb_str_new2("right"), Qtrue);
    else
@@ -163,7 +166,7 @@ VALUE checkKeys(VALUE self)
       rb_hash_aset(keys, rb_str_new2("pressed_left"), Qtrue);
    else
       rb_hash_aset(keys, rb_str_new2("pressed_left"), Qfalse);
-   
+
    if (osl_pad.pressed.right)
       rb_hash_aset(keys, rb_str_new2("pressed_right"), Qtrue);
    else
@@ -230,7 +233,7 @@ VALUE checkKeys(VALUE self)
       rb_hash_aset(keys, rb_str_new2("released_left"), Qtrue);
    else
       rb_hash_aset(keys, rb_str_new2("released_left"), Qfalse);
-   
+
    if (osl_pad.released.right)
       rb_hash_aset(keys, rb_str_new2("released_right"), Qtrue);
    else
@@ -278,7 +281,7 @@ VALUE checkKeys(VALUE self)
    rb_hash_aset(keys, rb_str_new2("analogY"), INT2FIX(analogY));
 
    rb_gv_set("$keys", keys);
-   
+
    return Qnil;
 }
 
@@ -286,7 +289,7 @@ VALUE Cursor_draw(VALUE self)
 {
    Cursor *ptr = getPtr<Cursor>(self);
    ptr->draw();
-   
+
    return Qnil;
 }
 
@@ -294,7 +297,7 @@ VALUE Cursor_updatePos(VALUE self)
 {
    Cursor *ptr = getPtr<Cursor>(self);
    ptr->updatePos();
-   
+
    return Qnil;
 }
 
@@ -303,7 +306,7 @@ VALUE Cursor_setSensibility(VALUE self, VALUE s)
    Cursor *ptr = getPtr<Cursor>(self);
    int sens = FIX2INT(s);
 
-   ptr->setSensibility(sens);   
+   ptr->setSensibility(sens);
    return Qnil;
 }
 
@@ -373,7 +376,7 @@ void defineKeys()
 {
    VALUE keys = rb_hash_new();
    rb_gv_set("$keys", keys);
-   
+
    defFunc("repeatInit", Keys_repeatInit, 1);
    defFunc("repeatInterval", Keys_repeatInterval, 1);
    defFunc("readKeys", checkKeys, 0);
