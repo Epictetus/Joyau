@@ -16,6 +16,40 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include "Keys.hpp"
 
+void Cursor::updatePos()
+{
+   oslReadKeys();
+   int analogX = osl_pad.analogX;
+   int analogY = osl_pad.analogY;
+
+   _x += analogX / sensibility;
+   _y += analogY / sensibility;
+   
+   _x = _x > 480 ? 480 : _x;
+   _x = _x < 0 ? 0 : _x;
+
+   _y = _y > 272 ? 272 : _y;
+   _y = _y < 0 ? 0 : _y;
+
+   picture->setPos(_x, _y);
+}
+
+void Cursor::move(int x, int y)
+{
+   _x += x;
+   _y += y;
+
+   picture->setPos(_x, _y);
+}
+
+void Cursor::setPos(int x, int y)
+{
+   _x = x;
+   _y = y;
+
+   picture->setPos(_x, _y);
+}
+
 VALUE Keys_repeatInit(VALUE self, VALUE time)
 {
    oslSetKeyAutorepeat(OSL_KEYMASK_UP | OSL_KEYMASK_RIGHT | 
@@ -247,6 +281,94 @@ VALUE checkKeys(VALUE self)
    
    return Qnil;
 }
+
+VALUE Cursor_draw(VALUE self)
+{
+   Cursor *ptr = getPtr<Cursor>(self);
+   ptr->draw();
+   
+   return Qnil;
+}
+
+VALUE Cursor_updatePos(VALUE self)
+{
+   Cursor *ptr = getPtr<Cursor>(self);
+   ptr->updatePos();
+   
+   return Qnil;
+}
+
+VALUE Cursor_setSensibility(VALUE self, VALUE s)
+{
+   Cursor *ptr = getPtr<Cursor>(self);
+   int sens = FIX2INT(s);
+
+   ptr->setSensibility(sens);   
+   return Qnil;
+}
+
+VALUE Cursor_move(VALUE self, VALUE x, VALUE y)
+{
+   Cursor *ptr = getPtr<Cursor>(self);
+   int _x = FIX2INT(x);
+   int _y = FIX2INT(y);
+
+   ptr->move(_x, _y);
+   return Qnil;
+}
+
+VALUE Cursor_setPos(VALUE self, VALUE x, VALUE y)
+{
+   Cursor *ptr = getPtr<Cursor>(self);
+   int _x = FIX2INT(x);
+   int _y = FIX2INT(y);
+
+   ptr->setPos(_x, _y);
+   return Qnil;
+}
+
+VALUE Cursor_getX(VALUE self)
+{
+   Cursor *ptr = getPtr<Cursor>(self);
+   int ret = ptr->getX();
+
+   return INT2FIX(ret);
+}
+
+VALUE Cursor_getY(VALUE self)
+{
+   Cursor *ptr = getPtr<Cursor>(self);
+   int ret = ptr->getY();
+
+   return INT2FIX(ret);
+}
+
+VALUE Cursor_setPicture(VALUE self, VALUE spr)
+{
+   Cursor *ptr = getPtr<Cursor>(self);
+   Sprite *pic = getPtr<Sprite>(spr);
+
+   ptr->setPicture(pic);
+   return Qnil;
+}
+
+VALUE Cursor_collide(VALUE self, VALUE spr)
+{
+   Cursor *ptr = getPtr<Cursor>(self);
+   Sprite *pic = getPtr<Sprite>(spr);
+
+   return ptr->collide(pic) ? Qtrue : Qfalse;
+}
+
+VALUE Cursor_isOn(VALUE self, VALUE x, VALUE y)
+{
+   Cursor *ptr = getPtr<Cursor>(self);
+   int _x = FIX2INT(x);
+   int _y = FIX2INT(y);
+
+   return ptr->isOn(_x, _y) ? Qtrue : Qfalse;
+}
+
 void defineKeys()
 {
    VALUE keys = rb_hash_new();
@@ -255,4 +377,16 @@ void defineKeys()
    defFunc("repeatInit", Keys_repeatInit, 1);
    defFunc("repeatInterval", Keys_repeatInterval, 1);
    defFunc("readKeys", checkKeys, 0);
+
+   VALUE cCursor = defClass<Cursor>("Cursor");
+   defMethod(cCursor, "draw", Cursor_draw, 0);
+   defMethod(cCursor, "updatePos", Cursor_updatePos, 0);
+   defMethod(cCursor, "setSensibility", Cursor_setSensibility, 1);
+   defMethod(cCursor, "move", Cursor_move, 2);
+   defMethod(cCursor, "setPos", Cursor_setPos, 2);
+   defMethod(cCursor, "getX", Cursor_getX, 0);
+   defMethod(cCursor, "getY", Cursor_getY, 0);
+   defMethod(cCursor, "setPicture", Cursor_setPicture, 1);
+   defMethod(cCursor, "collide", Cursor_collide, 1);
+   defMethod(cCursor, "isOn", Cursor_isOn, 2);
 }
