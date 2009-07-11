@@ -18,6 +18,9 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 VALUE Keys_repeatInit(VALUE self, VALUE time)
 {
+   oslSetKeyAutorepeat(OSL_KEYMASK_UP | OSL_KEYMASK_RIGHT | 
+		       OSL_KEYMASK_DOWN | OSL_KEYMASK_LEFT | 
+		       OSL_KEYMASK_R|OSL_KEYMASK_L, 40, FIX2INT(time));
    oslSetKeyAutorepeatInit(FIX2INT(time));
    return Qnil;
 }
