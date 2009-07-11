@@ -201,29 +201,35 @@ VALUE setAutoSwizzle(VALUE self)
 
 void defineGraphics()
 {
-   rb_define_global_function("swizzle", RPROTO(setAutoSwizzle), 0);
-   rb_define_global_function("mayPlay", RPROTO(Graphics_mayPlay), 0);
-   rb_define_global_function("startDraw", RPROTO(Graphics_startDraw), 0);
-   rb_define_global_function("endDraw", RPROTO(Graphics_endDraw), 0);
-   rb_define_global_function("sync", RPROTO(Graphics_sync), 0);
-   rb_define_global_function("drawLine", RPROTO(Graphics_drawLine), 5);
-   rb_define_global_function("drawRect", RPROTO(Graphics_drawRect), 5);
-   rb_define_global_function("drawFillRect", RPROTO(Graphics_drawFillRect), 5);
-   rb_define_global_function("drawTriangle", RPROTO(Graphics_drawTriangle), 9);
-   rb_define_global_function("drawCircle", RPROTO(Graphics_drawCircle), 4);
-   rb_define_global_function("drawFillCircle", 
-			     RPROTO(Graphics_drawFillCircle), 4);
-   rb_define_global_function("screenshot", RPROTO(Graphics_screenshot), 1);
-   rb_define_global_function("fade", RPROTO(Graphics_fade), 0);
-   rb_define_global_function("setFont", RPROTO(setTextFont), 1);
-   rb_define_global_function("getLength", RPROTO(getTextSize), 1);
-   rb_define_global_function("setTextBackground", RPROTO(setTextBackground),1);
-   rb_define_global_function("setTextColor", RPROTO(setTextColor), 1);
-   rb_define_global_function("drawText", RPROTO(drawText), 3);
-   rb_define_global_function("drawStirringText", RPROTO(drawStirringText), 3);
-   rb_define_global_function("clearScreen", RPROTO(Graphics_clear), 0);
-   rb_define_global_function("initGfx", RPROTO(Graphics_init), 0);
-   rb_define_global_function("initLib", RPROTO(lib_start), 0);
-   rb_define_global_function("stopLib", RPROTO(lib_stop), 0);
-   rb_define_global_function("stopGfx", RPROTO(Graphics_stop), 0);
+   defFunc("swizzle", setAutoSwizzle, 0);
+
+   defFunc("mayPlay", Graphics_mayPlay, 0);
+
+   defFunc("startDraw", Graphics_startDraw, 0);
+   defFunc("endDraw", Graphics_endDraw, 0);
+   defFunc("sync", Graphics_sync, 0);
+
+   defFunc("drawLine", Graphics_drawLine, 5);
+   defFunc("drawRect", Graphics_drawRect, 5);
+   defFunc("drawFillRect", Graphics_drawFillRect, 5);
+   defFunc("drawTriangle", Graphics_drawTriangle, 9);
+   defFunc("drawCircle", Graphics_drawCircle, 4);
+   defFunc("drawFillCircle", Graphics_drawFillCircle, 4);
+
+   defFunc("screenshot", Graphics_screenshot, 1);
+   defFunc("fade", Graphics_fade, 0);
+
+   defFunc("setFont", setTextFont, 1);
+   defFunc("getLength", getTextSize, 1);
+   defFunc("setTextBackground", setTextBackground,1);
+   defFunc("setTextColor", setTextColor, 1);
+   defFunc("drawText", drawText, 3);
+   defFunc("drawStirringText", drawStirringText, 3);
+
+   defFunc("clearScreen", Graphics_clear, 0);
+
+   defFunc("initGfx", Graphics_init, 0);
+   defFunc("initLib", lib_start, 0);
+   defFunc("stopLib", lib_stop, 0);
+   defFunc("stopGfx", Graphics_stop, 0);
 }

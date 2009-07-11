@@ -249,7 +249,7 @@ void defineKeys()
    VALUE keys = rb_hash_new();
    rb_gv_set("$keys", keys);
    
-   rb_define_global_function("repeatInit", RPROTO(Keys_repeatInit), 1);
-   rb_define_global_function("repeatInterval", RPROTO(Keys_repeatInterval), 1);
-   rb_define_global_function("readKeys", RPROTO(checkKeys), 0);
+   defFunc("repeatInit", Keys_repeatInit, 1);
+   defFunc("repeatInterval", Keys_repeatInterval, 1);
+   defFunc("readKeys", checkKeys, 0);
 }

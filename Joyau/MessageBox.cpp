@@ -243,21 +243,18 @@ VALUE Message_resize(VALUE self, VALUE w, VALUE h)
 void defineMessageBox()
 {
    VALUE cMessage = defClass<Message>("Message");
-   rb_define_method(cMessage, "draw", RPROTO(Message_draw), 0);
-   rb_define_method(cMessage, "setTitle", RPROTO(Message_setTitle), 1);
-   rb_define_method(cMessage, "setText", RPROTO(Message_setText), 1);
-   rb_define_method(cMessage, "setImage", RPROTO(Message_setImage), 1);
-   rb_define_method(cMessage, "setBackground", 
-		    RPROTO(Message_setBackground), 1);
-   rb_define_method(cMessage, "setBgColor", RPROTO(Message_setBgColor), 1);
-   rb_define_method(cMessage, "setTitleColor", 
-		    RPROTO(Message_setTitleColor), 1);
-   rb_define_method(cMessage, "setTextColor", RPROTO(Message_setTextColor), 1);
-   rb_define_method(cMessage, "setBorderColor", 
-		    RPROTO(Message_setBorderColor), 1);
-   rb_define_method(cMessage, "setTextFont", RPROTO(Message_setTextFont), 1);
-   rb_define_method(cMessage, "setTitleFont", RPROTO(Message_setTitleFont), 1);
-   rb_define_method(cMessage, "setPos", RPROTO(Message_setPos), 2);
-   rb_define_method(cMessage, "setTitlePos", RPROTO(Message_setTitlePos), 2);
-   rb_define_method(cMessage, "resize", RPROTO(Message_resize), 2);
+   defMethod(cMessage, "draw", Message_draw, 0);
+   defMethod(cMessage, "setTitle", Message_setTitle, 1);
+   defMethod(cMessage, "setText", Message_setText, 1);
+   defMethod(cMessage, "setImage", Message_setImage, 1);
+   defMethod(cMessage, "setBackground", Message_setBackground, 1);
+   defMethod(cMessage, "setBgColor", Message_setBgColor, 1);
+   defMethod(cMessage, "setTitleColor", Message_setTitleColor, 1);
+   defMethod(cMessage, "setTextColor", Message_setTextColor, 1);
+   defMethod(cMessage, "setBorderColor", Message_setBorderColor, 1);
+   defMethod(cMessage, "setTextFont", Message_setTextFont, 1);
+   defMethod(cMessage, "setTitleFont", Message_setTitleFont, 1);
+   defMethod(cMessage, "setPos", Message_setPos, 2);
+   defMethod(cMessage, "setTitlePos", Message_setTitlePos, 2);
+   defMethod(cMessage, "resize", Message_resize, 2);
 }

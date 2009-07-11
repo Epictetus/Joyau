@@ -101,7 +101,7 @@ int main(int argc, char** argv)
    defineScrolling();
    defineParticles();
 
-   rb_define_global_function("debug", RPROTO(debug), 1);
+   defFunc("debug", debug, 1);
    
    ruby_init_loadpath();
    ruby_script("embedded");

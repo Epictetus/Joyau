@@ -123,13 +123,13 @@ VALUE Particles_getMinSpeed(VALUE self)
 void defineParticles()
 {
    VALUE cPart = defClass<Particles>("Particles");
-   rb_define_method(cPart, "setFile", RPROTO(Particles_setFile), 1);
-   rb_define_method(cPart, "setParam", RPROTO(Particles_setParam), 4);
-   rb_define_method(cPart, "move", RPROTO(Particles_move), 2);
-   rb_define_method(cPart, "addParticles", RPROTO(Particles_addParticles), 2);
-   rb_define_method(cPart, "draw", RPROTO(Particles_draw), 0);
-   rb_define_method(cPart, "getTime", RPROTO(Particles_getTime), 0);
-   rb_define_method(cPart, "getSpeed", RPROTO(Particles_getSpeed), 0);
-   rb_define_method(cPart, "getGravity", RPROTO(Particles_getGravity), 0);
-   rb_define_method(cPart, "getMinSpeed", RPROTO(Particles_getMinSpeed), 0);
+   defMethod(cPart, "setFile", Particles_setFile, 1);
+   defMethod(cPart, "setParam", Particles_setParam, 4);
+   defMethod(cPart, "move", Particles_move, 2);
+   defMethod(cPart, "addParticles", Particles_addParticles, 2);
+   defMethod(cPart, "draw", Particles_draw, 0);
+   defMethod(cPart, "getTime", Particles_getTime, 0);
+   defMethod(cPart, "getSpeed", Particles_getSpeed, 0);
+   defMethod(cPart, "getGravity", Particles_getGravity, 0);
+   defMethod(cPart, "getMinSpeed", Particles_getMinSpeed, 0);
 }

@@ -19,8 +19,15 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include "StdInclude.hpp"
 
-#define RPROTO(proto) (VALUE(*)(...))&proto
+#define RPROTO(proto) (VALUE(*)(...))&proto // A boring cast...
 
+// Easier to understand
+#define defFunc(func, proto, argc) \
+    rb_define_global_function(func, RPROTO(proto), argc)
+#define defMethod(klass, func, proto, argc) \
+    rb_define_method(klass, func, RPROTO(proto), argc)
+
+// generic function for class wrapping
 template<typename T> void wrapped_free(void *info)
 {
    delete (T*)info;
@@ -50,6 +57,14 @@ template<typename T> VALUE defClass(const char *name)
 }
 
 // That code was really boring to write
-OSL_COLOR hash2col(VALUE hash);
+inline OSL_COLOR hash2col(VALUE hash)
+{
+   int r = FIX2INT(rb_hash_aref(hash, rb_str_new2("r")));
+   int g = FIX2INT(rb_hash_aref(hash, rb_str_new2("g")));
+   int b = FIX2INT(rb_hash_aref(hash, rb_str_new2("b")));
+   int a = FIX2INT(rb_hash_aref(hash, rb_str_new2("a")));
+
+   return RGBA(r, g, b, a);
+}
 
 #endif

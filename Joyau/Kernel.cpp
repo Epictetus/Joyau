@@ -257,36 +257,35 @@ VALUE Kernel_getPowerPercent(VALUE self)
 void defineKernel()
 {
    VALUE cDir = defClass<PSP_Directory>("PSPDir");
-   rb_define_method(cDir, "setDir", RPROTO(Dir_setDir), 1);
-   rb_define_method(cDir, "ls", RPROTO(Dir_List), 0);
+   defMethod(cDir, "setDir", Dir_setDir, 1);
+   defMethod(cDir, "ls", Dir_List, 0);
 
    VALUE cFile = defClass<fstream>("PSPFile");
-   rb_define_method(cFile, "open", RPROTO(File_open), 1);
-   rb_define_method(cFile, "close", RPROTO(File_close), 0);
-   rb_define_method(cFile, "getWord", RPROTO(File_getWord), 0);
-   rb_define_method(cFile, "getLine", RPROTO(File_getLine), 0);
-   rb_define_method(cFile, "write", RPROTO(File_write), 1);
+   defMethod(cFile, "open", File_open, 1);
+   defMethod(cFile, "close", File_close, 0);
+   defMethod(cFile, "getWord", File_getWord, 0);
+   defMethod(cFile, "getLine", File_getLine, 0);
+   defMethod(cFile, "write", File_write, 1);
 
-   rb_define_global_function("cd", RPROTO(Kernel_cd), 1);
-   rb_define_global_function("execEboot", RPROTO(Kernel_ExecEboot), 1);
-   rb_define_global_function("execUpdater", RPROTO(Kernel_ExecUpdater), 1);
-   rb_define_global_function("discExecEboot", RPROTO(Kernel_DiscExecEboot), 1);
-   rb_define_global_function("discExecUpdater", RPROTO(Kernel_DiscExecUpdater), 
-			     1);
-   rb_define_global_function("umdCheck", RPROTO(Kernel_UmdCheck), 0);
-   rb_define_global_function("umdWaitState", RPROTO(Kernel_UmdWaitState), 1);
-   rb_define_global_function("umdMount", RPROTO(Kernel_UmdMount), 0);
-   rb_define_global_function("umdUmount", RPROTO(Kernel_UmdUmount), 0);
-   rb_define_global_function("umdType", RPROTO(Kernel_UmdGetType), 0);
+   defFunc("cd", Kernel_cd, 1);
+   defFunc("execEboot", Kernel_ExecEboot, 1);
+   defFunc("execUpdater", Kernel_ExecUpdater, 1);
+   defFunc("discExecEboot", Kernel_DiscExecEboot, 1);
+   defFunc("discExecUpdater", Kernel_DiscExecUpdater, 1);
+   defFunc("umdCheck", Kernel_UmdCheck, 0);
+   defFunc("umdWaitState", Kernel_UmdWaitState, 1);
+   defFunc("umdMount", Kernel_UmdMount, 0);
+   defFunc("umdUmount", Kernel_UmdUmount, 0);
+   defFunc("umdType", Kernel_UmdGetType, 0);
 
-   rb_define_global_function("timestamp", RPROTO(Kernel_Timestamp), 0);
-   rb_define_global_function("model", RPROTO(Kernel_getModel), 0);
+   defFunc("timestamp", Kernel_Timestamp, 0);
+   defFunc("model", Kernel_getModel, 0);
 
-   rb_define_global_function("powerTime", RPROTO(Kernel_getPowerTime), 0);
-   rb_define_global_function("powerPercent", RPROTO(Kernel_getPowerPercent), 0);
+   defFunc("powerTime", Kernel_getPowerTime, 0);
+   defFunc("powerPercent", Kernel_getPowerPercent, 0);
 
-   rb_define_global_function("mkdir", RPROTO(File_mkdir), 1);
-   rb_define_global_function("rmdir", RPROTO(File_rmdir), 1);
-   rb_define_global_function("rm", RPROTO(File_remove), 1);
-   rb_define_global_function("mv", RPROTO(File_rename), 2);
+   defFunc("mkdir", File_mkdir, 1);
+   defFunc("rmdir", File_rmdir, 1);
+   defFunc("rm", File_remove, 1);
+   defFunc("mv", File_rename, 2);
 }
