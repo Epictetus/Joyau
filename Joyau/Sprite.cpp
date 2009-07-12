@@ -392,7 +392,6 @@ void defineSprite()
    defMethod(cSprite, "setAngle", Sprite_setAngle, 1);
    defMethod(cSprite, "zoom", Sprite_zoom, 1);
    defMethod(cSprite, "getZoom", Sprite_getZoom, 0);
-   defMethod(cSprite, "setAngle", Sprite_setAngle, 1);
    defMethod(cSprite, "setAlpha", Sprite_setAlpha, 1);
    defMethod(cSprite, "getAlpha", Sprite_getAlpha, 0);
    defMethod(cSprite, "getX", Sprite_getX, 0);
