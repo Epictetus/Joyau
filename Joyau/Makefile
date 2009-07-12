@@ -19,16 +19,15 @@ TARGET = Joyau
 OBJS = main.o Manager.o Graphics.o Keys.o Sprite.o Audio.o Kernel.o Usb.o \
 	MessageBox.o Scrolling.o Particles.o
 
-INCDIR =
 CFLAGS += -O2 -G0 -Wall -D_PSP_
 CXXFLAGS = $(CFLAGS) -fno-exceptions -fno-rtti
 ASFLAGS = $(CFLAGS)
 
-LIBDIR =
 LIBS = -losl -lpng -lz -lpspsdk -lpspvfpu -lpspusb -lpspusbstor -lpspctrl \
 	-lpspumd -lpsprtc -lpsppower -lpspgu -lpspmpeg -lpspaudiocodec \
 	-lpspaudiolib -lpspaudio -lruby -lm -lstdc++
-LDFLAGS =
+
+PSP_FW_VERSION = 371
 
 EXTRA_TARGETS = EBOOT.PBP
 PSP_EBOOT_TITLE = Joyau
