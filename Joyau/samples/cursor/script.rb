@@ -4,12 +4,9 @@ initGfx
 bg = Sprite.new
 bg.setPicture("bg.png")
 
-cur = Sprite.new
-cur.setPicture("cur.png")
-
 cursor = Cursor.new
-cursor.setPicture(cur)
-cursor.setPos(240 - cur.getW / 2, 136 - cur.getH / 2)
+cursor.setPicture("cur.png")
+cursor.setPos(240 - cursor.getW / 2, 136 - cursor.getH / 2)
 cursor.setSensibility(40)
 
 no_color = Hash.new
