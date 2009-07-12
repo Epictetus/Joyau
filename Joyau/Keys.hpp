@@ -23,47 +23,18 @@
 class Cursor: public Sprite
 {
 public:
-   //void draw() { picture->Draw(); }
-
    void updatePos();
    void setSensibility(int s) { sensibility = s; }
-
-   //void move(int x, int y);
-   //void setPos(int x, int y);
-
-   //int getX() { return _x; }
-   //int getY() { return _y; }
-
-   //void setPicture(Sprite *spr) { picture = spr; }
-
-   //bool collide(Sprite *spr) { return picture->collide(spr); }
-   //bool isOn(int x, int y) { return picture->isOn(x, y); }
 private:
    int sensibility;
-   // int _x, _y;
-
-   //Sprite *picture;
 };
 
 VALUE Keys_repeatInit(VALUE self, VALUE time);
 VALUE Keys_repeatInterval(VALUE self, VALUE time);
 VALUE checkKeys(VALUE self);
 
-//VALUE Cursor_draw(VALUE self);
-
 VALUE Cursor_updatePos(VALUE self);
 VALUE Cursor_setSensibility(VALUE self, VALUE s);
-
-//VALUE Cursor_move(VALUE self, VALUE x, VALUE y);
-//VALUE Cursor_setPos(VALUE self, VALUE x, VALUE y);
-
-//VALUE Cursor_getX(VALUE self);
-//VALUE Cursor_getY(VALUE self);
-
-//VALUE Cursor_setPicture(VALUE self, VALUE spr);
-
-//VALUE Cursor_collide(VALUE self, VALUE spr);
-//VALUE Cursor_isOn(VALUE self, VALUE x, VALUE y);
 
 void defineKeys();
 
