@@ -60,206 +60,77 @@ VALUE checkKeys(VALUE self)
    oslReadKeys();
    VALUE keys = rb_gv_get("$keys");
 
-   if (osl_pad.held.select)
-      rb_hash_aset(keys, rb_str_new2("select"), Qtrue);
-   else
-      rb_hash_aset(keys, rb_str_new2("select"), Qfalse);
+   string prefix[] = { "", "released_", "pressed_"};
+   OSL_KEYLIST controller[] = { osl_pad.held, osl_pad.released,
+                                osl_pad.pressed };
 
-   if (osl_pad.held.start)
-      rb_hash_aset(keys, rb_str_new2("start"), Qtrue);
-   else
-      rb_hash_aset(keys, rb_str_new2("start"), Qfalse);
+   for (int i = 0; i < 3; ++i)
+   {
+      if (controller[i].select)
+         rb_hash_aset(keys, rb_str_new2((prefix[i] + "select").c_str()), Qtrue);
+      else
+         rb_hash_aset(keys, rb_str_new2((prefix[i] + "select").c_str()),
+                      Qfalse);
+      if (controller[i].start)
+         rb_hash_aset(keys, rb_str_new2((prefix[i] + "start").c_str()), Qtrue);
+      else
+         rb_hash_aset(keys, rb_str_new2((prefix[i] + "start").c_str()),
+                      Qfalse);
 
-   if (osl_pad.held.up)
-      rb_hash_aset(keys, rb_str_new2("up"), Qtrue);
-   else
-      rb_hash_aset(keys, rb_str_new2("up"), Qfalse);
+      if (controller[i].up)
+         rb_hash_aset(keys, rb_str_new2((prefix[i] + "up").c_str()), Qtrue);
+      else
+         rb_hash_aset(keys, rb_str_new2((prefix[i] + "up").c_str()), Qfalse);
+      if (controller[i].down)
+         rb_hash_aset(keys, rb_str_new2((prefix[i] + "down").c_str()), Qtrue);
+      else
+         rb_hash_aset(keys, rb_str_new2((prefix[i] + "down").c_str()), Qfalse);
+      if (controller[i].left)
+         rb_hash_aset(keys, rb_str_new2((prefix[i] + "left").c_str()), Qtrue);
+      else
+         rb_hash_aset(keys, rb_str_new2((prefix[i] + "left").c_str()), Qfalse);
+      if (controller[i].right)
+         rb_hash_aset(keys, rb_str_new2((prefix[i] + "right").c_str()), Qtrue);
+      else
+         rb_hash_aset(keys, rb_str_new2((prefix[i] + "right").c_str()),
+                      Qfalse);
 
-   if (osl_pad.held.down)
-      rb_hash_aset(keys, rb_str_new2("down"), Qtrue);
-   else
-      rb_hash_aset(keys, rb_str_new2("down"), Qfalse);
+      if (controller[i].L)
+         rb_hash_aset(keys, rb_str_new2((prefix[i] + "L").c_str()), Qtrue);
+      else
+         rb_hash_aset(keys, rb_str_new2((prefix[i] + "L").c_str()), Qfalse);
+      if (controller[i].R)
+         rb_hash_aset(keys, rb_str_new2((prefix[i] + "R").c_str()), Qtrue);
+      else
+         rb_hash_aset(keys, rb_str_new2((prefix[i] + "R").c_str()), Qfalse);
 
-   if (osl_pad.held.left)
-      rb_hash_aset(keys, rb_str_new2("left"), Qtrue);
-   else
-      rb_hash_aset(keys, rb_str_new2("left"), Qfalse);
+      if (controller[i].circle)
+         rb_hash_aset(keys, rb_str_new2((prefix[i] + "circle").c_str()), Qtrue);
+      else
+         rb_hash_aset(keys, rb_str_new2((prefix[i] + "circle").c_str()),
+                      Qfalse);
+      if (controller[i].triangle)
+         rb_hash_aset(keys, rb_str_new2((prefix[i] + "triangle").c_str()),
+                      Qtrue);
+      else
+         rb_hash_aset(keys, rb_str_new2((prefix[i] + "triangle").c_str()),
+                      Qfalse);
+      if (controller[i].cross)
+         rb_hash_aset(keys, rb_str_new2((prefix[i] + "cross").c_str()), Qtrue);
+      else
+         rb_hash_aset(keys, rb_str_new2((prefix[i] + "cross").c_str()), Qfalse);
 
-   if (osl_pad.held.right)
-      rb_hash_aset(keys, rb_str_new2("right"), Qtrue);
-   else
-      rb_hash_aset(keys, rb_str_new2("right"), Qfalse);
+      if (controller[i].square)
+         rb_hash_aset(keys, rb_str_new2((prefix[i] + "square").c_str()), Qtrue);
+      else
+         rb_hash_aset(keys, rb_str_new2((prefix[i] + "square").c_str()),
+                      Qfalse);
 
-   if (osl_pad.held.L)
-      rb_hash_aset(keys, rb_str_new2("L"), Qtrue);
-   else
-      rb_hash_aset(keys, rb_str_new2("L"), Qfalse);
-
-   if (osl_pad.held.R)
-      rb_hash_aset(keys, rb_str_new2("R"), Qtrue);
-   else
-      rb_hash_aset(keys, rb_str_new2("R"), Qfalse);
-
-   if (osl_pad.held.circle)
-      rb_hash_aset(keys, rb_str_new2("circle"), Qtrue);
-   else
-      rb_hash_aset(keys, rb_str_new2("circle"), Qfalse);
-
-   if (osl_pad.held.triangle)
-      rb_hash_aset(keys, rb_str_new2("triangle"), Qtrue);
-   else
-      rb_hash_aset(keys, rb_str_new2("triangle"), Qfalse);
-
-   if (osl_pad.held.cross)
-      rb_hash_aset(keys, rb_str_new2("cross"), Qtrue);
-   else
-      rb_hash_aset(keys, rb_str_new2("cross"), Qfalse);
-
-   if (osl_pad.held.square)
-      rb_hash_aset(keys, rb_str_new2("square"), Qtrue);
-   else
-      rb_hash_aset(keys, rb_str_new2("square"), Qfalse);
-
-   if (osl_pad.held.hold)
-      rb_hash_aset(keys, rb_str_new2("hold"), Qtrue);
-   else
-      rb_hash_aset(keys, rb_str_new2("hold"), Qfalse);
-
-   //Hum... I dont like copying and pasting but... I can't use a list...
-   //I've to use the oslib structure. Thus, yeah, the next block looks really
-   //like the last one.
-
-   if (osl_pad.pressed.select)
-      rb_hash_aset(keys, rb_str_new2("pressed_select"), Qtrue);
-   else
-      rb_hash_aset(keys, rb_str_new2("pressed_select"), Qfalse);
-
-   if (osl_pad.pressed.start)
-      rb_hash_aset(keys, rb_str_new2("pressed_start"), Qtrue);
-   else
-      rb_hash_aset(keys, rb_str_new2("pressed_start"), Qfalse);
-
-   if (osl_pad.pressed.up)
-      rb_hash_aset(keys, rb_str_new2("pressed_up"), Qtrue);
-   else
-      rb_hash_aset(keys, rb_str_new2("pressed_up"), Qfalse);
-
-   if (osl_pad.pressed.down)
-      rb_hash_aset(keys, rb_str_new2("pressed_down"), Qtrue);
-   else
-      rb_hash_aset(keys, rb_str_new2("pressed_down"), Qfalse);
-
-   if (osl_pad.pressed.left)
-      rb_hash_aset(keys, rb_str_new2("pressed_left"), Qtrue);
-   else
-      rb_hash_aset(keys, rb_str_new2("pressed_left"), Qfalse);
-
-   if (osl_pad.pressed.right)
-      rb_hash_aset(keys, rb_str_new2("pressed_right"), Qtrue);
-   else
-      rb_hash_aset(keys, rb_str_new2("pressed_right"), Qfalse);
-
-   if (osl_pad.pressed.L)
-      rb_hash_aset(keys, rb_str_new2("pressed_L"), Qtrue);
-   else
-      rb_hash_aset(keys, rb_str_new2("pressed_L"), Qfalse);
-
-   if (osl_pad.pressed.R)
-      rb_hash_aset(keys, rb_str_new2("pressed_R"), Qtrue);
-   else
-      rb_hash_aset(keys, rb_str_new2("pressed_R"), Qfalse);
-
-   if (osl_pad.pressed.circle)
-      rb_hash_aset(keys, rb_str_new2("pressed_circle"), Qtrue);
-   else
-      rb_hash_aset(keys, rb_str_new2("pressed_circle"), Qfalse);
-
-   if (osl_pad.pressed.triangle)
-      rb_hash_aset(keys, rb_str_new2("pressed_triangle"), Qtrue);
-   else
-      rb_hash_aset(keys, rb_str_new2("pressed_triangle"), Qfalse);
-
-   if (osl_pad.pressed.cross)
-      rb_hash_aset(keys, rb_str_new2("pressed_cross"), Qtrue);
-   else
-      rb_hash_aset(keys, rb_str_new2("pressed_cross"), Qfalse);
-
-   if (osl_pad.pressed.square)
-      rb_hash_aset(keys, rb_str_new2("pressed_square"), Qtrue);
-   else
-      rb_hash_aset(keys, rb_str_new2("pressed_square"), Qfalse);
-
-   if (osl_pad.pressed.hold)
-      rb_hash_aset(keys, rb_str_new2("pressed_hold"), Qtrue);
-   else
-      rb_hash_aset(keys, rb_str_new2("pressed_hold"), Qfalse);
-
-   if (osl_pad.pressed.select)
-      rb_hash_aset(keys, rb_str_new2("pressed_select"), Qtrue);
-   else
-      rb_hash_aset(keys, rb_str_new2("pressed_select"), Qfalse);
-
-   if (osl_pad.pressed.start)
-      rb_hash_aset(keys, rb_str_new2("pressed_start"), Qtrue);
-   else
-      rb_hash_aset(keys, rb_str_new2("pressed_start"), Qfalse);
-
-   //Hum... should I copy and past the last comment ?
-
-   if (osl_pad.released.up)
-      rb_hash_aset(keys, rb_str_new2("released_up"), Qtrue);
-   else
-      rb_hash_aset(keys, rb_str_new2("released_up"), Qfalse);
-
-   if (osl_pad.released.down)
-      rb_hash_aset(keys, rb_str_new2("released_down"), Qtrue);
-   else
-      rb_hash_aset(keys, rb_str_new2("released_down"), Qfalse);
-
-   if (osl_pad.released.left)
-      rb_hash_aset(keys, rb_str_new2("released_left"), Qtrue);
-   else
-      rb_hash_aset(keys, rb_str_new2("released_left"), Qfalse);
-
-   if (osl_pad.released.right)
-      rb_hash_aset(keys, rb_str_new2("released_right"), Qtrue);
-   else
-      rb_hash_aset(keys, rb_str_new2("released_right"), Qfalse);
-
-   if (osl_pad.released.L)
-      rb_hash_aset(keys, rb_str_new2("released_L"), Qtrue);
-   else
-      rb_hash_aset(keys, rb_str_new2("released_L"), Qfalse);
-
-   if (osl_pad.released.R)
-      rb_hash_aset(keys, rb_str_new2("released_R"), Qtrue);
-   else
-      rb_hash_aset(keys, rb_str_new2("released_R"), Qfalse);
-
-   if (osl_pad.released.circle)
-      rb_hash_aset(keys, rb_str_new2("released_circle"), Qtrue);
-   else
-      rb_hash_aset(keys, rb_str_new2("released_circle"), Qfalse);
-
-   if (osl_pad.released.triangle)
-      rb_hash_aset(keys, rb_str_new2("released_triangle"), Qtrue);
-   else
-      rb_hash_aset(keys, rb_str_new2("released_triangle"), Qfalse);
-
-   if (osl_pad.released.cross)
-      rb_hash_aset(keys, rb_str_new2("released_cross"), Qtrue);
-   else
-      rb_hash_aset(keys, rb_str_new2("released_cross"), Qfalse);
-
-   if (osl_pad.released.square)
-      rb_hash_aset(keys, rb_str_new2("released_square"), Qtrue);
-   else
-      rb_hash_aset(keys, rb_str_new2("released_square"), Qfalse);
-
-   if (osl_pad.released.hold)
-      rb_hash_aset(keys, rb_str_new2("released_hold"), Qtrue);
-   else
-      rb_hash_aset(keys, rb_str_new2("released_hold"), Qfalse);
+      if (controller[i].hold)
+         rb_hash_aset(keys, rb_str_new2((prefix[i] + "hold").c_str()), Qtrue);
+      else
+         rb_hash_aset(keys, rb_str_new2((prefix[i] + "hold").c_str()), Qfalse);
+   }
 
    int analogX = osl_pad.analogX;
    int analogY = osl_pad.analogY;

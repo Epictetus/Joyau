@@ -81,8 +81,8 @@ VALUE Graphics_drawRect(VALUE self, VALUE x1, VALUE y1, VALUE x2,
 }
 
 VALUE Graphics_drawTriangle(VALUE self, VALUE x1, VALUE y1, VALUE x2, VALUE y2, 
-			   VALUE x3, VALUE y3, VALUE col1, VALUE col2, 
-			   VALUE col3)
+			    VALUE x3, VALUE y3, VALUE col1, VALUE col2, 
+			    VALUE col3)
 {
    int _x1 = FIX2INT(x1);
    int _x2 = FIX2INT(x2);
@@ -136,7 +136,7 @@ VALUE Graphics_drawFillCircle(VALUE self, VALUE x, VALUE y, VALUE radius,
 VALUE Graphics_screenshot(VALUE self, VALUE pic)
 {
    char *filename = StringValuePtr(pic);
-
+   
    oslWriteImageFile(OSL_SECONDARY_BUFFER, filename, OSL_WRI_ALPHA);
    return Qnil;
 }
