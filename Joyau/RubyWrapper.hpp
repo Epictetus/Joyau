@@ -47,16 +47,22 @@ template<typename T> T *getPtr(VALUE val)
    return ptr;
 }
 
-template<typename T> VALUE defClass(const char *name)
+template<typename T> VALUE defClass(const char *name, 
+				    VALUE father = rb_cObject)
 {
-   VALUE ret = rb_define_class(name, rb_cObject);
+   VALUE ret = rb_define_class(name, father);
    VALUE (*func)(VALUE) = &wrap<T>;
    
    rb_define_singleton_method(ret, "new", (VALUE(*)(...))func, 0);
    return ret;
 }
 
-// That code was really boring to write
+inline VALUE getClass(const char *name)
+{
+   return rb_const_get(rb_cObject, rb_intern(name));
+}
+
+// That code was really boring to write each time
 inline OSL_COLOR hash2col(VALUE hash)
 {
    int r = FIX2INT(rb_hash_aref(hash, rb_str_new2("r")));
