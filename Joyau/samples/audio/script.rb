@@ -3,13 +3,10 @@ initGfx
 initAudio
 
 music = Stream.new
-music.setSound("diredocks.bgm")
-music.setChannel(1)
-music.play
+music.loadOgg("music.ogg")
 
 sound = Sound.new
-sound.setSound("injury.wav")
-sound.setChannel(2)
+sound.loadWav("injury.wav")
 
 while mayPlay
 
@@ -23,8 +20,10 @@ while mayPlay
   drawText(0, 141, "Press cross if you want to hear a sound.")
   endDraw
 
+  music.play
+  music.update
+
   sync
-  audioSync
 end
 
 stopAudio

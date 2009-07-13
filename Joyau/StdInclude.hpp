@@ -27,6 +27,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include <map>
 #include <ctime>
 #include <cstring>
+
 #include <pspkernel.h>
 #include <pspumd.h>
 #include <psploadexec.h>
@@ -41,12 +42,21 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include <psptypes.h>
 #include <pspstdio.h>
 #include <pspsysmem_kernel.h>
+
 #include <pspdebug.h>
 #include <psputils.h>
 #include <pspctrl.h>
 #include <pspdisplay.h>
+
 #include <oslib/oslib.h>
+
 #include <ruby/ruby.h>
+
+#include <AL/al.h>
+#include <AL/alut.h>
+
+#include <ogg/ogg.h>
+#include <vorbis/vorbisfile.h>
 
 #include "RubyWrapper.hpp" // Almost all files need it...
 

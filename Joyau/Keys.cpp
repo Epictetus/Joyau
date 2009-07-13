@@ -129,7 +129,7 @@ VALUE checkKeys(VALUE self)
       if (controller[i].hold)
          rb_hash_aset(keys, rb_str_new2((prefix[i] + "hold").c_str()), Qtrue);
       else
-         rb_hash_aset(keys, rb_str_new2((prefix[i] + "hold").c_str()), Qfalse);
+         rb_hash_aset(keys, rb_str_new2((prefix[i] + "hold").c_str()), Qfalse); 
    }
 
    int analogX = osl_pad.analogX;

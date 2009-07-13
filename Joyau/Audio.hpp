@@ -21,30 +21,96 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "Manager.hpp"
 #include "RubyWrapper.hpp"
 
-struct Sound
+#define SAMPLES_RATE 44100
+#define SAMPLES_FORMAT AL_FORMAT_MONO16
+#define BUFFER_SIZE 4096 // A really little buffer, it's for the PSP...
+#define NUM_BUFFERS 8
+
+/*struct Sound
 {
    char *name;
    int channel;
    bool status;
+};*/
+
+class Sound // Short sound, wav. They're supported by alut.
+{
+public:
+   virtual ~Sound();
+
+   bool loadWav(const char *filename);
+
+   void play();
+   void pause();
+   void stop();
+
+   void setPos(float x = 0.f, float y = 0.f, float z = 0.f);
+   void setVelocity(float x = 0.f, float y = 0.f, float z = 0.f);
+   void setDirection(float x = 0.f, float y = 0.f, float z = 0.f);
+private:
+   ALuint source;
+   ALuint buffer;
 };
 
+class Stream // We'll use ogg for stream.
+{
+public:
+   virtual ~Stream();
+
+   bool loadOgg(const char *filename);
+
+   bool play();
+   void pause();
+   void stop();
+   bool playing();
+   bool update();
+
+   void setPos(float x = 0.f, float y = 0.f, float z = 0.f);
+   void setVelocity(float x = 0.f, float y = 0.f, float z = 0.f);
+   void setDirection(float x = 0.f, float y = 0.f, float z = 0.f);
+private:
+   bool streamBuf(ALuint buffer);
+   void clear();
+
+   FILE *file;
+
+   OggVorbis_File stream;
+   vorbis_info *info;
+   vorbis_comment *comment;
+   
+   ALuint buffers[2];
+   ALuint source;
+
+   ALenum format;
+};
+
+void initOpenAl();
+void stopOpenAL();
+
 VALUE Audio_init(VALUE self);
-VALUE Audio_kinit(VALUE self);
 VALUE Audio_stop(VALUE self);
 
-VALUE Audio_setSound(VALUE self, VALUE name);
-VALUE Audio_setChannel(VALUE self, VALUE id);
+VALUE Sound_loadWav(VALUE self, VALUE filename);
 
-VALUE Audio_playStream(VALUE self);
-VALUE Audio_playSound(VALUE self);
+VALUE Sound_play(VALUE self);
+VALUE Sound_pause(VALUE self);
+VALUE Sound_stop(VALUE self);
 
-VALUE Audio_toggleStream(VALUE self);
-VALUE Audio_toggleSound(VALUE self);
+VALUE Sound_setPos(VALUE self, VALUE x, VALUE y, VALUE z);
+VALUE Sound_setVelocity(VALUE self, VALUE x, VALUE y, VALUE z);
+VALUE Sound_setDirection(VALUE self, VALUE x, VALUE y, VALUE z);
 
-VALUE Audio_stopStream(VALUE self);
-VALUE Audio_stopSound(VALUE self);
+VALUE Stream_loadOgg(VALUE self, VALUE filename);
 
-VALUE Audio_sync(VALUE self);
+VALUE Stream_play(VALUE self);
+VALUE Stream_pause(VALUE self);
+VALUE Stream_stop(VALUE self);
+VALUE Stream_playing(VALUE self);
+VALUE Stream_update(VALUE self);
+
+VALUE Stream_setPos(VALUE self, VALUE x, VALUE y, VALUE z);
+VALUE Stream_setVelocity(VALUE self, VALUE x, VALUE y, VALUE z);
+VALUE Stream_setDirection(VALUE self, VALUE x, VALUE y, VALUE z);
 
 void defineAudio();
 

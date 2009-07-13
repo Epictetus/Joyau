@@ -64,11 +64,18 @@ public:
    void clearFonts();
    void clearParticles();
 
+   int getArgc() { return _argc; }
+   char **getArgv() { return _argv; }
+
+   void setArg(int argc, char** argv);
 protected:
    map<string, OSL_IMAGE*> images;
    map<string, OSL_SOUND*> streams;
    map<string, OSL_SOUND*> sounds;
    map<string, OSL_FONT*> fonts;
+
+   int _argc;
+   char** _argv;
 };
 
 VALUE clearImages(VALUE self);

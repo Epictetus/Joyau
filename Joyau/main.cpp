@@ -27,6 +27,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 PSP_MODULE_INFO("Joyau", 0x1000, 1, 1);
 PSP_MAIN_THREAD_ATTR(THREAD_ATTR_VFPU);
+PSP_HEAP_SIZE_KB(-1024);
 
 int exit_callback(int arg1, int arg2, void* commons)
 {
@@ -100,6 +101,8 @@ int main(int argc, char** argv)
    defineMessageBox();
    defineScrolling();
    defineParticles();
+
+   Manager::getInstance()->setArg(argc, argv);
 
    defFunc("debug", debug, 1);
    

@@ -94,6 +94,12 @@ void Manager::clearFonts()
    fonts.clear();
 }
 
+void Manager::setArg(int argc, char** argv)
+{
+   _argc = argc;
+   _argv = argv;
+}
+
 VALUE clearImages(VALUE self)
 {
    Manager *m = Manager::getInstance();

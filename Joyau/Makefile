@@ -25,7 +25,8 @@ ASFLAGS = $(CFLAGS)
 
 LIBS = -losl -lpng -lz -lpspsdk -lpspvfpu -lpspusb -lpspusbstor -lpspctrl \
 	-lpspumd -lpsprtc -lpsppower -lpspgu -lpspmpeg -lpspaudiocodec \
-	-lpspaudiolib -lpspaudio -lruby -lm -lstdc++
+	-lpspaudiolib -lalut -lOpenAL32 -lvorbisfile -lvorbis -lpspaudio \
+	-lpsphprm -lruby -lm -logg -lpsprtc -lstdc++
 
 PSP_FW_VERSION = 371
 
@@ -33,6 +34,8 @@ EXTRA_TARGETS = EBOOT.PBP
 PSP_EBOOT_TITLE = Joyau
 PSP_EBOOT_ICON = eboot/ICON0.png
 PSP_EBOOT_PIC1 = eboot/PIC1.png
+
+PSP_LARGE_MEMORY = 1
 
 PSPSDK=$(shell psp-config --pspsdk-path)
 include $(PSPSDK)/lib/build.mak
