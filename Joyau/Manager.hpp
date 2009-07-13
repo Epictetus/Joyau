@@ -55,12 +55,8 @@ public:
    
    OSL_IMAGE *getPic(char *name);
    OSL_FONT *getFont(const char *name);
-   OSL_SOUND *getStream(char *name);
-   OSL_SOUND *getSound(char *name);
 
    void clearImages();
-   void clearStreams();
-   void clearSounds();
    void clearFonts();
    void clearParticles();
 
@@ -70,8 +66,6 @@ public:
    void setArg(int argc, char** argv);
 protected:
    map<string, OSL_IMAGE*> images;
-   map<string, OSL_SOUND*> streams;
-   map<string, OSL_SOUND*> sounds;
    map<string, OSL_FONT*> fonts;
 
    int _argc;
@@ -79,8 +73,6 @@ protected:
 };
 
 VALUE clearImages(VALUE self);
-VALUE clearStreams(VALUE self);
-VALUE clearSounds(VALUE self);
 VALUE clearFonts(VALUE self);
 
 void defineManager();
