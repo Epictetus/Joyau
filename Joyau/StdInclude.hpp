@@ -30,18 +30,14 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include <pspkernel.h>
 #include <pspumd.h>
-#include <psploadexec.h>
 #include <pspwlan.h>
 #include <psputility_usbmodules.h>
-#include <psploadexec_kernel.h>
-#include <pspiofilemgr_kernel.h>
 #include <pspiofilemgr.h>
 #include <pspmodulemgr.h>
 #include <pspusb.h>
 #include <pspusbstor.h>
 #include <psptypes.h>
 #include <pspstdio.h>
-#include <pspsysmem_kernel.h>
 
 #include <pspdebug.h>
 #include <psputils.h>

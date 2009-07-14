@@ -20,14 +20,13 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "Graphics.hpp"
 #include "Keys.hpp"
 #include "Kernel.hpp"
-#include "Usb.hpp"
 #include "MessageBox.hpp"
 #include "Scrolling.hpp"
 #include "Particles.hpp"
 #include "GameMap.hpp"
 
-PSP_MODULE_INFO("Joyau", 0x1000, 1, 1);
-PSP_MAIN_THREAD_ATTR(THREAD_ATTR_VFPU);
+PSP_MODULE_INFO("Joyau", 0, 1, 1);
+PSP_MAIN_THREAD_ATTR(THREAD_ATTR_USER | THREAD_ATTR_VFPU);
 PSP_HEAP_SIZE_KB(-1024);
 
 int exit_callback(int arg1, int arg2, void* commons)
@@ -53,25 +52,7 @@ int SetupCallbacks(void)
    return thid;
 }
 
-void exceptionHandler(PspDebugRegBlock *regs)
-{
-   pspDebugScreenInit();
-   pspDebugScreenSetBackColor(0x00FF0000);
-   pspDebugScreenSetTextColor(0xFFFFFFFF);
-   pspDebugScreenClear();
-   pspDebugScreenPrintf("Exception Details:");
-   pspDebugDumpException(regs);
-}
-
-__attribute__((constructor)) void stdoutInit()
-{
-   pspKernelSetKernelPC();
-   pspDebugInstallStdoutHandler(pspDebugScreenPrintData);
-   pspDebugInstallStderrHandler(pspDebugScreenPrintData);
-   pspDebugInstallErrorHandler(exceptionHandler);
-}
-
-VALUE debug(VALUE text)
+VALUE debug(VALUE self, VALUE text)
 {
    oslDebug(StringValuePtr(text));
    return Qnil;
@@ -96,7 +77,6 @@ int main(int argc, char** argv)
    defineGraphics();
    defineKeys();
    defineKernel();
-   defineUsb();
    defineMessageBox();
    defineScrolling();
    defineParticles();

@@ -118,34 +118,6 @@ VALUE Kernel_cd(VALUE self, VALUE dir)
    return Qnil;
 }
 
-VALUE Kernel_ExecEboot(VALUE self, VALUE exec)
-{
-   sceKernelLoadExecVSHMs2(StringValuePtr(exec), NULL);
-
-   return Qnil;
-}
-
-VALUE Kernel_ExecUpdater(VALUE self, VALUE exec)
-{
-   sceKernelLoadExecVSHDiscUpdater(StringValuePtr(exec), NULL);
-
-   return Qnil;
-}
-
-VALUE Kernel_DiscExecEboot(VALUE self, VALUE exec)
-{
-   sceKernelLoadExecVSHDisc(StringValuePtr(exec), NULL);
-
-   return Qnil;
-}
-
-VALUE Kernel_DiscExecUpdater(VALUE self, VALUE exec)
-{
-   sceKernelLoadExecVSHMs1(StringValuePtr(exec), NULL);
-
-   return Qnil;
-}
-
 VALUE Kernel_UmdCheck(VALUE self)
 {
    if (sceUmdCheckMedium() == 0)
@@ -209,16 +181,6 @@ VALUE Kernel_Timestamp(VALUE self)
    return rb_uint2big(time);
 }
 
-VALUE Kernel_getModel(VALUE self)
-{
-   if (sceKernelGetModel() == 0)
-      return rb_str_new2("fat");
-   else if (sceKernelGetModel() == 1)
-      return rb_str_new2("slim");
-   else
-      return rb_str_new2("brite");
-}
-
 VALUE File_remove(VALUE self, VALUE file)
 {
    sceIoRemove(StringValuePtr(file));
@@ -268,10 +230,6 @@ void defineKernel()
    defMethod(cFile, "write", File_write, 1);
 
    defFunc("cd", Kernel_cd, 1);
-   defFunc("execEboot", Kernel_ExecEboot, 1);
-   defFunc("execUpdater", Kernel_ExecUpdater, 1);
-   defFunc("discExecEboot", Kernel_DiscExecEboot, 1);
-   defFunc("discExecUpdater", Kernel_DiscExecUpdater, 1);
    defFunc("umdCheck", Kernel_UmdCheck, 0);
    defFunc("umdWaitState", Kernel_UmdWaitState, 1);
    defFunc("umdMount", Kernel_UmdMount, 0);
@@ -279,7 +237,6 @@ void defineKernel()
    defFunc("umdType", Kernel_UmdGetType, 0);
 
    defFunc("timestamp", Kernel_Timestamp, 0);
-   defFunc("model", Kernel_getModel, 0);
 
    defFunc("powerTime", Kernel_getPowerTime, 0);
    defFunc("powerPercent", Kernel_getPowerPercent, 0);
