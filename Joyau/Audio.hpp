@@ -105,6 +105,10 @@ VALUE Stream_setPos(VALUE self, VALUE x, VALUE y, VALUE z);
 VALUE Stream_setVelocity(VALUE self, VALUE x, VALUE y, VALUE z);
 VALUE Stream_setDirection(VALUE self, VALUE x, VALUE y, VALUE z);
 
+VALUE Listener_setPos(VALUE self, VALUE x, VALUE y, VALUE z);
+VALUE Listener_setVelocity(VALUE self, VALUE x, VALUE y, VALUE z);
+VALUE Listener_setDirection(VALUE self, VALUE x, VALUE y, VALUE z);
+
 void defineAudio();
 
 #endif

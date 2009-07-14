@@ -18,17 +18,11 @@
 
 Sound::~Sound()
 {
-   //alDeleteBuffers(1, &buffer);
    alDeleteSources(1, &source);
 }
 
 bool Sound::loadWav(const char *filename)
 {
-   //alGenBuffers(1, &buffer);
-   //if (alGetError() != AL_NO_ERROR)
-   //return false;
-   //buffer = alutCreateBufferFromFile(filename);
-
    buffer = Manager::getInstance()->getBuffer(filename);
 
    // We create a source, binded to our buffer :
@@ -408,6 +402,36 @@ VALUE Stream_setDirection(VALUE self, VALUE x, VALUE y, VALUE z)
    return Qnil;
 }
 
+VALUE Listener_setPos(VALUE self, VALUE x, VALUE y, VALUE z)
+{
+   double _x = NUM2DBL(x);
+   double _y = NUM2DBL(y);
+   double _z = NUM2DBL(z);
+
+   alListener3f(AL_POSITION,(float)_x, (float)_y, (float)_z);
+   return Qnil;
+}
+
+VALUE Listener_setVelocity(VALUE self, VALUE x, VALUE y, VALUE z)
+{
+   double _x = NUM2DBL(x);
+   double _y = NUM2DBL(y);
+   double _z = NUM2DBL(z);
+
+   alListener3f(AL_VELOCITY,(float)_x, (float)_y, (float)_z);
+   return Qnil;
+}
+
+VALUE Listener_setDirection(VALUE self, VALUE x, VALUE y, VALUE z)
+{
+   double _x = NUM2DBL(x);
+   double _y = NUM2DBL(y);
+   double _z = NUM2DBL(z);
+
+   alListener3f(AL_DIRECTION,(float)_x, (float)_y, (float)_z);
+   return Qnil;
+}
+
 void defineAudio()
 {
    VALUE cSound = defClass<Sound>("Sound");
@@ -429,6 +453,10 @@ void defineAudio()
    defMethod(cStream, "setPos", Stream_setPos, 3);
    defMethod(cStream, "setDirection", Stream_setDirection, 3);
    defMethod(cStream, "setVelocity", Stream_setVelocity, 3);
+
+   defFunc("listenerSetPos", Listener_setPos, 3);
+   defFunc("listenerSetDirection", Listener_setDirection, 3);
+   defFunc("listenerSetVelocity", Listener_setVelocity, 3);
 
    defFunc("initAudio", Audio_init, 0);
    defFunc("stopAudio", Audio_stop, 0);
