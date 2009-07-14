@@ -55,10 +55,11 @@ public:
    
    OSL_IMAGE *getPic(char *name);
    OSL_FONT *getFont(const char *name);
+   ALuint getBuffer(const char *name); // Would return a WAV
 
    void clearImages();
    void clearFonts();
-   void clearParticles();
+   void clearBuffers();
 
    int getArgc() { return _argc; }
    char **getArgv() { return _argv; }
@@ -67,6 +68,7 @@ public:
 protected:
    map<string, OSL_IMAGE*> images;
    map<string, OSL_FONT*> fonts;
+   map<string, ALuint> buffers;
 
    int _argc;
    char** _argv;
@@ -74,6 +76,7 @@ protected:
 
 VALUE clearImages(VALUE self);
 VALUE clearFonts(VALUE self);
+VALUE clearBuffers(VALUE self);
 
 void defineManager();
 

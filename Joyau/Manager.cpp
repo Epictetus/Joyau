@@ -24,6 +24,9 @@ Manager::~Manager()
    for (map<string, OSL_FONT*>::iterator i = fonts.begin(); 
 	i != fonts.end(); ++i)
       oslDeleteFont(i->second);
+   for (map<string, ALuint>::iterator i = buffers.begin(); 
+	i != buffers.end(); ++i)
+      alDeleteBuffers(1, &i->second);
 }
 
 OSL_IMAGE* Manager::getPic(char *name)
@@ -35,9 +38,16 @@ OSL_IMAGE* Manager::getPic(char *name)
 
 OSL_FONT* Manager::getFont(const char *name)
 {
-   if(fonts.find(name) == fonts.end())
+   if (fonts.find(name) == fonts.end())
       fonts[name] = oslLoadFontFile(name);
    return fonts[name];
+}
+
+ALuint Manager::getBuffer(const char *name)
+{
+   if (buffers.find(name) == buffers.end())
+      buffers[name] = alutCreateBufferFromFile(name);
+   return buffers[name];
 }
 
 // Hey, perhaps there won't be enough memory. We'll let the user choice if he
@@ -47,7 +57,8 @@ void Manager::clearImages()
 {
    for (map<string, OSL_IMAGE*>::iterator i = images.begin(); 
 	i != images.end(); ++i)
-      oslDeleteImage(i->second);
+      oslDeleteImage(i->second); // We'll free the ressources
+   // We don't want to give a null pointer to the user
    images.clear();
 }
 
@@ -57,6 +68,14 @@ void Manager::clearFonts()
 	i != fonts.end(); ++i)
       oslDeleteFont(i->second);
    fonts.clear();
+}
+
+void Manager::clearBuffers()
+{
+   for (map<string, ALuint>::iterator i = buffers.begin(); 
+	i != buffers.end(); ++i)
+      alDeleteBuffers(1, &i->second);
+   buffers.clear();
 }
 
 void Manager::setArg(int argc, char** argv)
@@ -81,8 +100,17 @@ VALUE clearFonts(VALUE self)
    return Qnil;
 }
 
+VALUE clearBuffers(VALUE self)
+{
+   Manager *m = Manager::getInstance();
+   m->clearBuffers();
+
+   return Qnil;
+}
+
 void defineManager()
 {
    defFunc("clearImages", clearImages, 0);
    defFunc("clearFonts", clearFonts, 0);
+   defFunc("clearSounds", clearBuffers, 0);
 }

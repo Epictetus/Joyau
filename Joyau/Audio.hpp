@@ -26,13 +26,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #define BUFFER_SIZE 4096 // A really little buffer, it's for the PSP...
 #define NUM_BUFFERS 8
 
-/*struct Sound
-{
-   char *name;
-   int channel;
-   bool status;
-};*/
-
 class Sound // Short sound, wav. They're supported by alut.
 {
 public:

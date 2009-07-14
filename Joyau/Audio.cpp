@@ -18,16 +18,18 @@
 
 Sound::~Sound()
 {
-   alDeleteBuffers(1, &buffer);
+   //alDeleteBuffers(1, &buffer);
    alDeleteSources(1, &source);
 }
 
 bool Sound::loadWav(const char *filename)
 {
-   alGenBuffers(1, &buffer);
-   if (alGetError() != AL_NO_ERROR)
-      return false;
-   buffer = alutCreateBufferFromFile(filename);
+   //alGenBuffers(1, &buffer);
+   //if (alGetError() != AL_NO_ERROR)
+   //return false;
+   //buffer = alutCreateBufferFromFile(filename);
+
+   buffer = Manager::getInstance()->getBuffer(filename);
 
    // We create a source, binded to our buffer :
    alGenSources(1, &source);
