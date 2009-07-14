@@ -24,6 +24,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "MessageBox.hpp"
 #include "Scrolling.hpp"
 #include "Particles.hpp"
+#include "GameMap.hpp"
 
 PSP_MODULE_INFO("Joyau", 0x1000, 1, 1);
 PSP_MAIN_THREAD_ATTR(THREAD_ATTR_VFPU);
@@ -99,6 +100,7 @@ int main(int argc, char** argv)
    defineMessageBox();
    defineScrolling();
    defineParticles();
+   defineGameMap();
 
    Manager::getInstance()->setArg(argc, argv);
 
