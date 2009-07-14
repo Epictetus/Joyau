@@ -17,7 +17,7 @@ obstacles.setTileSize(32, 32)
 
 for i in 0..20
   bg.addElem(0, 0, 0, i * 32, 0)
-  bg.addElem(0, 1, 0, i * 32, 32)
+  bg.addElem(0, 32, 0, i * 32, 32)
 end
 
 obstacles.addElem(0, 0, 0, 0, 0)
