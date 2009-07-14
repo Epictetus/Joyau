@@ -432,6 +432,22 @@ VALUE Listener_setDirection(VALUE self, VALUE x, VALUE y, VALUE z)
    return Qnil;
 }
 
+VALUE Listener_setOrientation(VALUE self, VALUE atX, VALUE atY, VALUE atZ,
+			      VALUE upX, VALUE upY, VALUE upZ)
+{
+   float args[6];
+
+   args[0] = (float)NUM2DBL(atX);
+   args[1] = (float)NUM2DBL(atY);
+   args[2] = (float)NUM2DBL(atZ);
+   args[3] = (float)NUM2DBL(upX);
+   args[4] = (float)NUM2DBL(upY);
+   args[5] = (float)NUM2DBL(upZ);
+
+   alListenerfv(AL_ORIENTATION, args);
+   return Qnil;
+}
+
 void defineAudio()
 {
    VALUE cSound = defClass<Sound>("Sound");
@@ -457,6 +473,7 @@ void defineAudio()
    defFunc("listenerSetPos", Listener_setPos, 3);
    defFunc("listenerSetDirection", Listener_setDirection, 3);
    defFunc("listenerSetVelocity", Listener_setVelocity, 3);
+   defFunc("listenerSetOrientation", Listener_setOrientation, 6);
 
    defFunc("initAudio", Audio_init, 0);
    defFunc("stopAudio", Audio_stop, 0);
