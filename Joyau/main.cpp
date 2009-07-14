@@ -78,13 +78,11 @@ VALUE debug(VALUE text)
 
 int main(int argc, char** argv)
 {
-   const char* scriptName = "script.rb";
-   char* scriptFilename = new char[strlen(argv[0]) + strlen(scriptName)];
-   strcpy(scriptFilename, argv[0]);
-   char* end = strrchr(scriptFilename, '/');
-   end++;
-   *end = 0;
-   strcat(scriptFilename, scriptName);
+   string scriptName = "script.rb";
+   string scriptFilename = argv[0];
+   size_t id = scriptFilename.rfind('/') + 1;
+   scriptFilename.erase(id);
+   scriptFilename = scriptFilename + scriptName;
 
    pspDebugScreenInit();
    SetupCallbacks();
@@ -109,7 +107,7 @@ int main(int argc, char** argv)
    ruby_init_loadpath();
    ruby_script("embedded");
 
-   rb_load_file(scriptFilename);
+   rb_load_file(scriptFilename.c_str());
    ruby_run();
 
    Manager::deleteInstance();

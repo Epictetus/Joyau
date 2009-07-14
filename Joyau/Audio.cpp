@@ -211,8 +211,6 @@ bool Stream::streamBuf(ALuint buffer)
       return false;
 
    alBufferData(buffer, format, data, size, SAMPLES_RATE);
-   if (alGetError() != AL_NO_ERROR)
-      return false;
 
    return true;
 }
