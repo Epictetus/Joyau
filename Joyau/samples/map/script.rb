@@ -31,6 +31,8 @@ angel.setDirection($directions["DOWN"])
 
 angel.setPos(240 - angel.getW / 2, 136 - angel.getH / 2)
 
+if 
+
 while mayPlay
   readKeys
 

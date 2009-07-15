@@ -12,6 +12,7 @@ bg.setPicture("bg.png")
 
 while mayPlay
   readKeys
+
   if $keys["up"]
     angel.move(0, -2)
     angel.setDirection($directions["UP"])

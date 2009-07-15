@@ -23,8 +23,16 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 class GameMap
 {
 public:
+   GameMap();
+
    void setPos(int x, int y);
    void move(int x, int y);
+   void resize(int w, int h);
+
+   int getX() { return _x; }
+   int getY() { return _y; }
+   int getW() { return _w; }
+   int getH() { return _h; }
 
    void addTileset(char *name);
    void setTileSize(int w, int h);
@@ -47,6 +55,7 @@ private:
    };
 
    int _x, _y;
+   int _w, _h;
 
    vector<Sprite> tilesets;
    list<Tile> tiles;
@@ -58,6 +67,12 @@ protected:
 
 VALUE GameMap_setPos(VALUE self, VALUE x, VALUE y);
 VALUE GameMap_move(VALUE self, VALUE x, VALUE y);
+VALUE GameMap_resize(VALUE self, VALUE w, VALUE h);
+
+VALUE GameMap_getX(VALUE self);
+VALUE GameMap_getY(VALUE self);
+VALUE GameMap_getW(VALUE self);
+VALUE GameMap_getH(VALUE self);
 
 VALUE GameMap_addTileset(VALUE self, VALUE name);
 VALUE GameMap_setTileSize(VALUE self, VALUE w, VALUE h);

@@ -16,6 +16,12 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include "GameMap.hpp"
 
+GameMap::GameMap()
+{
+   _w = 480;
+   _h = 272;
+}
+
 void GameMap::setPos(int x, int y)
 {
    _x = x;
@@ -26,6 +32,12 @@ void GameMap::move(int x, int y)
 {
    _x += x;
    _y += y;
+}
+
+void GameMap::resize(int w, int h)
+{
+   _w = w;
+   _h = h;
 }
 
 void GameMap::addTileset(char *name)
@@ -99,10 +111,14 @@ bool GameMap::visible(Tile t)
    int w = tileWidth;
    int h = tileHeight;
 
-   if (x + w < 0 || // Not visible at the left side
-       y + h < 0 || // Not visible at the upper side
-       x - w > 480 || // Not visible at the right side
-       y - h > 272 ) // Not visible at the down side
+   if (x + w < 0 || // Not even visible at the screen left side
+       x + h < 0 || // Not even visible at the screen upper side
+       x - w > 480 || // Not even visible at the screen right side
+       y - h > 272 || // Not even visible at the screen down side
+       x + w < _x || // Not visible at the left side
+       y + h < _y || // Not visible at the upper side
+       x - w > _x + _w || // Not visible at the right side
+       y - h > _y + _h ) // Not visible at the down side
       return false;
    return true;
 }
@@ -111,7 +127,11 @@ void GameMap::draw()
 {
    for (list<Tile>::iterator i = tiles.begin(); i != tiles.end(); ++i)
    {
-      if (visible(*i)) // Don't waste time, don't draw not visible tiles.
+      /*
+	Don't wase time, don't draw not visible tiles.
+	Also here to draw a map of which doesn't do t full screen.
+       */
+      if (visible(*i))
       {
 	 Sprite &tile = tilesets[(*i).tileset];
 	 tile.setTile((*i).tileX, (*i).tileY, tileWidth, tileHeight);
@@ -141,6 +161,40 @@ VALUE GameMap_move(VALUE self, VALUE x, VALUE y)
 
    ptr->move(_x, _y);
    return Qnil;
+}
+
+VALUE GameMap_resize(VALUE self, VALUE w, VALUE h)
+{
+   GameMap *ptr = getPtr<GameMap>(self);
+   int _w = FIX2INT(w);
+   int _h = FIX2INT(h);
+
+   ptr->resize(_w, _h);
+   return Qnil;
+}
+
+VALUE GameMap_getX(VALUE self)
+{
+   GameMap *ptr = getPtr<GameMap>(self);
+   return INT2FIX(ptr->getX());
+}
+
+VALUE GameMap_getY(VALUE self)
+{
+   GameMap *ptr = getPtr<GameMap>(self);
+   return INT2FIX(ptr->getY());
+}
+
+VALUE GameMap_getW(VALUE self)
+{
+   GameMap *ptr = getPtr<GameMap>(self);
+   return INT2FIX(ptr->getW());
+}
+
+VALUE GameMap_getH(VALUE self)
+{
+   GameMap *ptr = getPtr<GameMap>(self);
+   return INT2FIX(ptr->getH());
 }
 
 VALUE GameMap_addTileset(VALUE self, VALUE name)
@@ -217,6 +271,11 @@ void defineGameMap()
    VALUE cMap = defClass<GameMap>("GameMap");
    defMethod(cMap, "setPos", GameMap_setPos, 2);
    defMethod(cMap, "move", GameMap_move, 2);
+   defMethod(cMap, "resize", GameMap_resize, 2);
+   defMethod(cMap, "getX", GameMap_getX, 0);
+   defMethod(cMap, "getY", GameMap_getY, 0);
+   defMethod(cMap, "getW", GameMap_getW, 0);
+   defMethod(cMap, "getH", GameMap_getH, 0);
    defMethod(cMap, "addTileset", GameMap_addTileset, 1);
    defMethod(cMap, "setTileSize", GameMap_setTileSize, 2);
    defMethod(cMap, "addElem", GameMap_addElem, 5);
