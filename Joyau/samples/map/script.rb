@@ -29,7 +29,7 @@ angel.setAnim(3, 4)
 
 angel.setDirection($directions["DOWN"])
 
-angel.setPos(480 - angel.getW, 272 - angel.getH)
+angel.setPos(240 - angel.getW / 2, 136 - angel.getH / 2)
 
 while mayPlay
   readKeys
