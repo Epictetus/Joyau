@@ -58,6 +58,12 @@ VALUE debug(VALUE self, VALUE text)
    return Qnil;
 }
 
+VALUE Joyau_puts(VALUE self, VALUE text)
+{
+   pspDebugScreenPrintf(StringValuePtr(text));
+   return Qnil;
+}
+
 int main(int argc, char** argv)
 {
    string scriptName = "script.rb";
@@ -85,6 +91,7 @@ int main(int argc, char** argv)
    Manager::getInstance()->setArg(argc, argv);
 
    defFunc("debug", debug, 1);
+   defFunc("puts", Joyau_puts, 1); // puts redefined for the psp
    
    ruby_init_loadpath();
    ruby_script("embedded");
