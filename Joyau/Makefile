@@ -19,9 +19,9 @@ TARGET = Joyau
 OBJS = main.o Manager.o Graphics.o Keys.o Sprite.o Audio.o Kernel.o \
 	MessageBox.o Scrolling.o Particles.o GameMap.o CircleMenu.o \
 	Timer.o
-SRCS = main.cpp Manager.cpp Graphics.cpp Keys.cpp Sprite.cpp Audio.cpp Kernel.cpp \
-	MessageBox.cpp Scrolling.cpp Particles.cpp GameMap.cpp CircleMenu.cpp \
-	Timer.cpp
+SRCS = main.cpp Manager.cpp Graphics.cpp Keys.cpp Sprite.cpp Audio.cpp \
+	Kernel.cpp MessageBox.cpp Scrolling.cpp Particles.cpp GameMap.cpp \
+	CircleMenu.cpp Timer.cpp
 
 CFLAGS += -O2 -G0 -Wall -D_PSP_
 CXXFLAGS = $(CFLAGS) -fno-exceptions -fno-rtti
