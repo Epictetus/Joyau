@@ -20,31 +20,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "StdInclude.hpp"
 #include "RubyWrapper.hpp"
 
-class PSP_Directory
-{
-public:
-   ~PSP_Directory();
-
-   void open(string name);
-
-   list<string> ls();
-private:
-   SceUID fd;
-
-   string _name;
-};
-
-VALUE Dir_setDir(VALUE self, VALUE name);
-VALUE Dir_List(VALUE self);
-
-VALUE File_open(VALUE self, VALUE name);
-VALUE File_close(VALUE self);
-
-VALUE File_getWord(VALUE self);
-VALUE File_getLine(VALUE self);
-
-VALUE File_write(VALUE self, VALUE text);
-
 VALUE File_remove(VALUE self, VALUE file);
 VALUE File_mkdir(VALUE self, VALUE dir);
 VALUE File_rmdir(VALUE self, VALUE dir);

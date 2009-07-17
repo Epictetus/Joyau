@@ -16,101 +16,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include "Kernel.hpp"
 
-void PSP_Directory::open(string name)
-{
-   fd = sceIoDopen(name.c_str());
-   _name = name;
-}
-
-PSP_Directory::~PSP_Directory()
-{
-   sceIoDclose(fd);
-}
-
-list<string> PSP_Directory::ls()
-{
-   list<string> theList;
-   SceIoDirent item;
-   while (sceIoDread(fd, &item) != 0)
-   {
-      theList.push_back(item.d_name);
-   }
-
-   return theList;
-}
-
-VALUE Dir_setDir(VALUE self, VALUE name)
-{
-   PSP_Directory *item;
-   Data_Get_Struct(self, PSP_Directory, item);
-
-   item->open(StringValuePtr(name));
-
-   return Qnil;
-}
-
-VALUE Dir_List(VALUE self)
-{
-   PSP_Directory *item = getPtr<PSP_Directory>(self);
-    list<string> aList = item->ls();
-
-   VALUE ret = rb_ary_new();
-
-   for (list<string>::iterator i = aList.begin(); i != aList.end(); ++i)
-   {
-      VALUE val = rb_str_new2((*i).c_str());
-      rb_ary_push(ret, val);
-   }
-
-   return ret;
-}
-
-VALUE File_open(VALUE self, VALUE name)
-{
-   fstream *item = getPtr<fstream>(self);
-   item->open(StringValuePtr(name));
-
-   return Qnil;
-}
-
-VALUE File_close(VALUE self)
-{
-   fstream *item = getPtr<fstream>(self);
-   item->close();
-
-   return Qnil;
-}
-
-VALUE File_getWord(VALUE self)
-{
-   fstream *item = getPtr<fstream>(self);
-
-   string word;
-   (*item) >> word;
-
-   return rb_str_new2(word.c_str());
-}
-
-VALUE File_getLine(VALUE self)
-{
-   fstream *item = getPtr<fstream>(self);
-
-   char line[256];
-   item->getline(line, 255);
-
-   return rb_str_new2(line);
-}
-
-VALUE File_write(VALUE self, VALUE text)
-{
-   fstream *item = getPtr<fstream>(self);
-
-   char *str = StringValuePtr(text);
-   (*item) << str;
-
-   return Qnil;
-}
-
 VALUE Kernel_cd(VALUE self, VALUE dir)
 {
    sceIoChdir(StringValuePtr(dir));
@@ -218,17 +123,6 @@ VALUE Kernel_getPowerPercent(VALUE self)
 
 void defineKernel()
 {
-   VALUE cDir = defClass<PSP_Directory>("PSPDir");
-   defMethod(cDir, "setDir", Dir_setDir, 1);
-   defMethod(cDir, "ls", Dir_List, 0);
-
-   VALUE cFile = defClass<fstream>("PSPFile");
-   defMethod(cFile, "open", File_open, 1);
-   defMethod(cFile, "close", File_close, 0);
-   defMethod(cFile, "getWord", File_getWord, 0);
-   defMethod(cFile, "getLine", File_getLine, 0);
-   defMethod(cFile, "write", File_write, 1);
-
    defFunc("cd", Kernel_cd, 1);
    defFunc("umdCheck", Kernel_UmdCheck, 0);
    defFunc("umdWaitState", Kernel_UmdWaitState, 1);
