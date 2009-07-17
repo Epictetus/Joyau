@@ -206,7 +206,7 @@ bool Stream::streamBuf(ALuint buffer)
    if (size == 0)
       return false;
 
-   alBufferData(buffer, format, data, size, SAMPLES_RATE);
+   alBufferData(buffer, format, data, size, info->rate);
 
    return true;
 }
