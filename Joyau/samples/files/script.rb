@@ -2,21 +2,12 @@ initLib
 initGfx
 
 text = "This is a file sample\n"
-puts text
-file = PSPFile.new
-file.open("tmp")
 
-puts "we'll write into the file"
-file.write(text)
-puts "everything has been written"
+File.open("tmp", "w") do |file|
+  file.puts text
+end
 
-file.close
-
-file2 = PSPFile.new
-file2.open("tmp")
-
-puts "reading the file"
-text2 = file2.getLine
+text2 = File.read("tmp")
 
 while mayPlay
   startDraw
