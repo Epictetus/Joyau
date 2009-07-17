@@ -1,12 +1,7 @@
 initLib
 initGfx
 
-puts "creating a PSPDir object"
-dir = PSPDir.new
-puts "cd ms0:/PSP/GAME/"
-dir.setDir("ms0:/PSP/GAME/")
-puts "ls"
-array = dir.ls
+array = Dir.entries("ms0:/PSP/GAME")
 
 while mayPlay
   startDraw
