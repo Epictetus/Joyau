@@ -27,7 +27,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #define defMethod(klass, func, proto, argc) \
     rb_define_method(klass, func, RPROTO(proto), argc)
 
-// generic function for class wrapping
+// generics functions for class wrapping
 template<typename T> void wrapped_free(void *info)
 {
    delete (T*)info;
@@ -45,6 +45,11 @@ template<typename T> T *getPtr(VALUE val)
    T *ptr;
    Data_Get_Struct(val, T, ptr);
    return ptr;
+}
+
+template<typename T> T &getRef(VALUE val)
+{
+   return (*getPtr<T>(val));
 }
 
 template<typename T> VALUE defClass(const char *name, 

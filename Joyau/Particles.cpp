@@ -49,75 +49,75 @@ void Particles::draw()
 
 VALUE Particles_setFile(VALUE self, VALUE str)
 {
-   Particles *item = getPtr<Particles>(self);
+   Particles &ref = getRef<Particles>(self);
    char *val = StringValuePtr(str);
 
-   item->setFile(val);
+   ref.setFile(val);
    return Qnil;
 }
 
 VALUE Particles_setParam(VALUE self, VALUE time, VALUE speed, VALUE gravity,
 			 VALUE mspeed)
 {
-   Particles *item = getPtr<Particles>(self);
+   Particles &ref = getRef<Particles>(self);
    int _time = FIX2INT(time);
    int _speed = FIX2INT(speed);
    int _gravity = FIX2INT(gravity);
    int _mspeed = FIX2INT(mspeed);
 
-   item->setParam(_time, _speed, _gravity, _mspeed);
+   ref.setParam(_time, _speed, _gravity, _mspeed);
    return Qnil;
 }
 
 VALUE Particles_move(VALUE self, VALUE x, VALUE y)
 {
-   Particles *item = getPtr<Particles>(self);
+   Particles &ref = getRef<Particles>(self);
    int _x = FIX2INT(x);
    int _y = FIX2INT(y);
 
-   item->move(_x, _y);
+   ref.move(_x, _y);
    return Qnil;
 }
 
 VALUE Particles_addParticles(VALUE self, VALUE x, VALUE y)
 {
-   Particles *item = getPtr<Particles>(self);
+   Particles &ref = getRef<Particles>(self);
    int _x = FIX2INT(x);
    int _y = FIX2INT(y);
 
-   item->addParticles(_x, _y);
+   ref.addParticles(_x, _y);
    return Qnil;
 }
 
 VALUE Particles_draw(VALUE self)
 {
-   Particles *item = getPtr<Particles>(self);
-   item->draw();
+   Particles &ref = getRef<Particles>(self);
+   ref.draw();
    return Qnil;
 }
 
 VALUE Particles_getTime(VALUE self)
 {
-   Particles *item = getPtr<Particles>(self);
-   return FIX2INT(item->getTime());
+   Particles &ref = getRef<Particles>(self);
+   return FIX2INT(ref.getTime());
 }
 
 VALUE Particles_getSpeed(VALUE self)
 {
-   Particles *item = getPtr<Particles>(self);
-   return FIX2INT(item->getSpeed());
+   Particles &ref = getRef<Particles>(self);
+   return FIX2INT(ref.getSpeed());
 }
 
 VALUE Particles_getGravity(VALUE self)
 {
-   Particles *item = getPtr<Particles>(self);
-   return FIX2INT(item->getGravity());
+   Particles &ref = getRef<Particles>(self);
+   return FIX2INT(ref.getGravity());
 }
 
 VALUE Particles_getMinSpeed(VALUE self)
 {
-   Particles *item = getPtr<Particles>(self);
-   return FIX2INT(item->getMinSpeed());
+   Particles &ref = getRef<Particles>(self);
+   return FIX2INT(ref.getMinSpeed());
 }
 
 void defineParticles()

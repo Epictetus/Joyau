@@ -149,8 +149,8 @@ VALUE Graphics_fade(VALUE self)
 
 VALUE setTextFont(VALUE self, VALUE fontname)
 {
-   Manager *manager = Manager::getInstance();
-   oslSetFont(manager->getFont(StringValuePtr(fontname)));
+   Manager &manager = Manager::getInstance();
+   oslSetFont(manager.getFont(StringValuePtr(fontname)));
    return Qnil;
 }
 

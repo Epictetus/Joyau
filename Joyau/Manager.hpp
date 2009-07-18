@@ -24,11 +24,11 @@ using namespace std;
 template<typename T> class Singleton
 {
 public:
-   static T* getInstance()
+   static T& getInstance()
    {
       if (singleton == NULL)
 	 singleton = new T;
-      return singleton;
+      return (*singleton);
    }
 
    static void deleteInstance()
@@ -47,7 +47,7 @@ template<typename T> T* Singleton<T>::singleton = NULL;
 
 class Manager: public Singleton<Manager>
 {
-   friend Manager *Singleton<Manager>::getInstance();
+   friend Manager &Singleton<Manager>::getInstance();
    friend void Singleton<Manager>::deleteInstance();
    virtual ~Manager();
 
@@ -55,7 +55,7 @@ public:
    
    OSL_IMAGE *getPic(char *name);
    OSL_FONT *getFont(const char *name);
-   ALuint getBuffer(const char *name); // Would return a WAV
+   ALuint getBuffer(const char *name); // Would return a WAV buffer
 
    void clearImages();
    void clearFonts();
@@ -71,7 +71,7 @@ protected:
    map<string, ALuint> buffers;
 
    int _argc;
-   char** _argv;
+   char **_argv;
 };
 
 VALUE clearImages(VALUE self);

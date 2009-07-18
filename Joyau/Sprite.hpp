@@ -23,12 +23,11 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 class Sprite
 {
 public:
-   Sprite(Manager *a_manager = Manager::getInstance()):
+   Sprite():
       _alpha(255),
       _zoom(160),
       _angle(0)
    {
-      manager = a_manager;
       _x = 0;
       _y = 0;
 
@@ -69,7 +68,7 @@ public:
 
    bool isOn(int x, int y);
 
-   bool collide(Sprite *spr);
+   bool collide(Sprite &spr);
 
    virtual void Draw();
    
@@ -95,7 +94,6 @@ public:
 
 protected:
    string picName;
-   Manager *manager;
 
    void defaultDraw();
 private:

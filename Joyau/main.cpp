@@ -92,7 +92,7 @@ int main(int argc, char** argv)
    defineCircleMenu();
    defineTimer();
 
-   Manager::getInstance()->setArg(argc, argv);
+   Manager::getInstance().setArg(argc, argv);
 
    defFunc("debug", debug, 1);
    defFunc("puts", Joyau_puts, 1); // puts redefined for the psp

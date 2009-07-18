@@ -86,24 +86,24 @@ void Manager::setArg(int argc, char** argv)
 
 VALUE clearImages(VALUE self)
 {
-   Manager *m = Manager::getInstance();
-   m->clearImages();
+   Manager &m = Manager::getInstance();
+   m.clearImages();
    
    return Qnil;
 }
 
 VALUE clearFonts(VALUE self)
 {
-   Manager *m = Manager::getInstance();
-   m->clearFonts();
+   Manager &m = Manager::getInstance();
+   m.clearFonts();
    
    return Qnil;
 }
 
 VALUE clearBuffers(VALUE self)
 {
-   Manager *m = Manager::getInstance();
-   m->clearBuffers();
+   Manager &m = Manager::getInstance();
+   m.clearBuffers();
 
    return Qnil;
 }

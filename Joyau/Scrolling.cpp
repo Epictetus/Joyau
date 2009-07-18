@@ -101,55 +101,55 @@ void Scrolling::draw()
 
 VALUE Scrolling_setSprite(VALUE self, VALUE spr)
 {
-   Scrolling *item = getPtr<Scrolling>(self);
+   Scrolling &ref = getRef<Scrolling>(self);
    char *str = StringValuePtr(spr);
 
-   item->setSprite(str);
+   ref.setSprite(str);
    return Qnil;
 }
 
 VALUE Scrolling_setPos(VALUE self, VALUE x, VALUE y)
 {
-   Scrolling *item = getPtr<Scrolling>(self);
+   Scrolling &ref = getRef<Scrolling>(self);
    int _x = FIX2INT(x);
    int _y = FIX2INT(y);
 
-   item->setPos(_x, _y);
+   ref.setPos(_x, _y);
 
    return Qnil;
 }
 
 VALUE Scrolling_setDir(VALUE self, VALUE dir)
 {
-   Scrolling *item = getPtr<Scrolling>(self);
+   Scrolling &ref = getRef<Scrolling>(self);
    int _dir = FIX2INT(dir);
    
-   item->setDir(_dir);
+   ref.setDir(_dir);
    return Qnil;
 }
 
 VALUE Scrolling_setSpeed(VALUE self, VALUE s)
 {
-   Scrolling *item = getPtr<Scrolling>(self);
+   Scrolling &ref = getRef<Scrolling>(self);
    int speed = FIX2INT(s);
    
-   item->setSpeed(speed);
+   ref.setSpeed(speed);
    return Qnil;
 }
 
 VALUE Scrolling_play(VALUE self)
 {
-   Scrolling *item = getPtr<Scrolling>(self);
+   Scrolling &ref = getRef<Scrolling>(self);
 
-   item->play();
+   ref.play();
    return Qnil;
 }
 
 VALUE Scrolling_draw(VALUE self)
 {
-   Scrolling *item = getPtr<Scrolling>(self);
+   Scrolling &ref = getRef<Scrolling>(self);
 
-   item->draw();
+   ref.draw();
    return Qnil;
 }
 

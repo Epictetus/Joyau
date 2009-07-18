@@ -39,7 +39,7 @@ public:
 
    void addElem(int tileset, int tX, int tY, int x, int y);
 
-   bool collide(Sprite *spr);
+   bool collide(Sprite &spr);
    bool isOn(int x, int y);
 
    void clear();
@@ -62,7 +62,7 @@ private:
 
    int tileWidth, tileHeight;
 protected:
-   bool visible(Tile t);
+   bool visible(Tile &t);
 };
 
 VALUE GameMap_setPos(VALUE self, VALUE x, VALUE y);

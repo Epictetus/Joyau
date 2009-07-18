@@ -45,4 +45,8 @@ PSPSDK=$(shell psp-config --pspsdk-path)
 include $(PSPSDK)/lib/build.mak
 
 check-syntax:
+ifdef CHK_SOURCES
+	$(CXX) $(CXXFLAGS) -Wextra -fsyntax-only $(CHK_SOURCES)
+else
 	$(CXX) $(CXXFLAGS) -Wextra -fsyntax-only $(SRCS)
+endif

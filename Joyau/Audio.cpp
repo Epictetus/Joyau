@@ -23,7 +23,7 @@ Sound::~Sound()
 
 bool Sound::loadWav(const char *filename)
 {
-   buffer = Manager::getInstance()->getBuffer(filename);
+   buffer = Manager::getInstance().getBuffer(filename);
 
    // We create a source, binded to our buffer :
    alGenSources(1, &source);
@@ -225,8 +225,8 @@ void Stream::clear()
 
 void initOpenAl()
 {
-   int argc = Manager::getInstance()->getArgc();
-   char **argv = Manager::getInstance()->getArgv();
+   int argc = Manager::getInstance().getArgc();
+   char **argv = Manager::getInstance().getArgv();
    alutInit(&argc, argv);
 }
 
@@ -249,155 +249,155 @@ VALUE Audio_stop(VALUE self)
 
 VALUE Sound_loadWav(VALUE self, VALUE filename)
 {
-   Sound *ptr = getPtr<Sound>(self);
+   Sound &ref = getRef<Sound>(self);
    char *str = StringValuePtr(filename);
 
-   if (ptr->loadWav(str))
+   if (ref.loadWav(str))
       return Qtrue;
    return Qfalse;
 }
 
 VALUE Sound_play(VALUE self)
 {
-   Sound *ptr = getPtr<Sound>(self);
-   ptr->play();
+   Sound &ref = getRef<Sound>(self);
+   ref.play();
    return Qnil;
 }
 
 VALUE Sound_pause(VALUE self)
 {
-   Sound *ptr = getPtr<Sound>(self);
-   ptr->pause();
+   Sound &ref = getRef<Sound>(self);
+   ref.pause();
 
    return Qnil;
 }
 
 VALUE Sound_stop(VALUE self)
 {
-   Sound *ptr = getPtr<Sound>(self);
-   ptr->stop();
+   Sound &ref = getRef<Sound>(self);
+   ref.stop();
 
    return Qnil;
 }
 
 VALUE Sound_setPos(VALUE self, VALUE x, VALUE y, VALUE z)
 {
-   Sound *ptr = getPtr<Sound>(self);
+   Sound &ref = getRef<Sound>(self);
    double _x = NUM2DBL(x);
    double _y = NUM2DBL(y);
    double _z = NUM2DBL(z);
 
-   ptr->setPos((float)_x, (float)_y, (float)_z);
+   ref.setPos((float)_x, (float)_y, (float)_z);
 
    return Qnil;
 }
 
 VALUE Sound_setVelocity(VALUE self, VALUE x, VALUE y, VALUE z)
 {
-   Sound *ptr = getPtr<Sound>(self);
+   Sound &ref = getRef<Sound>(self);
    double _x = NUM2DBL(x);
    double _y = NUM2DBL(y);
    double _z = NUM2DBL(z);
 
-   ptr->setVelocity((float)_x, (float)_y, (float)_z);
+   ref.setVelocity((float)_x, (float)_y, (float)_z);
 
    return Qnil;
 }
 
 VALUE Sound_setDirection(VALUE self, VALUE x, VALUE y, VALUE z)
 {
-   Sound *ptr = getPtr<Sound>(self);
+   Sound &ref = getRef<Sound>(self);
    double _x = NUM2DBL(x);
    double _y = NUM2DBL(y);
    double _z = NUM2DBL(z);
 
-   ptr->setDirection((float)_x, (float)_y, (float)_z);
+   ref.setDirection((float)_x, (float)_y, (float)_z);
 
    return Qnil;
 }
 
 VALUE Stream_loadOgg(VALUE self, VALUE filename)
 {
-   Stream *ptr = getPtr<Stream>(self);
+   Stream &ref = getRef<Stream>(self);
    char *str = StringValuePtr(filename);
 
-   if (ptr->loadOgg(str))
+   if (ref.loadOgg(str))
       return Qtrue;
    return Qfalse;
 }
 
 VALUE Stream_play(VALUE self)
 {
-   Stream *ptr = getPtr<Stream>(self);
-   if (ptr->play())
+   Stream &ref = getRef<Stream>(self);
+   if (ref.play())
       return Qtrue;
    return Qfalse;
 }
 
 VALUE Stream_pause(VALUE self)
 {
-   Stream *ptr = getPtr<Stream>(self);
-   ptr->pause();
+   Stream &ref = getRef<Stream>(self);
+   ref.pause();
 
    return Qnil;
 }
 
 VALUE Stream_stop(VALUE self)
 {
-   Stream *ptr = getPtr<Stream>(self);
-   ptr->stop();
+   Stream &ref = getRef<Stream>(self);
+   ref.stop();
 
    return Qnil;
 }
 
 VALUE Stream_playing(VALUE self)
 {
-   Stream *ptr = getPtr<Stream>(self);
-   if (ptr->playing())
+   Stream &ref = getRef<Stream>(self);
+   if (ref.playing())
       return Qtrue;
    return Qfalse;
 }
 
 VALUE Stream_update(VALUE self)
 {
-   Stream *ptr = getPtr<Stream>(self);
-   if (ptr->update())
+   Stream &ref = getRef<Stream>(self);
+   if (ref.update())
       return Qtrue;
    return Qfalse;
 }
 
 VALUE Stream_setPos(VALUE self, VALUE x, VALUE y, VALUE z)
 {
-   Stream *ptr = getPtr<Stream>(self);
+   Stream &ref = getRef<Stream>(self);
    double _x = NUM2DBL(x);
    double _y = NUM2DBL(y);
    double _z = NUM2DBL(z);
 
-   ptr->setPos((float)_x, (float)_y, (float)_z);
+   ref.setPos((float)_x, (float)_y, (float)_z);
 
    return Qnil;
 }
 
 VALUE Stream_setVelocity(VALUE self, VALUE x, VALUE y, VALUE z)
 {
-   Stream *ptr = getPtr<Stream>(self);
+   Stream &ref = getRef<Stream>(self);
    double _x = NUM2DBL(x);
    double _y = NUM2DBL(y);
    double _z = NUM2DBL(z);
 
-   ptr->setVelocity((float)_x, (float)_y, (float)_z);
+   ref.setVelocity((float)_x, (float)_y, (float)_z);
 
    return Qnil;
 }
 
 VALUE Stream_setDirection(VALUE self, VALUE x, VALUE y, VALUE z)
 {
-   Stream *ptr = getPtr<Stream>(self);
+   Stream &ref = getRef<Stream>(self);
    double _x = NUM2DBL(x);
    double _y = NUM2DBL(y);
    double _z = NUM2DBL(z);
 
-   ptr->setDirection((float)_x, (float)_y, (float)_z);
+   ref.setDirection((float)_x, (float)_y, (float)_z);
 
    return Qnil;
 }

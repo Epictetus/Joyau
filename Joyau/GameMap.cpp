@@ -66,7 +66,7 @@ void GameMap::addElem(int tileset, int tX, int tY, int x, int y)
    tiles.push_back(t);
 }
 
-bool GameMap::collide(Sprite *spr)
+bool GameMap::collide(Sprite &spr)
 {
    for (list<Tile>::iterator i = tiles.begin(); i != tiles.end(); ++i)
    {
@@ -104,7 +104,7 @@ void GameMap::clear()
    tilesets.clear();
 }
 
-bool GameMap::visible(Tile t)
+bool GameMap::visible(Tile &t)
 {
    int x = t.x + _x;
    int y = t.y + _y;
@@ -145,123 +145,124 @@ void GameMap::draw()
 
 VALUE GameMap_setPos(VALUE self, VALUE x, VALUE y)
 {
-   GameMap *ptr = getPtr<GameMap>(self);
+   GameMap &ref = getRef<GameMap>(self);
+
    int _x = FIX2INT(x);
    int _y = FIX2INT(y);
 
-   ptr->setPos(_x, _y);
+   ref.setPos(_x, _y);
    return Qnil;
 }
 
 VALUE GameMap_move(VALUE self, VALUE x, VALUE y)
 {
-   GameMap *ptr = getPtr<GameMap>(self);
+   GameMap &ref = getRef<GameMap>(self);
    int _x = FIX2INT(x);
    int _y = FIX2INT(y);
 
-   ptr->move(_x, _y);
+   ref.move(_x, _y);
    return Qnil;
 }
 
 VALUE GameMap_resize(VALUE self, VALUE w, VALUE h)
 {
-   GameMap *ptr = getPtr<GameMap>(self);
+   GameMap &ref = getRef<GameMap>(self);
    int _w = FIX2INT(w);
    int _h = FIX2INT(h);
 
-   ptr->resize(_w, _h);
+   ref.resize(_w, _h);
    return Qnil;
 }
 
 VALUE GameMap_getX(VALUE self)
 {
-   GameMap *ptr = getPtr<GameMap>(self);
-   return INT2FIX(ptr->getX());
+   GameMap &ref = getRef<GameMap>(self);
+   return INT2FIX(ref.getX());
 }
 
 VALUE GameMap_getY(VALUE self)
 {
-   GameMap *ptr = getPtr<GameMap>(self);
-   return INT2FIX(ptr->getY());
+   GameMap &ref = getRef<GameMap>(self);
+   return INT2FIX(ref.getY());
 }
 
 VALUE GameMap_getW(VALUE self)
 {
-   GameMap *ptr = getPtr<GameMap>(self);
-   return INT2FIX(ptr->getW());
+   GameMap &ref = getRef<GameMap>(self);
+   return INT2FIX(ref.getW());
 }
 
 VALUE GameMap_getH(VALUE self)
 {
-   GameMap *ptr = getPtr<GameMap>(self);
-   return INT2FIX(ptr->getH());
+   GameMap &ref = getRef<GameMap>(self);
+   return INT2FIX(ref.getH());
 }
 
 VALUE GameMap_addTileset(VALUE self, VALUE name)
 {
-   GameMap *ptr = getPtr<GameMap>(self);
+   GameMap &ref = getRef<GameMap>(self);
    
-   ptr->addTileset(StringValuePtr(name));
+   ref.addTileset(StringValuePtr(name));
    return Qnil;
 }
 
 VALUE GameMap_setTileSize(VALUE self, VALUE w, VALUE h)
 {
-   GameMap *ptr = getPtr<GameMap>(self);
+   GameMap &ref = getRef<GameMap>(self);
    int _w = FIX2INT(w);
    int _h = FIX2INT(h);
    
-   ptr->setTileSize(_w, _h);
+   ref.setTileSize(_w, _h);
    return Qnil;
 }
 
 VALUE GameMap_addElem(VALUE self, VALUE tileset, VALUE tX, VALUE tY, 
 		      VALUE x, VALUE y)
 {
-   GameMap *ptr = getPtr<GameMap>(self);
+   GameMap &ref = getRef<GameMap>(self);
    int _tileset = FIX2INT(tileset);
    int _tX = FIX2INT(tX);
    int _tY = FIX2INT(tY);
    int _x = FIX2INT(x);
    int _y = FIX2INT(y);
 
-   ptr->addElem(_tileset, _tX, _tY, _x, _y);
+   ref.addElem(_tileset, _tX, _tY, _x, _y);
    return Qnil;
 }
 
 VALUE GameMap_collide(VALUE self, VALUE spr)
 {
-   GameMap *ptr = getPtr<GameMap>(self);
-   Sprite *_spr = getPtr<Sprite>(spr);
+   GameMap &ref = getRef<GameMap>(self);
+   Sprite &_spr = getRef<Sprite>(self);
 
-   if (ptr->collide(_spr))
+   if (ref.collide(_spr))
       return Qtrue;
    return Qfalse;
 }
 
 VALUE GameMap_isOn(VALUE self, VALUE x, VALUE y)
 {
-   GameMap *ptr = getPtr<GameMap>(self);
+   GameMap &ref = getRef<GameMap>(self);
    int _x = FIX2INT(x);
    int _y = FIX2INT(y);
 
-   if (ptr->isOn(_x, _y))
+   if (ref.isOn(_x, _y))
       return Qtrue;
    return Qfalse;
 }
 
 VALUE GameMap_clear(VALUE self)
 {
-   GameMap *ptr = getPtr<GameMap>(self);
-   ptr->clear();
+   GameMap &ref = getRef<GameMap>(self);
+   ref.clear();
 
    return Qnil;
 }
 
 VALUE GameMap_draw(VALUE self)
 {
-   GameMap *ptr = getPtr<GameMap>(self);
-   ptr->draw();
+   GameMap &ref = getRef<GameMap>(self);
+   ref.draw();
 
    return Qnil;
 }

@@ -1,3 +1,19 @@
+/*Copyright (C) 2009 Verhetsel Kilian
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along
+with this program; if not, write to the Free Software Foundation, Inc.,
+51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.*/
+
 #include "MessageBox.hpp"
 
 Message::Message()
@@ -28,7 +44,7 @@ Message::Message()
 
 void Message::draw()
 {
-   Manager *manager = Manager::getInstance(); // Needed for getFont
+   Manager &manager = Manager::getInstance(); // Needed for getFont
    
    // Firstly, let's draw the border.
    oslDrawRect(_x, _y, _x + _w, _y + _h, borderColor);
@@ -61,14 +77,14 @@ void Message::draw()
    if (title != "") // Don't lose time if there is nothing to draw...
    {
       if (titleFont != "")
-	 oslSetFont(manager->getFont(titleFont.c_str()));
+	 oslSetFont(manager.getFont(titleFont.c_str()));
       oslSetTextColor(titleColor);
       oslDrawString(_x + titleX, _y + titleY, title.c_str());
    }
 
    // Let's finish with the text :
    if (textFont != "")
-      oslSetFont(manager->getFont(textFont.c_str()));
+      oslSetFont(manager.getFont(textFont.c_str()));
    oslSetTextColor(textColor);
    oslDrawTextBox(_x + marge + offset, _y + marge, _x + _w - marge + offset,
 		  _y + _h - marge, text.c_str(), 0);
@@ -113,130 +129,130 @@ void Message::resize(int w, int h)
 
 VALUE Message_draw(VALUE self)
 {
-   Message *item = getPtr<Message>(self);
-   item->draw();
+   Message &ref = getRef<Message>(self);
+   ref.draw();
 
    return Qnil;
 }
 
 VALUE Message_setTitle(VALUE self, VALUE txt)
 {
-   Message *item = getPtr<Message>(self);
+   Message &ref = getRef<Message>(self);
    string str = StringValuePtr(txt);
 
-   item->setTitle(str);
+   ref.setTitle(str);
    return Qnil;
 }
 
 
 VALUE Message_setText(VALUE self, VALUE txt)
 {
-   Message *item = getPtr<Message>(self);
+   Message &ref = getRef<Message>(self);
    string str = StringValuePtr(txt);
 
-   item->setText(str);
+   ref.setText(str);
    return Qnil;
 }
 
 VALUE Message_setImage(VALUE self, VALUE pic)
 {
-   Message *item  = getPtr<Message>(self);
+   Message &ref = getRef<Message>(self);
    Sprite *spr = getPtr<Sprite>(pic);
    
-   item->setImage(spr);
+   ref.setImage(spr);
    return Qnil;
 }
 
 VALUE Message_setBackground(VALUE self, VALUE pic)
 {
-   Message *item = getPtr<Message>(self);
+   Message &ref = getRef<Message>(self);
    Sprite *spr = getPtr<Sprite>(pic);
  
-   item->setBackground(spr);
+   ref.setBackground(spr);
    return Qnil;
 }
 
 VALUE Message_setBgColor(VALUE self, VALUE col)
 {
-   Message *item = getPtr<Message>(self);
+   Message &ref = getRef<Message>(self);
    OSL_COLOR color = hash2col(col);
 
-   item->setBgColor(color);
+   ref.setBgColor(color);
    return Qnil;
 }
 
 VALUE Message_setTitleColor(VALUE self, VALUE col)
 {
-   Message *item = getPtr<Message>(self);
+   Message &ref = getRef<Message>(self);
    OSL_COLOR color = hash2col(col);
 
-   item->setTitleColor(color);
+   ref.setTitleColor(color);
    return Qnil;
 }
 
 VALUE Message_setTextColor(VALUE self, VALUE col)
 {
-   Message *item = getPtr<Message>(self);
+   Message &ref = getRef<Message>(self);
    OSL_COLOR color = hash2col(col);
 
-   item->setTextColor(color);
+   ref.setTextColor(color);
    return Qnil;
 }
 
 VALUE Message_setBorderColor(VALUE self, VALUE col)
 {
-   Message *item = getPtr<Message>(self);
+   Message &ref = getRef<Message>(self);
    OSL_COLOR color = hash2col(col);
 
-   item->setBorderColor(color);
+   ref.setBorderColor(color);
    return Qnil;
 }
 
 VALUE Message_setTextFont(VALUE self, VALUE f)
 {
-   Message *item = getPtr<Message>(self);
+   Message &ref = getRef<Message>(self);
    string str = StringValuePtr(f);
 
-   item->setTextFont(str);
+   ref.setTextFont(str);
    return Qnil;
 }
 
 VALUE Message_setTitleFont(VALUE self, VALUE f)
 {
-   Message *item = getPtr<Message>(self);
+   Message &ref = getRef<Message>(self);
    string str = StringValuePtr(f);
 
-   item->setTitleFont(str);
+   ref.setTitleFont(str);
    return Qnil;
 }
 
 VALUE Message_setPos(VALUE self, VALUE x, VALUE y)
 {
-   Message *item = getPtr<Message>(self);
+   Message &ref = getRef<Message>(self);
    int _x = FIX2INT(x);
    int _y = FIX2INT(y);
 
-   item->setPos(_x, _y);
+   ref.setPos(_x, _y);
    return Qnil;
 }
 
 VALUE Message_setTitlePos(VALUE self, VALUE x, VALUE y)
 {
-   Message *item = getPtr<Message>(self);
+   Message &ref = getRef<Message>(self);
    int _x = FIX2INT(x);
    int _y = FIX2INT(y);
 
-   item->setTitlePos(_x, _y);
+   ref.setTitlePos(_x, _y);
    return Qnil;
 }
 
 VALUE Message_resize(VALUE self, VALUE w, VALUE h)
 {
-   Message *item = getPtr<Message>(self);
+   Message &ref = getRef<Message>(self);
    int _w = FIX2INT(w);
    int _h = FIX2INT(h);
 
-   item->resize(_w, _h);
+   ref.resize(_w, _h);
    return Qnil;
 }
 

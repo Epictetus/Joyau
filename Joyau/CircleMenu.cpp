@@ -79,7 +79,7 @@ void CircleMenu::setAngle(int angle)
 VALUE CircleMenu_load(VALUE self, VALUE str, VALUE nbIcons, VALUE dist, VALUE w, 
 		      VALUE h, VALUE x, VALUE y, VALUE iconW, VALUE iconH)
 {
-   CircleMenu *ptr = getPtr<CircleMenu>(self);
+   CircleMenu &ref = getRef<CircleMenu>(self);
    
    char *_str = StringValuePtr(str);
    int _nbIcons = FIX2INT(nbIcons);
@@ -91,79 +91,79 @@ VALUE CircleMenu_load(VALUE self, VALUE str, VALUE nbIcons, VALUE dist, VALUE w,
    int _iconW = FIX2INT(iconW);
    int _iconH = FIX2INT(iconH);
 
-   ptr->load(_str, _nbIcons, _dist, _w, _h, _x, _y, _iconW, _iconH);
+   ref.load(_str, _nbIcons, _dist, _w, _h, _x, _y, _iconW, _iconH);
    return Qnil;
 }
 
 VALUE CircleMenu_changeSelection(VALUE self, VALUE dir)
 {
-   CircleMenu *ptr = getPtr<CircleMenu>(self);
+   CircleMenu &ref = getRef<CircleMenu>(self);
    int _dir = FIX2INT(dir);
 
-   ptr->changeSelection(_dir);
+   ref.changeSelection(_dir);
    return Qnil;
 }
 
 VALUE CircleMenu_getIndex(VALUE self)
 {
-   CircleMenu *ptr = getPtr<CircleMenu>(self);
-   int ret = ptr->getIndex();
+   CircleMenu &ref = getRef<CircleMenu>(self);
+   int ret = ref.getIndex();
 
    return INT2FIX(ret);
 }
 
 VALUE CircleMenu_draw(VALUE self)
 {
-   CircleMenu *ptr = getPtr<CircleMenu>(self);
+   CircleMenu &ref = getRef<CircleMenu>(self);
 
-   ptr->draw();
+   ref.draw();
    return Qnil;
 }
 
 VALUE CircleMenu_setAlpha(VALUE self, VALUE alpha)
 {
-   CircleMenu *ptr = getPtr<CircleMenu>(self);
+   CircleMenu &ref = getRef<CircleMenu>(self);
    int _alpha = FIX2INT(alpha);
 
-   ptr->setAlpha(_alpha);
+   ref.setAlpha(_alpha);
    return Qnil;
 }
 
 VALUE CircleMenu_move(VALUE self, VALUE x, VALUE y)
 {
-   CircleMenu *ptr = getPtr<CircleMenu>(self);
+   CircleMenu &ref = getRef<CircleMenu>(self);
    int _x = FIX2INT(x);
    int _y = FIX2INT(y);
 
-   ptr->move(_x, _y);
+   ref.move(_x, _y);
    return Qnil;
 }
 
 VALUE CircleMenu_setPos(VALUE self, VALUE x, VALUE y)
 {
-   CircleMenu *ptr = getPtr<CircleMenu>(self);
+   CircleMenu &ref = getRef<CircleMenu>(self);
    int _x = FIX2INT(x);
    int _y = FIX2INT(y);
 
-   ptr->setPos(_x, _y);
+   ref.setPos(_x, _y);
    return Qnil;
 }
 
 VALUE CircleMenu_setDist(VALUE self, VALUE dist)
 {
-   CircleMenu *ptr = getPtr<CircleMenu>(self);
+   CircleMenu &ref = getRef<CircleMenu>(self);
    int _dist = FIX2INT(dist);
    
-   ptr->setDist(_dist);
+   ref.setDist(_dist);
    return Qnil;
 }
 
 VALUE CircleMenu_setAngle(VALUE self, VALUE angle)
 {
-   CircleMenu *ptr = getPtr<CircleMenu>(self);
+   CircleMenu &ref = getRef<CircleMenu>(self);
    int _angle = FIX2INT(angle);
    
-   ptr->setDist(_angle);
+   ref.setDist(_angle);
    return Qnil;
 }
 

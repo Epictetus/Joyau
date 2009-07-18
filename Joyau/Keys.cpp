@@ -145,18 +145,18 @@ VALUE checkKeys(VALUE self)
 
 VALUE Cursor_updatePos(VALUE self)
 {
-   Cursor *ptr = getPtr<Cursor>(self);
-   ptr->updatePos();
+   Cursor &ref = getRef<Cursor>(self);
+   ref.updatePos();
 
    return Qnil;
 }
 
 VALUE Cursor_setSensibility(VALUE self, VALUE s)
 {
-   Cursor *ptr = getPtr<Cursor>(self);
+   Cursor &ref = getRef<Cursor>(self);
    int sens = FIX2INT(s);
 
-   ptr->setSensibility(sens);
+   ref.setSensibility(sens);
    return Qnil;
 }
 

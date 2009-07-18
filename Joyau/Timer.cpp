@@ -59,40 +59,40 @@ void Timer::resume()
 
 VALUE Timer_reset(VALUE self)
 {
-   Timer *ptr = getPtr<Timer>(self);
-   ptr->reset();
+   Timer &ref = getRef<Timer>(self);
+   ref.reset();
 
    return Qnil;
 }
 
 VALUE Timer_getTime(VALUE self)
 {
-   Timer *ptr = getPtr<Timer>(self);
-   int ret = static_cast<int>(ptr->getTime());
+   Timer &ref = getRef<Timer>(self);
+   int ret = static_cast<int>(ref.getTime());
 
    return INT2FIX(ret);
 }
 
 VALUE Timer_pause(VALUE self)
 {
-   Timer *ptr = getPtr<Timer>(self);
-   ptr->pause();
+   Timer &ref = getRef<Timer>(self);
+   ref.pause();
 
    return Qnil;
 }
 
 VALUE Timer_resume(VALUE self)
 {
-   Timer *ptr = getPtr<Timer>(self);
-   ptr->resume();
+   Timer &ref = getRef<Timer>(self);
+   ref.resume();
 
    return Qnil;
 }
 
 VALUE Timer_paused(VALUE self)
 {
-   Timer *ptr = getPtr<Timer>(self);
-   return ptr->isPaused() ? Qtrue : Qfalse;
+   Timer &ref = getRef<Timer>(self);
+   return ref.isPaused() ? Qtrue : Qfalse;
 }
 
 void defineTimer()

@@ -19,7 +19,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 void Sprite::setPicture(char *pic)
 {
    picName = pic;
-   sprite = manager->getPic(pic);
+   sprite = Manager::getInstance().getPic(pic);
 
    _w = sprite->sizeX;
    _h = sprite->sizeY;
@@ -73,27 +73,27 @@ bool Sprite::isOn(int x, int y)
       return false;
 }
 
-bool Sprite::collide(Sprite *spr)
+bool Sprite::collide(Sprite &spr)
 {
    /*
      If the A image collides the B image, it means that at least 
      one of A's corner OR one of B's corner is on the other sprite.
     */
-   if (isOn(spr->getX(), spr->getY()))
+   if (isOn(spr.getX(), spr.getY()))
       return true;
-   else if (isOn(spr->getX() + spr->getW(), spr->getY()))
+   else if (isOn(spr.getX() + spr.getW(), spr.getY()))
       return true;
-   else if (isOn(spr->getX() + spr->getW(), spr->getY() + spr->getH()))
+   else if (isOn(spr.getX() + spr.getW(), spr.getY() + spr.getH()))
       return true;
-   else if (isOn(spr->getX(), spr->getY() + spr->getH()))
+   else if (isOn(spr.getX(), spr.getY() + spr.getH()))
       return true;
-   else if (spr->isOn(getX(), getY()))
+   else if (spr.isOn(getX(), getY()))
       return true;
-   else if (spr->isOn(getX() + getW(), getY()))
+   else if (spr.isOn(getX() + getW(), getY()))
       return true;
-   else if (spr->isOn(getX() + getW(), getY() + getH()))
+   else if (spr.isOn(getX() + getW(), getY() + getH()))
       return true;
-   else if (spr->isOn(getX(), getY() + getH()))
+   else if (spr.isOn(getX(), getY() + getH()))
       return true;
    else
       return false;
@@ -150,7 +150,7 @@ void Sprite::setTile(int x, int y, int w, int h)
    hTile = h;
 }
 
-OSL_IMAGE *Sprite::getImage()
+OSL_IMAGE* Sprite::getImage()
 {
    oslSetAlpha(OSL_FX_ALPHA , _alpha);
 
@@ -190,183 +190,183 @@ void Sprite::saveImage(const char *fname)
 
 VALUE Sprite_rotate(VALUE self, VALUE angle) 
 {
-   Sprite *item = getPtr<Sprite>(self);
+   Sprite &item = getRef<Sprite>(self);
 
-   item->rotate(FIX2INT(angle));
+   item.rotate(FIX2INT(angle));
    return Qnil;
 }
 
 VALUE Sprite_getAngle(VALUE self) 
 {
-   Sprite *item = getPtr<Sprite>(self);
+   Sprite &item = getRef<Sprite>(self);
 
-   return INT2FIX(item->getAngle()); 
+   return INT2FIX(item.getAngle()); 
 }
 
 VALUE Sprite_setAngle(VALUE self, VALUE angle) 
 {
-   Sprite *item = getPtr<Sprite>(self);
+   Sprite &item = getRef<Sprite>(self);
 
-   item->setAngle(FIX2INT(angle));
+   item.setAngle(FIX2INT(angle));
 
    return Qnil;
 }
 
 VALUE Sprite_getZoom(VALUE self)
 {
-   Sprite *item = getPtr<Sprite>(self);
+   Sprite &item = getRef<Sprite>(self);
 
-   return INT2FIX(item->getZoom());
+   return INT2FIX(item.getZoom());
 }
 
 VALUE Sprite_getDirection(VALUE self) 
 { 
-   Sprite *item = getPtr<Sprite>(self);
+   Sprite &item = getRef<Sprite>(self);
 
-   return INT2FIX(item->getDirection()); 
+   return INT2FIX(item.getDirection()); 
 }
 
 VALUE Sprite_setAnimation(VALUE self, VALUE nbrX, VALUE nbrY)
 {
-   Sprite *item = getPtr<Sprite>(self);
+   Sprite &item = getRef<Sprite>(self);
 
-   item->setAnimation(FIX2INT(nbrX), FIX2INT(nbrY));
+   item.setAnimation(FIX2INT(nbrX), FIX2INT(nbrY));
    return Qnil;
 }
 
 VALUE Sprite_setAnimationTime(VALUE self, VALUE t)
 {
-   Sprite *item = getPtr<Sprite>(self);
+   Sprite &item = getRef<Sprite>(self);
 
-   item->setAnimationTime(FIX2INT(t));
+   item.setAnimationTime(FIX2INT(t));
    return Qnil;
 }
 
 VALUE Sprite_setPicture(VALUE self, VALUE pic)
 {
-   Sprite *item = getPtr<Sprite>(self);
+   Sprite &item = getRef<Sprite>(self);
 
-   item->setPicture(StringValuePtr(pic));
+   item.setPicture(StringValuePtr(pic));
 
    return Qnil;
 }
 
 VALUE Sprite_setPos(VALUE self, VALUE x, VALUE y)
 {
-   Sprite *item = getPtr<Sprite>(self);
+   Sprite &item = getRef<Sprite>(self);
 
-   item->setPos(FIX2INT(x), FIX2INT(y));
+   item.setPos(FIX2INT(x), FIX2INT(y));
 
    return Qnil;
 }
 
 VALUE Sprite_move(VALUE self, VALUE x, VALUE y)
 {
-   Sprite *item = getPtr<Sprite>(self);
+   Sprite &item = getRef<Sprite>(self);
 
-   item->move(FIX2INT(x), FIX2INT(y));
+   item.move(FIX2INT(x), FIX2INT(y));
    return Qnil;
 }
 
 VALUE Sprite_setAlpha(VALUE self, VALUE alpha)
 {
-   Sprite *item = getPtr<Sprite>(self);
+   Sprite &item = getRef<Sprite>(self);
 
-   item->setAlpha(FIX2INT(alpha));
+   item.setAlpha(FIX2INT(alpha));
 
    return Qnil;
 }
 
 VALUE Sprite_getAlpha(VALUE self)
 {
-   Sprite *item = getPtr<Sprite>(self);
+   Sprite &item = getRef<Sprite>(self);
 
-   return INT2FIX(item->getAlpha());
+   return INT2FIX(item.getAlpha());
 }
 
 VALUE Sprite_getX(VALUE self) 
 {
-   Sprite *item = getPtr<Sprite>(self);
+   Sprite &item = getRef<Sprite>(self);
    
-   return INT2FIX(item->getX());
+   return INT2FIX(item.getX());
 }
 VALUE Sprite_getY(VALUE self) 
 {
-   Sprite *item = getPtr<Sprite>(self);
+   Sprite &item = getRef<Sprite>(self);
 
-   return INT2FIX(item->getY());
+   return INT2FIX(item.getY());
 }
 
 VALUE Sprite_getW(VALUE self) 
 {
-   Sprite *item = getPtr<Sprite>(self);
+   Sprite &item = getRef<Sprite>(self);
 
-   return INT2FIX(item->getW());
+   return INT2FIX(item.getW());
 }
 VALUE Sprite_getH(VALUE self) 
 {
-   Sprite *item = getPtr<Sprite>(self);
+   Sprite &item = getRef<Sprite>(self);
 
-   return INT2FIX(item->getH()); 
+   return INT2FIX(item.getH()); 
 }
 
 VALUE Sprite_isOn(VALUE self, VALUE rb_x, VALUE rb_y)
 {
-   Sprite *item = getPtr<Sprite>(self);
+   Sprite &item = getRef<Sprite>(self);
 
-   if (item->isOn(FIX2INT(rb_x), FIX2INT(rb_y)))
+   if (item.isOn(FIX2INT(rb_x), FIX2INT(rb_y)))
       return Qtrue;
    return Qfalse;
 }
 
 VALUE Sprite_collide(VALUE self, VALUE spr)
 {
-   Sprite *item = getPtr<Sprite>(self);
-   Sprite *adv = getPtr<Sprite>(spr);
+   Sprite &item = getRef<Sprite>(self);
+   Sprite &adv = getRef<Sprite>(spr);
 
-   if (item->collide(adv))
+   if (item.collide(adv))
       return Qtrue;
    return Qfalse;
 }
 
 VALUE Sprite_draw(VALUE self)
 {
-   Sprite *item = getPtr<Sprite>(self);
-   item->Draw();
+   Sprite &item = getRef<Sprite>(self);
+   item.Draw();
 
    return Qnil;
 }
 
 VALUE Sprite_setDirection(VALUE self, VALUE dir)
 {
-   Sprite *item = getPtr<Sprite>(self);
-   item->setDirection(FIX2INT(dir));
+   Sprite &item = getRef<Sprite>(self);
+   item.setDirection(FIX2INT(dir));
 
    return Qnil;
 }
 
 VALUE Sprite_zoom(VALUE self, VALUE val)
 {
-   Sprite *item = getPtr<Sprite>(self);
-   item->zoom(FIX2INT(val));
+   Sprite &item = getRef<Sprite>(self);
+   item.zoom(FIX2INT(val));
    
    return Qnil; 
 }
 
 VALUE Sprite_setTile(VALUE self, VALUE x, VALUE y, VALUE w, VALUE h)
 {
-   Sprite *item = getPtr<Sprite>(self);
-   item->setTile(FIX2INT(x), FIX2INT(y), FIX2INT(w), FIX2INT(h));
+   Sprite &item = getRef<Sprite>(self);
+   item.setTile(FIX2INT(x), FIX2INT(y), FIX2INT(w), FIX2INT(h));
 
    return Qnil;
 }
 
 VALUE Sprite_saveFile(VALUE self, VALUE pic)
 {
-   Sprite *item = getPtr<Sprite>(self);
+   Sprite &item = getRef<Sprite>(self);
    const char *file = StringValuePtr(pic);
 
-   item->saveImage(file);
+   item.saveImage(file);
    return Qnil;
 }
 
