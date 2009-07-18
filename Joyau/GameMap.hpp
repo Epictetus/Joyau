@@ -62,7 +62,7 @@ private:
 
    int tileWidth, tileHeight;
 protected:
-   bool visible(Tile t);
+   bool visible(const Tile &t);
 };
 
 VALUE GameMap_setPos(VALUE self, VALUE x, VALUE y);
