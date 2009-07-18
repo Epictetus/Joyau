@@ -28,12 +28,10 @@ angel.setPicture("angel.png")
 angel.setAnim(3, 4)
 
 angel.setDirection($directions["DOWN"])
-
 angel.setPos(240 - angel.getW / 2, 136 - angel.getH / 2)
 
-if 
-
 while mayPlay
+
   readKeys
 
   if $keys["up"]
@@ -51,7 +49,7 @@ while mayPlay
   if $keys["down"]
     bg.move(0, -2)
     obstacles.move(0, -2)
-
+    
     if obstacles.collide(angel)
       bg.move(0, 2)
       obstacles.move(0, 2)
@@ -59,7 +57,7 @@ while mayPlay
 
     angel.setDirection($directions["DOWN"])
   end
-
+  
   if $keys["left"]
     bg.move(2, 0)
     obstacles.move(2, 0)
