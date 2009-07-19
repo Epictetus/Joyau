@@ -23,18 +23,6 @@ GameMap::GameMap()
    _h = 272;
 }
 
-void GameMap::setPos(int x, int y)
-{
-   _x = x;
-   _y = y;
-}
-
-void GameMap::move(int x, int y)
-{
-   _x += x;
-   _y += y;
-}
-
 void GameMap::resize(int w, int h)
 {
    _w = w;
@@ -73,7 +61,8 @@ bool GameMap::collide(Drawable *spr)
    {
       Sprite &tile = tilesets[(*i).tileset];
       tile.setTile((*i).tileX, (*i).tileY, tileWidth, tileHeight);
-      tile.setPos(_x + (*i).x, _y + (*i).y); // Coord relative to the map !
+      // Coord relative to the map !
+      tile.setPos(getX() + (*i).x, getY() + (*i).y);
 
       tile.getImage(); // We update informations
 
@@ -89,7 +78,7 @@ bool GameMap::isOn(int x, int y)
    {
       Sprite &tile = tilesets[(*i).tileset];
       tile.setTile((*i).tileX, (*i).tileY, tileWidth, tileHeight);
-      tile.setPos(_x + (*i).x, _y + (*i).y);
+      tile.setPos(getX() + (*i).x, getY() + (*i).y);
 
       tile.getImage();
 
@@ -107,8 +96,8 @@ void GameMap::clear()
 
 bool GameMap::visible(const Tile &t)
 {
-   int x = t.x + _x;
-   int y = t.y + _y;
+   int x = t.x + getX();
+   int y = t.y + getY();
    int w = tileWidth;
    int h = tileHeight;
 
@@ -116,10 +105,10 @@ bool GameMap::visible(const Tile &t)
        x + h < 0 || // Not even visible at the screen upper side
        x - w > 480 || // Not even visible at the screen right side
        y - h > 272 || // Not even visible at the screen down side
-       x + w < _x || // Not visible at the left side
-       y + h < _y || // Not visible at the upper side
-       x - w > _x + _w || // Not visible at the right side
-       y - h > _y + _h ) // Not visible at the down side
+       x + w < getX() || // Not visible at the left side
+       y + h < getY() || // Not visible at the upper side
+       x - w > getX() + _w || // Not visible at the right side
+       y - h > getY() + _h ) // Not visible at the down side
       return false;
    return true;
 }
@@ -136,32 +125,12 @@ void GameMap::draw()
       {
          Sprite &tile = tilesets[(*i).tileset];
          tile.setTile((*i).tileX, (*i).tileY, tileWidth, tileHeight);
-         tile.setPos(_x + (*i).x, _y + (*i).y);
+         tile.setPos(getX() + (*i).x, getY() + (*i).y);
 
          tile.getImage();
          tile.draw();
       }
    }
-}
-
-VALUE GameMap_setPos(VALUE self, VALUE x, VALUE y)
-{
-   GameMap &ref = getRef<GameMap>(self);
-   int _x = FIX2INT(x);
-   int _y = FIX2INT(y);
-
-   ref.setPos(_x, _y);
-   return Qnil;
-}
-
-VALUE GameMap_move(VALUE self, VALUE x, VALUE y)
-{
-   GameMap &ref = getRef<GameMap>(self);
-   int _x = FIX2INT(x);
-   int _y = FIX2INT(y);
-
-   ref.move(_x, _y);
-   return Qnil;
 }
 
 VALUE GameMap_resize(VALUE self, VALUE w, VALUE h)
@@ -172,30 +141,6 @@ VALUE GameMap_resize(VALUE self, VALUE w, VALUE h)
 
    ref.resize(_w, _h);
    return Qnil;
-}
-
-VALUE GameMap_getX(VALUE self)
-{
-   GameMap &ref = getRef<GameMap>(self);
-   return INT2FIX(ref.getX());
-}
-
-VALUE GameMap_getY(VALUE self)
-{
-   GameMap &ref = getRef<GameMap>(self);
-   return INT2FIX(ref.getY());
-}
-
-VALUE GameMap_getW(VALUE self)
-{
-   GameMap &ref = getRef<GameMap>(self);
-   return INT2FIX(ref.getW());
-}
-
-VALUE GameMap_getH(VALUE self)
-{
-   GameMap &ref = getRef<GameMap>(self);
-   return INT2FIX(ref.getH());
 }
 
 VALUE GameMap_addTileset(VALUE self, VALUE name)
@@ -230,27 +175,6 @@ VALUE GameMap_addElem(VALUE self, VALUE tileset, VALUE tX, VALUE tY,
    return Qnil;
 }
 
-VALUE GameMap_collide(VALUE self, VALUE spr)
-{
-   GameMap &ref = getRef<GameMap>(self);
-   Drawable *_spr = getPtr<Drawable>(self);
-
-   if (ref.collide(_spr))
-      return Qtrue;
-   return Qfalse;
-}
-
-VALUE GameMap_isOn(VALUE self, VALUE x, VALUE y)
-{
-   GameMap &ref = getRef<GameMap>(self);
-   int _x = FIX2INT(x);
-   int _y = FIX2INT(y);
-
-   if (ref.isOn(_x, _y))
-      return Qtrue;
-   return Qfalse;
-}
-
 VALUE GameMap_clear(VALUE self)
 {
    GameMap *ptr = getPtr<GameMap>(self);
@@ -259,29 +183,13 @@ VALUE GameMap_clear(VALUE self)
    return Qnil;
 }
 
-VALUE GameMap_draw(VALUE self)
-{
-   GameMap &ref = getRef<GameMap>(self);
-   ref.draw();
-
-   return Qnil;
-}
-
 void defineGameMap()
 {
-   VALUE cMap = defClass<GameMap>("GameMap");
-   defMethod(cMap, "setPos", GameMap_setPos, 2);
-   defMethod(cMap, "move", GameMap_move, 2);
+   VALUE cDrawable = getClass("Drawable");
+   VALUE cMap = defClass<GameMap>("GameMap", cDrawable);
    defMethod(cMap, "resize", GameMap_resize, 2);
-   defMethod(cMap, "getX", GameMap_getX, 0);
-   defMethod(cMap, "getY", GameMap_getY, 0);
-   defMethod(cMap, "getW", GameMap_getW, 0);
-   defMethod(cMap, "getH", GameMap_getH, 0);
    defMethod(cMap, "addTileset", GameMap_addTileset, 1);
    defMethod(cMap, "setTileSize", GameMap_setTileSize, 2);
    defMethod(cMap, "addElem", GameMap_addElem, 5);
-   defMethod(cMap, "collide", GameMap_collide, 1);
-   defMethod(cMap, "isOn", GameMap_isOn, 2);
    defMethod(cMap, "clear", GameMap_clear, 0);
-   defMethod(cMap, "draw", GameMap_draw, 0);
 }

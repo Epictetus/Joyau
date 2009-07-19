@@ -20,19 +20,12 @@
 #include "StdInclude.hpp"
 #include "Sprite.hpp"
 
-class GameMap
+class GameMap: public Drawable
 {
 public:
    GameMap();
 
-   void setPos(int x, int y);
-   void move(int x, int y);
    void resize(int w, int h);
-
-   int getX() { return _x; }
-   int getY() { return _y; }
-   int getW() { return _w; }
-   int getH() { return _h; }
 
    void addTileset(char *name);
    void setTileSize(int w, int h);
@@ -54,9 +47,6 @@ private:
       int x, y;
    };
 
-   int _x, _y;
-   int _w, _h;
-
    vector<Sprite> tilesets;
    list<Tile> tiles;
 
@@ -65,14 +55,7 @@ protected:
    bool visible(const Tile &t);
 };
 
-VALUE GameMap_setPos(VALUE self, VALUE x, VALUE y);
-VALUE GameMap_move(VALUE self, VALUE x, VALUE y);
 VALUE GameMap_resize(VALUE self, VALUE w, VALUE h);
-
-VALUE GameMap_getX(VALUE self);
-VALUE GameMap_getY(VALUE self);
-VALUE GameMap_getW(VALUE self);
-VALUE GameMap_getH(VALUE self);
 
 VALUE GameMap_addTileset(VALUE self, VALUE name);
 VALUE GameMap_setTileSize(VALUE self, VALUE w, VALUE h);
@@ -80,12 +63,7 @@ VALUE GameMap_setTileSize(VALUE self, VALUE w, VALUE h);
 VALUE GameMap_addElem(VALUE self, VALUE tileset, VALUE tX, VALUE tY,
                       VALUE x, VALUE y);
 
-VALUE GameMap_collide(VALUE self, VALUE spr);
-VALUE GameMap_isOn(VALUE self, VALUE x, VALUE y);
-
 VALUE GameMap_clear(VALUE self);
-
-VALUE GameMap_draw(VALUE self);
 
 void defineGameMap();
 
