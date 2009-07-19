@@ -14,8 +14,8 @@ You should have received a copy of the GNU General Public License along
 with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.*/
 
-#ifndef __JOYAU_CIRCLE_MENU__
-#define __JOYAU_CIRCLE_MENU__
+#ifndef JOYAU_CIRCLE_MENU
+#define JOYAU_CIRCLE_MENU
 
 #include "StdInclude.hpp"
 #include "Drawable.hpp"

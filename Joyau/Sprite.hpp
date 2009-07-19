@@ -14,8 +14,8 @@ You should have received a copy of the GNU General Public License along
 with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.*/
 
-#ifndef __SPRITE__
-#define __SPRITE__
+#ifndef JOYAU_SPRITE
+#define JOYAU_SPRITE
 
 #include "Manager.hpp"
 #include "RubyWrapper.hpp"

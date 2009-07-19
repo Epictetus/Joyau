@@ -14,8 +14,8 @@ You should have received a copy of the GNU General Public License along
 with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.*/
 
-#ifndef __KERNEL_RUBY_PSP__
-#define __KERNEL_RUBY_PSP__
+#ifndef JOYAU_KERNEL
+#define JOYAU_KERNEL
 
 #include "StdInclude.hpp"
 #include "RubyWrapper.hpp"

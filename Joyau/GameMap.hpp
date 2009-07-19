@@ -14,8 +14,8 @@
   with this program; if not, write to the Free Software Foundation, Inc.,
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.*/
 
-#ifndef __JOYAU_MAP__
-#define __JOYAU_MAP__
+#ifndef JOYAU_MAP
+#define JOYAU_MAP
 
 #include "StdInclude.hpp"
 #include "Sprite.hpp"
