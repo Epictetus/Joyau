@@ -18,8 +18,9 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #define __JOYAU_CIRCLE_MENU__
 
 #include "StdInclude.hpp"
+#include "Drawable.hpp"
 
-class CircleMenu
+class CircleMenu: public Drawable
 {
 public:
    CircleMenu();
@@ -35,9 +36,6 @@ public:
 
    void setAlpha(int alpha);
 
-   void move(int x, int y);
-   void setPos(int x, int y);
-
    void setDist(int dist);
    void setAngle(int angle);
 private:
@@ -50,12 +48,7 @@ VALUE CircleMenu_load(VALUE self, VALUE str, VALUE nbIcons, VALUE dist, VALUE w,
 VALUE CircleMenu_changeSelection(VALUE self, VALUE dir);
 VALUE CircleMenu_getIndex(VALUE self);
 
-VALUE CircleMenu_draw(VALUE self);
-
 VALUE CircleMenu_setAlpha(VALUE self, VALUE alpha);
-
-VALUE CircleMenu_move(VALUE self, VALUE x, VALUE y);
-VALUE CircleMenu_setPos(VALUE self, VALUE x, VALUE y);
 
 VALUE CircleMenu_setDist(VALUE self, VALUE dist);
 VALUE CircleMenu_setAngle(VALUE self, VALUE angle);
