@@ -24,8 +24,7 @@ Message::Message()
    text = "";
    title = "";
 
-   _x = 0;
-   _y = 0;
+   setPos(0, 0);
    marge = 3;
 
    textColor = RGBA(0, 0, 0, 255);
@@ -47,26 +46,27 @@ void Message::draw()
    Manager &manager = Manager::getInstance(); // Needed for getFont
    
    // Firstly, let's draw the border.
-   oslDrawRect(_x, _y, _x + _w, _y + _h, borderColor);
+   oslDrawRect(getX(), getY(), getX() + _w, getY() + _h, borderColor);
 
    // Then, the background.
    // If it's a picture :
    if (bg_pic)
    {
       bg->setTile(0, 0, _w - 1, _h - 1);
-      bg->setPos(_x + 1, _y + 1);
+      bg->setPos(getX() + 1, getY() + 1);
       bg->draw();
    }
    else
    {
       // We'll draw it in the border. We don't want to overwrit it.
-      oslDrawFillRect(_x + 1, _y +1, _x + _w - 1, _y + _h - 1, bgColor);
+      oslDrawFillRect(getX() + 1, getY() +1, getX() + _w - 1, getY() 
+		      + _h - 1, bgColor);
    }
 
    int offset = 0;
    if (image != NULL)
    {
-      image->setPos(_x + marge, _y + marge);
+      image->setPos(getX() + marge, getY() + marge);
       image->draw();
       offset = image->getW();
    }
@@ -79,15 +79,15 @@ void Message::draw()
       if (titleFont != "")
 	 oslSetFont(manager.getFont(titleFont.c_str()));
       oslSetTextColor(titleColor);
-      oslDrawString(_x + titleX, _y + titleY, title.c_str());
+      oslDrawString(getX() + titleX, getY() + titleY, title.c_str());
    }
 
    // Let's finish with the text :
    if (textFont != "")
       oslSetFont(manager.getFont(textFont.c_str()));
    oslSetTextColor(textColor);
-   oslDrawTextBox(_x + marge + offset, _y + marge, _x + _w - marge + offset,
-		  _y + _h - marge, text.c_str(), 0);
+   oslDrawTextBox(getX() + marge + offset, getY() + marge, getX() + _w - marge + offset,
+		  getY() + _h - marge, text.c_str(), 0);
 }
 
 void Message::setTitle(string txt) { title = txt; }
@@ -109,12 +109,6 @@ void Message::setBorderColor(OSL_COLOR col) { borderColor = col; }
 void Message::setTextFont(string f) { textFont = f; }
 void Message::setTitleFont(string f) { titleFont = f; }
 
-void Message::setPos(int x, int y)
-{
-   _x = x;
-   _y = y;
-}
-
 void Message::setTitlePos(int x, int y)
 {
    titleX = x;
@@ -127,13 +121,13 @@ void Message::resize(int w, int h)
    _h = h;
 }
 
-VALUE Message_draw(VALUE self)
+/*VALUE Message_draw(VALUE self)
 {
    Message &ref = getRef<Message>(self);
    ref.draw();
 
    return Qnil;
-}
+}*/
 
 VALUE Message_setTitle(VALUE self, VALUE txt)
 {
@@ -226,7 +220,7 @@ VALUE Message_setTitleFont(VALUE self, VALUE f)
    return Qnil;
 }
 
-VALUE Message_setPos(VALUE self, VALUE x, VALUE y)
+/*VALUE Message_setPos(VALUE self, VALUE x, VALUE y)
 {
    Message &ref = getRef<Message>(self);
    int _x = FIX2INT(x);
@@ -234,7 +228,7 @@ VALUE Message_setPos(VALUE self, VALUE x, VALUE y)
 
    ref.setPos(_x, _y);
    return Qnil;
-}
+}*/
 
 VALUE Message_setTitlePos(VALUE self, VALUE x, VALUE y)
 {
@@ -258,8 +252,8 @@ VALUE Message_resize(VALUE self, VALUE w, VALUE h)
 
 void defineMessageBox()
 {
-   VALUE cMessage = defClass<Message>("Message");
-   defMethod(cMessage, "draw", Message_draw, 0);
+   VALUE cDrawable = getClass("Drawable");
+   VALUE cMessage = defClass<Message>("Message", cDrawable);
    defMethod(cMessage, "setTitle", Message_setTitle, 1);
    defMethod(cMessage, "setText", Message_setText, 1);
    defMethod(cMessage, "setImage", Message_setImage, 1);
@@ -270,7 +264,6 @@ void defineMessageBox()
    defMethod(cMessage, "setBorderColor", Message_setBorderColor, 1);
    defMethod(cMessage, "setTextFont", Message_setTextFont, 1);
    defMethod(cMessage, "setTitleFont", Message_setTitleFont, 1);
-   defMethod(cMessage, "setPos", Message_setPos, 2);
    defMethod(cMessage, "setTitlePos", Message_setTitlePos, 2);
    defMethod(cMessage, "resize", Message_resize, 2);
 }

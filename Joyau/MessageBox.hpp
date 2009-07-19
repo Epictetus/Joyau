@@ -20,7 +20,7 @@
 #include "Sprite.hpp"
 #include "RubyWrapper.hpp"
 
-class Message
+class Message: public Drawable
 {
 public:
    Message();
@@ -41,7 +41,6 @@ public:
    void setTextFont(string f);
    void setTitleFont(string f);
 
-   void setPos(int x, int y);
    void setTitlePos(int x, int y);
 
    void resize(int w, int h);
@@ -52,8 +51,6 @@ private:
    string text;
    string title;
 
-   int _h, _w;
-   int _x, _y;
    int marge;
 
    OSL_COLOR textColor;
@@ -69,8 +66,6 @@ private:
    int titleX, titleY; //relatively to _x and _y.
 };
 
-VALUE Message_draw(VALUE self);
-
 VALUE Message_setTitle(VALUE self, VALUE txt);
 VALUE Message_setText(VALUE self, VALUE txt);
 
@@ -85,7 +80,6 @@ VALUE Message_setBorderColor(VALUE self, VALUE col);
 VALUE Message_setTextFont(VALUE self, VALUE f);
 VALUE Message_setTitleFont(VALUE self, VALUE f);
 
-VALUE Message_setPos(VALUE self, VALUE x, VALUE y);
 VALUE Message_setTitlePos(VALUE self, VALUE x, VALUE y);
 
 VALUE Message_resize(VALUE self, VALUE w, VALUE h);
