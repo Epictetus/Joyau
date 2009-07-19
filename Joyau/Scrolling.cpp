@@ -22,35 +22,43 @@ void Scrolling::setSprite(char *spr)
    bg[1].setPicture(spr);
 }
 
-void Scrolling::setPos(int x, int y)
-{
-   _x = x;
-   _y = y;
-}
-
 void Scrolling::setDir(int dir)
 {
    _dir = dir;
    if (_dir == Sprite::RIGHT)
    {
-      bg[0].setPos(_x, _y);
-      bg[1].setPos(_x - 480, _y);
+      bg[0].setPos(getX(), getY());
+      bg[1].setPos(getX() - 480, getY());
    }
    else if (_dir == Sprite::LEFT)
    {
-      bg[0].setPos(_x, _y);
-      bg[1].setPos(_x + 480, _y);
+      bg[0].setPos(getX(), getY());
+      bg[1].setPos(getX() + 480, getY());
    }
    else if (_dir == Sprite::UP)
    {
-      bg[0].setPos(_x, _y);
-      bg[1].setPos(_x, _y + 272);
+      bg[0].setPos(getX(), getY());
+      bg[1].setPos(getX(), getY() + 272);
    }
    else if (_dir == Sprite::DOWN)
    {
-      bg[0].setPos(_x, _y);
-      bg[1].setPos(_x, _y - 272);
+      bg[0].setPos(getX(), getY());
+      bg[1].setPos(getX(), getY() - 272);
    }
+}
+
+int Scrolling::getW()
+{
+   if (_dir == Sprite::RIGHT || _dir == Sprite::LEFT)
+      return bg[0].getW() * 2;
+   return bg[0].getW();
+}
+
+int Scrolling::getH()
+{
+   if (_dir == Sprite::UP || _dir == Sprite::DOWN)
+      return bg[0].getH() * 2;
+   return bg[0].getW();
 }
 
 void Scrolling::play()
@@ -108,17 +116,6 @@ VALUE Scrolling_setSprite(VALUE self, VALUE spr)
    return Qnil;
 }
 
-VALUE Scrolling_setPos(VALUE self, VALUE x, VALUE y)
-{
-   Scrolling &ref = getRef<Scrolling>(self);
-   int _x = FIX2INT(x);
-   int _y = FIX2INT(y);
-
-   ref.setPos(_x, _y);
-
-   return Qnil;
-}
-
 VALUE Scrolling_setDir(VALUE self, VALUE dir)
 {
    Scrolling &ref = getRef<Scrolling>(self);
@@ -145,21 +142,12 @@ VALUE Scrolling_play(VALUE self)
    return Qnil;
 }
 
-VALUE Scrolling_draw(VALUE self)
-{
-   Scrolling &ref = getRef<Scrolling>(self);
-
-   ref.draw();
-   return Qnil;
-}
-
 void defineScrolling()
 {
-   VALUE cScroll = defClass<Scrolling>("Scrolling");
+   VALUE cDrawable = getClass("Drawable");
+   VALUE cScroll = defClass<Scrolling>("Scrolling", cDrawable);
    defMethod(cScroll, "setSprite", Scrolling_setSprite, 1);
-   defMethod(cScroll, "setPos", Scrolling_setPos, 2);
    defMethod(cScroll, "setDir", Scrolling_setDir, 1);
    defMethod(cScroll, "setSpeed", Scrolling_setSpeed, 1);
    defMethod(cScroll, "play", Scrolling_play, 0);
-   defMethod(cScroll, "draw", Scrolling_draw, 0);
 }

@@ -21,33 +21,34 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "RubyWrapper.hpp"
 
 // Just a background with scrolling.
-class Scrolling
+class Scrolling: public Drawable
 {
 public:
    void setSprite(char *spr);
    
-   void setPos(int x, int y);
+   //void setPos(int x, int y);
    void setDir(int dir);
 
    void setSpeed(int s) { speed = s; }
 
    void play();
    void draw();
+
+   int getW();
+   int getH();
 private:
-   int _x, _y, _dir;
+   int _dir;
    Sprite bg[2];
    int speed;
 };
 
 VALUE Scrolling_setSprite(VALUE self, VALUE spr);
 
-VALUE Scrolling_setPos(VALUE self, VALUE x, VALUE y);
 VALUE Scrolling_setDir(VALUE self, VALUE dir);
 
 VALUE Scrolling_setSpeed(VALUE self, VALUE s);
 
 VALUE Scrolling_play(VALUE self);
-VALUE Scrolling_draw(VALUE self);
 
 void defineScrolling();
 
