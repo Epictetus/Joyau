@@ -55,7 +55,7 @@ void Message::draw()
    {
       bg->setTile(0, 0, _w - 1, _h - 1);
       bg->setPos(_x + 1, _y + 1);
-      bg->Draw();
+      bg->draw();
    }
    else
    {
@@ -67,7 +67,7 @@ void Message::draw()
    if (image != NULL)
    {
       image->setPos(_x + marge, _y + marge);
-      image->Draw();
+      image->draw();
       offset = image->getW();
    }
 

@@ -139,7 +139,7 @@ void GameMap::draw()
          tile.setPos(_x + (*i).x, _y + (*i).y);
 
          tile.getImage();
-         tile.Draw();
+         tile.draw();
       }
    }
 }

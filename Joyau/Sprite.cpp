@@ -28,18 +28,6 @@ void Sprite::setPicture(char *pic)
    _stretchY = sprite->stretchY;
 }
 
-void Sprite::setPos(int x, int y)
-{
-   _x = x;
-   _y = y;
-}
-
-void Sprite::move(int x, int y)
-{
-   _x += x;
-   _y += y;
-}
-
 void Sprite::setAlpha(int alpha)
 {
    _alpha = alpha;
@@ -50,60 +38,21 @@ int Sprite::getAlpha()
    return _alpha;
 }
 
-int Sprite::getX() { return _x; }
-int Sprite::getY() { return _y; }
-
 //Since nbrX and nbrY are initialized to 1, we cane use them even in
 //not-animated sprites. 
 int Sprite::getW() { return tiled ? wTile : _w / _nbrX; }
 int Sprite::getH() { return tiled ? hTile : _h / _nbrY; }
 
-bool Sprite::isOn(int x, int y)
+Rect Sprite::boundingRect()
 {
-   /*
-     A point which is on this sprite should be at the left
-     side's right ( x >= getX() ), at the right side's left 
-     ( x <= getX() + getW() ) , upper the bottom side ( y <= getY() + getH() )
-     , and at the bottom of the upper side ( y >= getY() ).
-    */
-   if (x >= getX() && x <= getX() + getW() &&
-       y >= getY() && y <= getY() + getH())
-      return true;
-   else
-      return false;
-}
-
-bool Sprite::collide(Sprite &spr)
-{
-   /*
-     If the A image collides the B image, it means that at least 
-     one of A's corner OR one of B's corner is on the other sprite.
-    */
-   if (isOn(spr.getX(), spr.getY()))
-      return true;
-   else if (isOn(spr.getX() + spr.getW(), spr.getY()))
-      return true;
-   else if (isOn(spr.getX() + spr.getW(), spr.getY() + spr.getH()))
-      return true;
-   else if (isOn(spr.getX(), spr.getY() + spr.getH()))
-      return true;
-   else if (spr.isOn(getX(), getY()))
-      return true;
-   else if (spr.isOn(getX() + getW(), getY()))
-      return true;
-   else if (spr.isOn(getX() + getW(), getY() + getH()))
-      return true;
-   else if (spr.isOn(getX(), getY() + getH()))
-      return true;
-   else
-      return false;
+   return Rect(getX(), getY(), getW(), getH());
 }
 
 /*
   defaultDraw() can be used in the Draw function from inherited class, 
   so we avoid using private attributes.
  */
-void Sprite::Draw()
+void Sprite::draw()
 {
    defaultDraw();
 }
@@ -156,8 +105,8 @@ OSL_IMAGE* Sprite::getImage()
 
    sprite->stretchX = _stretchX;
    sprite->stretchY = _stretchY;
-   sprite->x = _x;
-   sprite->y = _y;
+   sprite->x = getX();
+   sprite->y = getY();
    sprite->angle = _angle;
 
    if (!tiled)
@@ -332,7 +281,7 @@ VALUE Sprite_collide(VALUE self, VALUE spr)
 VALUE Sprite_draw(VALUE self)
 {
    Sprite &item = getRef<Sprite>(self);
-   item.Draw();
+   item.draw();
 
    return Qnil;
 }

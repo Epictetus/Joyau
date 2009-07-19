@@ -19,8 +19,9 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include "Manager.hpp"
 #include "RubyWrapper.hpp"
+#include "Drawable.hpp"
 
-class Sprite
+class Sprite: public Drawable
 {
 public:
    Sprite():
@@ -28,8 +29,7 @@ public:
       _zoom(160),
       _angle(0)
    {
-      _x = 0;
-      _y = 0;
+      setPos(0, 0);
 
       animated = false;
       
@@ -49,9 +49,6 @@ public:
 
    void setPicture(char *pic);
 
-   void setPos(int x, int y);
-   void move(int x, int y);
-
    void rotate(int angle) { _angle += angle; }
    int getAngle() { return _angle; }
    void setAngle(int angle) { _angle = angle; }
@@ -61,16 +58,12 @@ public:
    void setAlpha(int alpha);
    int getAlpha();
    
-   int getX();
-   int getY();
    int getW();
    int getH();
 
-   bool isOn(int x, int y);
+   Rect boundingRect();
 
-   bool collide(Sprite &spr);
-
-   virtual void Draw();
+   virtual void draw();
    
    enum DIRECTION { DOWN, LEFT, RIGHT, UP, UP_LEFT, UP_RIGHT, DOWN_LEFT,
 		    DOWN_RIGHT };
@@ -96,9 +89,8 @@ protected:
    string picName;
 
    void defaultDraw();
-private:
-   int _x, _y;
    int _w, _h;
+private:
    int _stretchX, _stretchY;
    int _alpha;
    int _zoom;

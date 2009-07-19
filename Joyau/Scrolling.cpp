@@ -95,8 +95,8 @@ void Scrolling::play()
 
 void Scrolling::draw()
 {
-   bg[0].Draw();
-   bg[1].Draw();
+   bg[0].draw();
+   bg[1].draw();
 }
 
 VALUE Scrolling_setSprite(VALUE self, VALUE spr)
