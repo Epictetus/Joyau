@@ -271,7 +271,6 @@ void defineSprite()
    defMethod(cSprite, "getZoom", Sprite_getZoom, 0);
    defMethod(cSprite, "setAlpha", Sprite_setAlpha, 1);
    defMethod(cSprite, "getAlpha", Sprite_getAlpha, 0);
-   defMethod(cSprite, "draw", Sprite_draw, 0);
    defMethod(cSprite, "saveFile", Sprite_saveFile, 1);
    defMethod(cSprite, "setDirection", Sprite_setDirection, 1);
    defMethod(cSprite, "getDirection", Sprite_getDirection, 0);

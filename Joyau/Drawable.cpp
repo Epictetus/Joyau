@@ -287,6 +287,13 @@ VALUE Drawable_move(VALUE self, VALUE x, VALUE y)
    return Qnil;
 }
 
+VALUE Drawable_draw(VALUE self)
+{
+   Drawable &ref = getRef<Drawable>(self);
+   ref.draw();
+   return Qnil;
+}
+
 void defineDrawable()
 {
    VALUE cPoint = defClass<Point>("Point");
@@ -316,4 +323,5 @@ void defineDrawable()
    defMethod(cDrawable, "getH", Drawable_getH, 0);
    defMethod(cDrawable, "setPos", Drawable_setPos, 2);
    defMethod(cDrawable, "move", Drawable_move, 2);
+   defMethod(cDrawable, "draw", Drawable_draw, 0);
 }

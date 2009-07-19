@@ -128,7 +128,6 @@ VALUE Sprite_getZoom(VALUE self);
 VALUE Sprite_setAlpha(VALUE self,VALUE alpha);
 VALUE Sprite_getAlpha(VALUE self);
 
-VALUE Sprite_draw(VALUE self);
 VALUE Sprite_saveFile(VALUE self, VALUE pic);
 
 VALUE Sprite_setDirection(VALUE self, VALUE dir);

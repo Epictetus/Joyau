@@ -52,6 +52,8 @@ class Drawable
 public:
    Drawable();
 
+   virtual void draw() {}
+
    virtual Rect boundingRect();
 
    virtual bool collide(Drawable &item);
@@ -104,6 +106,8 @@ VALUE Drawable_getH(VALUE self);
 VALUE Drawable_setPos(VALUE self, VALUE x, VALUE y);
 
 VALUE Drawable_move(VALUE self, VALUE x, VALUE y);
+
+VALUE Drawable_draw(VALUE self);
 
 void defineDrawable();
 

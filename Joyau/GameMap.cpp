@@ -67,7 +67,7 @@ void GameMap::addElem(int tileset, int tX, int tY, int x, int y)
    tiles.push_back(t);
 }
 
-bool GameMap::collide(Sprite *spr)
+bool GameMap::collide(Drawable *spr)
 {
    for (list<Tile>::iterator i = tiles.begin(); i != tiles.end(); ++i)
    {
@@ -233,7 +233,7 @@ VALUE GameMap_addElem(VALUE self, VALUE tileset, VALUE tX, VALUE tY,
 VALUE GameMap_collide(VALUE self, VALUE spr)
 {
    GameMap &ref = getRef<GameMap>(self);
-   Sprite *_spr = getPtr<Sprite>(self);
+   Drawable *_spr = getPtr<Drawable>(self);
 
    if (ref.collide(_spr))
       return Qtrue;
