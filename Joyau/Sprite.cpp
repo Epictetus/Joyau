@@ -200,23 +200,6 @@ VALUE Sprite_setPicture(VALUE self, VALUE pic)
    return Qnil;
 }
 
-VALUE Sprite_setPos(VALUE self, VALUE x, VALUE y)
-{
-   Sprite &item = getRef<Sprite>(self);
-
-   item.setPos(FIX2INT(x), FIX2INT(y));
-
-   return Qnil;
-}
-
-VALUE Sprite_move(VALUE self, VALUE x, VALUE y)
-{
-   Sprite &item = getRef<Sprite>(self);
-
-   item.move(FIX2INT(x), FIX2INT(y));
-   return Qnil;
-}
-
 VALUE Sprite_setAlpha(VALUE self, VALUE alpha)
 {
    Sprite &item = getRef<Sprite>(self);
@@ -231,59 +214,6 @@ VALUE Sprite_getAlpha(VALUE self)
    Sprite &item = getRef<Sprite>(self);
 
    return INT2FIX(item.getAlpha());
-}
-
-VALUE Sprite_getX(VALUE self) 
-{
-   Sprite &item = getRef<Sprite>(self);
-   
-   return INT2FIX(item.getX());
-}
-VALUE Sprite_getY(VALUE self) 
-{
-   Sprite &item = getRef<Sprite>(self);
-
-   return INT2FIX(item.getY());
-}
-
-VALUE Sprite_getW(VALUE self) 
-{
-   Sprite &item = getRef<Sprite>(self);
-
-   return INT2FIX(item.getW());
-}
-VALUE Sprite_getH(VALUE self) 
-{
-   Sprite &item = getRef<Sprite>(self);
-
-   return INT2FIX(item.getH()); 
-}
-
-VALUE Sprite_isOn(VALUE self, VALUE rb_x, VALUE rb_y)
-{
-   Sprite &item = getRef<Sprite>(self);
-
-   if (item.isOn(FIX2INT(rb_x), FIX2INT(rb_y)))
-      return Qtrue;
-   return Qfalse;
-}
-
-VALUE Sprite_collide(VALUE self, VALUE spr)
-{
-   Sprite &item = getRef<Sprite>(self);
-   Sprite &adv = getRef<Sprite>(spr);
-
-   if (item.collide(adv))
-      return Qtrue;
-   return Qfalse;
-}
-
-VALUE Sprite_draw(VALUE self)
-{
-   Sprite &item = getRef<Sprite>(self);
-   item.draw();
-
-   return Qnil;
 }
 
 VALUE Sprite_setDirection(VALUE self, VALUE dir)
@@ -332,23 +262,15 @@ void defineSprite()
    rb_hash_aset(dirHash, rb_str_new2("DOWN_RIGHT"), INT2FIX(DOWN_RIGHT));
    rb_gv_set("$directions", dirHash);
 
-   VALUE cSprite = defClass<Sprite>("Sprite");
+   VALUE cDrawable = getClass("Drawable");
+   VALUE cSprite = defClass<Sprite>("Sprite", cDrawable);
    defMethod(cSprite, "setPicture", Sprite_setPicture, 1);
-   defMethod(cSprite, "setPos", Sprite_setPos, 2);
-   defMethod(cSprite, "move", Sprite_move, 2);
-   defMethod(cSprite, "rotate", Sprite_rotate, 1);
    defMethod(cSprite, "getAngle", Sprite_getAngle, 0);
    defMethod(cSprite, "setAngle", Sprite_setAngle, 1);
    defMethod(cSprite, "zoom", Sprite_zoom, 1);
    defMethod(cSprite, "getZoom", Sprite_getZoom, 0);
    defMethod(cSprite, "setAlpha", Sprite_setAlpha, 1);
    defMethod(cSprite, "getAlpha", Sprite_getAlpha, 0);
-   defMethod(cSprite, "getX", Sprite_getX, 0);
-   defMethod(cSprite, "getY", Sprite_getY, 0);
-   defMethod(cSprite, "getW", Sprite_getW, 0);
-   defMethod(cSprite, "getH", Sprite_getH, 0);
-   defMethod(cSprite, "isOn", Sprite_isOn, 2);
-   defMethod(cSprite, "collide", Sprite_collide, 1);
    defMethod(cSprite, "draw", Sprite_draw, 0);
    defMethod(cSprite, "saveFile", Sprite_saveFile, 1);
    defMethod(cSprite, "setDirection", Sprite_setDirection, 1);

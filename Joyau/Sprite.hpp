@@ -118,9 +118,6 @@ enum DIRECTION { DOWN, LEFT, RIGHT, UP, UP_LEFT, UP_RIGHT, DOWN_LEFT,
 
 VALUE Sprite_setPicture(VALUE self, VALUE pic);
 
-VALUE Sprite_setPos(VALUE self, VALUE x, VALUE y);
-VALUE Sprite_move(VALUE self, VALUE x, VALUE y);
-
 VALUE Sprite_rotate(VALUE self, VALUE angle);
 VALUE Sprite_getAngle(VALUE self);
 VALUE Sprite_setAngle(VALUE self, VALUE angle);
@@ -130,14 +127,6 @@ VALUE Sprite_getZoom(VALUE self);
 
 VALUE Sprite_setAlpha(VALUE self,VALUE alpha);
 VALUE Sprite_getAlpha(VALUE self);
-
-VALUE Sprite_getX(VALUE self);
-VALUE Sprite_getY(VALUE self);
-VALUE Sprite_getW(VALUE self);
-VALUE Sprite_getH(VALUE self);
-
-VALUE Sprite_isOn(VALUE self, VALUE x, VALUE y);
-VALUE Sprite_collide(VALUE self, VALUE spr);
 
 VALUE Sprite_draw(VALUE self);
 VALUE Sprite_saveFile(VALUE self, VALUE pic);
