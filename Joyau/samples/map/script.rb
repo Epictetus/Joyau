@@ -89,7 +89,6 @@ while mayPlay
   bg.draw
   obstacles.draw
   angel.draw
-
   endDraw
   
   sync
