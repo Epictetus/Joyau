@@ -15,8 +15,8 @@ void Circle::setRadius(int r)
    // in any order.
    setPos(centerX - _r, centerY - _r);
    
-   _w = _r;
-   _h = _r;
+   _w = _r * 2;
+   _h = _r * 2;
 }
 
 void Circle::draw()
