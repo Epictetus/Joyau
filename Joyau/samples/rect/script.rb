@@ -6,12 +6,7 @@ rect = DrawableRect.new
 rect.resize(100, 100)
 rect.setPos(0, 0)
 
-hash = Hash.new
-hash["r"] = 255
-hash["g"] = 0
-hash["b"] = 0
-hash["a"] = 255
-
+hash = color(255, 0, 0, 255)
 rect.setColor(hash)
 
 bRect = rect.boundingRect()
