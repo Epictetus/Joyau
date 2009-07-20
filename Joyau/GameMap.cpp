@@ -77,8 +77,6 @@ bool GameMap::isOn(int x, int y)
       tile.setTile((*i).tileX, (*i).tileY, tileWidth, tileHeight);
       tile.setPos(getX() + (*i).x, getY() + (*i).y);
 
-      tile.getImage();
-
       if (tile.isOn(x, y))
          return true;
    }
@@ -174,8 +172,8 @@ VALUE GameMap_addElem(VALUE self, VALUE tileset, VALUE tX, VALUE tY,
 
 VALUE GameMap_clear(VALUE self)
 {
-   GameMap *ptr = getPtr<GameMap>(self);
-   ptr->clear();
+   GameMap &ref = getRef<GameMap>(self);
+   ref.clear();
 
    return Qnil;
 }
