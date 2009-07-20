@@ -54,7 +54,7 @@ void GameMap::addElem(int tileset, int tX, int tY, int x, int y)
    tiles.push_back(t);
 }
 
-bool GameMap::collide(Drawable *spr)
+bool GameMap::collide(Drawable &spr)
 {
    for (list<Tile>::iterator i = tiles.begin(); i != tiles.end(); ++i)
    {
@@ -63,9 +63,7 @@ bool GameMap::collide(Drawable *spr)
       // Coord relative to the map !
       tile.setPos(getX() + (*i).x, getY() + (*i).y);
 
-      tile.getImage(); // We update informations
-
-      if (tile.collide(*spr))
+      if (tile.collide(spr))
          return true; // If it collides with only one tile, it collides..
    }
    return false; // It didn't collide with any sprite.

@@ -32,7 +32,7 @@ public:
 
    void addElem(int tileset, int tX, int tY, int x, int y);
 
-   bool collide(Drawable *spr);
+   bool collide(Drawable &spr);
    bool isOn(int x, int y);
 
    void clear();
