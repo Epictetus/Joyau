@@ -30,6 +30,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "DrawableRect.hpp"
 #include "Circle.hpp"
 #include "Line.hpp"
+#include "Triangle.hpp"
 
 PSP_MODULE_INFO("Joyau", 0, 1, 1);
 PSP_MAIN_THREAD_ATTR(THREAD_ATTR_USER | THREAD_ATTR_VFPU);
@@ -100,6 +101,7 @@ int main(int argc, char** argv)
    defineDrawableRect();
    defineCircle();
    defineLine();
+   defineTriangle();
 
    Manager::getInstance().setArg(argc, argv);
 
