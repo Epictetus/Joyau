@@ -27,6 +27,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "CircleMenu.hpp"
 #include "Timer.hpp"
 #include "Drawable.hpp"
+#include "DrawableRect.hpp"
 
 PSP_MODULE_INFO("Joyau", 0, 1, 1);
 PSP_MAIN_THREAD_ATTR(THREAD_ATTR_USER | THREAD_ATTR_VFPU);
@@ -80,6 +81,9 @@ int main(int argc, char** argv)
 
    ruby_init();
 
+   defineManager();
+
+  
    defineDrawable();
    defineManager();
    defineSprite();
@@ -93,6 +97,7 @@ int main(int argc, char** argv)
    defineGameMap();
    defineCircleMenu();
    defineTimer();
+   defineDrawableRect();
 
    Manager::getInstance().setArg(argc, argv);
 
