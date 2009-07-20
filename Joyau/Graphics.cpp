@@ -63,6 +63,17 @@ VALUE lib_stop(VALUE self)
    return Qnil;
 }
 
+VALUE Graphics_color(VALUE self, VALUE r, VALUE g, VALUE b, VALUE a)
+{
+   VALUE hash = rb_hash_new();
+   rb_hash_aset(hash, rb_str_new2("r"), r);
+   rb_hash_aset(hash, rb_str_new2("g"), g);
+   rb_hash_aset(hash, rb_str_new2("b"), b);
+   rb_hash_aset(hash, rb_str_new2("a"), a);
+
+   return hash;
+}
+
 VALUE Graphics_drawLine(VALUE self, VALUE x1, VALUE y1, VALUE x2, 
 			VALUE y2, VALUE color)
 {
@@ -208,6 +219,8 @@ void defineGraphics()
    defFunc("startDraw", Graphics_startDraw, 0);
    defFunc("endDraw", Graphics_endDraw, 0);
    defFunc("sync", Graphics_sync, 0);
+
+   defFunc("color", Graphics_color, 4);
 
    defFunc("drawLine", Graphics_drawLine, 5);
    defFunc("drawRect", Graphics_drawRect, 5);
