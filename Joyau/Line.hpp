@@ -14,46 +14,30 @@ You should have received a copy of the GNU General Public License along
 with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.*/
 
-#ifndef JOYAU_CIRCLE
-#define JOYAU_CIRCLE
+#ifndef JOYAU_LINE
+#define JOYAU_LINE
 
 #include "Drawable.hpp"
 
-class Circle: public Drawable
+class Line: public Drawable
 {
 public:
-   Circle(): filled(true) {}
-   void toggleFilled() { filled = !filled; }
-
-   void setCenter(int x, int y);
-   void setRadius(int r);
-
-   void draw();
+   void setPoint(int x, int y);
 
    void setColor(OSL_COLOR col);
+   void setGradient(OSL_COLOR col[2]);
 
-   int getCenterX() { return centerX; }
-   int getCenterY() { return centerY; }
-   int getRadius() { return _r; }
+   void draw();
 private:
-   int centerX, centerY;
-   int _r;
-
-   OSL_COLOR _col;
-   bool filled;
+   OSL_COLOR _col[2];
+   int _x2, _y2;
 };
 
-VALUE Circle_toggleFilled(VALUE self);
+VALUE Line_setPoint(VALUE self, VALUE x, VALUE y);
 
-VALUE Circle_setCenter(VALUE self, VALUE x, VALUE y);
-VALUE Circle_setRadius(VALUE self, VALUE r);
+VALUE Line_setColor(VALUE self, VALUE col);
+VALUE Line_setGradient(VALUE self, VALUE col);
 
-VALUE Circle_setColor(VALUE self, VALUE col);
-
-VALUE Circle_getCenterX(VALUE self);
-VALUE Circle_getCenterY(VALUE self);
-VALUE Circle_getRadius(VALUE self);
-
-void defineCircle();
+void defineLine();
 
 #endif

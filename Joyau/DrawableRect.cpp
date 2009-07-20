@@ -60,9 +60,7 @@ VALUE DrawableRect_setGradient(VALUE self, VALUE col)
    DrawableRect &ref = getRef<DrawableRect>(self);
    OSL_COLOR _col[4];
    for (int i = 0; i < 4; ++i)
-   {
       _col[i] = hash2col(rb_ary_entry(col, INT2FIX(i)));
-   }
 
    ref.setGradient(_col);
    return Qnil;
