@@ -43,11 +43,6 @@ int Sprite::getAlpha()
 int Sprite::getW() { return tiled ? wTile : _w / _nbrX; }
 int Sprite::getH() { return tiled ? hTile : _h / _nbrY; }
 
-Rect Sprite::boundingRect()
-{
-   return Rect(getX(), getY(), getW(), getH());
-}
-
 /*
   defaultDraw() can be used in the Draw function from inherited class, 
   so we avoid using private attributes.
@@ -101,7 +96,7 @@ void Sprite::setTile(int x, int y, int w, int h)
 
 OSL_IMAGE* Sprite::getImage()
 {
-   oslSetAlpha(OSL_FX_ALPHA , _alpha);
+   oslSetAlpha(OSL_FX_ALPHA, _alpha);
 
    sprite->stretchX = _stretchX;
    sprite->stretchY = _stretchY;

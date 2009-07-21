@@ -61,8 +61,6 @@ public:
    int getW();
    int getH();
 
-   Rect boundingRect();
-
    virtual void draw();
    
    enum DIRECTION { DOWN, LEFT, RIGHT, UP, UP_LEFT, UP_RIGHT, DOWN_LEFT,
