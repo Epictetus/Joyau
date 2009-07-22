@@ -78,4 +78,18 @@ inline OSL_COLOR hash2col(VALUE hash)
    return RGBA(r, g, b, a);
 }
 
+inline VALUE col2hash(OSL_COLOR col)
+{
+   u8 red, green, blue, alpha;
+   oslRgbaGet8888(col, red, green, blue, alpha);
+   
+   VALUE hash = rb_hash_new();
+   rb_hash_aset(hash, rb_str_new2("r"), INT2FIX(red));
+   rb_hash_aset(hash, rb_str_new2("g"), INT2FIX(green));
+   rb_hash_aset(hash, rb_str_new2("b"), INT2FIX(blue));
+   rb_hash_aset(hash, rb_str_new2("a"), INT2FIX(alpha));
+
+   return hash;
+}
+
 #endif
