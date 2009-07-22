@@ -38,7 +38,7 @@ int Sprite::getAlpha()
    return _alpha;
 }
 
-//Since nbrX and nbrY are initialized to 1, we cane use them even in
+//Since nbrX and nbrY are initialized to 1, we can use them even in
 //not-animated sprites. 
 int Sprite::getW() { return tiled ? wTile : _w / _nbrX; }
 int Sprite::getH() { return tiled ? hTile : _h / _nbrY; }
@@ -92,6 +92,9 @@ void Sprite::setTile(int x, int y, int w, int h)
    yTile = y;
    wTile = w;
    hTile = h;
+
+   _w = w;
+   _h = h;
 }
 
 OSL_IMAGE* Sprite::getImage()
