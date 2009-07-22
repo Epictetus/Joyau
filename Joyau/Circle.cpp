@@ -37,6 +37,10 @@ void Circle::setRadius(int r)
 
 void Circle::draw()
 {
+   // if the user has used setPos or move, we should fix centerX and centerY
+   if (centerX != getX() + _r ||
+       centerY != getY() + _r)
+      setCenter(getX() + _r, getY() + _r);
    if (filled)
       oslDrawFillCircle(centerX, centerY, _r, _col);
    else
@@ -46,6 +50,14 @@ void Circle::draw()
 void Circle::setColor(OSL_COLOR col)
 {
    _col = col;
+}
+
+Rect Circle::boundingRect()
+{
+   if (centerX != getX() + _r ||
+       centerY != getY() + _r)
+      setCenter(getX() + _r, getY() + _r);
+   return Rect(getX(), getY(), getW(), getH());
 }
 
 VALUE Circle_toggleFilled(VALUE self)

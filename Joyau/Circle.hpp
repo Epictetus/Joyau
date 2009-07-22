@@ -35,6 +35,8 @@ public:
    int getCenterX() { return centerX; }
    int getCenterY() { return centerY; }
    int getRadius() { return _r; }
+
+   Rect boundingRect();
 private:
    int centerX, centerY;
    int _r;
