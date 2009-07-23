@@ -29,6 +29,12 @@ CFLAGS += -O2 -G0 -Wall -D_PSP_
 CXXFLAGS = $(CFLAGS) -fno-exceptions -fno-rtti
 ASFLAGS = $(CFLAGS)
 
+ifdef JOYAU_PSPLINK
+BUILD_PRX = 1
+CFLAGS += -g
+CXXFLAGS += -g
+endif
+
 LIBS = -losl -lpng -lz -lpspsdk -lpspvfpu -lpspctrl \
 	-lpspumd -lpsprtc -lpsppower -lpspgu -lpspmpeg -lpspaudiocodec \
 	-lpspaudiolib -lalut -lOpenAL32 -lvorbisfile -lvorbis -lpspaudio \
