@@ -52,6 +52,7 @@ private:
 VALUE DrawableText_setText(VALUE self, VALUE text);
 
 VALUE DrawableText_toggleStirring(VALUE self);
+VALUE DrawableText_toggleScripted(VALUE self);
 
 VALUE DrawableText_setColor(VALUE self, VALUE color);
 VALUE DrawableText_setBackground(VALUE self, VALUE color);

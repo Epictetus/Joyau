@@ -80,6 +80,13 @@ VALUE DrawableText_toggleStirring(VALUE self)
    return Qnil;
 }
 
+VALUE DrawableText_toggleScripted(VALUE self)
+{
+   DrawableText &ref = getRef<DrawableText>(self);
+   ref.toggleScripted();
+   return Qnil;
+}
+
 VALUE DrawableText_setColor(VALUE self, VALUE color)
 {
    DrawableText &ref = getRef<DrawableText>(self);
@@ -115,5 +122,6 @@ void defineDrawableText()
    defMethod(cDrawableText, "setBackground", DrawableText_setBackground, 1);
    defMethod(cDrawableText, "setColor", DrawableText_setColor, 1);
    defMethod(cDrawableText, "toggleStirring", DrawableText_toggleStirring, 0);
+   defMethod(cDrawableText, "toggleScripted", DrawableText_toggleScripted, 0);
    defMethod(cDrawableText, "setText", DrawableText_setText, 1);
 }
