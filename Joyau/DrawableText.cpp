@@ -16,11 +16,32 @@
 
 #include "DrawableText.hpp"
 
+DrawableText::DrawableText()
+{
+   font = "";
+   stirring = false;
+   scripted = false;
+}
+
 int DrawableText::getW()
 {
    // Don't forget to update the font
    oslSetFont(Manager::getInstance().getFont(font.c_str()));
    return oslGetStringWidth(_text.c_str());
+}
+
+void DrawableText::toggleStirring()
+{
+   stirring = !stirring;
+   if (stirring)
+      scripted = false;
+}
+
+void DrawableText::toggleScripted()
+{
+   scripted = !scripted;
+   if (scripted)
+      stirring = false;
 }
 
 void DrawableText::draw()
@@ -33,6 +54,12 @@ void DrawableText::draw()
 
    if (stirring)
       oslPrintStirringString(getX(), getY(), _text.c_str());
+   else if (scripted)
+   {
+      char txt[256];
+      strcpy(txt, _text.c_str());
+      oslScriptText(getX(), getY(), txt);
+   }
    else
    {
       char txt[256];
