@@ -37,7 +37,7 @@ void DrawableText::draw()
    {
       char txt[256];
       strcpy(txt, _text.c_str());
-      oslScriptText(getX(), getY(), txt);
+      oslDrawString(getX(), getY(), txt);
    }
 }
 
