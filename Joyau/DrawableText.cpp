@@ -61,11 +61,7 @@ void DrawableText::draw()
       oslScriptText(getX(), getY(), txt);
    }
    else
-   {
-      char txt[256];
-      strcpy(txt, _text.c_str());
-      oslDrawString(getX(), getY(), txt);
-   }
+      oslDrawString(getX(), getY(), _text.c_str());
 }
 
 VALUE DrawableText_setText(VALUE self, VALUE text)
