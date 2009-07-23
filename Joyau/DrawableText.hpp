@@ -24,10 +24,11 @@
 class DrawableText: public Drawable
 {
 public:
-   DrawableText(): font(""), stirring(false) {}
+   DrawableText();
    void setText(string text) { _text = text; }
 
-   void toggleStirring() { stirring = !stirring; }
+   void toggleStirring();
+   void toggleScripted();
    
    void setColor(OSL_COLOR col) { _col = col; }
    void setBackground(OSL_COLOR col) { bg = col; }
@@ -41,6 +42,8 @@ public:
 private:
    string font;
    string _text;
+
+   bool scripted;
    bool stirring;
 
    OSL_COLOR bg, _col;
