@@ -26,6 +26,8 @@ public:
 
    void setColor(OSL_COLOR col);
    void setGradient(OSL_COLOR col[3]);
+
+   OSL_COLOR *getColors();
    
    void draw();
 private:

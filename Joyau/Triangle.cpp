@@ -62,6 +62,8 @@ void Triangle::setGradient(OSL_COLOR col[3])
       _col[i] = col[i];
 }
 
+OSL_COLOR* Triangle::getColors() { return _col; }
+
 void Triangle::draw()
 {
    oslDrawGradientTriangle(x[0], y[0], x[1], y[1], x[2], y[2], 
@@ -106,6 +108,17 @@ VALUE Triangle_setGradient(VALUE self, VALUE col)
    return Qnil;
 }
 
+VALUE Triangle_getColors(VALUE self)
+{
+   Triangle &ref = getRef<Triangle>(self);
+   OSL_COLOR *col = ref.getColors();
+
+   VALUE hash = rb_ary_new();
+   for (int i = 0; i < 3; ++i)
+       rb_ary_push(hash, INT2FIX(col[i]));
+   return hash;
+}
+
 void defineTriangle()
 {
    VALUE cDrawable = getClass("Drawable");
@@ -113,4 +126,5 @@ void defineTriangle()
    defMethod(cTriangle, "setPoints", Triangle_setPoints, 6);
    defMethod(cTriangle, "setColor", Triangle_setColor, 1);
    defMethod(cTriangle, "setGradient", Triangle_setGradient, 1);
+   defMethod(cTriangle, "getColors", Triangle_getColors, 0);
 }
