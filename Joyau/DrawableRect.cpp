@@ -55,6 +55,11 @@ void DrawableRect::draw()
       oslDrawRect(getX(), getY(), _x2, _y2, _col[0]);
 }
 
+OSL_COLOR *DrawableRect::getColors()
+{
+   return _col;
+}
+
 VALUE DrawableRect_toggleFilled(VALUE self)
 {
    DrawableRect &ref = getRef<DrawableRect>(self);
@@ -102,6 +107,30 @@ VALUE DrawableRect_setCorner(VALUE self, VALUE x, VALUE y)
    return Qnil;
 }
 
+VALUE DrawableRect_getColors(VALUE self)
+{
+   DrawableRect &ref = getRef<DrawableRect>(self);
+   OSL_COLOR *col = ref.getColors();
+
+   VALUE hash = rb_ary_new();
+   for (int i = 0; i < 4; ++i)
+       rb_ary_push(hash, INT2FIX(col[i]));
+   return hash;  
+}
+
+VALUE DrawableRect_getCorner(VALUE self)
+{
+   DrawableRect &ref = getRef<DrawableRect>(self);
+   Point point = ref.getCorner();
+
+   VALUE val = wrap<Point>(getClass("Point"));
+
+   Point &p = getRef<Point>(val);
+   p = point;
+
+   return val;
+}
+
 void defineDrawableRect()
 {
    VALUE cDrawable = getClass("Drawable");
@@ -111,4 +140,6 @@ void defineDrawableRect()
    defMethod(cDrawableRect, "setColor", DrawableRect_setColor, 1);
    defMethod(cDrawableRect, "setGradient", DrawableRect_setGradient, 1);
    defMethod(cDrawableRect, "toggleFilled", DrawableRect_toggleFilled, 0);
+   defMethod(cDrawableRect, "getColors", DrawableRect_getColors, 0);
+   defMethod(cDrawableRect, "getCorner", DrawableRect_getCorner, 0);
 }

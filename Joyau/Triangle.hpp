@@ -28,6 +28,7 @@ public:
    void setGradient(OSL_COLOR col[3]);
 
    OSL_COLOR *getColors();
+   Point *getPoints();
    
    void draw();
 private:
@@ -42,6 +43,9 @@ VALUE Triangle_setPoints(VALUE self, VALUE x1, VALUE y1, VALUE x2, VALUE y2,
 
 VALUE Triangle_setColor(VALUE self, VALUE col);
 VALUE Triangle_setGradient(VALUE self, VALUE col);
+
+VALUE Triangle_getColors(VALUE self);
+VALUE Triangle_getPoints(VALUE self);
 
 void defineTriangle();
 

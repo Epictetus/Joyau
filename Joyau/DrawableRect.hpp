@@ -33,6 +33,9 @@ public:
    void draw();
 
    void setCorner(int x, int y);
+
+   OSL_COLOR *getColors();
+   Point getCorner() const { return Point(_x2, _y2); }
 private:
    bool filled;
    int _x2, _y2;
@@ -47,6 +50,9 @@ VALUE DrawableRect_setGradient(VALUE self, VALUE col);
 VALUE DrawableRect_resize(VALUE self, VALUE w, VALUE h);
 
 VALUE DrawableRect_setCorner(VALUE self, VALUE x, VALUE y);
+
+VALUE DrawableRect_getColors(VALUE self);
+VALUE DrawableRect_getCorner(VALUE self);
 
 void defineDrawableRect();
 
