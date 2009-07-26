@@ -32,10 +32,10 @@ public:
 
    void draw();
 
-   int getTime() { return _time; }
-   int getSpeed() { return _speed; }
-   int getGravity() { return _gravity; }
-   int getMinSpeed() { return _mspeed; }
+   int getTime() const { return _time; }
+   int getSpeed() const { return _speed; }
+   int getGravity() const { return _gravity; }
+   int getMinSpeed() const { return _mspeed; }
 private:
    OSL_PARTICLES *part;
 

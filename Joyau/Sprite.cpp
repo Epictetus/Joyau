@@ -33,7 +33,7 @@ void Sprite::setAlpha(int alpha)
    _alpha = alpha;
 }
 
-int Sprite::getAlpha()
+int Sprite::getAlpha() const
 {
    return _alpha;
 }

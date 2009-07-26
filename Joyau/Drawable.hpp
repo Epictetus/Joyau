@@ -41,10 +41,10 @@ struct Rect
    int x, y;
    int w, h;
 
-   Point top_right() { return Point(x + w, y); }
-   Point top_left() { return Point(x, y); }
-   Point bottom_right() { return Point(x + w, y + h); }
-   Point bottom_left() { return Point(x, y + h); }
+   Point top_right() const { return Point(x + w, y); }
+   Point top_left() const { return Point(x, y); }
+   Point bottom_right() const { return Point(x + w, y + h); }
+   Point bottom_left() const { return Point(x, y + h); }
 };
 
 class Drawable
@@ -60,8 +60,8 @@ public:
    virtual bool isOn(int x, int y);
    virtual bool isOn(Point p);
 
-   int getX();
-   int getY();
+   int getX() const;
+   int getY() const;
 
    virtual int getW();
    virtual int getH();

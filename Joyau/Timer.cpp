@@ -28,7 +28,7 @@ void Timer::reset()
    sceKernelLibcTime(&startTimestamp);
 }
 
-time_t Timer::getTime()
+time_t Timer::getTime() const
 {
    if (!paused)
    {

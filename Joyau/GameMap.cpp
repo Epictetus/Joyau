@@ -89,7 +89,7 @@ void GameMap::clear()
    tilesets.clear();
 }
 
-bool GameMap::visible(const Tile &t)
+bool GameMap::visible(const Tile &t) const
 {
    int x = t.x + getX();
    int y = t.y + getY();

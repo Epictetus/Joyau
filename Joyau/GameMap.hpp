@@ -52,7 +52,7 @@ private:
 
    int tileWidth, tileHeight;
 protected:
-   bool visible(const Tile &t);
+   bool visible(const Tile &t) const;
 };
 
 VALUE GameMap_resize(VALUE self, VALUE w, VALUE h);

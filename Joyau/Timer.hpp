@@ -25,12 +25,12 @@ public:
    Timer();
    void reset();
 
-   time_t getTime();
+   time_t getTime() const;
 
    void pause();
    void resume();
 
-   bool isPaused() { return paused; }
+   bool isPaused() const { return paused; }
 private:
    bool paused;
 

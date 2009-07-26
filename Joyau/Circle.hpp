@@ -32,9 +32,9 @@ public:
 
    void setColor(OSL_COLOR col);
 
-   int getCenterX() { return centerX; }
-   int getCenterY() { return centerY; }
-   int getRadius() { return _r; }
+   int getCenterX() const { return centerX; }
+   int getCenterY() const { return centerY; }
+   int getRadius() const { return _r; }
 
    Rect boundingRect();
 private:

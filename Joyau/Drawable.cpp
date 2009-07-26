@@ -24,7 +24,7 @@ Drawable::Drawable()
    _h = 0;
 }
 
-Rect Drawable::boundingRect() 
+Rect Drawable::boundingRect()
 { 
    return Rect(getX(), getY(), getW(), getH()); 
 }
@@ -82,12 +82,12 @@ bool Drawable::isOn(Point p)
    return isOn(p.x, p.y);
 }
 
-int Drawable::getX()
+int Drawable::getX() const
 {
    return _x;
 }
 
-int Drawable::getY()
+int Drawable::getY() const
 {
    return _y;
 }

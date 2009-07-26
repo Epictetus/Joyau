@@ -50,13 +50,13 @@ public:
    void setPicture(char *pic);
 
    void rotate(int angle) { _angle += angle; }
-   int getAngle() { return _angle; }
+   int getAngle() const { return _angle; }
    void setAngle(int angle) { _angle = angle; }
    void zoom(int increase);
-   int getZoom() { return _zoom; }
+   int getZoom() const { return _zoom; }
 
    void setAlpha(int alpha);
-   int getAlpha();
+   int getAlpha() const;
    
    int getW();
    int getH();
@@ -67,7 +67,7 @@ public:
 		    DOWN_RIGHT };
 
    void setDirection(int dir);
-   int getDirection() { return _dir; }
+   int getDirection() const { return _dir; }
    
    // Configure the number of sprite.
    void setAnimation(int nbrX, int nbrY);
@@ -86,7 +86,7 @@ public:
 protected:
    string picName;
 
-   void defaultDraw();
+   virtual void defaultDraw();
    int _w, _h;
 private:
    int _stretchX, _stretchY;
