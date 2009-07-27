@@ -37,6 +37,14 @@ void Line::setGradient(OSL_COLOR col[2])
       _col[i] = col[i];
 }
 
+OSL_COLOR* Line::getColors()
+{
+   OSL_COLOR *col = new OSL_COLOR[2];
+   for (int i = 0; i < 2; ++i)
+      col[i] = _col[i];
+   return col;
+}
+
 void Line::draw()
 {
    oslDrawGradientLine (getX(), getY(), _x2, _y2, 
@@ -74,6 +82,16 @@ VALUE Line_setGradient(VALUE self, VALUE col)
    return Qnil;
 }
 
+VALUE Line_getColors(VALUE self)
+{
+   Line &ref = getRef<Line>(self);
+   OSL_COLOR *col = ref.getColors();
+   VALUE array = rb_ary_new();
+   for (int i = 0; i < 2; ++i)
+      rb_ary_push(array, col2hash(col[i]));
+   return array;
+}
+
 void defineLine()
 {
    VALUE cDrawable = getClass("Drawable");
@@ -81,4 +99,5 @@ void defineLine()
    defMethod(cLine, "setColor", Line_setColor, 1);
    defMethod(cLine, "setGradient", Line_setGradient, 1);
    defMethod(cLine, "setPoint", Line_setPoint, 2);
+   defMethod(cLine, "getColors", Line_getColors, 0);
 }

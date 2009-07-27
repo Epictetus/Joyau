@@ -27,6 +27,8 @@ public:
    void setColor(OSL_COLOR col);
    void setGradient(OSL_COLOR col[2]);
 
+   OSL_COLOR *getColors();
+
    void draw();
 private:
    OSL_COLOR _col[2];
@@ -37,6 +39,8 @@ VALUE Line_setPoint(VALUE self, VALUE x, VALUE y);
 
 VALUE Line_setColor(VALUE self, VALUE col);
 VALUE Line_setGradient(VALUE self, VALUE col);
+
+VALUE Line_getColors(VALUE self);
 
 void defineLine();
 
