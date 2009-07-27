@@ -123,7 +123,7 @@ VALUE Triangle_getColors(VALUE self)
 
    VALUE hash = rb_ary_new();
    for (int i = 0; i < 3; ++i)
-       rb_ary_push(hash, INT2FIX(col[i]));
+       rb_ary_push(hash, col2hash(col[i]));
    return hash;
 }
 

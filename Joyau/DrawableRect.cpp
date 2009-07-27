@@ -114,8 +114,8 @@ VALUE DrawableRect_getColors(VALUE self)
 
    VALUE hash = rb_ary_new();
    for (int i = 0; i < 4; ++i)
-       rb_ary_push(hash, INT2FIX(col[i]));
-   return hash;  
+       rb_ary_push(hash, col2hash(col[i]));
+   return hash;
 }
 
 VALUE DrawableRect_getCorner(VALUE self)
