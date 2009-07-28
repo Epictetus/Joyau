@@ -92,6 +92,14 @@ VALUE Line_getColors(VALUE self)
    return array;
 }
 
+VALUE Line_getPoint(VALUE self)
+{
+   Line &ref = getRef<Line>(self);
+   Point point = ref.getPoint();
+
+   return createObject(getClass("Point"), point);
+}
+
 void defineLine()
 {
    VALUE cDrawable = getClass("Drawable");
@@ -100,4 +108,5 @@ void defineLine()
    defMethod(cLine, "setGradient", Line_setGradient, 1);
    defMethod(cLine, "setPoint", Line_setPoint, 2);
    defMethod(cLine, "getColors", Line_getColors, 0);
+   defMethod(cLine, "getPoint", Line_getPoint, 0);
 }

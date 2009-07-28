@@ -28,6 +28,7 @@ public:
    void setGradient(OSL_COLOR col[2]);
 
    OSL_COLOR *getColors();
+   Point getPoint() const { return Point(_x2, _y2); }
 
    void draw();
 private:
@@ -41,6 +42,7 @@ VALUE Line_setColor(VALUE self, VALUE col);
 VALUE Line_setGradient(VALUE self, VALUE col);
 
 VALUE Line_getColors(VALUE self);
+VALUE Line_getPoint(VALUE self);
 
 void defineLine();
 
