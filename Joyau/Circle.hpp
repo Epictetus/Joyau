@@ -35,6 +35,7 @@ public:
    int getCenterX() const { return centerX; }
    int getCenterY() const { return centerY; }
    int getRadius() const { return _r; }
+   OSL_COLOR getColor() const { return _col; }
 
    Rect boundingRect();
 private:
@@ -55,6 +56,7 @@ VALUE Circle_setColor(VALUE self, VALUE col);
 VALUE Circle_getCenterX(VALUE self);
 VALUE Circle_getCenterY(VALUE self);
 VALUE Circle_getRadius(VALUE self);
+VALUE Circle_getColor(VALUE self);
 
 void defineCircle();
 

@@ -114,6 +114,12 @@ VALUE Circle_getRadius(VALUE self)
    return INT2FIX(ref.getRadius());
 }
 
+VALUE Circle_getColor(VALUE self)
+{
+   Circle &ref = getRef<Circle>(self);
+   return col2hash(ref.getColor());
+}
+
 void defineCircle()
 {
    VALUE cDrawable = getClass("Drawable");
@@ -125,4 +131,5 @@ void defineCircle()
    defMethod(cCircle, "getCenterX", Circle_getCenterX, 0);
    defMethod(cCircle, "getCenterY", Circle_getCenterY, 0);
    defMethod(cCircle, "getRadius", Circle_getRadius, 0);
+   defMethod(cCircle, "getColor", Circle_getColor, 0);
 }
