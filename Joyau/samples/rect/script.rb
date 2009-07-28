@@ -14,10 +14,10 @@ bRect = rect.boundingRect()
 while mayPlay
   startDraw
   rect.draw
-  drawText(50, 100, "x : " + bRect.getX.to_s)
-  drawText(50, 110, "y : " + bRect.getY.to_s)
-  drawText(50, 120, "w : " + bRect.getW.to_s)
-  drawText(50, 130, "h : " + bRect.getH.to_s)
+  drawText(50, 100, "x : " + bRect.x.to_s)
+  drawText(50, 110, "y : " + bRect.y.to_s)
+  drawText(50, 120, "w : " + bRect.w.to_s)
+  drawText(50, 130, "h : " + bRect.h.to_s)
   endDraw
 
   sync
