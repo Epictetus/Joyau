@@ -215,12 +215,7 @@ VALUE Drawable_boundingRect(VALUE self)
    Drawable &ref = getRef<Drawable>(self);
    Rect rect = ref.boundingRect();
   
-   VALUE ret = wrap<Rect>(getClass("Rect"));
-
-   Rect &rRef = getRef<Rect>(ret);
-   rRef = rect;
-
-   return ret;
+   return createObject(getClass("Rect"), rect);
 }
 
 VALUE Drawable_collide(VALUE self, VALUE item)

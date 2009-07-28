@@ -134,14 +134,7 @@ VALUE Triangle_getPoints(VALUE self)
 
    VALUE hash = rb_ary_new();
    for (int i = 0; i < 3; ++i)
-   {
-      VALUE val = wrap<Point>(getClass("Point"));
-
-      Point &ref = getRef<Point>(val);
-      ref = points[i];
-
-      rb_ary_push(hash, val);
-   }
+      rb_ary_push(hash, createObject(getClass("Point"), points[i]));
 
    return hash;
 }

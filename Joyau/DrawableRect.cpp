@@ -123,12 +123,7 @@ VALUE DrawableRect_getCorner(VALUE self)
    DrawableRect &ref = getRef<DrawableRect>(self);
    Point point = ref.getCorner();
 
-   VALUE val = wrap<Point>(getClass("Point"));
-
-   Point &p = getRef<Point>(val);
-   p = point;
-
-   return val;
+   return createObject(getClass("Point"), point);
 }
 
 void defineDrawableRect()

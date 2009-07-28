@@ -52,6 +52,14 @@ template<typename T> T &getRef(VALUE val)
    return (*getPtr<T>(val));
 }
 
+template<typename T> VALUE createObject(VALUE info, T &val)
+{
+   VALUE ret = wrap<T>(info);
+   T &ref = getRef<T>(ret);
+   ref = val;
+   return ret;
+}
+
 template<typename T> VALUE defClass(const char *name, 
 				    VALUE father = rb_cObject)
 {
