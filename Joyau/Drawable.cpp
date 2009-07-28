@@ -297,21 +297,21 @@ VALUE Drawable_draw(VALUE self)
 void defineDrawable()
 {
    VALUE cPoint = defClass<Point>("Point");
-   defMethod(cPoint, "getX", Point_getX, 0);
-   defMethod(cPoint, "getY", Point_getY, 0);
-   defMethod(cPoint, "setX", Point_setX, 1);
-   defMethod(cPoint, "setY", Point_setY, 1);
+   defMethod(cPoint, "x", Point_getX, 0);
+   defMethod(cPoint, "y", Point_getY, 0);
+   defMethod(cPoint, "x=", Point_setX, 1);
+   defMethod(cPoint, "y=", Point_setY, 1);
 
    VALUE cRect = defClass<Rect>("Rect");
-   defMethod(cRect, "getX", Rect_getX, 0);
-   defMethod(cRect, "getY", Rect_getY, 0);
-   defMethod(cRect, "getW", Rect_getW, 0);
-   defMethod(cRect, "getH", Rect_getH, 0);
+   defMethod(cRect, "x", Rect_getX, 0);
+   defMethod(cRect, "y", Rect_getY, 0);
+   defMethod(cRect, "w", Rect_getW, 0);
+   defMethod(cRect, "h", Rect_getH, 0);
    
-   defMethod(cRect, "setX", Rect_setX, 1);
-   defMethod(cRect, "setY", Rect_setY, 1);
-   defMethod(cRect, "setW", Rect_setW, 1);
-   defMethod(cRect, "setH", Rect_setH, 1);
+   defMethod(cRect, "x=", Rect_setX, 1);
+   defMethod(cRect, "y=", Rect_setY, 1);
+   defMethod(cRect, "w=", Rect_setW, 1);
+   defMethod(cRect, "h=", Rect_setH, 1);
 
    VALUE cDrawable = defClass<Drawable>("Drawable");
    defMethod(cDrawable, "boundingRect", Drawable_boundingRect, 0);
