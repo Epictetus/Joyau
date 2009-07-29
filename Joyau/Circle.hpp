@@ -27,10 +27,9 @@ public:
 
    void setCenter(int x, int y);
    void setRadius(int r);
+   void setColor(OSL_COLOR col);
 
    void draw();
-
-   void setColor(OSL_COLOR col);
 
    int getCenterX() const { return centerX; }
    int getCenterY() const { return centerY; }

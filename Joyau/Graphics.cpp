@@ -194,7 +194,7 @@ VALUE Graphics_clear(VALUE self)
 
 VALUE drawText(VALUE self, VALUE x, VALUE y, VALUE text)
 {
-   oslScriptText(FIX2INT(x), FIX2INT(y), StringValuePtr(text));
+   oslDrawString(FIX2INT(x), FIX2INT(y), StringValuePtr(text));
    return Qnil;
 }
 
