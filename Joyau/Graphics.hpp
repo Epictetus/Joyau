@@ -32,7 +32,7 @@ VALUE Graphics_startDraw(VALUE self);
 VALUE Graphics_endDraw(VALUE self);
 VALUE Graphics_sync(VALUE self);
 
-VALUE Graphics_color(VALUE self, VALUE r, VALUE g, VALUE b, VALUE a);
+VALUE Graphics_color(int argc, VALUE *argv, VALUE self);
 
 VALUE Graphics_drawLine(VALUE self, VALUE x1, VALUE y1, VALUE x2, 
 			VALUE y2, VALUE color);

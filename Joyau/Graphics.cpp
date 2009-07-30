@@ -63,15 +63,22 @@ VALUE lib_stop(VALUE self)
    return Qnil;
 }
 
-VALUE Graphics_color(VALUE self, VALUE r, VALUE g, VALUE b, VALUE a)
+VALUE Graphics_color(int argc, VALUE *argv, VALUE self)
 {
-   VALUE hash = rb_hash_new();
-   rb_hash_aset(hash, rb_str_new2("r"), r);
-   rb_hash_aset(hash, rb_str_new2("g"), g);
-   rb_hash_aset(hash, rb_str_new2("b"), b);
-   rb_hash_aset(hash, rb_str_new2("a"), a);
-
-   return hash;
+   if (argc >= 3)
+   {
+      VALUE hash = rb_hash_new();
+      rb_hash_aset(hash, rb_str_new2("r"), argv[0]);
+      rb_hash_aset(hash, rb_str_new2("g"), argv[1]);
+      rb_hash_aset(hash, rb_str_new2("b"), argv[2]);
+      if (argc < 4)
+	 rb_hash_aset(hash, rb_str_new2("a"), INT2FIX(255));
+      else
+	 rb_hash_aset(hash, rb_str_new2("a"), argv[3]);
+      return hash;
+   }
+   else
+      return Qfalse; // not enough arguments.
 }
 
 VALUE Graphics_drawLine(VALUE self, VALUE x1, VALUE y1, VALUE x2, 
@@ -220,7 +227,7 @@ void defineGraphics()
    defFunc("endDraw", Graphics_endDraw, 0);
    defFunc("sync", Graphics_sync, 0);
 
-   defFunc("color", Graphics_color, 4);
+   defFunc("color", Graphics_color, -1);
 
    defFunc("drawLine", Graphics_drawLine, 5);
    defFunc("drawRect", Graphics_drawRect, 5);
