@@ -26,6 +26,8 @@ with this program; if not, write to the Free Software Foundation, Inc.,
     rb_define_global_function(func, RPROTO(proto), argc)
 #define defMethod(klass, func, proto, argc) \
     rb_define_method(klass, func, RPROTO(proto), argc)
+#define defClassMethod(klass, func, proto, argc) \
+    rb_define_singleton_method(klass, func, RPROTO(proto), argc)
 
 // generics functions for class wrapping
 template<typename T> void wrapped_free(void *info)
