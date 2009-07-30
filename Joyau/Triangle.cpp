@@ -16,6 +16,12 @@
 
 #include "Triangle.hpp"
 
+Triangle::Triangle()
+{
+   for (int i = 0; i < 3; ++i)
+      _col[i] = RGBA(255, 255, 255, 255);
+}
+
 void Triangle::setPoints(int x1, int y1, int x2, int y2, int x3, int y3)
 {
    x[0] = x1;

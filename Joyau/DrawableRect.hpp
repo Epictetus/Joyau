@@ -22,7 +22,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 class DrawableRect: public Drawable
 {
 public:
-   DrawableRect(): filled(true) {}
+   DrawableRect();
 
    void toggleFilled() { filled = !filled; }
    void setColor(OSL_COLOR col);
