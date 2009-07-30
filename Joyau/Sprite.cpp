@@ -99,7 +99,6 @@ void Sprite::setTile(int x, int y, int w, int h)
 
 OSL_IMAGE* Sprite::getImage()
 {
-   sprite = Manager::getInstance().getPic(picName);
    oslSetAlpha(OSL_FX_ALPHA, _alpha);
 
    sprite->stretchX = _stretchX;

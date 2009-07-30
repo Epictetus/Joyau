@@ -84,7 +84,7 @@ public:
    void saveImage(const char *fname);
 
 protected:
-   string picName;
+   char *picName;
 
    virtual void defaultDraw();
    int _w, _h;
@@ -109,6 +109,7 @@ private:
    int yTile;
    int wTile;
    int hTile;
+
 };
 
 enum DIRECTION { DOWN, LEFT, RIGHT, UP, UP_LEFT, UP_RIGHT, DOWN_LEFT,
