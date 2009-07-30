@@ -23,6 +23,9 @@ void Line::setPoint(int x, int y)
 
    _w = _x2 - getX();
    _h = _y2 - getY();
+
+   for (int i = 0; i < 2; ++i)
+      _col[i] = RGBA(255, 255, 255, 255);
 }
 
 void Line::setColor(OSL_COLOR col)
