@@ -16,6 +16,12 @@
 
 #include "DrawableRect.hpp"
 
+DrawableRect::DrawableRect(): filled(true) 
+{
+   for (int i = 0; i < 4; ++i)
+      _col[i] = RGBA(255, 255, 255, 255);
+}
+
 void DrawableRect::setColor(OSL_COLOR col)
 {
    for (int i = 0; i < 4; ++i)
