@@ -21,6 +21,8 @@ DrawableText::DrawableText()
    font = "";
    stirring = false;
    scripted = false;
+   bg = RGBA(0, 0, 0, 0);
+   _col = RGBA(255, 255, 255, 255);
 }
 
 int DrawableText::getW()
