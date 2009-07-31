@@ -144,8 +144,7 @@ VALUE Scrolling_play(VALUE self)
 
 void defineScrolling()
 {
-   VALUE cDrawable = getClass("Drawable");
-   VALUE cScroll = defClass<Scrolling>("Scrolling", cDrawable);
+   VALUE cScroll = defClass<Scrolling>("Scrolling", "Drawable");
    defMethod(cScroll, "setSprite", Scrolling_setSprite, 1);
    defMethod(cScroll, "setDir", Scrolling_setDir, 1);
    defMethod(cScroll, "setSpeed", Scrolling_setSpeed, 1);

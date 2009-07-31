@@ -134,8 +134,7 @@ VALUE DrawableRect_getCorner(VALUE self)
 
 void defineDrawableRect()
 {
-   VALUE cDrawable = getClass("Drawable");
-   VALUE cDrawableRect = defClass<DrawableRect>("DrawableRect", cDrawable);
+   VALUE cDrawableRect = defClass<DrawableRect>("DrawableRect", "Drawable");
    defMethod(cDrawableRect, "setCorner", DrawableRect_setCorner, 2);
    defMethod(cDrawableRect, "resize", DrawableRect_resize, 2);
    defMethod(cDrawableRect, "setColor", DrawableRect_setColor, 1);

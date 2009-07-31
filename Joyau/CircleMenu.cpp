@@ -131,8 +131,7 @@ VALUE CircleMenu_setAngle(VALUE self, VALUE angle)
 
 void defineCircleMenu()
 {
-   VALUE cDrawable = getClass("Drawable");
-   VALUE cCircleMenu = defClass<CircleMenu>("CircleMenu", cDrawable);
+   VALUE cCircleMenu = defClass<CircleMenu>("CircleMenu", "Drawable");
    defMethod(cCircleMenu, "load", CircleMenu_load, 9);
    defMethod(cCircleMenu, "changeSelection", CircleMenu_changeSelection, 1);
    defMethod(cCircleMenu, "getIndex", CircleMenu_getIndex, 0);

@@ -252,8 +252,7 @@ VALUE Message_resize(VALUE self, VALUE w, VALUE h)
 
 void defineMessageBox()
 {
-   VALUE cDrawable = getClass("Drawable");
-   VALUE cMessage = defClass<Message>("Message", cDrawable);
+   VALUE cMessage = defClass<Message>("Message", "Drawable");
    defMethod(cMessage, "setTitle", Message_setTitle, 1);
    defMethod(cMessage, "setText", Message_setText, 1);
    defMethod(cMessage, "setImage", Message_setImage, 1);

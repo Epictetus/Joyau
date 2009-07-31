@@ -105,8 +105,7 @@ VALUE Line_getPoint(VALUE self)
 
 void defineLine()
 {
-   VALUE cDrawable = getClass("Drawable");
-   VALUE cLine = defClass<Line>("Line", cDrawable);
+   VALUE cLine = defClass<Line>("Line", "Drawable");
    defMethod(cLine, "setColor", Line_setColor, 1);
    defMethod(cLine, "setGradient", Line_setGradient, 1);
    defMethod(cLine, "setPoint", Line_setPoint, 2);

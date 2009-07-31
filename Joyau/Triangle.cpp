@@ -147,8 +147,7 @@ VALUE Triangle_getPoints(VALUE self)
 
 void defineTriangle()
 {
-   VALUE cDrawable = getClass("Drawable");
-   VALUE cTriangle = defClass<Triangle>("Triangle", cDrawable);
+   VALUE cTriangle = defClass<Triangle>("Triangle", "Drawable");
    defMethod(cTriangle, "setPoints", Triangle_setPoints, 6);
    defMethod(cTriangle, "setColor", Triangle_setColor, 1);
    defMethod(cTriangle, "setGradient", Triangle_setGradient, 1);

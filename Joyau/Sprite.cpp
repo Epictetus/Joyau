@@ -260,8 +260,7 @@ void defineSprite()
    rb_hash_aset(dirHash, rb_str_new2("DOWN_RIGHT"), INT2FIX(DOWN_RIGHT));
    rb_gv_set("$directions", dirHash);
 
-   VALUE cDrawable = getClass("Drawable");
-   VALUE cSprite = defClass<Sprite>("Sprite", cDrawable);
+   VALUE cSprite = defClass<Sprite>("Sprite", "Drawable");
    defMethod(cSprite, "setPicture", Sprite_setPicture, 1);
    defMethod(cSprite, "getAngle", Sprite_getAngle, 0);
    defMethod(cSprite, "setAngle", Sprite_setAngle, 1);

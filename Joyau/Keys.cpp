@@ -169,8 +169,7 @@ void defineKeys()
    defFunc("repeatInterval", Keys_repeatInterval, 1);
    defFunc("readKeys", checkKeys, 0);
 
-   VALUE cSprite = getClass("Sprite");
-   VALUE cCursor = defClass<Cursor>("Cursor", cSprite);
+   VALUE cCursor = defClass<Cursor>("Cursor", "Sprite");
    defMethod(cCursor, "updatePos", Cursor_updatePos, 0);
    defMethod(cCursor, "setSensibility", Cursor_setSensibility, 1);
 }

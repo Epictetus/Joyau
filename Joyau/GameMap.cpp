@@ -180,8 +180,7 @@ VALUE GameMap_clear(VALUE self)
 
 void defineGameMap()
 {
-   VALUE cDrawable = getClass("Drawable");
-   VALUE cMap = defClass<GameMap>("GameMap", cDrawable);
+   VALUE cMap = defClass<GameMap>("GameMap", "Drawable");
    defMethod(cMap, "resize", GameMap_resize, 2);
    defMethod(cMap, "addTileset", GameMap_addTileset, 1);
    defMethod(cMap, "setTileSize", GameMap_setTileSize, 2);

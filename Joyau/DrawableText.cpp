@@ -118,8 +118,7 @@ VALUE DrawableText_setFont(VALUE self, VALUE font)
 
 void defineDrawableText()
 {
-   VALUE cDrawable = getClass("Drawable");
-   VALUE cDrawableText = defClass<DrawableText>("DrawableText", cDrawable);
+   VALUE cDrawableText = defClass<DrawableText>("DrawableText", "Drawable");
    defMethod(cDrawableText, "setFont", DrawableText_setFont, 1);
    defMethod(cDrawableText, "setBackground", DrawableText_setBackground, 1);
    defMethod(cDrawableText, "setColor", DrawableText_setColor, 1);

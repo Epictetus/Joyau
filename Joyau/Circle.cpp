@@ -123,8 +123,7 @@ VALUE Circle_getColor(VALUE self)
 
 void defineCircle()
 {
-   VALUE cDrawable = getClass("Drawable");
-   VALUE cCircle = defClass<Circle>("Circle", cDrawable);
+   VALUE cCircle = defClass<Circle>("Circle", "Drawable");
    defMethod(cCircle, "setColor", Circle_setColor, 1);
    defMethod(cCircle, "setRadius", Circle_setRadius, 1);
    defMethod(cCircle, "setCenter", Circle_setCenter, 2);
