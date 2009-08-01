@@ -32,6 +32,8 @@ VALUE Graphics_startDraw(VALUE self);
 VALUE Graphics_endDraw(VALUE self);
 VALUE Graphics_sync(VALUE self);
 
+VALUE Graphics_frameskip(VALUE self, VALUE min, VALUE max);
+
 VALUE Graphics_color(int argc, VALUE *argv, VALUE self);
 
 VALUE Graphics_drawLine(VALUE self, VALUE x1, VALUE y1, VALUE x2, 

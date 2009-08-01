@@ -35,7 +35,16 @@ VALUE Graphics_endDraw(VALUE self)
 
 VALUE Graphics_sync(VALUE self)
 {
-   oslSyncFrame();
+   oslEndFrame();
+   if (oslSyncFrame())
+       return Qtrue;
+   return Qfalse;
+}
+
+VALUE Graphics_frameskip(VALUE self, VALUE min, VALUE max)
+{
+   oslSetFrameskip(FIX2INT(min));
+   oslSetMaxFrameskip(FIX2INT(max));
    return Qnil;
 }
 
@@ -226,6 +235,8 @@ void defineGraphics()
    defFunc("startDraw", Graphics_startDraw, 0);
    defFunc("endDraw", Graphics_endDraw, 0);
    defFunc("sync", Graphics_sync, 0);
+
+   defFunc("frameskip", Graphics_frameskip, 2);
 
    defFunc("color", Graphics_color, -1);
 
