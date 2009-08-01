@@ -18,9 +18,9 @@
 
 void Cursor::updatePos()
 {
+   checkKeys(Qnil); // Let the pressed_ and released_ events bve raised.
    if (sensibility != 0)
    {
-      oslReadKeys();
       int analogX = osl_pad.analogX;
       int analogY = osl_pad.analogY;
 
