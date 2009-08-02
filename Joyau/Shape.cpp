@@ -28,7 +28,7 @@ void Shape::setColor(OSL_COLOR col)
       _col[i] = col;
 }
 
-void Shape::setGradiant(OSL_COLOR *col)
+void Shape::setGradient(OSL_COLOR *col)
 {
    for (int  i = 0; i < _size; ++i)
       _col[i] = col[i];
@@ -43,7 +43,7 @@ VALUE Shape_setColor(VALUE self, VALUE col)
    return Qnil;
 }
 
-VALUE Shape_setGradiant(VALUE self, VALUE col)
+VALUE Shape_setGradient(VALUE self, VALUE col)
 {
    Shape &ref = getRef<Shape>(self);
    int size = ref.getColorsNumber();
@@ -52,7 +52,7 @@ VALUE Shape_setGradiant(VALUE self, VALUE col)
    for(int i = 0; i < size; ++i)
       args[i] = hash2col(rb_ary_entry(col, INT2FIX(i)));
 
-   ref.setGradiant(args);
+   ref.setGradient(args);
    return Qnil;
 }
 
@@ -79,7 +79,7 @@ void defineShape()
 {
    VALUE cShape = defClass<Shape>("Shape", "Drawable");
    defMethod(cShape, "setColor", Shape_setColor, 1);
-   defMethod(cShape, "setGradiant", Shape_setGradiant, 1);
+   defMethod(cShape, "setGradient", Shape_setGradient, 1);
    defMethod(cShape, "getColors", Shape_getColors, 0);
    defMethod(cShape, "getColorsNumber", Shape_getColorsNumber, 0);
 }
