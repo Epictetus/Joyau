@@ -22,7 +22,7 @@ void Circle::setCenter(int x, int y)
    centerY = y;
 
    setPos(centerX - _r, centerY - _r);
-   _col = RGBA(255, 255, 255, 255);
+   _col[0] = RGBA(255, 255, 255, 255);
 }
 
 void Circle::setRadius(int r)
@@ -44,14 +44,9 @@ void Circle::draw()
        centerY != getY() + _r)
       setCenter(getX() + _r, getY() + _r);
    if (filled)
-      oslDrawFillCircle(centerX, centerY, _r, _col);
+      oslDrawFillCircle(centerX, centerY, _r, _col[0]);
    else
-      oslDrawCircle(centerX, centerY, _r, _col);
-}
-
-void Circle::setColor(OSL_COLOR col)
-{
-   _col = col;
+      oslDrawCircle(centerX, centerY, _r, _col[0]);
 }
 
 Rect Circle::boundingRect()
@@ -119,13 +114,13 @@ VALUE Circle_getRadius(VALUE self)
 VALUE Circle_getColor(VALUE self)
 {
    Circle &ref = getRef<Circle>(self);
-   return col2hash(ref.getColor());
+   OSL_COLOR *col = ref.getColors();
+   return col2hash(col[0]);
 }
 
 void defineCircle()
 {
-   VALUE cCircle = defClass<Circle>("Circle", "Drawable");
-   defMethod(cCircle, "setColor", Circle_setColor, 1);
+   VALUE cCircle = defClass<Circle>("Circle", "Shape");
    defMethod(cCircle, "setRadius", Circle_setRadius, 1);
    defMethod(cCircle, "setCenter", Circle_setCenter, 2);
    defMethod(cCircle, "toggleFilled", Circle_toggleFilled, 0);

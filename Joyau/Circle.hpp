@@ -17,9 +17,9 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #ifndef JOYAU_CIRCLE
 #define JOYAU_CIRCLE
 
-#include "Drawable.hpp"
+#include "Shape.hpp"
 
-class Circle: public Drawable
+class Circle: public Shape
 {
 public:
    Circle(): filled(true) {}
@@ -27,21 +27,18 @@ public:
 
    void setCenter(int x, int y);
    void setRadius(int r);
-   void setColor(OSL_COLOR col);
-
+   
    void draw();
 
    int getCenterX() const { return centerX; }
    int getCenterY() const { return centerY; }
    int getRadius() const { return _r; }
-   OSL_COLOR getColor() const { return _col; }
-
+   
    Rect boundingRect();
 private:
    int centerX, centerY;
    int _r;
 
-   OSL_COLOR _col;
    bool filled;
 };
 
@@ -50,12 +47,9 @@ VALUE Circle_toggleFilled(VALUE self);
 VALUE Circle_setCenter(VALUE self, VALUE x, VALUE y);
 VALUE Circle_setRadius(VALUE self, VALUE r);
 
-VALUE Circle_setColor(VALUE self, VALUE col);
-
 VALUE Circle_getCenterX(VALUE self);
 VALUE Circle_getCenterY(VALUE self);
 VALUE Circle_getRadius(VALUE self);
-VALUE Circle_getColor(VALUE self);
 
 void defineCircle();
 
