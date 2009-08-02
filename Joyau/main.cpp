@@ -32,6 +32,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "Line.hpp"
 #include "Triangle.hpp"
 #include "DrawableText.hpp"
+#include "Shape.hpp"
 
 PSP_MODULE_INFO("Joyau", 0, 1, 1);
 PSP_MAIN_THREAD_ATTR(THREAD_ATTR_USER | THREAD_ATTR_VFPU);
@@ -87,6 +88,7 @@ int main(int argc, char** argv)
 
    defineManager();
    defineDrawable();
+   defineShape();
    defineManager();
    defineSprite();
    defineAudio();
