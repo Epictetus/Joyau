@@ -18,10 +18,10 @@
 #define JOYAU_TEXT
 
 #include "StdInclude.hpp"
-#include "Drawable.hpp"
+#include "Shape.hpp"
 #include "Manager.hpp"
 
-class DrawableText: public Drawable
+class DrawableText: public Shape
 {
 public:
    DrawableText();
@@ -30,7 +30,6 @@ public:
    void toggleStirring();
    void toggleScripted();
    
-   void setColor(OSL_COLOR col) { _col = col; }
    void setBackground(OSL_COLOR col) { bg = col; }
 
    void setFont(string filename) { font = filename; }
@@ -46,7 +45,7 @@ private:
    bool scripted;
    bool stirring;
 
-   OSL_COLOR bg, _col;
+   OSL_COLOR bg;
 };
 
 VALUE DrawableText_setText(VALUE self, VALUE text);
@@ -54,7 +53,6 @@ VALUE DrawableText_setText(VALUE self, VALUE text);
 VALUE DrawableText_toggleStirring(VALUE self);
 VALUE DrawableText_toggleScripted(VALUE self);
 
-VALUE DrawableText_setColor(VALUE self, VALUE color);
 VALUE DrawableText_setBackground(VALUE self, VALUE color);
 
 VALUE DrawableText_setFont(VALUE self, VALUE font);

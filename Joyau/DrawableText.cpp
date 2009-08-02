@@ -22,7 +22,7 @@ DrawableText::DrawableText()
    stirring = false;
    scripted = false;
    bg = RGBA(0, 0, 0, 0);
-   _col = RGBA(255, 255, 255, 255);
+   _col[0] = RGBA(255, 255, 255, 255);
 }
 
 int DrawableText::getW()
@@ -53,7 +53,7 @@ void DrawableText::draw()
       oslSetFont(Manager::getInstance().getFont(font.c_str()));
    
    oslSetBkColor(bg);
-   oslSetTextColor(_col);
+   oslSetTextColor(_col[0]);
 
    if (stirring)
       oslPrintStirringString(getX(), getY(), _text.c_str());
@@ -90,15 +90,6 @@ VALUE DrawableText_toggleScripted(VALUE self)
    return Qnil;
 }
 
-VALUE DrawableText_setColor(VALUE self, VALUE color)
-{
-   DrawableText &ref = getRef<DrawableText>(self);
-   OSL_COLOR col = hash2col(color);
-
-   ref.setColor(col);
-   return Qnil;
-}
-
 VALUE DrawableText_setBackground(VALUE self, VALUE color)
 {
    DrawableText &ref = getRef<DrawableText>(self);
@@ -119,10 +110,9 @@ VALUE DrawableText_setFont(VALUE self, VALUE font)
 
 void defineDrawableText()
 {
-   VALUE cDrawableText = defClass<DrawableText>("DrawableText", "Drawable");
+   VALUE cDrawableText = defClass<DrawableText>("DrawableText", "Shape");
    defMethod(cDrawableText, "setFont", DrawableText_setFont, 1);
    defMethod(cDrawableText, "setBackground", DrawableText_setBackground, 1);
-   defMethod(cDrawableText, "setColor", DrawableText_setColor, 1);
    defMethod(cDrawableText, "toggleStirring", DrawableText_toggleStirring, 0);
    defMethod(cDrawableText, "toggleScripted", DrawableText_toggleScripted, 0);
    defMethod(cDrawableText, "setText", DrawableText_setText, 1);
