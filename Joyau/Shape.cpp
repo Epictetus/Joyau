@@ -34,10 +34,21 @@ void Shape::setGradient(OSL_COLOR *col)
       _col[i] = col[i];
 }
 
-VALUE Shape_setColor(VALUE self, VALUE col)
+VALUE Shape_setColor(int argc, VALUE *argv, VALUE self)
 {
    Shape &ref = getRef<Shape>(self);
-   OSL_COLOR _col = hash2col(col);
+   OSL_COLOR _col;
+   if (argc >= 3)
+   {
+      int alpha = 255;
+      if (argc > 3)
+	 alpha = FIX2INT(argv[3]);
+      _col = RGBA(FIX2INT(argv[0]), FIX2INT(argv[1]), FIX2INT(argv[2]), alpha);
+   }
+   else if (argc == 1)
+      _col = hash2col(argv[0]);
+   else
+      return Qfalse; // Not enough arguments.
 
    ref.setColor(_col);
    return Qnil;
@@ -84,7 +95,7 @@ VALUE Shape_getColor(VALUE self)
 void defineShape()
 {
    VALUE cShape = defClass<Shape>("Shape", "Drawable");
-   defMethod(cShape, "setColor", Shape_setColor, 1);
+   defMethod(cShape, "setColor", Shape_setColor, -1);
    defMethod(cShape, "setGradient", Shape_setGradient, 1);
    defMethod(cShape, "getColors", Shape_getColors, 0);
    defMethod(cShape, "getColor", Shape_getColor, 0);

@@ -39,7 +39,7 @@ protected:
    int _size;
 };
 
-VALUE Shape_setColor(VALUE self, VALUE col);
+VALUE Shape_setColor(int argc, VALUE *argv, VALUE self);
 VALUE Shape_setGradient(VALUE self, VALUE col);
 
 VALUE Shape_getColorsNumber(VALUE self);
