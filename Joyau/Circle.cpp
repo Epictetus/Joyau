@@ -38,6 +38,7 @@ void Circle::setRadius(int r)
 
 void Circle::draw()
 {
+   clearMove();
    // if the user has used setPos or move, we should fix centerX and centerY
    if (centerX != getX() + _r ||
        centerY != getY() + _r)

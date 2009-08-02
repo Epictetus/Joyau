@@ -54,6 +54,7 @@ void DrawableRect::setCorner(int x, int y)
 
 void DrawableRect::draw()
 {
+   clearMove();
    if (filled)
       oslDrawGradientRect(getX(), getY(), _x2, _y2, 
 			  _col[0], _col[1], _col[2], _col[3]);

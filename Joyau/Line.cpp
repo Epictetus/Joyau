@@ -50,6 +50,7 @@ OSL_COLOR* Line::getColors()
 
 void Line::draw()
 {
+   clearMove();
    oslDrawGradientLine (getX(), getY(), _x2, _y2, 
 			_col[0], _col[1]);
 }

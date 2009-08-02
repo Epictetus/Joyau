@@ -104,6 +104,8 @@ int Drawable::getH()
 
 void Drawable::setPos(int x, int y)
 {
+   movedX = 0;
+   movedY = 0;
    _x = x;
    _y = y;
 }
@@ -117,6 +119,19 @@ void Drawable::move(int x, int y)
 {
    _x += x;
    _y += y;
+   movedX += x;
+   movedY += y;
+}
+
+void Drawable::clearMove()
+{
+   movedX = 0;
+   movedY = 0;
+}
+
+void Drawable::cancelMove()
+{
+   move(-movedX, -movedY);
 }
 
 VALUE Point_getX(VALUE self)
@@ -282,10 +297,19 @@ VALUE Drawable_move(VALUE self, VALUE x, VALUE y)
    return Qnil;
 }
 
+VALUE Drawable_cancelMove(VALUE self)
+{
+   Drawable &ref = getRef<Drawable>(self);
+   ref.cancelMove();
+
+   return Qnil;
+}
+
 VALUE Drawable_draw(VALUE self)
 {
    Drawable &ref = getRef<Drawable>(self);
    ref.draw();
+
    return Qnil;
 }
 
@@ -318,5 +342,6 @@ void defineDrawable()
    defMethod(cDrawable, "getH", Drawable_getH, 0);
    defMethod(cDrawable, "setPos", Drawable_setPos, 2);
    defMethod(cDrawable, "move", Drawable_move, 2);
+   defMethod(cDrawable, "cancelMove", Drawable_cancelMove, 0);
    defMethod(cDrawable, "draw", Drawable_draw, 0);
 }

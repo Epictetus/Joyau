@@ -48,6 +48,7 @@ int CircleMenu::getIndex()
 
 void CircleMenu::draw()
 {
+   clearMove();
    oslMenuUpdateIcons(_menu);
 }
 

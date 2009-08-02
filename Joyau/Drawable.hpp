@@ -70,9 +70,12 @@ public:
    void setPos(Point p);
 
    void move(int x, int y);
+   void cancelMove();
 private:
    int _x, _y;
+   int movedX, movedY;
 protected:
+   void clearMove();
    int _w, _h;
 };
 
@@ -106,6 +109,7 @@ VALUE Drawable_getH(VALUE self);
 VALUE Drawable_setPos(VALUE self, VALUE x, VALUE y);
 
 VALUE Drawable_move(VALUE self, VALUE x, VALUE y);
+VALUE Drawable_cancelMove(VALUE self);
 
 VALUE Drawable_draw(VALUE self);
 

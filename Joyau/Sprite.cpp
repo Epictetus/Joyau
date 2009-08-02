@@ -49,6 +49,7 @@ int Sprite::getH() { return tiled ? hTile : _h / _nbrY; }
  */
 void Sprite::draw()
 {
+   clearMove();
    defaultDraw();
 }
 
