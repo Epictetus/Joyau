@@ -111,13 +111,6 @@ VALUE Circle_getRadius(VALUE self)
    return INT2FIX(ref.getRadius());
 }
 
-VALUE Circle_getColor(VALUE self)
-{
-   Circle &ref = getRef<Circle>(self);
-   OSL_COLOR *col = ref.getColors();
-   return col2hash(col[0]);
-}
-
 void defineCircle()
 {
    VALUE cCircle = defClass<Circle>("Circle", "Shape");
@@ -127,5 +120,4 @@ void defineCircle()
    defMethod(cCircle, "getCenterX", Circle_getCenterX, 0);
    defMethod(cCircle, "getCenterY", Circle_getCenterY, 0);
    defMethod(cCircle, "getRadius", Circle_getRadius, 0);
-   defMethod(cCircle, "getColor", Circle_getColor, 0);
 }
