@@ -17,31 +17,21 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #ifndef JOYAU_LINE
 #define JOYAU_LINE
 
-#include "Drawable.hpp"
+#include "Shape.hpp"
 
-class Line: public Drawable
+class Line: public Shape
 {
 public:
+   Line();
    void setPoint(int x, int y);
-
-   void setColor(OSL_COLOR col);
-   void setGradient(OSL_COLOR col[2]);
-
-   OSL_COLOR *getColors();
    Point getPoint() const { return Point(_x2, _y2); }
 
    void draw();
 private:
-   OSL_COLOR _col[2];
    int _x2, _y2;
 };
 
 VALUE Line_setPoint(VALUE self, VALUE x, VALUE y);
-
-VALUE Line_setColor(VALUE self, VALUE col);
-VALUE Line_setGradient(VALUE self, VALUE col);
-
-VALUE Line_getColors(VALUE self);
 VALUE Line_getPoint(VALUE self);
 
 void defineLine();
