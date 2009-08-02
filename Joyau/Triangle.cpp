@@ -16,7 +16,8 @@
 
 #include "Triangle.hpp"
 
-Triangle::Triangle()
+Triangle::Triangle():
+   Shape(3)
 {
    for (int i = 0; i < 3; ++i)
       _col[i] = RGBA(255, 255, 255, 255);
@@ -56,20 +57,6 @@ void Triangle::setPoints(int x1, int y1, int x2, int y2, int x3, int y3)
    _h = maxY - getY();
 }
 
-void Triangle::setColor(OSL_COLOR col)
-{
-   for (int i = 0; i < 3; ++i)
-      _col[i] = col;
-}
-
-void Triangle::setGradient(OSL_COLOR col[3])
-{
-   for (int i = 0; i < 3; ++i)
-      _col[i] = col[i];
-}
-
-OSL_COLOR* Triangle::getColors() { return _col; }
-
 Point* Triangle::getPoints()
 {
    Point *points = new Point[3];
@@ -102,38 +89,6 @@ VALUE Triangle_setPoints(VALUE self, VALUE x1, VALUE y1, VALUE x2, VALUE y2,
    return Qnil;
 }
 
-VALUE Triangle_setColor(VALUE self, VALUE col)
-{
-   Triangle &ref = getRef<Triangle>(self);
-   OSL_COLOR _col = hash2col(col);
-
-   ref.setColor(_col);
-   return Qnil;
-}
-
-VALUE Triangle_setGradient(VALUE self, VALUE col)
-{
-   Triangle &ref = getRef<Triangle>(self);
-   OSL_COLOR _col[3];
-
-   for (int i = 0; i < 3; ++i)
-      _col[i] = hash2col(rb_ary_entry(col, INT2FIX(i)));
-
-   ref.setGradient(_col);
-   return Qnil;
-}
-
-VALUE Triangle_getColors(VALUE self)
-{
-   Triangle &ref = getRef<Triangle>(self);
-   OSL_COLOR *col = ref.getColors();
-
-   VALUE hash = rb_ary_new();
-   for (int i = 0; i < 3; ++i)
-       rb_ary_push(hash, col2hash(col[i]));
-   return hash;
-}
-
 VALUE Triangle_getPoints(VALUE self)
 {
    Triangle &ref = getRef<Triangle>(self);
@@ -148,10 +103,7 @@ VALUE Triangle_getPoints(VALUE self)
 
 void defineTriangle()
 {
-   VALUE cTriangle = defClass<Triangle>("Triangle", "Drawable");
+   VALUE cTriangle = defClass<Triangle>("Triangle", "Shape");
    defMethod(cTriangle, "setPoints", Triangle_setPoints, 6);
-   defMethod(cTriangle, "setColor", Triangle_setColor, 1);
-   defMethod(cTriangle, "setGradient", Triangle_setGradient, 1);
-   defMethod(cTriangle, "getColors", Triangle_getColors, 0);
    defMethod(cTriangle, "getPoints", Triangle_getPoints, 0);
 }
