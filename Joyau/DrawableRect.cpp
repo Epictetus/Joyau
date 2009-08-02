@@ -16,24 +16,14 @@
 
 #include "DrawableRect.hpp"
 
-DrawableRect::DrawableRect(): filled(true) 
+DrawableRect::DrawableRect(): 
+   Shape(4),
+   filled(true) 
 {
    for (int i = 0; i < 4; ++i)
       _col[i] = RGBA(255, 255, 255, 255);
 }
 
-void DrawableRect::setColor(OSL_COLOR col)
-{
-   for (int i = 0; i < 4; ++i)
-      _col[i] = col;
-}
-
-void DrawableRect::setGradient(OSL_COLOR col[4])
-{
-   for (int i = 0; i < 4; ++i)
-      _col[i] = col[i];
-}
-   
 void DrawableRect::resize(int w, int h)
 {
    _w = w;
@@ -62,35 +52,10 @@ void DrawableRect::draw()
       oslDrawRect(getX(), getY(), _x2, _y2, _col[0]);
 }
 
-OSL_COLOR *DrawableRect::getColors()
-{
-   return _col;
-}
-
 VALUE DrawableRect_toggleFilled(VALUE self)
 {
    DrawableRect &ref = getRef<DrawableRect>(self);
    ref.toggleFilled();
-   return Qnil;
-}
-
-VALUE DrawableRect_setColor(VALUE self, VALUE col)
-{
-   DrawableRect &ref = getRef<DrawableRect>(self);
-   OSL_COLOR _col = hash2col(col);
-
-   ref.setColor(_col);
-   return Qnil;
-}
-
-VALUE DrawableRect_setGradient(VALUE self, VALUE col)
-{
-   DrawableRect &ref = getRef<DrawableRect>(self);
-   OSL_COLOR _col[4];
-   for (int i = 0; i < 4; ++i)
-      _col[i] = hash2col(rb_ary_entry(col, INT2FIX(i)));
-
-   ref.setGradient(_col);
    return Qnil;
 }
 
@@ -114,17 +79,6 @@ VALUE DrawableRect_setCorner(VALUE self, VALUE x, VALUE y)
    return Qnil;
 }
 
-VALUE DrawableRect_getColors(VALUE self)
-{
-   DrawableRect &ref = getRef<DrawableRect>(self);
-   OSL_COLOR *col = ref.getColors();
-
-   VALUE hash = rb_ary_new();
-   for (int i = 0; i < 4; ++i)
-       rb_ary_push(hash, col2hash(col[i]));
-   return hash;
-}
-
 VALUE DrawableRect_getCorner(VALUE self)
 {
    DrawableRect &ref = getRef<DrawableRect>(self);
@@ -135,12 +89,9 @@ VALUE DrawableRect_getCorner(VALUE self)
 
 void defineDrawableRect()
 {
-   VALUE cDrawableRect = defClass<DrawableRect>("DrawableRect", "Drawable");
+   VALUE cDrawableRect = defClass<DrawableRect>("DrawableRect", "Shape");
    defMethod(cDrawableRect, "setCorner", DrawableRect_setCorner, 2);
    defMethod(cDrawableRect, "resize", DrawableRect_resize, 2);
-   defMethod(cDrawableRect, "setColor", DrawableRect_setColor, 1);
-   defMethod(cDrawableRect, "setGradient", DrawableRect_setGradient, 1);
    defMethod(cDrawableRect, "toggleFilled", DrawableRect_toggleFilled, 0);
-   defMethod(cDrawableRect, "getColors", DrawableRect_getColors, 0);
    defMethod(cDrawableRect, "getCorner", DrawableRect_getCorner, 0);
 }
