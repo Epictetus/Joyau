@@ -75,11 +75,18 @@ VALUE Shape_getColors(VALUE self)
    return ret;
 }
 
+VALUE Shape_getColor(VALUE self)
+{
+   Shape &ref = getRef<Shape>(self);
+   return col2hash(ref.getColor());
+}
+
 void defineShape()
 {
    VALUE cShape = defClass<Shape>("Shape", "Drawable");
    defMethod(cShape, "setColor", Shape_setColor, 1);
    defMethod(cShape, "setGradient", Shape_setGradient, 1);
    defMethod(cShape, "getColors", Shape_getColors, 0);
+   defMethod(cShape, "getColor", Shape_getColor, 0);
    defMethod(cShape, "getColorsNumber", Shape_getColorsNumber, 0);
 }

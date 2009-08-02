@@ -28,6 +28,8 @@ public:
    void setGradient(OSL_COLOR *col);
 
    OSL_COLOR *getColors() { return _col; }
+   OSL_COLOR getColor() { return _col[0]; }
+
    int getColorsNumber() { return _size; }
 protected:
    /*
@@ -42,6 +44,7 @@ VALUE Shape_setGradient(VALUE self, VALUE col);
 
 VALUE Shape_getColorsNumber(VALUE self);
 VALUE Shape_getColors(VALUE self);
+VALUE Shape_getColor(VALUE self);
 
 void defineShape();
 
