@@ -35,7 +35,10 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include <pspmodulemgr.h>
 #include <psptypes.h>
 #include <pspstdio.h>
+#include <pspusb.h>
+#include <pspusbstor.h>
 
+#include <pspsdk.h>
 #include <pspdebug.h>
 #include <psputils.h>
 #include <pspctrl.h>
