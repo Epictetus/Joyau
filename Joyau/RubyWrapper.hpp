@@ -17,7 +17,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #ifndef JOYAU_WRAPPER
 #define JOYAU_WRAPPER
 
-#include "StdInclude.hpp"
+using namespace std;
 
 #define RPROTO(proto) (VALUE(*)(...))&proto // A boring cast...
 

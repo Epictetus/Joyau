@@ -61,7 +61,7 @@ VALUE Shape_setGradient(VALUE self, VALUE col)
 
    OSL_COLOR *args = new OSL_COLOR[size];
    for(int i = 0; i < size; ++i)
-      args[i] = hash2col(rb_ary_entry(col, INT2FIX(i)));
+      args[i] = hash2col(rb_ary_entry(col, i));
 
    ref.setGradient(args);
    return Qnil;
