@@ -71,11 +71,11 @@ public:
 
    void move(int x, int y);
    void cancelMove();
+   void clearMove(); // maybe the user would like to clear this.
 private:
    int _x, _y;
    int movedX, movedY;
 protected:
-   void clearMove();
    int _w, _h;
 };
 
@@ -110,6 +110,7 @@ VALUE Drawable_setPos(VALUE self, VALUE x, VALUE y);
 
 VALUE Drawable_move(VALUE self, VALUE x, VALUE y);
 VALUE Drawable_cancelMove(VALUE self);
+VALUE Drawable_clearMove(VALUE self);
 
 VALUE Drawable_draw(VALUE self);
 

@@ -305,6 +305,14 @@ VALUE Drawable_cancelMove(VALUE self)
    return Qnil;
 }
 
+VALUE Drawable_clearMove(VALUE self)
+{
+   Drawable &ref = getRef<Drawable>(self);
+   ref.clearMove();
+
+   return Qnil;
+}
+
 VALUE Drawable_draw(VALUE self)
 {
    Drawable &ref = getRef<Drawable>(self);
@@ -343,5 +351,6 @@ void defineDrawable()
    defMethod(cDrawable, "setPos", Drawable_setPos, 2);
    defMethod(cDrawable, "move", Drawable_move, 2);
    defMethod(cDrawable, "cancelMove", Drawable_cancelMove, 0);
+   defMethod(cDrawable, "clearMove", Drawable_clearMove, 0);
    defMethod(cDrawable, "draw", Drawable_draw, 0);
 }
