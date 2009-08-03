@@ -74,6 +74,7 @@ public:
    void setAnimationTime(int t) { nbrAnime = t; }
 
    void setTile(int x, int y, int w, int h);
+   void unTile() { tiled = false; }
 
    // This function would set the correct position, ...
    // before returning the pointer
@@ -136,6 +137,7 @@ VALUE Sprite_setAnimation(VALUE self, VALUE nbrX, VALUE nbrY);
 VALUE Sprite_setAnimationTime(VALUE self, VALUE t);
 
 VALUE Sprite_setTile(VALUE self, VALUE x, VALUE y, VALUE w, VALUE h);
+VALUE Sprite_unTile(VALUE self);
 
 void defineSprite();
 

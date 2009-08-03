@@ -239,6 +239,14 @@ VALUE Sprite_setTile(VALUE self, VALUE x, VALUE y, VALUE w, VALUE h)
    return Qnil;
 }
 
+VALUE Sprite_unTile(VALUE self)
+{
+   Sprite &ref = getRef<Sprite>(self);
+   ref.unTile();
+
+   return Qnil;
+}
+
 VALUE Sprite_saveFile(VALUE self, VALUE pic)
 {
    Sprite &item = getRef<Sprite>(self);
@@ -275,4 +283,5 @@ void defineSprite()
    defMethod(cSprite, "setAnim", Sprite_setAnimation, 2);
    defMethod(cSprite, "setAnimTime", Sprite_setAnimationTime, 1);
    defMethod(cSprite, "setTile", Sprite_setTile, 4);
+   defMethod(cSprite, "unTile", Sprite_unTile, 0);
 }
