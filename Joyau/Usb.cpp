@@ -41,6 +41,8 @@ VALUE initUsb(VALUE self)
       return Qfalse;
    if (sceUsbstorBootSetCapacity(0x800000) != 0)
       return Qfalse;
+
+   return Qtrue;
 }
 
 VALUE stopUsb(VALUE self)
