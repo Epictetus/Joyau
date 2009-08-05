@@ -129,7 +129,7 @@ VALUE checkKeys(VALUE self)
       if (controller[i].hold)
          rb_hash_aset(keys, rb_str_new2((prefix[i] + "hold").c_str()), Qtrue);
       else
-         rb_hash_aset(keys, rb_str_new2((prefix[i] + "hold").c_str()), Qfalse); 
+         rb_hash_aset(keys, rb_str_new2((prefix[i] + "hold").c_str()), Qfalse);
    }
 
    int analogX = osl_pad.analogX;
@@ -160,6 +160,78 @@ VALUE Cursor_setSensibility(VALUE self, VALUE s)
    return Qnil;
 }
 
+VALUE Joyau_gets(VALUE self)
+{
+   SceUtilityOskData data;
+   SceUtilityOskParams params;
+
+   unsigned short input[128]  = { 'E', 'n', 't', 'e', 'r', ' ',
+                                  'y', 'o', 'u', 'r', ' ',
+                                  't', 'e','x', 't', 0 };
+   unsigned short output[128] = { 0 };
+
+   memset(&data, 0, sizeof(data));
+   data.lines = 1;
+   data.unk_24 = 1;
+   data.inputtype = PSP_UTILITY_OSK_INPUTTYPE_ALL;
+   data.desc = input;
+   data.intext = input;
+   data.outtextlength = 128;
+   data.outtextlimit = 128;
+   data.outtext = output;
+
+   memset(&params, 0, sizeof(params));
+   params.base.size = sizeof(params);
+   sceUtilityGetSystemParamInt(PSP_SYSTEMPARAM_ID_INT_LANGUAGE,
+                               &params.base.language);
+   sceUtilityGetSystemParamInt(PSP_SYSTEMPARAM_ID_INT_UNKNOWN,
+                               &params.base.buttonSwap);
+   params.base.graphicsThread = 17;
+   params.base.accessThread = 19;
+   params.base.fontThread = 18;
+   params.base.soundThread = 16;
+   params.datacount = 1;
+   params.data = &data;
+
+   sceUtilityOskInitStart(&params);
+
+   bool done = false;
+   while (!done)
+   {
+      oslStartDrawing();
+      oslDrawFillRect(0, 0, 480, 272, RGBA(0, 0, 0, 255));
+      oslEndDrawing();
+      
+      switch(sceUtilityOskGetStatus())
+      {
+         case PSP_UTILITY_DIALOG_INIT:
+            break;
+         case PSP_UTILITY_DIALOG_VISIBLE:
+            sceUtilityOskUpdate(1);
+            break;
+         case PSP_UTILITY_DIALOG_QUIT:
+            sceUtilityOskShutdownStart();
+            break;
+         case PSP_UTILITY_DIALOG_FINISHED:
+            break;
+         case PSP_UTILITY_DIALOG_NONE:
+            done = true;
+         default :
+            break;
+      }
+
+      oslEndDrawing();
+      oslEndFrame();
+      oslSyncFrame();
+   }
+
+   char *ret = new char[128];
+   for (int i = 0; i < 128; ++i)
+      ret[i] = (char)data.outtext[i];
+
+   return rb_str_new2(ret);
+}
+
 void defineKeys()
 {
    VALUE keys = rb_hash_new();
@@ -168,6 +240,8 @@ void defineKeys()
    defFunc("repeatInit", Keys_repeatInit, 1);
    defFunc("repeatInterval", Keys_repeatInterval, 1);
    defFunc("readKeys", checkKeys, 0);
+
+   defFunc("gets", Joyau_gets, 0);
 
    VALUE cCursor = defClass<Cursor>("Cursor", "Sprite");
    defMethod(cCursor, "updatePos", Cursor_updatePos, 0);

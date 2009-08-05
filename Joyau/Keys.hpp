@@ -36,6 +36,8 @@ VALUE checkKeys(VALUE self);
 VALUE Cursor_updatePos(VALUE self);
 VALUE Cursor_setSensibility(VALUE self, VALUE s);
 
+VALUE Joyau_gets(VALUE self);
+
 void defineKeys();
 
 #endif

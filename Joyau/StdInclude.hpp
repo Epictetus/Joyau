@@ -30,6 +30,8 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include <pspkernel.h>
 #include <pspumd.h>
+#include <psputility.h>
+#include <psputility_osk.h>
 #include <psputility_usbmodules.h>
 #include <pspiofilemgr.h>
 #include <pspmodulemgr.h>
