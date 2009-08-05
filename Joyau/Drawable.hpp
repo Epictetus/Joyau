@@ -60,23 +60,22 @@ public:
    virtual bool isOn(int x, int y);
    virtual bool isOn(Point p);
 
-   int getX() const;
-   int getY() const;
+   virtual int getX() const;
+   virtual int getY() const;
 
    virtual int getW();
    virtual int getH();
 
-   void setPos(int x, int y);
+   virtual void setPos(int x, int y);
    void setPos(Point p);
 
-   void move(int x, int y);
-   void cancelMove();
-   void clearMove(); // maybe the user would like to clear this.
-private:
-   int _x, _y;
-   int movedX, movedY;
+   virtual void move(int x, int y);
+   virtual void cancelMove();
+   virtual void clearMove(); // maybe the user would like to clear this.
 protected:
    int _w, _h;
+   int _x, _y;
+   int movedX, movedY;
 };
 
 VALUE Point_getX(VALUE self);

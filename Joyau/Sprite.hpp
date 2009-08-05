@@ -45,6 +45,8 @@ public:
       yTile = 0;
       wTile = 0;
       hTile = 0;
+
+      autoDir = false;
    }
 
    void setPicture(char *pic);
@@ -54,6 +56,8 @@ public:
    void setAngle(int angle) { _angle = angle; }
    void zoom(int increase);
    int getZoom() const { return _zoom; }
+
+   void move(int x, int y);
 
    void setAlpha(int alpha);
    int getAlpha() const;
@@ -84,6 +88,7 @@ public:
 
    void saveImage(const char *fname);
 
+   void setAutoDir(bool val) { autoDir = val; }
 protected:
    char *picName;
 
@@ -111,6 +116,7 @@ private:
    int wTile;
    int hTile;
 
+   bool autoDir;
 };
 
 enum DIRECTION { DOWN, LEFT, RIGHT, UP, UP_LEFT, UP_RIGHT, DOWN_LEFT,
@@ -138,6 +144,8 @@ VALUE Sprite_setAnimationTime(VALUE self, VALUE t);
 
 VALUE Sprite_setTile(VALUE self, VALUE x, VALUE y, VALUE w, VALUE h);
 VALUE Sprite_unTile(VALUE self);
+
+VALUE Sprite_setAutoDir(VALUE self, VALUE val);
 
 void defineSprite();
 

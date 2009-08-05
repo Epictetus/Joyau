@@ -21,6 +21,7 @@ void Sprite::setPicture(char *pic)
    picName = pic;
    sprite = Manager::getInstance().getPic(pic);
 
+
    _w = sprite->sizeX;
    _h = sprite->sizeY;
 
@@ -84,6 +85,34 @@ void Sprite::zoom(int increase)
    _stretchX += increase;
    _stretchY += increase;
    _zoom += increase;
+}
+
+void Sprite::move(int x, int y)
+{
+   _x += x;
+   _y += y;
+   movedX += x;
+   movedY += y;
+
+   if (autoDir)
+   {
+      if (x > 0 && y == 0)
+	 setDirection(RIGHT);
+      else if (x < 0 && y == 0)
+	 setDirection(LEFT);
+      else if (x == 0 && y > 0)
+	 setDirection(DOWN);
+      else if (x == 0 && y < 0)
+	 setDirection(UP);
+      else if (x > 0 && y > 0)
+	 setDirection(DOWN_RIGHT);
+      else if (x < 0 && y > 0)
+	 setDirection(DOWN_LEFT);
+      else if (x > 0 && y < 0)
+	 setDirection(UP_RIGHT);
+      else if (x < 0 && y < 0)
+	 setDirection(UP_LEFT);
+   }
 }
 
 void Sprite::setTile(int x, int y, int w, int h)
@@ -256,6 +285,14 @@ VALUE Sprite_saveFile(VALUE self, VALUE pic)
    return Qnil;
 }
 
+VALUE Sprite_setAutoDir(VALUE self, VALUE val)
+{
+   Sprite &ref = getRef<Sprite>(self);
+   ref.setAutoDir(val == Qtrue);
+
+   return Qnil;
+}
+
 void defineSprite()
 {
    VALUE dirHash = rb_hash_new();
@@ -284,4 +321,5 @@ void defineSprite()
    defMethod(cSprite, "setAnimTime", Sprite_setAnimationTime, 1);
    defMethod(cSprite, "setTile", Sprite_setTile, 4);
    defMethod(cSprite, "unTile", Sprite_unTile, 0);
+   defMethod(cSprite, "autoDir=", Sprite_setAutoDir, 1);
 }

@@ -108,6 +108,47 @@ void Scrolling::draw()
    bg[1].draw();
 }
 
+void Scrolling::move(int x, int y)
+{
+   _x += x;
+   _y += y;
+   movedX += x;
+   movedY += y;
+
+   for (int i = 0; i < 2; ++i)
+      bg[i].move(x, y);
+}
+
+void Scrolling::setPos(int x, int y)
+{
+   _x = x;
+   _y = y;
+   movedX = 0;
+   movedY = 0;
+
+   int deltaX = bg[0].getX() - bg[1].getX();
+   int deltaY = bg[0].getX() - bg[1].getY();
+
+   bg[0].setPos(_x, _y);
+   bg[1].setPos(_x + deltaX, _y + deltaY);
+}
+
+void Scrolling::cancelMove()
+{
+   movedX = 0;
+   movedY = 0;
+   bg[0].cancelMove();
+   bg[1].cancelMove();
+}
+
+void Scrolling::clearMove()
+{
+   movedX = 0;
+   movedY = 0;
+   bg[0].clearMove();
+   bg[1].clearMove();
+}
+
 VALUE Scrolling_setSprite(VALUE self, VALUE spr)
 {
    Scrolling &ref = getRef<Scrolling>(self);

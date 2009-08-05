@@ -35,11 +35,10 @@ CFLAGS += -g
 CXXFLAGS += -g
 endif
 
-LIBS = -losl -lpng -lz -lpspsdk -lpspvfpu -lpspctrl \
-	-lpspumd -lpsprtc -lpsppower -lpspgu -lpspmpeg \
-	-lpspaudiocodec -lpspaudiolib -lalut -lOpenAL32 -lvorbisfile -lvorbis \
-	-lpspaudio -lpspusb -lpspusbstor -lpsphprm -lpsputility -lruby -lm \
-	-logg -lpsprtc -lstdc++
+LIBS = -losl -lpng -lz -lpspsdk -lpspvfpu -lpspctrl -lpspumd -lpsprtc \
+	-lpsppower -lpspgu -lpspmpeg -lpspaudiocodec -lpspaudiolib -lalut \
+	-lOpenAL32 -lvorbisfile -lvorbis -lpspaudio -lpspusb -lpspusbstor \
+	-lpsphprm -lpsputility -lruby -lm -logg -lpsprtc -lstdc++
 
 PSP_FW_VERSION = 371
 

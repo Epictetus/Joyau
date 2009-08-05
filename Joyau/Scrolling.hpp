@@ -34,6 +34,12 @@ public:
    void play();
    void draw();
 
+   void move(int x, int y);
+   void setPos(int x, int y);
+
+   void cancelMove();
+   void clearMove();
+
    int getW();
    int getH();
 private:
