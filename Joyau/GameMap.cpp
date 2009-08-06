@@ -63,7 +63,7 @@ bool GameMap::collide(Drawable &spr)
       // Coord relative to the map !
       tile.setPos(getX() + (*i).x, getY() + (*i).y);
 
-      if (tile.collide(spr))
+      if (spr.collide(tile))
          return true; // If it collides with only one tile, it collides..
    }
    return false; // It didn't collide with any sprite.

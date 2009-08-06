@@ -214,6 +214,12 @@ VALUE drawText(VALUE self, VALUE x, VALUE y, VALUE text)
    return Qnil;
 }
 
+VALUE drawScripted(VALUE self, VALUE x, VALUE y, VALUE text)
+{
+   oslScriptText(FIX2INT(x), FIX2INT(y), StringValuePtr(text));
+   return Qnil;
+}
+
 VALUE drawStirringText(VALUE self, VALUE x, VALUE y, VALUE text)
 {
    oslPrintStirringString(FIX2INT(x), FIX2INT(y), StringValuePtr(text));
@@ -255,6 +261,7 @@ void defineGraphics()
    defFunc("setTextBackground", setTextBackground,1);
    defFunc("setTextColor", setTextColor, 1);
    defFunc("drawText", drawText, 3);
+   defFunc("drawScripted", drawScripted, 3);
    defFunc("drawStirringText", drawStirringText, 3);
 
    defFunc("clearScreen", Graphics_clear, 0);
