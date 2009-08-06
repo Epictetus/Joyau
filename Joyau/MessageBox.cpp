@@ -277,5 +277,4 @@ void defineMessageBox()
    defAlias(cMessage, "setBorderColor", "borderColor=");
    defAlias(cMessage, "setTextFont", "textFont=");
    defAlias(cMessage, "setTitleFont", "titleFont=");
-   defAlias(cMessage, "setTitlePos", "titlePos=");
 }
