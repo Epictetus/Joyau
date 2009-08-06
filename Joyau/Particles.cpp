@@ -132,4 +132,10 @@ void defineParticles()
    defMethod(cPart, "getSpeed", Particles_getSpeed, 0);
    defMethod(cPart, "getGravity", Particles_getGravity, 0);
    defMethod(cPart, "getMinSpeed", Particles_getMinSpeed, 0);
+
+   defAlias(cPart, "setFile", "file=");
+   defAlias(cPart, "getTime", "time");
+   defAlias(cPart, "getSpeed", "speed");
+   defAlias(cPart, "getGravity", "gravity");
+   defAlias(cPart, "getMinSpeed", "minSpeed");
 }

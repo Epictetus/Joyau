@@ -106,4 +106,6 @@ void defineTriangle()
    VALUE cTriangle = defClass<Triangle>("Triangle", "Shape");
    defMethod(cTriangle, "setPoints", Triangle_setPoints, 6);
    defMethod(cTriangle, "getPoints", Triangle_getPoints, 0);
+
+   defAlias(cTriangle, "getPoints", "points");
 }

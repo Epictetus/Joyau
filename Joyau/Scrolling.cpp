@@ -191,4 +191,8 @@ void defineScrolling()
    defMethod(cScroll, "setDir", Scrolling_setDir, 1);
    defMethod(cScroll, "setSpeed", Scrolling_setSpeed, 1);
    defMethod(cScroll, "play", Scrolling_play, 0);
+
+   defAlias(cScroll, "setSprite", "sprite=");
+   defAlias(cScroll, "setDir", "dir=");
+   defAlias(cScroll, "setSpeed", "speed=");
 }

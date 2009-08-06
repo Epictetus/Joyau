@@ -94,4 +94,6 @@ void defineDrawableRect()
    defMethod(cDrawableRect, "resize", DrawableRect_resize, 2);
    defMethod(cDrawableRect, "toggleFilled", DrawableRect_toggleFilled, 0);
    defMethod(cDrawableRect, "getCorner", DrawableRect_getCorner, 0);
+
+   defAlias(cDrawableRect, "getCorner", "corner");
 }

@@ -139,4 +139,9 @@ void defineCircleMenu()
    defMethod(cCircleMenu, "setAlpha", CircleMenu_setAlpha, 1);
    defMethod(cCircleMenu, "setDist", CircleMenu_setDist, 1);
    defMethod(cCircleMenu, "setAngle", CircleMenu_setAngle, 1);
+
+   defAlias(cCircleMenu, "getIndex", "index");
+   defAlias(cCircleMenu, "setAlpha", "alpha=");
+   defAlias(cCircleMenu, "setDist", "dist=");
+   defAlias(cCircleMenu, "setAngle", "angle=");
 }

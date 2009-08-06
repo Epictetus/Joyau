@@ -116,4 +116,8 @@ void defineDrawableText()
    defMethod(cDrawableText, "toggleStirring", DrawableText_toggleStirring, 0);
    defMethod(cDrawableText, "toggleScripted", DrawableText_toggleScripted, 0);
    defMethod(cDrawableText, "setText", DrawableText_setText, 1);
+
+   defAlias(cDrawableText, "setFont", "font=");
+   defAlias(cDrawableText, "setBackground", "background=");
+   defAlias(cDrawableText, "setText", "text=");
 }

@@ -62,4 +62,6 @@ void defineLine()
    VALUE cLine = defClass<Line>("Line", "Shape");
    defMethod(cLine, "setPoint", Line_setPoint, 2);
    defMethod(cLine, "getPoint", Line_getPoint, 0);
+
+   defAlias(cLine, "getPoint", "point");
 }

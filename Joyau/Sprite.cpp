@@ -322,4 +322,9 @@ void defineSprite()
    defMethod(cSprite, "setTile", Sprite_setTile, 4);
    defMethod(cSprite, "unTile", Sprite_unTile, 0);
    defMethod(cSprite, "autoDir=", Sprite_setAutoDir, 1);
+
+   defAlias(cSprite, "getAngle", "angle");
+   defAlias(cSprite, "setAngle", "angle=");
+   defAlias(cSprite, "getAlpha", "alpha");
+   defAlias(cSprite, "setAlpha", "alpha=");
 }

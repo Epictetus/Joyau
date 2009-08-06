@@ -52,7 +52,7 @@ bool Drawable::collide(Drawable &item)
 	If only on corner of this is on item, or if only one of the
 	item corner is on this, we return true because it collides.
 	Otherwisely, we return false since it doesn't.
-       */
+      */
       if (isOn(points1[i]))
 	 return true;
       if (item.isOn(points2[i]))
@@ -353,4 +353,9 @@ void defineDrawable()
    defMethod(cDrawable, "cancelMove", Drawable_cancelMove, 0);
    defMethod(cDrawable, "clearMove", Drawable_clearMove, 0);
    defMethod(cDrawable, "draw", Drawable_draw, 0);
+
+   defAlias(cDrawable, "getX", "x");
+   defAlias(cDrawable, "getY", "y");
+   defAlias(cDrawable, "getW", "w");
+   defAlias(cDrawable, "getH", "h");
 }

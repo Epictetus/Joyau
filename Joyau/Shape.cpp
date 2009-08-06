@@ -100,4 +100,10 @@ void defineShape()
    defMethod(cShape, "getColors", Shape_getColors, 0);
    defMethod(cShape, "getColor", Shape_getColor, 0);
    defMethod(cShape, "getColorsNumber", Shape_getColorsNumber, 0);
+
+   defAlias(cShape, "setColor", "color=");
+   defAlias(cShape, "setGradient", "gradient=");
+   defAlias(cShape, "getColors", "colors");
+   defAlias(cShape, "getColor", "color");
+   defAlias(cShape, "getColorsNumber", "colorsNumber");
 }

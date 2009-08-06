@@ -266,4 +266,16 @@ void defineMessageBox()
    defMethod(cMessage, "setTitleFont", Message_setTitleFont, 1);
    defMethod(cMessage, "setTitlePos", Message_setTitlePos, 2);
    defMethod(cMessage, "resize", Message_resize, 2);
+
+   defAlias(cMessage, "setTitle", "title=");
+   defAlias(cMessage, "setText", "text=");
+   defAlias(cMessage, "setImage", "image=");
+   defAlias(cMessage, "setBackground", "background=");
+   defAlias(cMessage, "setBgColor", "bgColor=");
+   defAlias(cMessage, "setTitleColor", "titleColor=");
+   defAlias(cMessage, "setTextColor", "textColor=");
+   defAlias(cMessage, "setBorderColor", "borderColor=");
+   defAlias(cMessage, "setTextFont", "textFont=");
+   defAlias(cMessage, "setTitleFont", "titleFont=");
+   defAlias(cMessage, "setTitlePos", "titlePos=");
 }

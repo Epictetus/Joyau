@@ -103,4 +103,6 @@ void defineTimer()
    defMethod(cTimer, "pause", Timer_pause, 0);
    defMethod(cTimer, "resume", Timer_resume, 0);
    defMethod(cTimer, "paused", Timer_paused, 0);
+
+   defAlias(cTimer, "getTime", "time");
 }

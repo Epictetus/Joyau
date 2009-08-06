@@ -120,4 +120,9 @@ void defineCircle()
    defMethod(cCircle, "getCenterX", Circle_getCenterX, 0);
    defMethod(cCircle, "getCenterY", Circle_getCenterY, 0);
    defMethod(cCircle, "getRadius", Circle_getRadius, 0);
+
+   defAlias(cCircle, "setRadius", "radius=");
+   defAlias(cCircle, "getCenterX", "centerX");
+   defAlias(cCircle, "getCenterY", "centerY");
+   defAlias(cCircle, "getRadius", "radius");
 }
