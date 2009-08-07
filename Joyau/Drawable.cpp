@@ -69,10 +69,10 @@ bool Drawable::isOn(int x, int y)
    int y1 = rect.y;
    int y2 = rect.y + rect.h;
 
-   if (x > x1 &&
-       x < x2 &&
-       y > y1 &&
-       y < y2)
+   if (x >= x1 &&
+       x <= x2 &&
+       y >= y1 &&
+       y <= y2)
       return true;
    return false;
 }
