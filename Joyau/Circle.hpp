@@ -23,7 +23,10 @@ class Circle: public Shape
 {
 public:
    Circle(): filled(true) {}
+
    void toggleFilled() { filled = !filled; }
+   void setFilled(bool val) { filled = val; }
+   bool isFilled() const { return filled; }
 
    void setCenter(int x, int y);
    void setRadius(int r);
@@ -43,6 +46,8 @@ private:
 };
 
 VALUE Circle_toggleFilled(VALUE self);
+VALUE Circle_setFilled(VALUE self, VALUE val);
+VALUE Circle_filled(VALUE self);
 
 VALUE Circle_setCenter(VALUE self, VALUE x, VALUE y);
 VALUE Circle_setRadius(VALUE self, VALUE r);
