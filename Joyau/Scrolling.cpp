@@ -103,7 +103,6 @@ void Scrolling::play()
 
 void Scrolling::draw()
 {
-   clearMove();
    bg[0].draw();
    bg[1].draw();
 }

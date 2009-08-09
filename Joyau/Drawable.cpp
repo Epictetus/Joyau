@@ -316,6 +316,7 @@ VALUE Drawable_clearMove(VALUE self)
 VALUE Drawable_draw(VALUE self)
 {
    Drawable &ref = getRef<Drawable>(self);
+   ref.clearMove(); // So, we don't have to change each draw methods
    ref.draw();
 
    return Qnil;

@@ -67,7 +67,6 @@ Point* Triangle::getPoints() const
 
 void Triangle::draw()
 {
-   clearMove();
    oslDrawGradientTriangle(x[0], y[0], x[1], y[1], x[2], y[2], 
 			    _col[0], _col[1], _col[2]);
 }

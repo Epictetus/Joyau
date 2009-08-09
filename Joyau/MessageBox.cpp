@@ -43,7 +43,6 @@ Message::Message()
 
 void Message::draw()
 {
-   clearMove();
    Manager &manager = Manager::getInstance(); // Needed for getFont
    
    // Firstly, let's draw the border.

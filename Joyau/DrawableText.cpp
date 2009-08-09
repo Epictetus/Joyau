@@ -48,7 +48,6 @@ void DrawableText::toggleScripted()
 
 void DrawableText::draw()
 {
-   clearMove();
    if (font != "")
       oslSetFont(Manager::getInstance().getFont(font.c_str()));
    

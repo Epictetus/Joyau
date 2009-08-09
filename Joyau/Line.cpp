@@ -34,7 +34,6 @@ void Line::setPoint(int x, int y)
 
 void Line::draw()
 {
-   clearMove();
    oslDrawGradientLine (getX(), getY(), _x2, _y2, 
 			_col[0], _col[1]);
 }

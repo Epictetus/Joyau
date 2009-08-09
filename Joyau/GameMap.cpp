@@ -110,7 +110,6 @@ bool GameMap::visible(const Tile &t) const
 
 void GameMap::draw()
 {
-   clearMove();
    for (list<Tile>::iterator i = tiles.begin(); i != tiles.end(); ++i)
    {
       /*
