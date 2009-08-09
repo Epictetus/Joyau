@@ -37,12 +37,28 @@ protected:
    int _size;
 };
 
+class FillableShape: public Shape
+{
+public:
+   FillableShape(int size = 1): Shape(size), filled(true) {}
+
+   void toggleFilled() { filled = !filled; }
+   void setFilled(bool val) { filled = val; }
+   bool isFilled() const { return filled; }
+protected:
+   bool filled;
+};
+
 VALUE Shape_setColor(int argc, VALUE *argv, VALUE self);
 VALUE Shape_setGradient(VALUE self, VALUE col);
 
 VALUE Shape_getColorsNumber(VALUE self);
 VALUE Shape_getColors(VALUE self);
 VALUE Shape_getColor(VALUE self);
+
+VALUE FillableShape_toggleFilled(VALUE self);
+VALUE FillableShape_setFilled(VALUE self, VALUE val);
+VALUE FillablleShape_filled(VALUE self);
 
 void defineShape();
 

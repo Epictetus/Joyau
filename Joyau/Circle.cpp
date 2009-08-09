@@ -56,28 +56,6 @@ Rect Circle::boundingRect()
    return Rect(getX(), getY(), getW(), getH());
 }
 
-VALUE Circle_toggleFilled(VALUE self)
-{
-   Circle &ref = getRef<Circle>(self);
-
-   ref.toggleFilled();
-   return Qnil;
-}
-
-VALUE Circle_setFilled(VALUE self, VALUE val)
-{
-   Circle &ref = getRef<Circle>(self);
-   
-   ref.setFilled(val == Qtrue);
-   return Qnil;
-}
-
-VALUE Circle_filled(VALUE self)
-{
-   Circle &ref = getRef<Circle>(self);
-   return ref.isFilled() ? Qtrue : Qfalse;
-}
-
 VALUE Circle_setCenter(VALUE self, VALUE x, VALUE y)
 {
    Circle &ref = getRef<Circle>(self);
@@ -126,12 +104,9 @@ VALUE Circle_getRadius(VALUE self)
 
 void defineCircle()
 {
-   VALUE cCircle = defClass<Circle>("Circle", "Shape");
+   VALUE cCircle = defClass<Circle>("Circle", "FilledShape");
    defMethod(cCircle, "setRadius", Circle_setRadius, 1);
    defMethod(cCircle, "setCenter", Circle_setCenter, 2);
-   defMethod(cCircle, "toggleFilled", Circle_toggleFilled, 0);
-   defMethod(cCircle, "filled=", Circle_setFilled, 1);
-   defMethod(cCircle, "filled", Circle_filled, 0);
    defMethod(cCircle, "getCenterX", Circle_getCenterX, 0);
    defMethod(cCircle, "getCenterY", Circle_getCenterY, 0);
    defMethod(cCircle, "getRadius", Circle_getRadius, 0);

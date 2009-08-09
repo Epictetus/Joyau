@@ -92,6 +92,28 @@ VALUE Shape_getColor(VALUE self)
    return col2hash(ref.getColor());
 }
 
+VALUE FillableShape_toggleFilled(VALUE self)
+{
+   FillableShape &ref = getRef<FillableShape>(self);
+   
+   ref.toggleFilled();
+   return Qnil;
+}
+
+VALUE FillableShape_setFilled(VALUE self, VALUE val)
+{
+   FillableShape &ref = getRef<FillableShape>(self);
+   
+   ref.setFilled(val == Qtrue);
+   return Qnil;
+}
+
+VALUE FillablleShape_filled(VALUE self)
+{
+   FillableShape &ref = getRef<FillableShape>(self);
+   return ref.isFilled() ? Qtrue : Qfalse;
+}
+
 void defineShape()
 {
    VALUE cShape = defClass<Shape>("Shape", "Drawable");
@@ -100,6 +122,11 @@ void defineShape()
    defMethod(cShape, "getColors", Shape_getColors, 0);
    defMethod(cShape, "getColor", Shape_getColor, 0);
    defMethod(cShape, "getColorsNumber", Shape_getColorsNumber, 0);
+   
+   VALUE cFillableShape = defClass<FillableShape>("FillableShape", "Shape");
+   defMethod(cFillableShape, "toggleFilled", FillableShape_toggleFilled, 0);
+   defMethod(cFillableShape, "filled", FillablleShape_filled, 0);
+   defMethod(cFillableShape, "filled=", FillableShape_setFilled, 0);
 
    defAlias(cShape, "setColor", "color=");
    defAlias(cShape, "setGradient", "gradient=");

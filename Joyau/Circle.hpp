@@ -19,15 +19,9 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include "Shape.hpp"
 
-class Circle: public Shape
+class Circle: public FillableShape
 {
 public:
-   Circle(): filled(true) {}
-
-   void toggleFilled() { filled = !filled; }
-   void setFilled(bool val) { filled = val; }
-   bool isFilled() const { return filled; }
-
    void setCenter(int x, int y);
    void setRadius(int r);
    
@@ -41,13 +35,7 @@ public:
 private:
    int centerX, centerY;
    int _r;
-
-   bool filled;
 };
-
-VALUE Circle_toggleFilled(VALUE self);
-VALUE Circle_setFilled(VALUE self, VALUE val);
-VALUE Circle_filled(VALUE self);
 
 VALUE Circle_setCenter(VALUE self, VALUE x, VALUE y);
 VALUE Circle_setRadius(VALUE self, VALUE r);
