@@ -54,7 +54,7 @@ public:
 
    virtual void draw() {}
 
-   virtual Rect boundingRect();
+   virtual Rect boundingRect() const;
 
    virtual bool collide(Drawable &item);
    virtual bool isOn(int x, int y);

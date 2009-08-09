@@ -48,11 +48,6 @@ void Circle::draw()
       oslDrawCircle(centerX, centerY, _r, _col[0]);
 }
 
-Rect Circle::boundingRect()
-{
-   return Rect(getX(), getY(), getW(), getH());
-}
-
 VALUE Circle_setCenter(VALUE self, VALUE x, VALUE y)
 {
    Circle &ref = getRef<Circle>(self);

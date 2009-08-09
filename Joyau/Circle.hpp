@@ -30,8 +30,6 @@ public:
    int getCenterX() const { return centerX; }
    int getCenterY() const { return centerY; }
    int getRadius() const { return _r; }
-   
-   Rect boundingRect();
 private:
    int centerX, centerY;
    int _r;

@@ -24,7 +24,7 @@ Drawable::Drawable()
    _h = 0;
 }
 
-Rect Drawable::boundingRect()
+Rect Drawable::boundingRect() const
 { 
    return Rect(getX(), getY(), getW(), getH()); 
 }
