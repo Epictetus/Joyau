@@ -42,6 +42,9 @@ public:
    bool isStirring() const { return stirring; }
 
    OSL_COLOR getBackground() const { return bg; }
+   string getFont() const { return font; }
+
+   string getText() const { return _text; }
 private:
    string font;
    string _text;
@@ -64,6 +67,9 @@ VALUE DrawableText_scripted(VALUE self);
 VALUE DrawableText_stirring(VALUE self);
 
 VALUE DrawableText_background(VALUE self);
+VALUE DrawableText_font(VALUE self);
+
+VALUE DrawableText_text(VALUE self);
 
 void defineDrawableText();
 

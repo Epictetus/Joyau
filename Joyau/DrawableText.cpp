@@ -125,6 +125,18 @@ VALUE DrawableText_background(VALUE self)
    return col2hash(ref.getBackground());
 }
 
+VALUE DrawableText_font(VALUE self)
+{
+   DrawableText &ref = getRef<DrawableText>(self);
+   return rb_str_new2(ref.getFont().c_str());
+}
+
+VALUE DrawableText_text(VALUE self)
+{
+   DrawableText &ref = getRef<DrawableText>(self);
+   return rb_str_new2(ref.getText().c_str());
+}
+
 void defineDrawableText()
 {
    VALUE cDrawableText = defClass<DrawableText>("DrawableText", "Shape");
@@ -136,6 +148,8 @@ void defineDrawableText()
    defMethod(cDrawableText, "scripted", DrawableText_scripted, 0);
    defMethod(cDrawableText, "stirring", DrawableText_stirring, 0);
    defMethod(cDrawableText, "background", DrawableText_background, 0);
+   defMethod(cDrawableText, "font", DrawableText_font, 0);
+   defMethod(cDrawableText, "text", DrawableText_text, 0);
 
    defAlias(cDrawableText, "setFont", "font=");
    defAlias(cDrawableText, "setBackground", "background=");
