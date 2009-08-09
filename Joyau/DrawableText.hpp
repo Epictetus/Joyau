@@ -35,8 +35,8 @@ public:
 
    void draw();
 
-   int getW();
-   int getH() { return 10; }
+   int getW() const;
+   int getH() const { return 10; }
 
    bool isScripted() const { return scripted; }
    bool isStirring() const { return stirring; }

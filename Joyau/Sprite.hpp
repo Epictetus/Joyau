@@ -62,8 +62,8 @@ public:
    void setAlpha(int alpha);
    int getAlpha() const;
    
-   int getW();
-   int getH();
+   int getW() const;
+   int getH() const;
 
    virtual void draw();
    

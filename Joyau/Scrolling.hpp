@@ -40,8 +40,8 @@ public:
    void cancelMove();
    void clearMove();
 
-   int getW();
-   int getH();
+   int getW() const;
+   int getH() const;
 private:
    int _dir;
    Sprite bg[2];

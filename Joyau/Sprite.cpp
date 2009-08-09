@@ -41,8 +41,8 @@ int Sprite::getAlpha() const
 
 //Since nbrX and nbrY are initialized to 1, we can use them even in
 //not-animated sprites. 
-int Sprite::getW() { return tiled ? wTile : _w / _nbrX; }
-int Sprite::getH() { return tiled ? hTile : _h / _nbrY; }
+int Sprite::getW() const { return tiled ? wTile : _w / _nbrX; }
+int Sprite::getH() const { return tiled ? hTile : _h / _nbrY; }
 
 /*
   defaultDraw() can be used in the Draw function from inherited class, 

@@ -50,9 +50,6 @@ void Circle::draw()
 
 Rect Circle::boundingRect()
 {
-   if (centerX != getX() + _r ||
-       centerY != getY() + _r)
-      setCenter(getX() + _r, getY() + _r);
    return Rect(getX(), getY(), getW(), getH());
 }
 

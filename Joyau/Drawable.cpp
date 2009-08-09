@@ -92,12 +92,12 @@ int Drawable::getY() const
    return _y;
 }
 
-int Drawable::getW()
+int Drawable::getW() const
 {
    return _w;
 }
 
-int Drawable::getH()
+int Drawable::getH() const
 {
    return _h;
 }

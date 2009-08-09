@@ -25,7 +25,7 @@ DrawableText::DrawableText()
    _col[0] = RGBA(255, 255, 255, 255);
 }
 
-int DrawableText::getW()
+int DrawableText::getW() const
 {
    // Don't forget to update the font
    oslSetFont(Manager::getInstance().getFont(font.c_str()));

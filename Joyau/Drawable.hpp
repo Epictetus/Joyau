@@ -63,8 +63,8 @@ public:
    virtual int getX() const;
    virtual int getY() const;
 
-   virtual int getW();
-   virtual int getH();
+   virtual int getW() const;
+   virtual int getH() const;
 
    virtual void setPos(int x, int y);
    void setPos(const Point &p);

@@ -47,14 +47,14 @@ void Scrolling::setDir(int dir)
    }
 }
 
-int Scrolling::getW()
+int Scrolling::getW() const
 {
    if (_dir == Sprite::RIGHT || _dir == Sprite::LEFT)
       return bg[0].getW() * 2;
    return bg[0].getW();
 }
 
-int Scrolling::getH()
+int Scrolling::getH() const
 {
    if (_dir == Sprite::UP || _dir == Sprite::DOWN)
       return bg[0].getH() * 2;

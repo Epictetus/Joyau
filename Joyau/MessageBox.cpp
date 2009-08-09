@@ -130,7 +130,6 @@ VALUE Message_setTitle(VALUE self, VALUE txt)
    return Qnil;
 }
 
-
 VALUE Message_setText(VALUE self, VALUE txt)
 {
    Message &ref = getRef<Message>(self);
