@@ -129,6 +129,24 @@ VALUE CircleMenu_setAngle(VALUE self, VALUE angle)
    return Qnil;
 }
 
+VALUE CircleMenu_alpha(VALUE self)
+{
+   CircleMenu &ref = getRef<CircleMenu>(self);
+   return INT2FIX(ref.getAlpha());
+}
+
+VALUE CircleMenu_dist(VALUE self)
+{
+   CircleMenu &ref = getRef<CircleMenu>(self);
+   return INT2FIX(ref.getDist());
+}
+
+VALUE CircleMenu_angle(VALUE self)
+{
+   CircleMenu &ref = getRef<CircleMenu>(self);
+   return INT2FIX(ref.getAngle());
+}
+
 void defineCircleMenu()
 {
    VALUE cCircleMenu = defClass<CircleMenu>("CircleMenu", "Drawable");
@@ -138,6 +156,9 @@ void defineCircleMenu()
    defMethod(cCircleMenu, "setAlpha", CircleMenu_setAlpha, 1);
    defMethod(cCircleMenu, "setDist", CircleMenu_setDist, 1);
    defMethod(cCircleMenu, "setAngle", CircleMenu_setAngle, 1);
+   defMethod(cCircleMenu, "alpha", CircleMenu_alpha, 0);
+   defMethod(cCircleMenu, "angle", CircleMenu_angle, 0);
+   defMethod(cCircleMenu, "dist", CircleMenu_dist, 0);
 
    defAlias(cCircleMenu, "getIndex", "index");
    defAlias(cCircleMenu, "setAlpha", "alpha=");

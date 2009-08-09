@@ -38,6 +38,10 @@ public:
 
    void setDist(int dist);
    void setAngle(int angle);
+
+   int getAlpha() const { return _menu->AlphaMenu; }
+   int getDist() const { return _menu->Eloignement; }
+   int getAngle() const { return _menu->AngleVoullue; }
 private:
    OSL_CIRCLE_MENU *_menu;
 };
@@ -49,9 +53,12 @@ VALUE CircleMenu_changeSelection(VALUE self, VALUE dir);
 VALUE CircleMenu_getIndex(VALUE self);
 
 VALUE CircleMenu_setAlpha(VALUE self, VALUE alpha);
-
 VALUE CircleMenu_setDist(VALUE self, VALUE dist);
 VALUE CircleMenu_setAngle(VALUE self, VALUE angle);
+
+VALUE CircleMenu_alpha(VALUE self);
+VALUE CircleMenu_dist(VALUE self);
+VALUE CircleMenu_angle(VALUE self); 
 
 void defineCircleMenu();
 
