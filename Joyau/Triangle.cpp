@@ -57,7 +57,7 @@ void Triangle::setPoints(int x1, int y1, int x2, int y2, int x3, int y3)
    _h = maxY - getY();
 }
 
-Point* Triangle::getPoints()
+Point* Triangle::getPoints() const
 {
    Point *points = new Point[3];
    for (int i = 0; i < 3; ++i)

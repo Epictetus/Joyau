@@ -31,13 +31,17 @@ public:
    void toggleScripted();
    
    void setBackground(OSL_COLOR col) { bg = col; }
-
    void setFont(string filename) { font = filename; }
 
    void draw();
 
    int getW();
    int getH() { return 10; }
+
+   bool isScripted() const { return scripted; }
+   bool isStirring() const { return stirring; }
+
+   OSL_COLOR getBackground() const { return bg; }
 private:
    string font;
    string _text;
@@ -54,8 +58,12 @@ VALUE DrawableText_toggleStirring(VALUE self);
 VALUE DrawableText_toggleScripted(VALUE self);
 
 VALUE DrawableText_setBackground(VALUE self, VALUE color);
-
 VALUE DrawableText_setFont(VALUE self, VALUE font);
+
+VALUE DrawableText_scripted(VALUE self);
+VALUE DrawableText_stirring(VALUE self);
+
+VALUE DrawableText_background(VALUE self);
 
 void defineDrawableText();
 

@@ -49,9 +49,7 @@ private:
 };
 
 VALUE Scrolling_setSprite(VALUE self, VALUE spr);
-
 VALUE Scrolling_setDir(VALUE self, VALUE dir);
-
 VALUE Scrolling_setSpeed(VALUE self, VALUE s);
 
 VALUE Scrolling_play(VALUE self);

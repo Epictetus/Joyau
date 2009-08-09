@@ -43,6 +43,22 @@ public:
 
    void setTitlePos(int x, int y);
 
+   string getTitle() const { return title; }
+   string getText() const { return text; }
+
+   Sprite& getImage() const { return *image; }
+   Sprite& getBackground() const { return *bg; }
+
+   OSL_COLOR getBgColor() const { return bgColor; }
+   OSL_COLOR getTitleColor() const { return titleColor; }
+   OSL_COLOR getTextColor() const { return textColor; }
+   OSL_COLOR getBorderColor() const { return borderColor; }
+
+   string getTitleFont() const { return titleFont; }
+   string getTextFont() const { return textFont; }
+
+   Point getTitlePos() const { return Point(titleX, titleY); }
+
    void resize(int w, int h);
 private:
    Sprite *image;
@@ -81,6 +97,22 @@ VALUE Message_setTextFont(VALUE self, VALUE f);
 VALUE Message_setTitleFont(VALUE self, VALUE f);
 
 VALUE Message_setTitlePos(VALUE self, VALUE x, VALUE y);
+
+VALUE Message_title(VALUE self);
+VALUE Message_text(VALUE self);
+
+VALUE Message_image(VALUE self);
+VALUE Message_background(VALUE self);
+
+VALUE Message_bgColor(VALUE self);
+VALUE Message_titleColor(VALUE self);
+VALUE Message_textColor(VALUE self);
+VALUE Message_borderColor(VALUE self);
+
+VALUE Message_textFont(VALUE self);
+VALUE Message_titleFont(VALUE self);
+
+VALUE Message_titlePos(VALUE self);
 
 VALUE Message_resize(VALUE self, VALUE w, VALUE h);
 

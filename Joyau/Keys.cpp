@@ -160,6 +160,12 @@ VALUE Cursor_setSensibility(VALUE self, VALUE s)
    return Qnil;
 }
 
+VALUE Cursor_sensibility(VALUE self)
+{
+   Cursor &ref = getRef<Cursor>(self);
+   return INT2FIX(ref.getSensibility());
+}
+
 VALUE Joyau_gets(VALUE self)
 {
    SceUtilityOskData data;
@@ -246,4 +252,5 @@ void defineKeys()
    VALUE cCursor = defClass<Cursor>("Cursor", "Sprite");
    defMethod(cCursor, "updatePos", Cursor_updatePos, 0);
    defMethod(cCursor, "setSensibility", Cursor_setSensibility, 1);
+   defMethod(cCursor, "sensibility", Cursor_sensibility, 0);
 }

@@ -77,7 +77,7 @@ bool Drawable::isOn(int x, int y)
    return false;
 }
 
-bool Drawable::isOn(Point p)
+bool Drawable::isOn(const Point &p)
 {
    return isOn(p.x, p.y);
 }
@@ -110,7 +110,7 @@ void Drawable::setPos(int x, int y)
    _y = y;
 }
 
-void Drawable::setPos(Point p)
+void Drawable::setPos(const Point &p)
 {
    setPos(p.x, p.y);
 }

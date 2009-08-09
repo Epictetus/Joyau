@@ -108,6 +108,24 @@ VALUE DrawableText_setFont(VALUE self, VALUE font)
    return Qnil;
 }
 
+VALUE DrawableText_scripted(VALUE self)
+{
+   DrawableText &ref = getRef<DrawableText>(self);
+   return ref.isScripted() ? Qtrue : Qfalse;
+}
+
+VALUE DrawableText_stirring(VALUE self)
+{
+   DrawableText &ref = getRef<DrawableText>(self);
+   return ref.isStirring() ? Qtrue : Qfalse;
+}
+
+VALUE DrawableText_background(VALUE self)
+{
+   DrawableText &ref = getRef<DrawableText>(self);
+   return col2hash(ref.getBackground());
+}
+
 void defineDrawableText()
 {
    VALUE cDrawableText = defClass<DrawableText>("DrawableText", "Shape");
@@ -116,6 +134,9 @@ void defineDrawableText()
    defMethod(cDrawableText, "toggleStirring", DrawableText_toggleStirring, 0);
    defMethod(cDrawableText, "toggleScripted", DrawableText_toggleScripted, 0);
    defMethod(cDrawableText, "setText", DrawableText_setText, 1);
+   defMethod(cDrawableText, "scripted", DrawableText_scripted, 0);
+   defMethod(cDrawableText, "stirring", DrawableText_stirring, 0);
+   defMethod(cDrawableText, "background", DrawableText_background, 0);
 
    defAlias(cDrawableText, "setFont", "font=");
    defAlias(cDrawableText, "setBackground", "background=");

@@ -122,14 +122,6 @@ void Message::resize(int w, int h)
    _h = h;
 }
 
-/*VALUE Message_draw(VALUE self)
-{
-   Message &ref = getRef<Message>(self);
-   ref.draw();
-
-   return Qnil;
-}*/
-
 VALUE Message_setTitle(VALUE self, VALUE txt)
 {
    Message &ref = getRef<Message>(self);
@@ -221,16 +213,6 @@ VALUE Message_setTitleFont(VALUE self, VALUE f)
    return Qnil;
 }
 
-/*VALUE Message_setPos(VALUE self, VALUE x, VALUE y)
-{
-   Message &ref = getRef<Message>(self);
-   int _x = FIX2INT(x);
-   int _y = FIX2INT(y);
-
-   ref.setPos(_x, _y);
-   return Qnil;
-}*/
-
 VALUE Message_setTitlePos(VALUE self, VALUE x, VALUE y)
 {
    Message &ref = getRef<Message>(self);
@@ -239,6 +221,73 @@ VALUE Message_setTitlePos(VALUE self, VALUE x, VALUE y)
 
    ref.setTitlePos(_x, _y);
    return Qnil;
+}
+
+VALUE Message_title(VALUE self)
+{
+   Message &ref = getRef<Message>(self);
+   return rb_str_new2(ref.getTitle().c_str());
+}
+
+VALUE Message_text(VALUE self)
+{
+   Message &ref = getRef<Message>(self);
+   return rb_str_new2(ref.getText().c_str());
+}
+
+VALUE Message_image(VALUE self)
+{
+   Message &ref = getRef<Message>(self);
+   return createObject(getClass("Sprite"), ref.getImage());
+}
+
+VALUE Message_background(VALUE self)
+{
+   Message &ref = getRef<Message>(self);
+   return createObject(getClass("Sprite"), ref.getBackground());
+}
+
+VALUE Message_bgColor(VALUE self)
+{
+   Message &ref = getRef<Message>(self);
+   return col2hash(ref.getBgColor());
+}
+
+VALUE Message_titleColor(VALUE self)
+{
+   Message &ref = getRef<Message>(self);
+   return col2hash(ref.getTitleColor());
+}
+
+VALUE Message_textColor(VALUE self)
+{
+   Message &ref = getRef<Message>(self);
+   return col2hash(ref.getTextColor());
+}
+
+VALUE Message_borderColor(VALUE self)
+{
+   Message &ref = getRef<Message>(self);
+   return col2hash(ref.getBorderColor());
+}
+
+VALUE Message_textFont(VALUE self)
+{
+   Message &ref = getRef<Message>(self);
+   return rb_str_new2(ref.getTextFont().c_str());
+}
+
+VALUE Message_titleFont(VALUE self)
+{
+   Message &ref = getRef<Message>(self);
+   return rb_str_new2(ref.getTitleFont().c_str());
+}
+
+VALUE Message_titlePos(VALUE self)
+{
+   Message &ref = getRef<Message>(self);
+   Point p = ref.getTitlePos();
+   return createObject(getClass("Point"), p);
 }
 
 VALUE Message_resize(VALUE self, VALUE w, VALUE h)
@@ -254,6 +303,7 @@ VALUE Message_resize(VALUE self, VALUE w, VALUE h)
 void defineMessageBox()
 {
    VALUE cMessage = defClass<Message>("Message", "Drawable");
+
    defMethod(cMessage, "setTitle", Message_setTitle, 1);
    defMethod(cMessage, "setText", Message_setText, 1);
    defMethod(cMessage, "setImage", Message_setImage, 1);
@@ -266,6 +316,18 @@ void defineMessageBox()
    defMethod(cMessage, "setTitleFont", Message_setTitleFont, 1);
    defMethod(cMessage, "setTitlePos", Message_setTitlePos, 2);
    defMethod(cMessage, "resize", Message_resize, 2);
+
+   defMethod(cMessage, "title", Message_title, 0);
+   defMethod(cMessage, "text", Message_text, 0);
+   defMethod(cMessage, "image", Message_image, 0);
+   defMethod(cMessage, "background", Message_background, 0);
+   defMethod(cMessage, "bgColor", Message_bgColor, 0);
+   defMethod(cMessage, "titleColor", Message_titleColor, 0);
+   defMethod(cMessage, "textColor", Message_textColor, 0);
+   defMethod(cMessage, "borderColor", Message_borderColor, 0);
+   defMethod(cMessage, "textFont", Message_textFont, 0);
+   defMethod(cMessage, "titleFont", Message_titleFont, 0);
+   defMethod(cMessage, "titlePos", Message_titlePos, 0);
 
    defAlias(cMessage, "setTitle", "title=");
    defAlias(cMessage, "setText", "text=");

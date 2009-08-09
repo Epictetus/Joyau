@@ -25,6 +25,8 @@ class Cursor: public Sprite
 public:
    void updatePos();
    void setSensibility(int s) { sensibility = s; }
+
+   int getSensibility() const { return sensibility; }
 private:
    int sensibility;
 };
@@ -35,6 +37,8 @@ VALUE checkKeys(VALUE self);
 
 VALUE Cursor_updatePos(VALUE self);
 VALUE Cursor_setSensibility(VALUE self, VALUE s);
+
+VALUE Cursor_sensibility(VALUE self);
 
 VALUE Joyau_gets(VALUE self);
 

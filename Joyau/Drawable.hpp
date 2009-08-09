@@ -58,7 +58,7 @@ public:
 
    virtual bool collide(Drawable &item);
    virtual bool isOn(int x, int y);
-   virtual bool isOn(Point p);
+   virtual bool isOn(const Point &p);
 
    virtual int getX() const;
    virtual int getY() const;
@@ -67,7 +67,7 @@ public:
    virtual int getH();
 
    virtual void setPos(int x, int y);
-   void setPos(Point p);
+   void setPos(const Point &p);
 
    virtual void move(int x, int y);
    virtual void cancelMove();

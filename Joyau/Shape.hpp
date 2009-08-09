@@ -27,14 +27,12 @@ public:
    void setColor(OSL_COLOR col);
    void setGradient(OSL_COLOR *col);
 
-   OSL_COLOR *getColors() { return _col; }
-   OSL_COLOR getColor() { return _col[0]; }
+   OSL_COLOR *getColors() const { return _col; }
+   OSL_COLOR getColor() const { return _col[0]; }
 
-   int getColorsNumber() { return _size; }
+   int getColorsNumber() const { return _size; }
 protected:
-   /*
-     A shape can just be colorized.
-    */
+   // A shape can just be colorized.
    OSL_COLOR *_col;
    int _size;
 };

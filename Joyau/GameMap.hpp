@@ -38,7 +38,6 @@ public:
    void clear();
 
    void draw();
-private:
 
    struct Tile
    {
@@ -47,6 +46,8 @@ private:
       int x, y;
    };
 
+   list<Tile> & getTiles() { return tiles; }
+private:
    vector<Sprite> tilesets;
    list<Tile> tiles;
 
@@ -54,6 +55,18 @@ private:
 protected:
    bool visible(const Tile &t) const;
 };
+
+VALUE Tile_tileX(VALUE self);
+VALUE Tile_tileY(VALUE self);
+VALUE Tile_x(VALUE self);
+VALUE Tile_y(VALUE self);
+VALUE Tile_tileset(VALUE self);
+
+VALUE Tile_setTileX(VALUE self, VALUE val);
+VALUE Tile_setTileY(VALUE self, VALUE val);
+VALUE Tile_setX(VALUE self, VALUE val);
+VALUE Tile_setY(VALUE self, VALUE val);
+VALUE Tile_setTileset(VALUE self, VALUE val);
 
 VALUE GameMap_resize(VALUE self, VALUE w, VALUE h);
 
@@ -64,6 +77,8 @@ VALUE GameMap_addElem(VALUE self, VALUE tileset, VALUE tX, VALUE tY,
                       VALUE x, VALUE y);
 
 VALUE GameMap_clear(VALUE self);
+
+VALUE GameMap_tiles(VALUE self);
 
 void defineGameMap();
 
