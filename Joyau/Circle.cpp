@@ -104,7 +104,7 @@ VALUE Circle_getRadius(VALUE self)
 
 void defineCircle()
 {
-   VALUE cCircle = defClass<Circle>("Circle", "FilledShape");
+   VALUE cCircle = defClass<Circle>("Circle", "FillableShape");
    defMethod(cCircle, "setRadius", Circle_setRadius, 1);
    defMethod(cCircle, "setCenter", Circle_setCenter, 2);
    defMethod(cCircle, "getCenterX", Circle_getCenterX, 0);
