@@ -17,8 +17,7 @@
 #include "DrawableRect.hpp"
 
 DrawableRect::DrawableRect(): 
-   Shape(4),
-   filled(true) 
+   FillableShape(4)
 {
    for (int i = 0; i < 4; ++i)
       _col[i] = RGBA(255, 255, 255, 255);
@@ -51,13 +50,6 @@ void DrawableRect::draw()
       oslDrawRect(getX(), getY(), _x2, _y2, _col[0]);
 }
 
-VALUE DrawableRect_toggleFilled(VALUE self)
-{
-   DrawableRect &ref = getRef<DrawableRect>(self);
-   ref.toggleFilled();
-   return Qnil;
-}
-
 VALUE DrawableRect_resize(VALUE self, VALUE w, VALUE h)
 {
    DrawableRect &ref = getRef<DrawableRect>(self);
@@ -88,10 +80,9 @@ VALUE DrawableRect_getCorner(VALUE self)
 
 void defineDrawableRect()
 {
-   VALUE cDrawableRect = defClass<DrawableRect>("DrawableRect", "Shape");
+   VALUE cDrawableRect = defClass<DrawableRect>("DrawableRect", "FillableShape");
    defMethod(cDrawableRect, "setCorner", DrawableRect_setCorner, 2);
    defMethod(cDrawableRect, "resize", DrawableRect_resize, 2);
-   defMethod(cDrawableRect, "toggleFilled", DrawableRect_toggleFilled, 0);
    defMethod(cDrawableRect, "getCorner", DrawableRect_getCorner, 0);
 
    defAlias(cDrawableRect, "getCorner", "corner");

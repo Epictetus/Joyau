@@ -19,11 +19,10 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include "Shape.hpp"
 
-class DrawableRect: public Shape
+class DrawableRect: public FillableShape
 {
 public:
    DrawableRect();
-   void toggleFilled() { filled = !filled; }
 
    void resize(int w, int h);
    void setCorner(int x, int y);
@@ -31,11 +30,8 @@ public:
 
    void draw();
 private:
-   bool filled;
    int _x2, _y2;
 };
-
-VALUE DrawableRect_toggleFilled(VALUE self);
 
 VALUE DrawableRect_resize(VALUE self, VALUE w, VALUE h);
 VALUE DrawableRect_setCorner(VALUE self, VALUE x, VALUE y);
