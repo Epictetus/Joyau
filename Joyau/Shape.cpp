@@ -126,7 +126,7 @@ void defineShape()
    VALUE cFillableShape = defClass<FillableShape>("FillableShape", "Shape");
    defMethod(cFillableShape, "toggleFilled", FillableShape_toggleFilled, 0);
    defMethod(cFillableShape, "filled", FillablleShape_filled, 0);
-   defMethod(cFillableShape, "filled=", FillableShape_setFilled, 0);
+   defMethod(cFillableShape, "filled=", FillableShape_setFilled, 1);
 
    defAlias(cShape, "setColor", "color=");
    defAlias(cShape, "setGradient", "gradient=");
