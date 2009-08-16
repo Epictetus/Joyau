@@ -16,6 +16,19 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include "Sprite.hpp"
 
+// Everyone likes the sprite = Sprite.new "image.png" syntax, right ?
+template<> VALUE wrap<Sprite>(int argc, VALUE *argv, VALUE info)
+{
+   Sprite *ptr = new Sprite;
+   VALUE tdata;
+   
+   if (argc >= 1)
+      ptr->setPicture(StringValuePtr(argv[0]));
+   
+   tdata = Data_Wrap_Struct(info, 0, wrapped_free<Sprite>, ptr);
+   return tdata;
+}
+
 void Sprite::setPicture(char *pic)
 {
    picName = pic;
