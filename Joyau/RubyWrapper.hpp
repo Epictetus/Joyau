@@ -37,7 +37,7 @@ template<typename T> void wrapped_free(void *info)
    delete (T*)info;
 }
 
-template<typename T> VALUE wrap(VALUE info)
+template<typename T> VALUE wrap(VALUE argc, VALUE *argv, VALUE info)
 {
    T *ptr = new T;
    VALUE tdata = Data_Wrap_Struct(info, 0, wrapped_free<T>, ptr);
@@ -58,7 +58,7 @@ template<typename T> T &getRef(VALUE val)
 
 template<typename T> VALUE createObject(VALUE info, T &val)
 {
-   VALUE ret = wrap<T>(info);
+   VALUE ret = wrap<T>(INT2FIX(0), NULL, info);
    T &ref = getRef<T>(ret);
    ref = val;
    return ret;
@@ -68,9 +68,9 @@ template<typename T> VALUE defClass(const char *name,
 				    VALUE father = rb_cObject)
 {
    VALUE ret = rb_define_class(name, father);
-   VALUE (*func)(VALUE) = &wrap<T>;
+   VALUE (*func)(VALUE, VALUE*, VALUE) = &wrap<T>;
    
-   rb_define_singleton_method(ret, "new", (VALUE(*)(...))func, 0);
+   rb_define_singleton_method(ret, "new", (VALUE(*)(...))func, -1);
    return ret;
 }
 
