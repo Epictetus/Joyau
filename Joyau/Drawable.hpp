@@ -63,6 +63,9 @@ public:
    virtual int getX() const;
    virtual int getY() const;
 
+   virtual void setX(int x);
+   virtual void setY(int y);
+
    virtual int getW() const;
    virtual int getH() const;
 
@@ -101,6 +104,9 @@ VALUE Drawable_isOn(VALUE self, VALUE x, VALUE y);
 
 VALUE Drawable_getX(VALUE self);
 VALUE Drawable_getY(VALUE self);
+
+VALUE Drawable_setX(VALUE self, VALUE x);
+VALUE Drawable_setY(VALUE self, VALUE y);
 
 VALUE Drawable_getW(VALUE self);
 VALUE Drawable_getH(VALUE self);

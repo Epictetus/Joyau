@@ -92,6 +92,18 @@ int Drawable::getY() const
    return _y;
 }
 
+void Drawable::setX(int x)
+{
+   movedX += _x - x;
+   _x += x;
+}
+
+void Drawable::setY(int y)
+{
+   movedY += _y - y;
+   _y += y;
+}
+
 int Drawable::getW() const
 {
    return _w;
@@ -265,6 +277,22 @@ VALUE Drawable_getY(VALUE self)
    return INT2FIX(ref.getY());
 }
 
+VALUE Drawable_setX(VALUE self, VALUE x)
+{
+   Drawable &ref = getRef<Drawable>(self);
+   ref.setX(INT2FIX(x));
+
+   return Qnil;
+}
+
+VALUE Drawable_setY(VALUE self, VALUE y)
+{
+   Drawable &ref = getRef<Drawable>(self);
+   ref.setY(INT2FIX(y));
+
+   return Qnil;
+}
+
 VALUE Drawable_getW(VALUE self)
 {
    Drawable &ref = getRef<Drawable>(self);
@@ -347,6 +375,8 @@ void defineDrawable()
    defMethod(cDrawable, "isOn", Drawable_isOn, 2);
    defMethod(cDrawable, "getX", Drawable_getX, 0);
    defMethod(cDrawable, "getY", Drawable_getY, 0);
+   defMethod(cDrawable, "x=", Drawable_setX, 1);
+   defMethod(cDrawable, "y=", Drawable_setY, 1);
    defMethod(cDrawable, "getW", Drawable_getW, 0);
    defMethod(cDrawable, "getH", Drawable_getH, 0);
    defMethod(cDrawable, "setPos", Drawable_setPos, 2);
