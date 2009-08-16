@@ -95,13 +95,13 @@ int Drawable::getY() const
 void Drawable::setX(int x)
 {
    movedX += _x - x;
-   _x += x;
+   _x = x;
 }
 
 void Drawable::setY(int y)
 {
    movedY += _y - y;
-   _y += y;
+   _y = y;
 }
 
 int Drawable::getW() const

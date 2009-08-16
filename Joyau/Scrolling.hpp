@@ -26,7 +26,6 @@ class Scrolling: public Drawable
 public:
    void setSprite(char *spr);
    
-   //void setPos(int x, int y);
    void setDir(int dir);
 
    void setSpeed(int s) { speed = s; }
@@ -36,6 +35,9 @@ public:
 
    void move(int x, int y);
    void setPos(int x, int y);
+
+   void setX(int x);
+   void setY(int y);
 
    void cancelMove();
    void clearMove();

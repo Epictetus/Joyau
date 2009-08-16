@@ -118,6 +118,24 @@ void Scrolling::move(int x, int y)
       bg[i].move(x, y);
 }
 
+void Scrolling::setX(int x)
+{
+   movedX += _x - x;
+   _x = x;
+
+   for (int i = 0; i < 2; ++i)
+      bg[i].setPos(_x, _y);
+}
+
+void Scrolling::setY(int y)
+{
+   movedY += _y - y;
+   _y = y;
+
+   for (int i = 0; i < 2; ++i)
+      bg[i].setPos(_x, _y);
+}
+
 void Scrolling::setPos(int x, int y)
 {
    _x = x;
