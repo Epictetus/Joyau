@@ -112,6 +112,7 @@ VALUE Drawable_getW(VALUE self);
 VALUE Drawable_getH(VALUE self);
 
 VALUE Drawable_setPos(VALUE self, VALUE x, VALUE y);
+VALUE Drawable_setPoint(VALUE self, VALUE p);
 
 VALUE Drawable_move(VALUE self, VALUE x, VALUE y);
 VALUE Drawable_cancelMove(VALUE self);

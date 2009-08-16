@@ -315,6 +315,15 @@ VALUE Drawable_setPos(VALUE self, VALUE x, VALUE y)
    return Qnil;
 }
 
+VALUE Drawable_setPoint(VALUE self, VALUE p)
+{
+   Drawable &ref = getRef<Drawable>(self);
+   Point &pRef = getRef<Point>(p);
+   ref.setPos(pRef);
+
+   return Qnil;
+}
+
 VALUE Drawable_move(VALUE self, VALUE x, VALUE y)
 {
    Drawable &ref = getRef<Drawable>(self);
@@ -380,6 +389,7 @@ void defineDrawable()
    defMethod(cDrawable, "getW", Drawable_getW, 0);
    defMethod(cDrawable, "getH", Drawable_getH, 0);
    defMethod(cDrawable, "setPos", Drawable_setPos, 2);
+   defMethod(cDrawable, "pos=", Drawable_setPoint, 1);
    defMethod(cDrawable, "move", Drawable_move, 2);
    defMethod(cDrawable, "cancelMove", Drawable_cancelMove, 0);
    defMethod(cDrawable, "clearMove", Drawable_clearMove, 0);
