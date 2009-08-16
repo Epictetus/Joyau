@@ -54,6 +54,11 @@ void GameMap::addElem(int tileset, int tX, int tY, int x, int y)
    tiles.push_back(t);
 }
 
+void GameMap::addElem(const Tile &tile)
+{
+   addElem(tile.tileset, tile.tileX, tile.tileY, tile.x, tile.y);
+}
+
 bool GameMap::collide(Drawable &spr)
 {
    for (list<Tile>::iterator i = tiles.begin(); i != tiles.end(); ++i)
@@ -170,6 +175,15 @@ VALUE GameMap_addElem(VALUE self, VALUE tileset, VALUE tX, VALUE tY,
    return Qnil;
 }
 
+VALUE GameMap_push(VALUE self, VALUE tile)
+{
+   GameMap &ref = getRef<GameMap>(self);
+   GameMap::Tile &tRef = getRef<GameMap::Tile>(tile);
+   
+   ref.addElem(tRef);
+   return Qnil;
+}
+
 VALUE GameMap_clear(VALUE self)
 {
    GameMap &ref = getRef<GameMap>(self);
@@ -185,5 +199,6 @@ void defineGameMap()
    defMethod(cMap, "addTileset", GameMap_addTileset, 1);
    defMethod(cMap, "setTileSize", GameMap_setTileSize, 2);
    defMethod(cMap, "addElem", GameMap_addElem, 5);
+   defMethod(cMap, "<<", GameMap_push, 1);
    defMethod(cMap, "clear", GameMap_clear, 0);
 }

@@ -23,6 +23,13 @@
 class GameMap: public Drawable
 {
 public:
+   struct Tile
+   {
+      int tileset;
+      int tileX, tileY;
+      int x, y;
+   };
+
    GameMap();
 
    void resize(int w, int h);
@@ -31,6 +38,7 @@ public:
    void setTileSize(int w, int h);
 
    void addElem(int tileset, int tX, int tY, int x, int y);
+   void addElem(const Tile &tile);
 
    bool collide(Drawable &spr);
    bool isOn(int x, int y);
@@ -38,13 +46,6 @@ public:
    void clear();
 
    void draw();
-
-   struct Tile
-   {
-      int tileset;
-      int tileX, tileY;
-      int x, y;
-   };
 
    list<Tile> & getTiles() { return tiles; }
 private:
@@ -75,6 +76,7 @@ VALUE GameMap_setTileSize(VALUE self, VALUE w, VALUE h);
 
 VALUE GameMap_addElem(VALUE self, VALUE tileset, VALUE tX, VALUE tY,
                       VALUE x, VALUE y);
+VALUE GameMap_push(VALUE self, VALUE tile);
 
 VALUE GameMap_clear(VALUE self);
 
