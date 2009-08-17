@@ -41,6 +41,23 @@ template<> VALUE wrap<GameMap>(int argc, VALUE *argv, VALUE info)
    return tdata;
 }
 
+template<> VALUE wrap<GameMap::Tile>(int argc, VALUE *argv, VALUE info)
+{
+   GameMap::Tile *ptr = new GameMap::Tile;
+
+   if (argc == 5)
+   {
+      ptr->tileset = FIX2INT(argv[0]);
+      ptr->tileX = FIX2INT(argv[1]);
+      ptr->tileY = FIX2INT(argv[2]);
+      ptr->x = FIX2INT(argv[3]);
+      ptr->y = FIX2INT(argv[4]);
+   }
+   
+   VALUE tdata = Data_Wrap_Struct(info, 0, wrapped_free<GameMap::Tile>, ptr);
+   return tdata;
+}
+
 GameMap::GameMap()
 {
    _w = 480;
