@@ -16,6 +16,17 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include "Scrolling.hpp"
 
+template<> VALUE wrap<Scrolling>(int argc, VALUE *argv, VALUE info)
+{
+   Scrolling *ptr = new Scrolling;
+
+   if (argc >= 1)
+      ptr->setSprite(StringValuePtr(argv[0]));
+   
+   VALUE tdata = Data_Wrap_Struct(info, 0, wrapped_free<Scrolling>, ptr);
+   return tdata;
+}
+
 void Scrolling::setSprite(char *spr)
 {
    bg[0].setPicture(spr);

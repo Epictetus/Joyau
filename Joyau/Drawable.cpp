@@ -16,6 +16,37 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include "Drawable.hpp"
 
+template<> VALUE wrap<Rect>(int argc, VALUE *argv, VALUE info)
+{
+   Rect *ptr = new Rect;
+   if (argc >= 2)
+   {
+      ptr->x = FIX2INT(argv[0]);
+      ptr->y = FIX2INT(argv[1]);
+      if (argc >= 4)
+      {
+	 ptr->w = FIX2INT(argv[2]);
+	 ptr->h = FIX2INT(argv[3]);
+      }
+   }
+
+   VALUE tdata = Data_Wrap_Struct(info, 0, wrapped_free<Rect>, ptr);
+   return tdata;
+}
+
+template<> VALUE wrap<Point>(int argc, VALUE *argv, VALUE info)
+{
+   Point *ptr = new Point;
+   if (argc >= 2)
+   {
+      ptr->x = FIX2INT(argv[0]);
+      ptr->y = FIX2INT(argv[1]);
+   }
+
+   VALUE tdata = Data_Wrap_Struct(info, 0, wrapped_free<Point>, ptr);
+   return tdata;
+}
+
 Drawable::Drawable()
 {
    _x = 0;

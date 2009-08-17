@@ -16,6 +16,21 @@
 
 #include "DrawableRect.hpp"
 
+template<> VALUE wrap<DrawableRect>(int argc, VALUE *argv, VALUE info)
+{
+   DrawableRect *ptr = new DrawableRect;
+
+   if (argc >= 2)
+   {
+      ptr->setPos(FIX2INT(argv[0]), FIX2INT(argv[1]));
+      if (argc >= 4)
+	 ptr->resize(FIX2INT(argv[2]), FIX2INT(argv[3]));
+   }
+
+   VALUE tdata = Data_Wrap_Struct(info, 0, wrapped_free<DrawableRect>, ptr);
+   return tdata;
+}
+
 DrawableRect::DrawableRect(): 
    FillableShape(4)
 {

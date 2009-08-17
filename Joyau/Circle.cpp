@@ -16,6 +16,23 @@
 
 #include "Circle.hpp"
 
+template<> VALUE wrap<Circle>(int argc, VALUE *argv, VALUE info)
+{
+   Circle *ptr = new Circle;
+   if (argc >= 2)
+   {
+      ptr->setRadius(FIX2INT(argv[0]));
+      
+      if (argc == 2)
+      	 ptr->setPos(getRef<Point>(argv[1]));
+      else if (argc == 3)
+	 ptr->setPos(FIX2INT(argv[1]), FIX2INT(argv[2]));
+   }
+
+   VALUE tdata = Data_Wrap_Struct(info, 0, wrapped_free<Circle>, ptr);
+   return tdata;
+}
+
 void Circle::setCenter(int x, int y)
 {
    centerX = x;
