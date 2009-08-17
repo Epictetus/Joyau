@@ -16,6 +16,31 @@
 
 #include "GameMap.hpp"
 
+template<> VALUE wrap<GameMap>(int argc, VALUE *argv, VALUE info)
+{
+   GameMap *ptr = new GameMap;
+   if (argc >= 1)
+   {
+      if (TYPE(argv[0]) == T_ARRAY)
+      {
+	 int size = RARRAY(argv[0])->len;
+	 for (int i = 0; i < size; ++i)
+	 {
+	    VALUE val = rb_ary_entry(argv[0], i);
+	    ptr->addTileset(StringValuePtr(val));
+	 }
+      }
+      else
+      {
+	 for (int i = 0; i < argc; ++i)
+	    ptr->addTileset(StringValuePtr(argv[i]));
+      }
+   }
+
+   VALUE tdata = Data_Wrap_Struct(info, 0, wrapped_free<GameMap>, ptr);
+   return tdata;
+}
+
 GameMap::GameMap()
 {
    _w = 480;
