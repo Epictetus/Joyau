@@ -234,7 +234,6 @@ VALUE Sprite_setAnimationTime(VALUE self, VALUE t)
 VALUE Sprite_setPicture(VALUE self, VALUE pic)
 {
    Sprite &item = getRef<Sprite>(self);
-
    item.setPicture(StringValuePtr(pic));
 
    return Qnil;

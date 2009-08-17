@@ -16,6 +16,22 @@
 
 #include "Keys.hpp"
 
+template<> VALUE wrap<Cursor>(int argc, VALUE *argv, VALUE info)
+{
+   Cursor *ptr = new Cursor;
+   VALUE tdata;
+   
+   if (argc >= 1)
+   {
+      ptr->setPicture(StringValuePtr(argv[0]));
+      if (argc >= 2)
+	 ptr->setSensibility(FIX2INT(argv[1]));
+   }
+   
+   tdata = Data_Wrap_Struct(info, 0, wrapped_free<Cursor>, ptr);
+   return tdata;
+}
+
 void Cursor::updatePos()
 {
    checkKeys(Qnil); // Let the pressed_ and released_ events bve raised.
