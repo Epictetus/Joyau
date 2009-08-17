@@ -98,7 +98,7 @@ void GameMap::addElem(int tileset, int tX, int tY, int x, int y)
 
 void GameMap::addElem(const Tile &tile)
 {
-   addElem(tile.tileset, tile.tileX, tile.tileY, tile.x, tile.y);
+   tiles.push_back(tile);
 }
 
 bool GameMap::collide(Drawable &spr)
