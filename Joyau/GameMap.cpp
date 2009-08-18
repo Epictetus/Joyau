@@ -234,8 +234,86 @@ VALUE GameMap_clear(VALUE self)
    return Qnil;
 }
 
+VALUE Tile_tileX(VALUE self)
+{
+   return INT2FIX(getRef<GameMap::Tile>(self).tileX);
+}
+
+VALUE Tile_tileY(VALUE self)
+{
+   return INT2FIX(getRef<GameMap::Tile>(self).tileY);
+}
+
+VALUE Tile_x(VALUE self)
+{
+   return INT2FIX(getRef<GameMap::Tile>(self).x);
+}
+
+VALUE Tile_y(VALUE self)
+{
+   return INT2FIX(getRef<GameMap::Tile>(self).y);
+}
+
+VALUE Tile_tileset(VALUE self)
+{
+   return INT2FIX(getRef<GameMap::Tile>(self).tileset);
+}
+
+VALUE Tile_setTileX(VALUE self, VALUE val)
+{
+   GameMap::Tile &ref = getRef<GameMap::Tile>(self);
+   ref.tileX = FIX2INT(val);
+
+   return Qnil;
+}
+
+VALUE Tile_setTileY(VALUE self, VALUE val)
+{
+   GameMap::Tile &ref = getRef<GameMap::Tile>(self);
+   ref.tileY = FIX2INT(val);
+
+   return Qnil;
+}
+
+VALUE Tile_setX(VALUE self, VALUE val)
+{
+   GameMap::Tile &ref = getRef<GameMap::Tile>(self);
+   ref.x = FIX2INT(val);
+
+   return Qnil;
+}
+
+VALUE Tile_setY(VALUE self, VALUE val)
+{
+   GameMap::Tile &ref = getRef<GameMap::Tile>(self);
+   ref.y = FIX2INT(val);
+
+   return Qnil;
+}
+
+VALUE Tile_setTileset(VALUE self, VALUE val)
+{
+   GameMap::Tile &ref = getRef<GameMap::Tile>(self);
+   ref.tileset = FIX2INT(val);
+
+   return Qnil;
+}
+
 void defineGameMap()
 {
+   VALUE cTile = defClass<GameMap::Tile>("Tile");
+   defMethod(cTile, "x", Tile_x, 0);
+   defMethod(cTile, "y", Tile_y, 0);
+   defMethod(cTile, "tileset", Tile_tileset, 0);
+   defMethod(cTile, "tileX", Tile_tileX, 0);
+   defMethod(cTile, "tileY", Tile_tileY, 0);
+
+   defMethod(cTile, "x=", Tile_setX, 1);
+   defMethod(cTile, "y=", Tile_setY, 1);
+   defMethod(cTile, "tileset=", Tile_setTileset, 1);
+   defMethod(cTile, "tileX=", Tile_setTileX, 1);
+   defMethod(cTile, "tileY=", Tile_setTileY, 1);
+   
    VALUE cMap = defClass<GameMap>("GameMap", "Drawable");
    defMethod(cMap, "resize", GameMap_resize, 2);
    defMethod(cMap, "addTileset", GameMap_addTileset, 1);
