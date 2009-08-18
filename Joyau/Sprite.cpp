@@ -338,4 +338,6 @@ void defineSprite()
    defAlias(cSprite, "setAngle", "angle=");
    defAlias(cSprite, "getAlpha", "alpha");
    defAlias(cSprite, "setAlpha", "alpha=");
+   defAlias(cSprite, "getDirection", "direction");
+   defAlias(cSprite, "setDirection", "direction=");
 }
