@@ -220,9 +220,27 @@ VALUE GameMap_addElem(VALUE self, VALUE tileset, VALUE tX, VALUE tY,
 VALUE GameMap_push(VALUE self, VALUE tile)
 {
    GameMap &ref = getRef<GameMap>(self);
-   GameMap::Tile &tRef = getRef<GameMap::Tile>(tile);
+   if (TYPE(tile) == T_ARRAY)
+   {
+      int size = RARRAY(tile)->len;
+      list<GameMap::Tile> aList;
+
+      for (int i = 0; i < size; ++i)
+      {
+	 VALUE val = rb_ary_entry(tile, i);
+	 aList.push_back(getRef<GameMap::Tile>(val));
+      }
+
+      for (list<GameMap::Tile>::iterator i = aList.begin(); i != aList.end(); 
+	   ++i)
+	 ref.addElem(*i);
+   }
+   else
+   {
+      GameMap::Tile &tRef = getRef<GameMap::Tile>(tile);
+      ref.addElem(tRef);
+   }
    
-   ref.addElem(tRef);
    return Qnil;
 }
 
