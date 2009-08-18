@@ -1,19 +1,16 @@
 class Ghost < Sprite
   
   def draw(hero)
-    if @projectils == nil # Same as the projectils...
+    if @projectils == nil
       @projectils = Array.new
     end
-    if hero.getAlpha <= 127 and getAlpha <= 127 #if we're both ghosts
+
+    if (hero.alpha <= 127 and alpha <= 127) or
+        (hero.alpha > 127 and alpha > 127) # if we have both the same opacity
       super()
-      for pro in @projectils
+      @projectils.each { |pro|
         pro.draw
-      end
-    elsif hero.getAlpha > 127 and getAlpha > 127 #or if we're both solids ones
-      super()
-      for pro in @projectils
-        pro.draw
-      end
+      }
     end
   end
   
@@ -21,29 +18,27 @@ class Ghost < Sprite
     if @projectils == nil
       @projectils = Array.new
     end
-    for pro in @projectils
-      hasCollided = false
+    
+    @projectils.each { |pro|
+      pro.hasCollided = false
       pro.play
+
       if hero.collide(pro)
         $life -= 1
-        hasCollided = true
+        pro.hasCollided = true
       end
-      if pro.getCount <= 0 or hasCollided
-        @projectils[@projectils.rindex(pro)] = nil # Are pointers missing you ?
-        # ( Can't remember about the Ruby references... Not that important )
-      end
-    end
-    @projectils.compact! # don't forget to remove nil item.
+    }
+    @projectils.reject! { |pro| pro.count <= 0 || pro.hasCollided }
     
     axe = rand(2) # Wow, what a great pathfinding algorithm, isn't it ?
     if axe == 1
-      if getY > hero.getY
+      if y > hero.y
         move(0, -1)
       else
         move(0, 1)
       end
     else
-      if getX > hero.getX
+      if x > hero.x
         move(-1, 0)
       else
         move(1, 0)
@@ -52,40 +47,38 @@ class Ghost < Sprite
 
     if @projectils.length < 2 # We'll set a maximum number of projectils : 2.
       # If we're closs of bota on the x axis
-      if getX >= hero.getX - 10 and getX <= hero.getX + 10
+      if x >= hero.x - 10 and x <= hero.x + 10
         # Anyway, we'll create a projectil. So, we'll avoid pressing 
         #C-y too much times...
-        pro = Projectil.new
-        pro.setPicture("proj.png")
-        if getAlpha <= 127
-          pro.setAlpha(127)
+        pro = Projectil.new("proj.png")
+        if alpha <= 127
+          pro.alpha = 127
         end
-        pro.setPos(getX, getY)
-        if getY > hero.getY
-          pro.setDirection($directions["UP"])
+        pro.pos = Point.new(x, y)
+        if y > hero.y
+          pro.direction = $directions["UP"]
         else
-          pro.setDirection($directions["DOWN"])
+          pro.direction = $directions["DOWN"]
         end
-        @projectils.push(pro)
-      elsif getY >= hero.getY - 10 and getY <= hero.getY + 10
-        # Don"t think we could put this code before.
+        @projectils << pro
+      elsif y >= hero.y - 10 and y <= hero.y + 10
+        # Don't think we could put this code before.
         # We have to know if we're close of botamon. Before theses conditions,
         # we don't.
-        pro = Projectil.new
-        pro.setPicture("proj.png")
-        if getAlpha <= 127
-          pro.setAlpha(127)
+        pro = Projectil.new("proj.png")
+        if alpha <= 127
+          pro.alpha = 127
         end
-        pro.setPos(getX, getY)
-        if getX > hero.getX
-          pro.setDirection($directions["LEFT"])
+        pro.pos = Point.new(x, y)
+        if x > hero.x
+          pro.direction = $directions["LEFT"]
         else
-          pro.setDirection($directions["RIGHT"])
+          pro.direction = $directions["RIGHT"]
         end
-        @projectils.push(pro)
+        @projectils << pro
       end
     end
     
   end
-  
+    
 end

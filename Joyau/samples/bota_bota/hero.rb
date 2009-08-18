@@ -14,65 +14,60 @@ class Hero < Sprite
     if @projectils == nil
       @projectils = Array.new
     end
-    for pro in @projectils
-      hasCollided = false
+
+    @projectils.each { |pro|
+      pro.hasCollided = false
       pro.play
-      for adv in advs
+
+      advs.each { |adv|
         if adv.collide(pro)
           $score += 1
-          hasCollided = true
+          pro.hasCollided = true
         end
-      end
-      if pro.getCount <= 0 or hasCollided
-        @projectils[@projectils.rindex(pro)] = nil # I'd rather user 
-                                                   # pro = nil but...
-      end
-    end
-    @projectils.compact!
+      }
+    }
+
+    @projectils.reject! { |pro| pro.count <= 0 || pro.hasCollided }
 
     readKeys # Ahem, without that we don't need the folowing conditions...
     
     if $keys["up"]
       move(0, -2) # We move it, of course, ...
-      setDirection($directions["UP"]) # But we also set a direction.
-      # That's for the projectils.
+      # But no direction = !
+      # autodir = true ;)
     end
     if $keys["down"]
       move(0, 2)
-      setDirection($directions["DOWN"])
     end
     if $keys["right"]
       move(2, 0)
-      setDirection($directions["RIGHT"])
     end
     if $keys["left"]
       move(-2, 0)
-      setDirection($directions["LEFT"])
     end
+
     if $keys["cross"]
-      if getAlpha - 2 > 20 # Hey, I want to see Bota !
-        setAlpha(getAlpha - 2)
+      if self.alpha - 2 > 20 # Hey, I want to see Bota !
+        self.alpha -= 2
       end
     end
     if $keys["triangle"]
-      if getAlpha + 2 < 256 # What would happen with alpha = 500 ?
-        # Really I don't know...
-        setAlpha(getAlpha + 2)
+      if self.alpha + 2 < 256 # What would happen with alpha = 500 ?
+        self.alpha += 2
       end
     end
-    if $keys["square"] # NB : I know the user doesn't 
-      #see there are two projectils. If you want to see it, add a timer or
-      #whatever you want...
+
+    if $keys["pressed_square"]
       if @projectils.length < 2
-        pro = Projectil.new
-        pro.setPicture("proj.png")
-        if getAlpha <= 127
-          pro.setAlpha(127)
+        pro = Projectil.new("proj.png")
+        if self.alpha <= 127
+          pro.alpha = 127
         end
-        pro.setPos(getX, getY)
-        pro.setDirection(getDirection)
-        @projectils.push(pro)
+        pro.pos = Point.new(x, y)
+        pro.direction = direction
+        @projectils << pro
       end
     end
+
   end
 end

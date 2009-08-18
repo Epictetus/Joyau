@@ -13,11 +13,11 @@ $life = 100
 initLib
 initGfx
 
-bg = Sprite.new
-bg.setPicture("bg.png")
+bg = Sprite.new("bg.png")
 
 hero = Hero.new
 hero.setPicture("pic.png")
+hero.autoDir = true
 
 advs = []
 for i in 1..4
@@ -29,36 +29,33 @@ for i in 1..4
     adv.setPicture("solid.png")
   end
   adv.setPos(rand(480), rand(272)) # Since there's no obstacle on the map...
-  advs.push(adv)
+  advs << adv
 end
 
-no_color = Hash.new # I know I could initialize all in on line...
-no_color["r"] = 0   # but it's still really easy to read so...
-no_color["g"] = 0
-no_color["b"] = 0
-no_color["a"] = 0
-setTextBackground(no_color) # Two things : It'll work speeder 
-# ( look at the oslib documentation ), and it'll be ...Try with a black
-# color as background. You'll understand.
+setTextBackground color(0, 0, 0, 0) 
+# Two things : It'll work faster ( look at the oslib documentation ), 
+# and it'll be ... Well, try with a black color as background. You'll understand.
+
+skip = false
 
 while mayPlay and $life > 0
   # Just calling the play and draw method of everyone...
   hero.play(advs)
-  for adv in advs
-    adv.play(hero)
+  advs.each { |adv| adv.play(hero) }
+
+  if !skip
+    startDraw
+    bg.draw
+  
+    advs.each { |adv| adv.draw(hero) }
+    hero.draw
+    
+    drawText(0, 0, "Score : " + $score.to_s)
+    drawText(0, 10, "Life : " + $life.to_s)
+    endDraw
   end
 
-  startDraw
-  bg.draw
-  for adv in advs
-    adv.draw(hero)
-  end
-  hero.draw
-  drawText(0, 0, "Score : " + $score.to_s)
-  drawText(0, 10, "Life : " + $life.to_s)
-  endDraw
-
-  sync
+  skip = sync
 end
 
 stopGfx
