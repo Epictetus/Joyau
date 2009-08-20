@@ -71,6 +71,7 @@ VALUE debug(VALUE self, VALUE text)
 VALUE Joyau_puts(VALUE self, VALUE text)
 {
    pspDebugScreenPrintf(StringValuePtr(text));
+   cout << StringValuePtr(text) << endl;
    return Qnil;
 }
 
