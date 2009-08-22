@@ -219,7 +219,7 @@ VALUE GameMap_addElem(int argc, VALUE *argv, VALUE self)
    else
       GameMap_push(self, argv[0]);
    return Qnil;
-};
+}
 
 VALUE GameMap_push(VALUE self, VALUE tile)
 {
@@ -227,17 +227,11 @@ VALUE GameMap_push(VALUE self, VALUE tile)
    if (TYPE(tile) == T_ARRAY)
    {
       int size = RARRAY(tile)->len;
-      list<GameMap::Tile> aList;
-
       for (int i = 0; i < size; ++i)
       {
 	 VALUE val = rb_ary_entry(tile, i);
-	 aList.push_back(getRef<GameMap::Tile>(val));
+	 ref.addElem(getRef<GameMap::Tile>(val));
       }
-
-      for (list<GameMap::Tile>::iterator i = aList.begin(); i != aList.end(); 
-	   ++i)
-	 ref.addElem(*i);
    }
    else
    {
