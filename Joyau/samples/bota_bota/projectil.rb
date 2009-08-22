@@ -5,13 +5,13 @@ class Projectil < Sprite
     end
 
     @count -= 1
-    if getDirection == $directions["RIGHT"]
+    if direction == $directions["RIGHT"]
       move(3, 0)
-    elsif getDirection == $directions["LEFT"]
+    elsif direction == $directions["LEFT"]
       move(-3, 0)
-    elsif getDirection == $directions["DOWN"]
+    elsif direction == $directions["DOWN"]
       move(0, 3)
-    elsif getDirection == $directions["UP"]
+    elsif direction == $directions["UP"]
       move(0, -3)
     end
   end

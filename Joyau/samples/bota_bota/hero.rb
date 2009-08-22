@@ -2,9 +2,6 @@ class Hero < Sprite
 
   def draw
     super()
-    if @projectils == nil
-      @projectils = Array.new
-    end
     for pro in @projectils
       pro.draw
     end
