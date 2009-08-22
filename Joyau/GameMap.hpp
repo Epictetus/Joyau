@@ -75,8 +75,7 @@ VALUE GameMap_resize(VALUE self, VALUE w, VALUE h);
 VALUE GameMap_addTileset(VALUE self, VALUE name);
 VALUE GameMap_setTileSize(VALUE self, VALUE w, VALUE h);
 
-VALUE GameMap_addElem(VALUE self, VALUE tileset, VALUE tX, VALUE tY,
-                      VALUE x, VALUE y);
+VALUE GameMap_addElem(int argc, VALUE *argv, VALUE self);
 VALUE GameMap_push(VALUE self, VALUE tile);
 
 VALUE GameMap_clear(VALUE self);

@@ -32,7 +32,7 @@ template<> VALUE wrap<GameMap>(int argc, VALUE *argv, VALUE info)
       }
       else
       {
-	 for (int i = 0; i < argc; ++i)
+      	 for (int i = 0; i < argc; ++i)
 	    ptr->addTileset(StringValuePtr(argv[i]));
       }
    }
@@ -160,7 +160,7 @@ void GameMap::draw()
    for (list<Tile>::iterator i = tiles.begin(); i != tiles.end(); ++i)
    {
       /*
-        Don't wase time, don't draw not visible tiles.
+        Don't waste time, don't draw not visible tiles.
         Also here to draw a map of which doesn't do t full screen.
       */
       if (visible(*i))
@@ -203,19 +203,23 @@ VALUE GameMap_setTileSize(VALUE self, VALUE w, VALUE h)
    return Qnil;
 }
 
-VALUE GameMap_addElem(VALUE self, VALUE tileset, VALUE tX, VALUE tY,
-                      VALUE x, VALUE y)
+VALUE GameMap_addElem(int argc, VALUE *argv, VALUE self)
 {
-   GameMap &ref = getRef<GameMap>(self);
-   int _tileset = FIX2INT(tileset);
-   int _tX = FIX2INT(tX);
-   int _tY = FIX2INT(tY);
-   int _x = FIX2INT(x);
-   int _y = FIX2INT(y);
+   if (argc == 5)
+   {
+      GameMap &ref = getRef<GameMap>(self);
+      int tileset = FIX2INT(argv[0]);
+      int tX = FIX2INT(argv[1]);
+      int tY = FIX2INT(argv[2]);
+      int x = FIX2INT(argv[3]);
+      int y = FIX2INT(argv[4]);
 
-   ref.addElem(_tileset, _tX, _tY, _x, _y);
+      ref.addElem(tileset, tX, tY, x, y);
+   }
+   else
+      GameMap_push(self, argv[0]);
    return Qnil;
-}
+};
 
 VALUE GameMap_push(VALUE self, VALUE tile)
 {
@@ -344,7 +348,7 @@ void defineGameMap()
    defMethod(cMap, "resize", GameMap_resize, 2);
    defMethod(cMap, "addTileset", GameMap_addTileset, 1);
    defMethod(cMap, "setTileSize", GameMap_setTileSize, 2);
-   defMethod(cMap, "addElem", GameMap_addElem, 5);
+   defMethod(cMap, "addElem", GameMap_addElem, -1);
    defMethod(cMap, "<<", GameMap_push, 1);
    defMethod(cMap, "clear", GameMap_clear, 0);
    defMethod(cMap, "clearTiles", GameMap_clearTiles, 0);
