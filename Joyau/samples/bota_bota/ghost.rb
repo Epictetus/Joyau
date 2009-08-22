@@ -1,24 +1,17 @@
 class Ghost < Sprite
-  
   def draw(hero)
-    if @projectils == nil
-      @projectils = Array.new
-    end
-
     if (hero.alpha <= 127 and alpha <= 127) or
         (hero.alpha > 127 and alpha > 127) # if we have both the same opacity
       super()
-      @projectils.each { |pro|
-        pro.draw
-      }
+      @projectils.each { |pro| pro.draw }
     end
   end
   
   def play(hero)
     if @projectils == nil
-      @projectils = Array.new
+      @projectils = []
     end
-    
+
     @projectils.each { |pro|
       pro.hasCollided = false
       pro.play
