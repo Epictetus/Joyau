@@ -252,6 +252,14 @@ VALUE GameMap_clear(VALUE self)
    return Qnil;
 }
 
+VALUE GameMap_clearTiles(VALUE self)
+{
+   GameMap &ref = getRef<GameMap>(self);
+   ref.clearTiles();
+
+   return Qnil;
+}
+
 VALUE Tile_tileX(VALUE self)
 {
    return INT2FIX(getRef<GameMap::Tile>(self).tileX);
@@ -339,4 +347,5 @@ void defineGameMap()
    defMethod(cMap, "addElem", GameMap_addElem, 5);
    defMethod(cMap, "<<", GameMap_push, 1);
    defMethod(cMap, "clear", GameMap_clear, 0);
+   defMethod(cMap, "clearTiles", GameMap_clearTiles, 0);
 }

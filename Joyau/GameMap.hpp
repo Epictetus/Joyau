@@ -44,6 +44,7 @@ public:
    bool isOn(int x, int y);
 
    void clear();
+   void clearTiles() { tiles.clear(); }
 
    void draw();
 
@@ -79,6 +80,7 @@ VALUE GameMap_addElem(VALUE self, VALUE tileset, VALUE tX, VALUE tY,
 VALUE GameMap_push(VALUE self, VALUE tile);
 
 VALUE GameMap_clear(VALUE self);
+VALUE GameMap_clearTiles(VALUE self);
 
 VALUE GameMap_tiles(VALUE self);
 
