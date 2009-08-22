@@ -258,6 +258,18 @@ VALUE GameMap_clearTiles(VALUE self)
    return Qnil;
 }
 
+VALUE GameMap_tiles(VALUE self)
+{
+   GameMap &ref = getRef<GameMap>(self);
+   list<GameMap::Tile> tiles = ref.getTiles();
+
+   VALUE ret = rb_ary_new();
+
+   for (list<GameMap::Tile>::iterator i = tiles.begin(); i != tiles.end(); ++i)
+      rb_ary_push(ret, createObject(getClass("Tile"), *i));
+   return ret;
+}
+
 VALUE Tile_tileX(VALUE self)
 {
    return INT2FIX(getRef<GameMap::Tile>(self).tileX);
@@ -346,4 +358,5 @@ void defineGameMap()
    defMethod(cMap, "<<", GameMap_push, 1);
    defMethod(cMap, "clear", GameMap_clear, 0);
    defMethod(cMap, "clearTiles", GameMap_clearTiles, 0);
+   defMethod(cMap, "tiles", GameMap_tiles, 0);
 }
