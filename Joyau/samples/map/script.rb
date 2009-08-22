@@ -1,14 +1,11 @@
 initLib
 initGfx
 
-bg = GameMap.new
-obstacles = GameMap.new
+bg = GameMap.new("bg_tile.png")
+obstacles = GameMap.new("obs_tile.png")
 
-bg.setPos(0, 0)
-obstacles.setPos(0, 0)
-
-bg.addTileset("bg_tile.png")
-obstacles.addTileset("obs_tile.png")
+bg.pos = Point.new(0, 0)
+obstacles.pos = Point.new(0, 0)
 
 bg.setTileSize(32, 32)
 obstacles.setTileSize(32, 32)
@@ -17,81 +14,69 @@ obstacles.setTileSize(32, 32)
 
 for i in 0..20
   bg.addElem(0, 0, 0, i * 32, 0)
-  bg.addElem(0, 32, 0, i * 32, 32)
+  bg.addElem Tile.new(0, 32, 0, i * 32, 32)
 end
 
-obstacles.addElem(0, 0, 0, 0, 0)
+obstacles << Tile.new(0, 0, 0, 0, 0)
 obstacles.addElem(0, 0, 0, 5 * 32, 5 * 32)
 
-angel = Sprite.new
-angel.setPicture("angel.png")
+angel = Sprite.new("angel.png")
 angel.setAnim(3, 4)
 
-angel.setDirection($directions["DOWN"])
-angel.setPos(240 - angel.getW / 2, 136 - angel.getH / 2)
+angel.direction = $directions["DOWN"]
+angel.setPos(240 - angel.w / 2, 136 - angel.h / 2)
+
+skip = false
 
 while mayPlay
-
   readKeys
 
   if $keys["up"]
     bg.move(0, 2)
     obstacles.move(0, 2)
 
-    if obstacles.collide(angel) # If we collide, we'll cancel the move
-      bg.move(0, -2)
-      obstacles.move(0, -2)
-    end
-
-    angel.setDirection($directions["UP"])
+    angel.direction = $directions["UP"]
   end
 
   if $keys["down"]
     bg.move(0, -2)
     obstacles.move(0, -2)
     
-    if obstacles.collide(angel)
-      bg.move(0, 2)
-      obstacles.move(0, 2)
-    end
-
-    angel.setDirection($directions["DOWN"])
+    angel.direction = $directions["DOWN"]
   end
   
   if $keys["left"]
     bg.move(2, 0)
     obstacles.move(2, 0)
 
-    if obstacles.collide(angel)
-      bg.move(-2, 0)
-      obstacles.move(-2, 0)
-    end
-
-    angel.setDirection($directions["LEFT"])
+    angel.direction = $directions["LEFT"]
   end
 
   if $keys["right"]
     bg.move(-2, 0)
     obstacles.move(-2, 0)
 
-    if obstacles.collide(angel)
-      bg.move(2, 0)
-      obstacles.move(2, 0)
-    end
-
-    angel.setDirection($directions["RIGHT"])
+    angel.direction = $directions["RIGHT"]
   end
 
-  startDraw
+  if obstacles.collide(angel)
+    bg.cancelMove
+    obstacles.cancelMove
+  end
 
-  clearScreen # The map is already ugly...
+  if !skip
+    startDraw
 
-  bg.draw
-  obstacles.draw
-  angel.draw
-  endDraw
+    clearScreen # The map is already ugly...
+
+    bg.draw
+    obstacles.draw
+    angel.draw
+
+    endDraw
+  end
   
-  sync
+  skip = sync
 end
 
 stopGfx
