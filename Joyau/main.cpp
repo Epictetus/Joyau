@@ -68,12 +68,14 @@ VALUE debug(VALUE self, VALUE text)
    return Qnil;
 }
 
-VALUE Joyau_puts(VALUE self, VALUE text)
+VALUE Joyau_puts(int argc, VALUE *argv, VALUE self)
 {
-   pspDebugScreenPrintf(StringValuePtr(text));
-   cout << StringValuePtr(text) << endl;
-   return Qnil;
-}
+   for (int i = 0; i < argc; ++i)
+   {
+      pspDebugScreenPrintf(StringValuePtr(argv[i]));
+      cout << StringValuePtr(argv[i]) << endl;
+   }
+};
 
 int main(int argc, char** argv)
 {
@@ -113,7 +115,7 @@ int main(int argc, char** argv)
    Manager::getInstance().setArg(argc, argv);
 
    defFunc("debug", debug, 1);
-   defFunc("puts", Joyau_puts, 1); // puts redefined for the psp
+   defFunc("puts", Joyau_puts, -1); // puts redefined for the psp
    
    ruby_init_loadpath();
    ruby_script("embedded");
@@ -124,4 +126,3 @@ int main(int argc, char** argv)
    Manager::deleteInstance();
    return 0;
 }
-
