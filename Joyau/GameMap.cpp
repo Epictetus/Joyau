@@ -172,7 +172,8 @@ void GameMap::draw()
    {
       /*
         Don't waste time, don't draw not visible tiles.
-        Also here to draw a map of which doesn't do t full screen.
+        ( It's also possible that the size of the map is inferior
+	to the screen size )
       */
       if (visible(*i))
       {

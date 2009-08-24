@@ -36,6 +36,7 @@ private:
 };
 
 VALUE Circle_setCenter(VALUE self, VALUE x, VALUE y);
+VALUE Circle_setCenterPoint(VALUE self, VALUE point);
 VALUE Circle_setRadius(VALUE self, VALUE r);
 
 VALUE Circle_getCenterX(VALUE self);
