@@ -18,8 +18,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #define JOYAU_AUDIO
 
 #include "StdInclude.hpp"
-#include "Manager.hpp"
-#include "RubyWrapper.hpp"
 
 #define SAMPLES_RATE 44100
 #define SAMPLES_FORMAT AL_FORMAT_MONO16

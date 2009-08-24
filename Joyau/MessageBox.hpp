@@ -17,8 +17,9 @@
 #ifndef JOYAU_MESSAGE
 #define JOYAU_MESSAGE
 
-#include "Sprite.hpp"
-#include "RubyWrapper.hpp"
+#include "Drawable.hpp"
+
+class Sprite;
 
 class Message: public Drawable
 {

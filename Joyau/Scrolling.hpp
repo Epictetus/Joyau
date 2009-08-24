@@ -18,7 +18,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #define JOYAU_SCROLLING
 
 #include "Sprite.hpp"
-#include "RubyWrapper.hpp"
 
 // Just a background with scrolling.
 class Scrolling: public Drawable

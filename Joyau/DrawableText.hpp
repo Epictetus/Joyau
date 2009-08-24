@@ -17,9 +17,7 @@
 #ifndef JOYAU_TEXT
 #define JOYAU_TEXT
 
-#include "StdInclude.hpp"
 #include "Shape.hpp"
-#include "Manager.hpp"
 
 class DrawableText: public Shape
 {
