@@ -41,6 +41,7 @@ VALUE Circle_setRadius(VALUE self, VALUE r);
 
 VALUE Circle_getCenterX(VALUE self);
 VALUE Circle_getCenterY(VALUE self);
+VALUE Circle_center(VALUE self);
 VALUE Circle_getRadius(VALUE self);
 
 void defineCircle();
