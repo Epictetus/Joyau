@@ -24,7 +24,23 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #define BUFFER_SIZE 4096 // A really little buffer, it's for the PSP...
 #define NUM_BUFFERS 8
 
-class Sound // Short sound, wav. They're supported by alut.
+struct Vector3f { float x, y, z; };
+
+class AudioObject
+{
+public:
+   void setPos(float x, float y, float z);
+   void setVelocity(float x, float y, float z);
+   void setDirection(float x, float y, float z);
+
+   void setPos(const Vector3f &vector);
+   void setVelocity(const Vector3f &vector);
+   void setDirection(const Vector3f &vector);
+protected:
+   ALuint source;
+};
+
+class Sound: public AudioObject // Short sound, wav. They're supported by alut.
 {
 public:
    virtual ~Sound();
@@ -34,16 +50,11 @@ public:
    void play();
    void pause();
    void stop();
-
-   void setPos(float x = 0.f, float y = 0.f, float z = 0.f);
-   void setVelocity(float x = 0.f, float y = 0.f, float z = 0.f);
-   void setDirection(float x = 0.f, float y = 0.f, float z = 0.f);
 private:
-   ALuint source;
    ALuint buffer;
 };
 
-class Stream // We'll use ogg for stream.
+class Stream: public AudioObject // We'll use ogg for stream.
 {
 public:
    virtual ~Stream();
@@ -55,10 +66,6 @@ public:
    void stop();
    bool playing();
    bool update();
-
-   void setPos(float x = 0.f, float y = 0.f, float z = 0.f);
-   void setVelocity(float x = 0.f, float y = 0.f, float z = 0.f);
-   void setDirection(float x = 0.f, float y = 0.f, float z = 0.f);
 private:
    bool streamBuf(ALuint buffer);
    void clear();
@@ -70,8 +77,6 @@ private:
    vorbis_comment *comment;
    
    ALuint buffers[2];
-   ALuint source;
-
    ALenum format;
 };
 

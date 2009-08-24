@@ -17,6 +17,36 @@
 #include "Audio.hpp"
 #include "Manager.hpp"
 
+void AudioObject::setPos(float x, float y, float z)
+{
+   alSource3f(source, AL_POSITION, x, y, z);
+}
+
+void AudioObject::setVelocity(float x, float y, float z)
+{
+   alSource3f(source, AL_VELOCITY, x, y, z);
+}
+
+void AudioObject::setDirection(float x, float y, float z)
+{
+   alSource3f(source, AL_DIRECTION, x, y, z);
+}
+
+void AudioObject::setPos(const Vector3f &vector)
+{
+   setPos(vector.x, vector.y, vector.z);
+}
+
+void AudioObject::setVelocity(const Vector3f &vector)
+{
+   setVelocity(vector.x, vector.y, vector.z);
+}
+
+void AudioObject::setDirection(const Vector3f &vector)
+{
+   setDirection(vector.x, vector.y, vector.z);
+}
+
 template<> VALUE wrap<Sound>(int argc, VALUE *argv, VALUE info)
 {
    Sound *ptr = new Sound;
@@ -80,21 +110,6 @@ void Sound::stop()
    alSourceStop(source);
 }
 
-void Sound::setPos(float x, float y, float z)
-{
-   alSource3f(source, AL_POSITION, x, y, z);
-}
-
-void Sound::setVelocity(float x, float y, float z)
-{
-   alSource3f(source, AL_VELOCITY, x, y, z);
-}
-
-void Sound::setDirection(float x, float y, float z)
-{
-   alSource3f(source, AL_DIRECTION, x, y, z);
-}
-
 Stream::~Stream()
 {
    alSourceStop(source);
@@ -104,21 +119,6 @@ Stream::~Stream()
    alDeleteBuffers(1, buffers);
 
    ov_clear(&stream);
-}
-
-void Stream::setPos(float x, float y, float z)
-{
-   alSource3f(source, AL_POSITION, x, y, z);
-}
-
-void Stream::setVelocity(float x, float y, float z)
-{
-   alSource3f(source, AL_VELOCITY, x, y, z);
-}
-
-void Stream::setDirection(float x, float y, float z)
-{
-   alSource3f(source, AL_DIRECTION, x, y, z);
 }
 
 bool Stream::loadOgg(const char *filename)
