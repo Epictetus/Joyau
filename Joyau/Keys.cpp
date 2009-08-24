@@ -16,6 +16,8 @@
 
 #include "Keys.hpp"
 
+using namespace std;
+
 template<> VALUE wrap<Cursor>(int argc, VALUE *argv, VALUE info)
 {
    Cursor *ptr = new Cursor;

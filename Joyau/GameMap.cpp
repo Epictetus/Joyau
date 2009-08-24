@@ -17,6 +17,8 @@
 #include "GameMap.hpp"
 #include "DrawableRect.hpp"
 
+using namespace std;
+
 template<> VALUE wrap<GameMap>(int argc, VALUE *argv, VALUE info)
 {
    GameMap *ptr = new GameMap;

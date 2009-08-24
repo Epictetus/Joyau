@@ -58,6 +58,4 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include "RubyWrapper.hpp" // Almost all files need it...
 
-using namespace std;
-
 #endif

@@ -54,10 +54,10 @@ public:
 
    void draw();
 
-   list<Tile> & getTiles() { return tiles; }
+   std::list<Tile> & getTiles() { return tiles; }
 private:
-   vector<Sprite> tilesets;
-   list<Tile> tiles;
+   std::vector<Sprite> tilesets;
+   std::list<Tile> tiles;
 
    int tileWidth, tileHeight;
    int colH;

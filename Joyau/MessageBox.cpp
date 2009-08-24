@@ -18,6 +18,8 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "Manager.hpp"
 #include "Sprite.hpp"
 
+using namespace std;
+
 Message::Message()
 {
    image = NULL;

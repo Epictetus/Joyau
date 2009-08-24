@@ -19,8 +19,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include "StdInclude.hpp"
 
-using namespace std;
-
 template<typename T> class Singleton
 {
 public:
@@ -66,9 +64,9 @@ public:
 
    void setArg(int argc, char** argv);
 protected:
-   map<string, OSL_IMAGE*> images;
-   map<string, OSL_FONT*> fonts;
-   map<string, ALuint> buffers;
+   std::map<std::string, OSL_IMAGE*> images;
+   std::map<std::string, OSL_FONT*> fonts;
+   std::map<std::string, ALuint> buffers;
 
    int _argc;
    char **_argv;

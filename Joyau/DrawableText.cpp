@@ -17,6 +17,8 @@
 #include "DrawableText.hpp"
 #include "Manager.hpp"
 
+using namespace std;
+
 DrawableText::DrawableText()
 {
    font = "";

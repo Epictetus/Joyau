@@ -16,6 +16,8 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include "Manager.hpp"
 
+using namespace std;
+
 Manager::~Manager()
 {
    for (map<string, OSL_IMAGE*>::iterator i = images.begin(); 

@@ -35,6 +35,8 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "Shape.hpp"
 #include "Usb.hpp"
 
+using namespace std;
+
 PSP_MODULE_INFO("Joyau", 0, 1, 1);
 PSP_MAIN_THREAD_ATTR(THREAD_ATTR_USER | THREAD_ATTR_VFPU);
 PSP_HEAP_SIZE_KB(-1024);
