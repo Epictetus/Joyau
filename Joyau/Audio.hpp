@@ -86,15 +86,15 @@ void stopOpenAL();
 VALUE Audio_init(VALUE self);
 VALUE Audio_stop(VALUE self);
 
+VALUE AudioObject_setPos(VALUE self, VALUE x, VALUE y, VALUE z);
+VALUE AudioObject_setVelocity(VALUE self, VALUE x, VALUE y, VALUE z);
+VALUE AudioObject_setDirection(VALUE self, VALUE x, VALUE y, VALUE z);
+
 VALUE Sound_loadWav(VALUE self, VALUE filename);
 
 VALUE Sound_play(VALUE self);
 VALUE Sound_pause(VALUE self);
 VALUE Sound_stop(VALUE self);
-
-VALUE Sound_setPos(VALUE self, VALUE x, VALUE y, VALUE z);
-VALUE Sound_setVelocity(VALUE self, VALUE x, VALUE y, VALUE z);
-VALUE Sound_setDirection(VALUE self, VALUE x, VALUE y, VALUE z);
 
 VALUE Stream_loadOgg(VALUE self, VALUE filename);
 
@@ -103,10 +103,6 @@ VALUE Stream_pause(VALUE self);
 VALUE Stream_stop(VALUE self);
 VALUE Stream_playing(VALUE self);
 VALUE Stream_update(VALUE self);
-
-VALUE Stream_setPos(VALUE self, VALUE x, VALUE y, VALUE z);
-VALUE Stream_setVelocity(VALUE self, VALUE x, VALUE y, VALUE z);
-VALUE Stream_setDirection(VALUE self, VALUE x, VALUE y, VALUE z);
 
 VALUE Listener_setPos(VALUE self, VALUE x, VALUE y, VALUE z);
 VALUE Listener_setVelocity(VALUE self, VALUE x, VALUE y, VALUE z);

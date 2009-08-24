@@ -268,6 +268,42 @@ VALUE Audio_stop(VALUE self)
    return Qnil;
 }
 
+VALUE AudioObject_setPos(VALUE self, VALUE x, VALUE y, VALUE z)
+{
+   AudioObject &ref = getRef<AudioObject>(self);
+   double _x = NUM2DBL(x);
+   double _y = NUM2DBL(y);
+   double _z = NUM2DBL(z);
+
+   ref.setPos((float)_x, (float)_y, (float)_z);
+
+   return Qnil;
+}
+
+VALUE AudioObject_setVelocity(VALUE self, VALUE x, VALUE y, VALUE z)
+{
+   AudioObject &ref = getRef<AudioObject>(self);
+   double _x = NUM2DBL(x);
+   double _y = NUM2DBL(y);
+   double _z = NUM2DBL(z);
+
+   ref.setVelocity((float)_x, (float)_y, (float)_z);
+
+   return Qnil;
+}
+
+VALUE AudioObject_setDirection(VALUE self, VALUE x, VALUE y, VALUE z)
+{
+   AudioObject &ref = getRef<AudioObject>(self);
+   double _x = NUM2DBL(x);
+   double _y = NUM2DBL(y);
+   double _z = NUM2DBL(z);
+
+   ref.setDirection((float)_x, (float)_y, (float)_z);
+
+   return Qnil;
+}
+
 VALUE Sound_loadWav(VALUE self, VALUE filename)
 {
    Sound &ref = getRef<Sound>(self);
@@ -471,26 +507,25 @@ VALUE Listener_setOrientation(VALUE self, VALUE atX, VALUE atY, VALUE atZ,
 
 void defineAudio()
 {
-   VALUE cSound = defClass<Sound>("Sound");
+   VALUE cAudioObject = defClass<AudioObject>("AudioObject");
+   defMethod(cAudioObject, "setPos", AudioObject_setPos, 3);
+   defMethod(cAudioObject, "setDirection", AudioObject_setDirection, 3);
+   defMethod(cAudioObject, "setVelocity", AudioObject_setVelocity, 3);
+   
+   VALUE cSound = defClass<Sound>("Sound", "AudioObject");
    defMethod(cSound, "loadWav", Sound_loadWav, 1);
    defMethod(cSound, "play", Sound_play, 0);
    defMethod(cSound, "pause", Sound_play, 0);
    defMethod(cSound, "stop", Sound_stop, 0);
-   defMethod(cSound, "setPos", Sound_setPos, 3);
-   defMethod(cSound, "setDirection", Sound_setDirection, 3);
-   defMethod(cSound, "setVelocity", Sound_setVelocity, 3);
-
-   VALUE cStream = defClass<Stream>("Stream");
+   
+   VALUE cStream = defClass<Stream>("Stream", "AudioObject");
    defMethod(cStream, "loadOgg", Stream_loadOgg, 1);
    defMethod(cStream, "play", Stream_play, 0);
    defMethod(cStream, "playing", Stream_playing, 0);
    defMethod(cStream, "update", Stream_update, 0);
    defMethod(cStream, "pause", Stream_play, 0);
    defMethod(cStream, "stop", Stream_stop, 0);
-   defMethod(cStream, "setPos", Stream_setPos, 3);
-   defMethod(cStream, "setDirection", Stream_setDirection, 3);
-   defMethod(cStream, "setVelocity", Stream_setVelocity, 3);
-
+   
    defFunc("listenerSetPos", Listener_setPos, 3);
    defFunc("listenerSetDirection", Listener_setDirection, 3);
    defFunc("listenerSetVelocity", Listener_setVelocity, 3);
