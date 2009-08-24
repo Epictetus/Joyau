@@ -75,6 +75,7 @@ VALUE Joyau_puts(int argc, VALUE *argv, VALUE self)
       pspDebugScreenPrintf(StringValuePtr(argv[i]));
       cout << StringValuePtr(argv[i]) << endl;
    }
+   return Qnil;
 }
 
 int main(int argc, char** argv)
