@@ -214,6 +214,18 @@ VALUE GameMap_setTileSize(VALUE self, VALUE w, VALUE h)
    return Qnil;
 }
 
+VALUE GameMap_tileWidth(VALUE self)
+{
+   GameMap &ref = getRef<GameMap>(self);
+   return INT2FIX(ref.getTileW());
+}
+
+VALUE GameMap_tileHeight(VALUE self)
+{
+   GameMap &ref = getRef<GameMap>(self);
+   return INT2FIX(ref.getTileH());
+}
+
 VALUE GameMap_setCollisionH(VALUE self, VALUE val)
 {
    GameMap &ref = getRef<GameMap>(self);
@@ -379,6 +391,8 @@ void defineGameMap()
    defMethod(cMap, "resize", GameMap_resize, 2);
    defMethod(cMap, "addTileset", GameMap_addTileset, 1);
    defMethod(cMap, "setTileSize", GameMap_setTileSize, 2);
+   defMethod(cMap, "tileWidth", GameMap_tileWidth, 0);
+   defMethod(cMap, "tileHeight", GameMap_tileHeight, 0);
    defMethod(cMap, "collisionH=", GameMap_setCollisionH, 1);
    defMethod(cMap, "addElem", GameMap_addElem, -1);
    defMethod(cMap, "<<", GameMap_push, 1);
