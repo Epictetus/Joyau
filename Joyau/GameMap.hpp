@@ -37,6 +37,12 @@ public:
    void addTileset(char *name);
    void setTileSize(int w, int h);
 
+   int getTileH() const { return tileHeight; }
+   int getTileW() const { return tileWidth; }
+
+   void setCollisionH(int val) { colH = val; }
+   int getCollisionH() const { return colH; }
+
    void addElem(int tileset, int tX, int tY, int x, int y);
    void addElem(const Tile &tile);
 
@@ -48,12 +54,13 @@ public:
 
    void draw();
 
-   list<Tile> & getTiles() { return tiles; }
+   std::list<Tile> & getTiles() { return tiles; }
 private:
-   vector<Sprite> tilesets;
-   list<Tile> tiles;
+   std::vector<Sprite> tilesets;
+   std::list<Tile> tiles;
 
    int tileWidth, tileHeight;
+   int colH;
 protected:
    bool visible(const Tile &t) const;
 };
@@ -74,6 +81,12 @@ VALUE GameMap_resize(VALUE self, VALUE w, VALUE h);
 
 VALUE GameMap_addTileset(VALUE self, VALUE name);
 VALUE GameMap_setTileSize(VALUE self, VALUE w, VALUE h);
+
+VALUE GameMap_tileWidth(VALUE self);
+VALUE GameMap_tileHeight(VALUE self);
+
+VALUE GameMap_setCollisionH(VALUE self, VALUE val);
+VALUE GameMap_collisionH(VALUE self);
 
 VALUE GameMap_addElem(int argc, VALUE *argv, VALUE self);
 VALUE GameMap_push(VALUE self, VALUE tile);

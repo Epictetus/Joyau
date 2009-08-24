@@ -17,7 +17,6 @@
 #ifndef JOYAU_KEYS
 #define JOYAU_KEYS
 
-#include "StdInclude.hpp"
 #include "Sprite.hpp"
 
 class Cursor: public Sprite

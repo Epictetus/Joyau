@@ -16,6 +16,8 @@
 
 #include "Usb.hpp"
 
+using namespace std;
+
 bool loadStartModule(string prx)
 {
    SceUID mod = pspSdkLoadStartModule(prx.c_str(), PSP_MEMORY_PARTITION_KERNEL);

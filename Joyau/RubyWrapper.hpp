@@ -17,8 +17,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #ifndef JOYAU_WRAPPER
 #define JOYAU_WRAPPER
 
-using namespace std;
-
 #define RPROTO(proto) (VALUE(*)(...))&proto // A boring cast...
 
 // Easier to understand

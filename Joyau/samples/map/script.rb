@@ -10,6 +10,8 @@ obstacles.pos = Point.new(0, 0)
 bg.setTileSize(32, 32)
 obstacles.setTileSize(32, 32)
 
+obstacles.collisionH = 10
+
 # let's draw a really ugly background !
 
 for i in 0..20

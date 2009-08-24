@@ -36,10 +36,12 @@ private:
 };
 
 VALUE Circle_setCenter(VALUE self, VALUE x, VALUE y);
+VALUE Circle_setCenterPoint(VALUE self, VALUE point);
 VALUE Circle_setRadius(VALUE self, VALUE r);
 
 VALUE Circle_getCenterX(VALUE self);
 VALUE Circle_getCenterY(VALUE self);
+VALUE Circle_center(VALUE self);
 VALUE Circle_getRadius(VALUE self);
 
 void defineCircle();

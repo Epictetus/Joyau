@@ -17,8 +17,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #ifndef JOYAU_SPRITE
 #define JOYAU_SPRITE
 
-#include "Manager.hpp"
-#include "RubyWrapper.hpp"
 #include "Drawable.hpp"
 
 class Sprite: public Drawable

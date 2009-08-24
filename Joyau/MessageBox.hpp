@@ -17,8 +17,9 @@
 #ifndef JOYAU_MESSAGE
 #define JOYAU_MESSAGE
 
-#include "Sprite.hpp"
-#include "RubyWrapper.hpp"
+#include "Drawable.hpp"
+
+class Sprite;
 
 class Message: public Drawable
 {
@@ -27,8 +28,8 @@ public:
 
    void draw();
 
-   void setTitle(string txt);
-   void setText(string txt);
+   void setTitle(std::string txt);
+   void setText(std::string txt);
 
    void setImage(Sprite *pic);
    void setBackground(Sprite *pic);
@@ -38,13 +39,13 @@ public:
    void setTextColor(OSL_COLOR col);
    void setBorderColor(OSL_COLOR col);
 
-   void setTextFont(string f);
-   void setTitleFont(string f);
+   void setTextFont(std::string f);
+   void setTitleFont(std::string f);
 
    void setTitlePos(int x, int y);
 
-   string getTitle() const { return title; }
-   string getText() const { return text; }
+   std::string getTitle() const { return title; }
+   std::string getText() const { return text; }
 
    Sprite& getImage() const { return *image; }
    Sprite& getBackground() const { return *bg; }
@@ -54,8 +55,8 @@ public:
    OSL_COLOR getTextColor() const { return textColor; }
    OSL_COLOR getBorderColor() const { return borderColor; }
 
-   string getTitleFont() const { return titleFont; }
-   string getTextFont() const { return textFont; }
+   std::string getTitleFont() const { return titleFont; }
+   std::string getTextFont() const { return textFont; }
 
    Point getTitlePos() const { return Point(titleX, titleY); }
 
@@ -64,8 +65,8 @@ private:
    Sprite *image;
    Sprite *bg;
 
-   string text;
-   string title;
+   std::string text;
+   std::string title;
 
    int marge;
 
@@ -76,8 +77,8 @@ private:
 
    bool bg_pic;
 
-   string titleFont;
-   string textFont;
+   std::string titleFont;
+   std::string textFont;
 
    int titleX, titleY; //relatively to _x and _y.
 };

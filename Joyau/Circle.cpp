@@ -75,6 +75,15 @@ VALUE Circle_setCenter(VALUE self, VALUE x, VALUE y)
    return Qnil;
 }
 
+VALUE Circle_setCenterPoint(VALUE self, VALUE point)
+{
+   Circle &ref = getRef<Circle>(self);
+   Point &p = getRef<Point>(point);
+   
+   ref.setCenter(p.x, p.y);
+   return Qnil;
+}
+
 VALUE Circle_setRadius(VALUE self, VALUE r)
 {
    Circle &ref = getRef<Circle>(self);
@@ -105,6 +114,13 @@ VALUE Circle_getCenterY(VALUE self)
    return INT2FIX(ref.getCenterX());
 }
 
+VALUE Circle_center(VALUE self)
+{
+   Circle &ref = getRef<Circle>(self);
+   Point p(ref.getCenterX(), ref.getCenterY());
+   return createObject(getClass("Point"), p);
+}
+
 VALUE Circle_getRadius(VALUE self)
 {
    Circle &ref = getRef<Circle>(self);
@@ -116,6 +132,8 @@ void defineCircle()
    VALUE cCircle = defClass<Circle>("Circle", "FillableShape");
    defMethod(cCircle, "setRadius", Circle_setRadius, 1);
    defMethod(cCircle, "setCenter", Circle_setCenter, 2);
+   defMethod(cCircle, "center=", Circle_setCenterPoint, 1);
+   defMethod(cCircle, "center", Circle_center, 0);
    defMethod(cCircle, "getCenterX", Circle_getCenterX, 0);
    defMethod(cCircle, "getCenterY", Circle_getCenterY, 0);
    defMethod(cCircle, "getRadius", Circle_getRadius, 0);

@@ -15,6 +15,9 @@
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.*/
 
 #include "GameMap.hpp"
+#include "DrawableRect.hpp"
+
+using namespace std;
 
 template<> VALUE wrap<GameMap>(int argc, VALUE *argv, VALUE info)
 {
@@ -62,6 +65,7 @@ GameMap::GameMap()
 {
    _w = 480;
    _h = 272;
+   colH = -1;
 }
 
 void GameMap::resize(int w, int h)
@@ -103,6 +107,15 @@ void GameMap::addElem(const Tile &tile)
 
 bool GameMap::collide(Drawable &spr)
 {
+   DrawableRect tmp;
+   if (colH != -1)
+   {
+      Rect rect = spr.boundingRect();
+      tmp.setPos(rect.x, rect.y + rect.h - colH);
+      tmp.resize(rect.w, rect.h);
+   }
+   Drawable &col = colH != -1 ? tmp : spr;
+
    for (list<Tile>::iterator i = tiles.begin(); i != tiles.end(); ++i)
    {
       Sprite &tile = tilesets[(*i).tileset];
@@ -110,7 +123,7 @@ bool GameMap::collide(Drawable &spr)
       // Coord relative to the map !
       tile.setPos(getX() + (*i).x, getY() + (*i).y);
 
-      if (spr.collide(tile))
+      if (col.collide(tile))
          return true; // If it collides with only one tile, it collides..
    }
    return false; // It didn't collide with any sprite.
@@ -161,7 +174,8 @@ void GameMap::draw()
    {
       /*
         Don't waste time, don't draw not visible tiles.
-        Also here to draw a map of which doesn't do t full screen.
+        ( It's also possible that the size of the map is inferior
+	to the screen size )
       */
       if (visible(*i))
       {
@@ -201,6 +215,32 @@ VALUE GameMap_setTileSize(VALUE self, VALUE w, VALUE h)
 
    ref.setTileSize(_w, _h);
    return Qnil;
+}
+
+VALUE GameMap_tileWidth(VALUE self)
+{
+   GameMap &ref = getRef<GameMap>(self);
+   return INT2FIX(ref.getTileW());
+}
+
+VALUE GameMap_tileHeight(VALUE self)
+{
+   GameMap &ref = getRef<GameMap>(self);
+   return INT2FIX(ref.getTileH());
+}
+
+VALUE GameMap_setCollisionH(VALUE self, VALUE val)
+{
+   GameMap &ref = getRef<GameMap>(self);
+   ref.setCollisionH(FIX2INT(val));
+
+   return Qnil;
+}
+
+VALUE GameMap_collisionH(VALUE self)
+{
+   GameMap &ref = getRef<GameMap>(self);
+   return INT2FIX(ref.getCollisionH());
 }
 
 VALUE GameMap_addElem(int argc, VALUE *argv, VALUE self)
@@ -354,6 +394,9 @@ void defineGameMap()
    defMethod(cMap, "resize", GameMap_resize, 2);
    defMethod(cMap, "addTileset", GameMap_addTileset, 1);
    defMethod(cMap, "setTileSize", GameMap_setTileSize, 2);
+   defMethod(cMap, "tileWidth", GameMap_tileWidth, 0);
+   defMethod(cMap, "tileHeight", GameMap_tileHeight, 0);
+   defMethod(cMap, "collisionH=", GameMap_setCollisionH, 1);
    defMethod(cMap, "addElem", GameMap_addElem, -1);
    defMethod(cMap, "<<", GameMap_push, 1);
    defMethod(cMap, "clear", GameMap_clear, 0);

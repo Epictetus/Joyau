@@ -18,7 +18,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #define JOYAU_KERNEL
 
 #include "StdInclude.hpp"
-#include "RubyWrapper.hpp"
 
 VALUE File_remove(VALUE self, VALUE file);
 VALUE File_mkdir(VALUE self, VALUE dir);

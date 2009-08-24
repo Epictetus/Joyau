@@ -17,21 +17,19 @@
 #ifndef JOYAU_TEXT
 #define JOYAU_TEXT
 
-#include "StdInclude.hpp"
 #include "Shape.hpp"
-#include "Manager.hpp"
 
 class DrawableText: public Shape
 {
 public:
    DrawableText();
-   void setText(string text) { _text = text; }
+   void setText(std::string text) { _text = text; }
 
    void toggleStirring();
    void toggleScripted();
    
    void setBackground(OSL_COLOR col) { bg = col; }
-   void setFont(string filename) { font = filename; }
+   void setFont(std::string filename) { font = filename; }
 
    void draw();
 
@@ -42,12 +40,11 @@ public:
    bool isStirring() const { return stirring; }
 
    OSL_COLOR getBackground() const { return bg; }
-   string getFont() const { return font; }
-
-   string getText() const { return _text; }
+   std::string getFont() const { return font; }
+   std::string getText() const { return _text; }
 private:
-   string font;
-   string _text;
+   std::string font;
+   std::string _text;
 
    bool scripted;
    bool stirring;

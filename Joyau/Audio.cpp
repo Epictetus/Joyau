@@ -15,6 +15,7 @@
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.*/
 
 #include "Audio.hpp"
+#include "Manager.hpp"
 
 template<> VALUE wrap<Sound>(int argc, VALUE *argv, VALUE info)
 {

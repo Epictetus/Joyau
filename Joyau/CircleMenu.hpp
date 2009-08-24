@@ -17,7 +17,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #ifndef JOYAU_CIRCLE_MENU
 #define JOYAU_CIRCLE_MENU
 
-#include "StdInclude.hpp"
 #include "Drawable.hpp"
 
 class CircleMenu: public Drawable

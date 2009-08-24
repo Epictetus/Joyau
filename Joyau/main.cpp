@@ -35,6 +35,8 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "Shape.hpp"
 #include "Usb.hpp"
 
+using namespace std;
+
 PSP_MODULE_INFO("Joyau", 0, 1, 1);
 PSP_MAIN_THREAD_ATTR(THREAD_ATTR_USER | THREAD_ATTR_VFPU);
 PSP_HEAP_SIZE_KB(-1024);
@@ -68,10 +70,13 @@ VALUE debug(VALUE self, VALUE text)
    return Qnil;
 }
 
-VALUE Joyau_puts(VALUE self, VALUE text)
+VALUE Joyau_puts(int argc, VALUE *argv, VALUE self)
 {
-   pspDebugScreenPrintf(StringValuePtr(text));
-   cout << StringValuePtr(text) << endl;
+   for (int i = 0; i < argc; ++i)
+   {
+      pspDebugScreenPrintf(StringValuePtr(argv[i]));
+      cout << StringValuePtr(argv[i]) << endl;
+   }
    return Qnil;
 }
 
@@ -113,7 +118,7 @@ int main(int argc, char** argv)
    Manager::getInstance().setArg(argc, argv);
 
    defFunc("debug", debug, 1);
-   defFunc("puts", Joyau_puts, 1); // puts redefined for the psp
+   defFunc("puts", Joyau_puts, -1); // puts redefined for the psp
    
    ruby_init_loadpath();
    ruby_script("embedded");
@@ -124,4 +129,3 @@ int main(int argc, char** argv)
    Manager::deleteInstance();
    return 0;
 }
-
