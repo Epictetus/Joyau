@@ -337,42 +337,6 @@ VALUE Sound_stop(VALUE self)
    return Qnil;
 }
 
-VALUE Sound_setPos(VALUE self, VALUE x, VALUE y, VALUE z)
-{
-   Sound &ref = getRef<Sound>(self);
-   double _x = NUM2DBL(x);
-   double _y = NUM2DBL(y);
-   double _z = NUM2DBL(z);
-
-   ref.setPos((float)_x, (float)_y, (float)_z);
-
-   return Qnil;
-}
-
-VALUE Sound_setVelocity(VALUE self, VALUE x, VALUE y, VALUE z)
-{
-   Sound &ref = getRef<Sound>(self);
-   double _x = NUM2DBL(x);
-   double _y = NUM2DBL(y);
-   double _z = NUM2DBL(z);
-
-   ref.setVelocity((float)_x, (float)_y, (float)_z);
-
-   return Qnil;
-}
-
-VALUE Sound_setDirection(VALUE self, VALUE x, VALUE y, VALUE z)
-{
-   Sound &ref = getRef<Sound>(self);
-   double _x = NUM2DBL(x);
-   double _y = NUM2DBL(y);
-   double _z = NUM2DBL(z);
-
-   ref.setDirection((float)_x, (float)_y, (float)_z);
-
-   return Qnil;
-}
-
 VALUE Stream_loadOgg(VALUE self, VALUE filename)
 {
    Stream &ref = getRef<Stream>(self);
@@ -421,42 +385,6 @@ VALUE Stream_update(VALUE self)
    if (ref.update())
       return Qtrue;
    return Qfalse;
-}
-
-VALUE Stream_setPos(VALUE self, VALUE x, VALUE y, VALUE z)
-{
-   Stream &ref = getRef<Stream>(self);
-   double _x = NUM2DBL(x);
-   double _y = NUM2DBL(y);
-   double _z = NUM2DBL(z);
-
-   ref.setPos((float)_x, (float)_y, (float)_z);
-
-   return Qnil;
-}
-
-VALUE Stream_setVelocity(VALUE self, VALUE x, VALUE y, VALUE z)
-{
-   Stream &ref = getRef<Stream>(self);
-   double _x = NUM2DBL(x);
-   double _y = NUM2DBL(y);
-   double _z = NUM2DBL(z);
-
-   ref.setVelocity((float)_x, (float)_y, (float)_z);
-
-   return Qnil;
-}
-
-VALUE Stream_setDirection(VALUE self, VALUE x, VALUE y, VALUE z)
-{
-   Stream &ref = getRef<Stream>(self);
-   double _x = NUM2DBL(x);
-   double _y = NUM2DBL(y);
-   double _z = NUM2DBL(z);
-
-   ref.setDirection((float)_x, (float)_y, (float)_z);
-
-   return Qnil;
 }
 
 VALUE Listener_setPos(VALUE self, VALUE x, VALUE y, VALUE z)
