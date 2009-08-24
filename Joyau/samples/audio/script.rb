@@ -2,13 +2,10 @@ initLib
 initGfx
 initAudio
 
-music = Stream.new
-music.loadOgg("music.ogg")
+music = Stream.new("music.ogg")
+sound = Sound.new("injury.wav")
 
-sound = Sound.new
-sound.loadWav("injury.wav")
-
-while mayPlay
+while mayPlay and music.update
 
   readKeys
   if $keys["cross"]
@@ -20,8 +17,9 @@ while mayPlay
   drawText(0, 141, "Press cross if you want to hear a sound.")
   endDraw
 
-  music.play
-  music.update
+  if !music.play
+    break
+  end
 
   sync
 end
