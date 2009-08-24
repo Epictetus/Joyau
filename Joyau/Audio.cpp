@@ -67,6 +67,20 @@ template<> VALUE wrap<Stream>(int argc, VALUE *argv, VALUE info)
    return tdata;
 }
 
+template<> VALUE wrap<Vector3f>(int argc, VALUE *argv, VALUE info)
+{
+   Vector3f *ptr = new Vector3f;
+   if (argc >= 3)
+   {
+      ptr->x = NUM2DBL(argv[0]);
+      ptr->y = NUM2DBL(argv[1]);
+      ptr->z = NUM2DBL(argv[2]);
+   }
+
+   VALUE tdata = Data_Wrap_Struct(info, 0, wrapped_free<Vector3f>, ptr);
+   return tdata;
+}
+
 Sound::~Sound()
 {
    alDeleteSources(1, &source);
@@ -268,6 +282,48 @@ VALUE Audio_stop(VALUE self)
    return Qnil;
 }
 
+VALUE Vector3f_setX(VALUE self, VALUE val)
+{
+   Vector3f &ref = getRef<Vector3f>(self);
+   ref.x = NUM2DBL(val);
+
+   return Qnil;
+}
+
+VALUE Vector3f_setY(VALUE self, VALUE val)
+{
+   Vector3f &ref = getRef<Vector3f>(self);
+   ref.y = NUM2DBL(val);
+
+   return Qnil;
+}
+
+VALUE Vector3f_setZ(VALUE self, VALUE val)
+{
+   Vector3f &ref = getRef<Vector3f>(self);
+   ref.z = NUM2DBL(val);
+
+   return Qnil;
+}
+
+VALUE Vector3f_x(VALUE self)
+{
+   Vector3f &ref = getRef<Vector3f>(self);
+   return rb_float_new(ref.x);
+}
+
+VALUE Vector3f_y(VALUE self)
+{
+   Vector3f &ref = getRef<Vector3f>(self);
+   return rb_float_new(ref.y);
+}
+
+VALUE Vector3f_z(VALUE self)
+{
+   Vector3f &ref = getRef<Vector3f>(self);
+   return rb_float_new(ref.z);
+}
+
 VALUE AudioObject_setPos(VALUE self, VALUE x, VALUE y, VALUE z)
 {
    AudioObject &ref = getRef<AudioObject>(self);
@@ -435,6 +491,14 @@ VALUE Listener_setOrientation(VALUE self, VALUE atX, VALUE atY, VALUE atZ,
 
 void defineAudio()
 {
+   VALUE cVector3f = defClass<Vector3f>("Vector3f");
+   defMethod(cVector3f, "x=", Vector3f_setX, 1);
+   defMethod(cVector3f, "y=", Vector3f_setY, 1);
+   defMethod(cVector3f, "z=", Vector3f_setZ, 1);
+   defMethod(cVector3f, "x", Vector3f_x, 0);
+   defMethod(cVector3f, "y", Vector3f_y, 0);
+   defMethod(cVector3f, "z", Vector3f_z, 0);
+   
    VALUE cAudioObject = defClass<AudioObject>("AudioObject");
    defMethod(cAudioObject, "setPos", AudioObject_setPos, 3);
    defMethod(cAudioObject, "setDirection", AudioObject_setDirection, 3);

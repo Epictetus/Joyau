@@ -86,6 +86,14 @@ void stopOpenAL();
 VALUE Audio_init(VALUE self);
 VALUE Audio_stop(VALUE self);
 
+VALUE Vector3f_setX(VALUE self, VALUE val);
+VALUE Vector3f_setY(VALUE self, VALUE val);
+VALUE Vector3f_setZ(VALUE self, VALUE val);
+
+VALUE Vector3f_x(VALUE self);
+VALUE Vector3f_y(VALUE self);
+VALUE Vector3f_z(VALUE self);
+
 VALUE AudioObject_setPos(VALUE self, VALUE x, VALUE y, VALUE z);
 VALUE AudioObject_setVelocity(VALUE self, VALUE x, VALUE y, VALUE z);
 VALUE AudioObject_setDirection(VALUE self, VALUE x, VALUE y, VALUE z);
