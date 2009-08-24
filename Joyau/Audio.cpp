@@ -331,7 +331,7 @@ VALUE AudioObject_setPos(VALUE self, VALUE x, VALUE y, VALUE z)
    double _y = NUM2DBL(y);
    double _z = NUM2DBL(z);
 
-   ref.setPos((float)_x, (float)_y, (float)_z);
+   ref.setPos(_x, _y, _z);
 
    return Qnil;
 }
@@ -343,7 +343,7 @@ VALUE AudioObject_setVelocity(VALUE self, VALUE x, VALUE y, VALUE z)
    double _y = NUM2DBL(y);
    double _z = NUM2DBL(z);
 
-   ref.setVelocity((float)_x, (float)_y, (float)_z);
+   ref.setVelocity(_x, _y, _z);
 
    return Qnil;
 }
@@ -355,8 +355,35 @@ VALUE AudioObject_setDirection(VALUE self, VALUE x, VALUE y, VALUE z)
    double _y = NUM2DBL(y);
    double _z = NUM2DBL(z);
 
-   ref.setDirection((float)_x, (float)_y, (float)_z);
+   ref.setDirection(_x, _y, _z);
 
+   return Qnil;
+}
+
+VALUE AudioObject_setPosVector(VALUE self, VALUE val)
+{
+   AudioObject &ref = getRef<AudioObject>(self);
+   Vector3f &vector = getRef<Vector3f>(val);
+   
+   ref.setPos(vector);
+   return Qnil;
+}
+
+VALUE AudioObject_setVelocityVector(VALUE self, VALUE val)
+{
+   AudioObject &ref = getRef<AudioObject>(self);
+   Vector3f &vector = getRef<Vector3f>(val);
+   
+   ref.setVelocity(vector);
+   return Qnil;
+}
+
+VALUE AudioObject_setDirectionVector(VALUE self, VALUE val)
+{
+   AudioObject &ref = getRef<AudioObject>(self);
+   Vector3f &vector = getRef<Vector3f>(val);
+   
+   ref.setDirection(vector);
    return Qnil;
 }
 
@@ -449,7 +476,7 @@ VALUE Listener_setPos(VALUE self, VALUE x, VALUE y, VALUE z)
    double _y = NUM2DBL(y);
    double _z = NUM2DBL(z);
 
-   alListener3f(AL_POSITION,(float)_x, (float)_y, (float)_z);
+   alListener3f(AL_POSITION, _x, _y, _z);
    return Qnil;
 }
 
@@ -459,7 +486,7 @@ VALUE Listener_setVelocity(VALUE self, VALUE x, VALUE y, VALUE z)
    double _y = NUM2DBL(y);
    double _z = NUM2DBL(z);
 
-   alListener3f(AL_VELOCITY,(float)_x, (float)_y, (float)_z);
+   alListener3f(AL_VELOCITY, _x, _y, _z);
    return Qnil;
 }
 
@@ -469,7 +496,7 @@ VALUE Listener_setDirection(VALUE self, VALUE x, VALUE y, VALUE z)
    double _y = NUM2DBL(y);
    double _z = NUM2DBL(z);
 
-   alListener3f(AL_DIRECTION,(float)_x, (float)_y, (float)_z);
+   alListener3f(AL_DIRECTION, _x, _y, _z);
    return Qnil;
 }
 
@@ -478,12 +505,12 @@ VALUE Listener_setOrientation(VALUE self, VALUE atX, VALUE atY, VALUE atZ,
 {
    float args[6];
 
-   args[0] = (float)NUM2DBL(atX);
-   args[1] = (float)NUM2DBL(atY);
-   args[2] = (float)NUM2DBL(atZ);
-   args[3] = (float)NUM2DBL(upX);
-   args[4] = (float)NUM2DBL(upY);
-   args[5] = (float)NUM2DBL(upZ);
+   args[0] = NUM2DBL(atX);
+   args[1] = NUM2DBL(atY);
+   args[2] = NUM2DBL(atZ);
+   args[3] = NUM2DBL(upX);
+   args[4] = NUM2DBL(upY);
+   args[5] = NUM2DBL(upZ);
 
    alListenerfv(AL_ORIENTATION, args);
    return Qnil;
@@ -503,6 +530,9 @@ void defineAudio()
    defMethod(cAudioObject, "setPos", AudioObject_setPos, 3);
    defMethod(cAudioObject, "setDirection", AudioObject_setDirection, 3);
    defMethod(cAudioObject, "setVelocity", AudioObject_setVelocity, 3);
+   defMethod(cAudioObject, "pos=", AudioObject_setPosVector, 1);
+   defMethod(cAudioObject, "direction=", AudioObject_setDirectionVector, 1);
+   defMethod(cAudioObject, "velocity=", AudioObject_setVelocityVector, 1);
    
    VALUE cSound = defClass<Sound>("Sound", "AudioObject");
    defMethod(cSound, "loadWav", Sound_loadWav, 1);

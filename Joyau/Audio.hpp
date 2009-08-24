@@ -98,6 +98,10 @@ VALUE AudioObject_setPos(VALUE self, VALUE x, VALUE y, VALUE z);
 VALUE AudioObject_setVelocity(VALUE self, VALUE x, VALUE y, VALUE z);
 VALUE AudioObject_setDirection(VALUE self, VALUE x, VALUE y, VALUE z);
 
+VALUE AudioObject_setPosVector(VALUE self, VALUE val);
+VALUE AudioObject_setVelocityVector(VALUE self, VALUE val);
+VALUE AudioObject_setDirectionVector(VALUE self, VALUE val);
+
 VALUE Sound_loadWav(VALUE self, VALUE filename);
 
 VALUE Sound_play(VALUE self);
