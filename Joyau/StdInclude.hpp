@@ -17,34 +17,23 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #ifndef JOYAU_STDINCLUDE
 #define JOYAU_STDINCLUDE
 
-#include <fstream>
-#include <sstream>
 #include <iostream>
 #include <string>
 #include <list>
 #include <vector>
-#include <cstdlib>
 #include <map>
-#include <ctime>
-#include <cstring>
 
 #include <pspkernel.h>
 #include <pspumd.h>
 #include <psputility.h>
 #include <psputility_osk.h>
 #include <psputility_usbmodules.h>
-#include <pspiofilemgr.h>
 #include <pspmodulemgr.h>
 #include <psptypes.h>
-#include <pspstdio.h>
 #include <pspusb.h>
 #include <pspusbstor.h>
-
 #include <pspsdk.h>
 #include <pspdebug.h>
-#include <psputils.h>
-#include <pspctrl.h>
-#include <pspdisplay.h>
 
 #include <oslib/oslib.h>
 
