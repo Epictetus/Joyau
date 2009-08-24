@@ -37,6 +37,9 @@ public:
    void addTileset(char *name);
    void setTileSize(int w, int h);
 
+   void setCollisionH(int val) { colH = val; }
+   int getCollisionH() const { return colH; }
+
    void addElem(int tileset, int tX, int tY, int x, int y);
    void addElem(const Tile &tile);
 
@@ -54,6 +57,7 @@ private:
    list<Tile> tiles;
 
    int tileWidth, tileHeight;
+   int colH;
 protected:
    bool visible(const Tile &t) const;
 };
@@ -74,6 +78,9 @@ VALUE GameMap_resize(VALUE self, VALUE w, VALUE h);
 
 VALUE GameMap_addTileset(VALUE self, VALUE name);
 VALUE GameMap_setTileSize(VALUE self, VALUE w, VALUE h);
+
+VALUE GameMap_setCollisionH(VALUE self, VALUE val);
+VALUE GameMap_collisionH(VALUE self);
 
 VALUE GameMap_addElem(int argc, VALUE *argv, VALUE self);
 VALUE GameMap_push(VALUE self, VALUE tile);
