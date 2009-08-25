@@ -116,6 +116,7 @@ int main(int argc, char** argv)
    defineUsb();
 
    Manager::getInstance().setArg(argc, argv);
+   Pad::getInstance();
 
    defFunc("debug", debug, 1);
    defFunc("puts", Joyau_puts, -1); // puts redefined for the psp
@@ -127,5 +128,6 @@ int main(int argc, char** argv)
    ruby_run();
 
    Manager::deleteInstance();
+   Pad::deleteInstance();
    return 0;
 }
