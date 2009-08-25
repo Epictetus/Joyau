@@ -122,6 +122,10 @@ VALUE Listener_setDirection(VALUE self, VALUE x, VALUE y, VALUE z);
 VALUE Listener_setOrientation(VALUE self, VALUE atX, VALUE atY, VALUE atZ,
 			      VALUE upX, VALUE upY, VALUE upZ);
 
+VALUE Listener_posOp(VALUE self, VALUE val);
+VALUE Listener_velocityOp(VALUE self, VALUE val);
+VALUE Listener_directionOp(VALUE self, VALUE val);
+
 void defineAudio();
 
 #endif

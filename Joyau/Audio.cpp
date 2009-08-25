@@ -516,6 +516,30 @@ VALUE Listener_setOrientation(VALUE self, VALUE atX, VALUE atY, VALUE atZ,
    return Qnil;
 }
 
+VALUE Listener_posOp(VALUE self, VALUE val)
+{
+   Vector3f &ref = getRef<Vector3f>(val);
+   alListener3f(AL_POSITION, ref.x,ref.y, ref.z);
+   
+   return Qnil;
+}
+
+VALUE Listener_velocityOp(VALUE self, VALUE val)
+{
+   Vector3f &ref = getRef<Vector3f>(val);
+   alListener3f(AL_VELOCITY, ref.x,ref.y, ref.z);
+   
+   return Qnil;
+}
+
+VALUE Listener_directionOp(VALUE self, VALUE val)
+{
+   Vector3f &ref = getRef<Vector3f>(val);
+   alListener3f(AL_DIRECTION, ref.x,ref.y, ref.z);
+   
+   return Qnil;
+}
+
 void defineAudio()
 {
    VALUE cVector3f = defClass<Vector3f>("Vector3f");
@@ -550,8 +574,11 @@ void defineAudio()
    
    VALUE cListener = rb_define_class("Listener", rb_cObject);
    defClassMethod(cListener, "setPos", Listener_setPos, 3);
-   defClassMethod(cListener, "setDirection", Listener_setPos, 3);
+   defClassMethod(cListener, "setDirection", Listener_setDirection, 3);
    defClassMethod(cListener, "setVelocity", Listener_setVelocity, 3);
+   defClassMethod(cListener, "pos=", Listener_posOp, 1);
+   defClassMethod(cListener, "direction=", Listener_directionOp, 1);
+   defClassMethod(cListener, "velocity=", Listener_velocityOp, 1);
    defClassMethod(cListener, "setOrientation", Listener_setOrientation, 6);
    
    defFunc("initAudio", Audio_init, 0);
