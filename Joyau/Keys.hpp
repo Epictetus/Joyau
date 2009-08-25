@@ -54,13 +54,10 @@ private:
    int sensibility;
 };
 
-VALUE Keys_repeatInit(VALUE self, VALUE time);
-VALUE Keys_repeatInterval(VALUE self, VALUE time);
-VALUE checkKeys(VALUE self);
-
 VALUE Cursor_updatePos(VALUE self);
 VALUE Cursor_setSensibility(VALUE self, VALUE s);
 
+VALUE checkKeys(VALUE self);
 VALUE Cursor_sensibility(VALUE self);
 
 VALUE Joyau_gets(VALUE self);
