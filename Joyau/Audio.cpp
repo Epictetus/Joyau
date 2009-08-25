@@ -548,11 +548,12 @@ void defineAudio()
    defMethod(cStream, "pause", Stream_play, 0);
    defMethod(cStream, "stop", Stream_stop, 0);
    
-   defFunc("listenerSetPos", Listener_setPos, 3);
-   defFunc("listenerSetDirection", Listener_setDirection, 3);
-   defFunc("listenerSetVelocity", Listener_setVelocity, 3);
-   defFunc("listenerSetOrientation", Listener_setOrientation, 6);
-
+   VALUE cListener = rb_define_class("Listener", rb_cObject);
+   defClassMethod(cListener, "setPos", Listener_setPos, 3);
+   defClassMethod(cListener, "setDirection", Listener_setPos, 3);
+   defClassMethod(cListener, "setVelocity", Listener_setVelocity, 3);
+   defClassMethod(cListener, "setOrientation", Listener_setOrientation, 6);
+   
    defFunc("initAudio", Audio_init, 0);
    defFunc("stopAudio", Audio_stop, 0);
 }

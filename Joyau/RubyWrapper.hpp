@@ -24,7 +24,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
    rb_define_global_function(func, RPROTO(proto), argc)
 #define defMethod(klass, func, proto, argc) \
    rb_define_method(klass, func, RPROTO(proto), argc)
-#define defClassMethod(klass, func, proto, argc)		\
+#define defClassMethod(klass, func, proto, argc) \
    rb_define_singleton_method(klass, func, RPROTO(proto), argc)
 #define defAlias(klass, oldName, newName) \
    rb_define_alias(klass, newName, oldName)
