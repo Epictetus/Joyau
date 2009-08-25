@@ -124,21 +124,6 @@ void Cursor::updatePos()
    }
 }
 
-VALUE Keys_repeatInit(VALUE self, VALUE time)
-{
-   oslSetKeyAutorepeat(OSL_KEYMASK_UP | OSL_KEYMASK_RIGHT |
-                       OSL_KEYMASK_DOWN | OSL_KEYMASK_LEFT |
-                       OSL_KEYMASK_R|OSL_KEYMASK_L, 40, FIX2INT(time));
-   oslSetKeyAutorepeatInit(FIX2INT(time));
-   return Qnil;
-}
-
-VALUE Keys_repeatInterval(VALUE self, VALUE time)
-{
-   oslSetKeyAutorepeatInterval(FIX2INT(time));
-   return Qnil;
-}
-
 VALUE checkKeys(VALUE self)
 {
    VALUE keys = rb_gv_get("$keys");
@@ -282,10 +267,7 @@ void defineKeys()
    VALUE keys = rb_hash_new();
    rb_gv_set("$keys", keys);
 
-   defFunc("repeatInit", Keys_repeatInit, 1);
-   defFunc("repeatInterval", Keys_repeatInterval, 1);
    defFunc("readKeys", checkKeys, 0);
-
    defFunc("gets", Joyau_gets, 0);
 
    VALUE cCursor = defClass<Cursor>("Cursor", "Sprite");
