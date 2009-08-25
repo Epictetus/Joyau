@@ -18,6 +18,71 @@
 
 using namespace std;
 
+Pad::Pad()
+{
+   sceCtrlSetSamplingCycle(0);
+   sceCtrlSetSamplingMode(PSP_CTRL_MODE_ANALOG);
+   sceCtrlReadBufferPositive(&pad, 1);
+}
+
+void Pad::update()
+{
+   oldPad = pad;
+   sceCtrlReadBufferPositive(&pad, 1);
+
+   stickX = pad.Lx - 128;
+   stickY = pad.Ly - 128;
+}
+
+bool Pad::pressed(const std::string &key) const
+{
+   int k = str2key(key);
+   return !(oldPad.Buttons & k) && pad.Buttons & k;
+}
+
+bool Pad::released(const std::string &key) const
+{
+   int k = str2key(key);
+   return oldPad.Buttons & k && !(pad.Buttons & k);
+}
+
+bool Pad::held(const string &key) const
+{
+   return pad.Buttons & str2key(key);
+}
+
+int Pad::str2key(const string &key) const
+{
+   if (key == "select")
+      return PSP_CTRL_SELECT;
+   else if (key == "start")
+      return PSP_CTRL_START;
+   else if (key == "up")
+      return PSP_CTRL_UP;
+   else if (key == "down")
+      return PSP_CTRL_DOWN;
+   else if (key == "right")
+      return PSP_CTRL_RIGHT;
+   else if (key == "left")
+      return PSP_CTRL_LEFT;
+   else if (key == "L")
+      return PSP_CTRL_LTRIGGER;
+   else if (key == "R")
+      return PSP_CTRL_RTRIGGER;
+   else if (key == "cross")
+      return PSP_CTRL_CROSS;
+   else if (key == "triangle")
+      return PSP_CTRL_TRIANGLE;
+   else if (key == "circle")
+      return PSP_CTRL_CIRCLE;
+   else if (key == "square")
+      return PSP_CTRL_SQUARE;
+   else if (key == "hold")
+      return PSP_CTRL_HOLD;
+
+   return -1;
+}
+
 template<> VALUE wrap<Cursor>(int argc, VALUE *argv, VALUE info)
 {
    Cursor *ptr = new Cursor;
@@ -36,11 +101,12 @@ template<> VALUE wrap<Cursor>(int argc, VALUE *argv, VALUE info)
 
 void Cursor::updatePos()
 {
+   Pad &pad = Pad::getInstance();
    checkKeys(Qnil); // Let the pressed_ and released_ events bve raised.
    if (sensibility != 0)
    {
-      int analogX = osl_pad.analogX;
-      int analogY = osl_pad.analogY;
+      int analogX = pad.getStickX();
+      int analogY = pad.getStickY();
 
       int _x = getX();
       int _y = getY();
@@ -75,83 +141,38 @@ VALUE Keys_repeatInterval(VALUE self, VALUE time)
 
 VALUE checkKeys(VALUE self)
 {
-   oslReadKeys();
    VALUE keys = rb_gv_get("$keys");
 
-   string prefix[] = { "", "released_", "pressed_"};
-   OSL_KEYLIST controller[] = { osl_pad.held, osl_pad.released,
-                                osl_pad.pressed };
-
-   for (int i = 0; i < 3; ++i)
+   string keys_str[] = { "select", "start", "up", "down", "left",
+			 "right", "L", "R", "cross", "triangle", "square",
+			 "hold" };
+   
+   Pad &pad = Pad::getInstance();
+   pad.update();
+   for (int i = 0; i < 12; ++i)
    {
-      if (controller[i].select)
-         rb_hash_aset(keys, rb_str_new2((prefix[i] + "select").c_str()), Qtrue);
+      if (pad.held(keys_str[i]))
+	 rb_hash_aset(keys, rb_str_new2(keys_str[i].c_str()), Qtrue);
       else
-         rb_hash_aset(keys, rb_str_new2((prefix[i] + "select").c_str()),
-                      Qfalse);
-      if (controller[i].start)
-         rb_hash_aset(keys, rb_str_new2((prefix[i] + "start").c_str()), Qtrue);
-      else
-         rb_hash_aset(keys, rb_str_new2((prefix[i] + "start").c_str()),
-                      Qfalse);
+	 rb_hash_aset(keys, rb_str_new2(keys_str[i].c_str()), Qfalse);
 
-      if (controller[i].up)
-         rb_hash_aset(keys, rb_str_new2((prefix[i] + "up").c_str()), Qtrue);
+      if (pad.pressed(keys_str[i]))
+	 rb_hash_aset(keys, rb_str_new2(("pressed_" + keys_str[i]).c_str()),
+		      Qtrue);
       else
-         rb_hash_aset(keys, rb_str_new2((prefix[i] + "up").c_str()), Qfalse);
-      if (controller[i].down)
-         rb_hash_aset(keys, rb_str_new2((prefix[i] + "down").c_str()), Qtrue);
-      else
-         rb_hash_aset(keys, rb_str_new2((prefix[i] + "down").c_str()), Qfalse);
-      if (controller[i].left)
-         rb_hash_aset(keys, rb_str_new2((prefix[i] + "left").c_str()), Qtrue);
-      else
-         rb_hash_aset(keys, rb_str_new2((prefix[i] + "left").c_str()), Qfalse);
-      if (controller[i].right)
-         rb_hash_aset(keys, rb_str_new2((prefix[i] + "right").c_str()), Qtrue);
-      else
-         rb_hash_aset(keys, rb_str_new2((prefix[i] + "right").c_str()),
-                      Qfalse);
+	 rb_hash_aset(keys, rb_str_new2(("pressed_" + keys_str[i]).c_str()), 
+		      Qfalse);
 
-      if (controller[i].L)
-         rb_hash_aset(keys, rb_str_new2((prefix[i] + "L").c_str()), Qtrue);
+      if (pad.released(keys_str[i]))
+	 rb_hash_aset(keys, rb_str_new2(("released_" + keys_str[i]).c_str()),
+		      Qtrue);
       else
-         rb_hash_aset(keys, rb_str_new2((prefix[i] + "L").c_str()), Qfalse);
-      if (controller[i].R)
-         rb_hash_aset(keys, rb_str_new2((prefix[i] + "R").c_str()), Qtrue);
-      else
-         rb_hash_aset(keys, rb_str_new2((prefix[i] + "R").c_str()), Qfalse);
-
-      if (controller[i].circle)
-         rb_hash_aset(keys, rb_str_new2((prefix[i] + "circle").c_str()), Qtrue);
-      else
-         rb_hash_aset(keys, rb_str_new2((prefix[i] + "circle").c_str()),
-                      Qfalse);
-      if (controller[i].triangle)
-         rb_hash_aset(keys, rb_str_new2((prefix[i] + "triangle").c_str()),
-                      Qtrue);
-      else
-         rb_hash_aset(keys, rb_str_new2((prefix[i] + "triangle").c_str()),
-                      Qfalse);
-      if (controller[i].cross)
-         rb_hash_aset(keys, rb_str_new2((prefix[i] + "cross").c_str()), Qtrue);
-      else
-         rb_hash_aset(keys, rb_str_new2((prefix[i] + "cross").c_str()), Qfalse);
-
-      if (controller[i].square)
-         rb_hash_aset(keys, rb_str_new2((prefix[i] + "square").c_str()), Qtrue);
-      else
-         rb_hash_aset(keys, rb_str_new2((prefix[i] + "square").c_str()),
-                      Qfalse);
-
-      if (controller[i].hold)
-         rb_hash_aset(keys, rb_str_new2((prefix[i] + "hold").c_str()), Qtrue);
-      else
-         rb_hash_aset(keys, rb_str_new2((prefix[i] + "hold").c_str()), Qfalse);
+	 rb_hash_aset(keys, rb_str_new2(("released_" + keys_str[i]).c_str()), 
+		      Qfalse);
    }
-
-   int analogX = osl_pad.analogX;
-   int analogY = osl_pad.analogY;
+   
+   int analogX = pad.getStickX();
+   int analogY = pad.getStickY();
 
    rb_hash_aset(keys, rb_str_new2("analogX"), INT2FIX(analogX));
    rb_hash_aset(keys, rb_str_new2("analogY"), INT2FIX(analogY));

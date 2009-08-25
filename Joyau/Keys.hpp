@@ -18,6 +18,30 @@
 #define JOYAU_KEYS
 
 #include "Sprite.hpp"
+#include "Manager.hpp"
+
+class Pad: public Singleton<Pad>
+{
+   friend Pad &Singleton<Pad>::getInstance();
+   friend void Singleton<Pad>::deleteInstance();
+   Pad();
+public:
+   void update();
+
+   bool pressed(const std::string &key) const;
+   bool released(const std::string &key) const;
+   bool held(const std::string &key) const;
+
+   int getStickX() const { return stickX; }
+   int getStickY() const { return stickY; }
+protected:
+   int str2key(const std::string &key) const;
+private:
+   SceCtrlData pad;
+   SceCtrlData oldPad;
+
+   int stickX, stickY;
+};
 
 class Cursor: public Sprite
 {
