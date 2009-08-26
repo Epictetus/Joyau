@@ -56,11 +56,19 @@ private:
 
 VALUE Cursor_updatePos(VALUE self);
 VALUE Cursor_setSensibility(VALUE self, VALUE s);
-
-VALUE checkKeys(VALUE self);
 VALUE Cursor_sensibility(VALUE self);
 
+VALUE checkKeys(VALUE self);
 VALUE Joyau_gets(VALUE self);
+
+VALUE Pad_update(VALUE self);
+
+VALUE Pad_held(VALUE self, VALUE key);
+VALUE Pad_released(VALUE self, VALUE key);
+VALUE Pad_pressed(VALUE self, VALUE key);
+
+VALUE Pad_stickX(VALUE self);
+VALUE Pad_stickY(VALUE self);
 
 void defineKeys();
 

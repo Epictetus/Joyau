@@ -262,6 +262,40 @@ VALUE Joyau_gets(VALUE self)
    return rb_str_new2(ret);
 }
 
+VALUE Pad_update(VALUE self)
+{
+   Pad::getInstance().update();
+   return Qnil;
+}
+
+VALUE Pad_held(VALUE self, VALUE key)
+{
+   Pad &pad = Pad::getInstance();
+   return pad.held(StringValuePtr(key)) ? Qtrue : Qfalse;
+}
+
+VALUE Pad_released(VALUE self, VALUE key)
+{
+   Pad &pad = Pad::getInstance();
+   return pad.released(StringValuePtr(key)) ? Qtrue : Qfalse;
+}
+
+VALUE Pad_pressed(VALUE self, VALUE key)
+{
+   Pad &pad = Pad::getInstance();
+   return pad.pressed(StringValuePtr(key)) ? Qtrue : Qfalse;
+}
+
+VALUE Pad_stickX(VALUE self)
+{
+   return INT2FIX(Pad::getInstance().getStickX());
+}
+
+VALUE Pad_stickY(VALUE self)
+{
+   return INT2FIX(Pad::getInstance().getStickX());
+}
+
 void defineKeys()
 {
    VALUE keys = rb_hash_new();
@@ -269,6 +303,13 @@ void defineKeys()
 
    defFunc("readKeys", checkKeys, 0);
    defFunc("gets", Joyau_gets, 0);
+
+   VALUE cPad = rb_define_class("Pad", rb_cObject);
+   defClassMethod(cPad, "held", Pad_held, 1);
+   defClassMethod(cPad, "pressed", Pad_pressed, 1);
+   defClassMethod(cPad, "released", Pad_released, 1);
+   defClassMethod(cPad, "stickX", Pad_stickX, 0);
+   defClassMethod(cPad, "stickY", Pad_stickY, 0);
 
    VALUE cCursor = defClass<Cursor>("Cursor", "Sprite");
    defMethod(cCursor, "updatePos", Cursor_updatePos, 0);
