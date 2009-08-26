@@ -102,7 +102,9 @@ template<> VALUE wrap<Cursor>(int argc, VALUE *argv, VALUE info)
 void Cursor::updatePos()
 {
    Pad &pad = Pad::getInstance();
-   checkKeys(Qnil); // Let the pressed_ and released_ events bve raised.
+   // since the user can directly check the Pad, it's no longer
+   // needed to fill the $keys variable.
+   pad.update();
    if (sensibility != 0)
    {
       int analogX = pad.getStickX();
