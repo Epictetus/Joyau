@@ -307,6 +307,7 @@ void defineKeys()
    defFunc("gets", Joyau_gets, 0);
 
    VALUE cPad = rb_define_class("Pad", rb_cObject);
+   defClassMethod(cPad, "update", Pad_update, 0);
    defClassMethod(cPad, "held?", Pad_held, 1);
    defClassMethod(cPad, "pressed?", Pad_pressed, 1);
    defClassMethod(cPad, "released?", Pad_released, 1);
