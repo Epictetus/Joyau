@@ -318,4 +318,6 @@ void defineKeys()
    defMethod(cCursor, "updatePos", Cursor_updatePos, 0);
    defMethod(cCursor, "setSensibility", Cursor_setSensibility, 1);
    defMethod(cCursor, "sensibility", Cursor_sensibility, 0);
+
+   defAlias(cCursor, "setSensibility", "sensibility=");
 }
