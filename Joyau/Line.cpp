@@ -32,6 +32,11 @@ void Line::setPoint(int x, int y)
    _h = _y2 - getY();
 }
 
+void Line::setPoint(const Point &p)
+{
+   setPoint(p.x, p.y);
+}
+
 void Line::draw()
 {
    oslDrawGradientLine (getX(), getY(), _x2, _y2, 
@@ -48,6 +53,15 @@ VALUE Line_setPoint(VALUE self, VALUE x, VALUE y)
    return Qnil;
 }
 
+VALUE Line_setPointPoint(VALUE self, VALUE p)
+{
+   Line &ref = getRef<Line>(self);
+   Point &point = getRef<Point>(p);
+   
+   ref.setPoint(point);
+   return Qnil;
+}
+
 VALUE Line_getPoint(VALUE self)
 {
    Line &ref = getRef<Line>(self);
@@ -60,6 +74,7 @@ void defineLine()
 {
    VALUE cLine = defClass<Line>("Line", "Shape");
    defMethod(cLine, "setPoint", Line_setPoint, 2);
+   defMethod(cLine, "point=", Line_setPointPoint, 1);
    defMethod(cLine, "getPoint", Line_getPoint, 0);
 
    defAlias(cLine, "getPoint", "point");

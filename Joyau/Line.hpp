@@ -24,6 +24,7 @@ class Line: public Shape
 public:
    Line();
    void setPoint(int x, int y);
+   void setPoint(const Point &p);
    Point getPoint() const { return Point(_x2, _y2); }
 
    void draw();
@@ -32,6 +33,7 @@ private:
 };
 
 VALUE Line_setPoint(VALUE self, VALUE x, VALUE y);
+VALUE Line_setPointPoint(VALUE self, VALUE p);
 VALUE Line_getPoint(VALUE self);
 
 void defineLine();
