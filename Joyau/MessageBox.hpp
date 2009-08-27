@@ -43,6 +43,7 @@ public:
    void setTitleFont(std::string f);
 
    void setTitlePos(int x, int y);
+   void setTitlePos(const Point &p);
 
    std::string getTitle() const { return title; }
    std::string getText() const { return text; }
@@ -98,6 +99,7 @@ VALUE Message_setTextFont(VALUE self, VALUE f);
 VALUE Message_setTitleFont(VALUE self, VALUE f);
 
 VALUE Message_setTitlePos(VALUE self, VALUE x, VALUE y);
+VALUE Message_setTitlePoint(VALUE self, VALUE p)
 
 VALUE Message_title(VALUE self);
 VALUE Message_text(VALUE self);

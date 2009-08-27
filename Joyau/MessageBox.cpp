@@ -119,6 +119,11 @@ void Message::setTitlePos(int x, int y)
    titleY = y;
 }
 
+void Message::setTitlePos(const Point &p)
+{
+   setTitlePos(p.x, p.y);
+}
+
 void Message::resize(int w, int h)
 {
    _w = w;
@@ -225,6 +230,16 @@ VALUE Message_setTitlePos(VALUE self, VALUE x, VALUE y)
    return Qnil;
 }
 
+VALUE Message_setTitlePoint(VALUE self, VALUE p)
+{
+   Message &ref = getRef<Message>(self);
+   Point &point = getRef<Point>(p);
+   
+   ref.setTitlePos(point);
+   return Qnil;
+}
+
+
 VALUE Message_title(VALUE self)
 {
    Message &ref = getRef<Message>(self);
@@ -289,6 +304,7 @@ VALUE Message_titlePos(VALUE self)
 {
    Message &ref = getRef<Message>(self);
    Point p = ref.getTitlePos();
+
    return createObject(getClass("Point"), p);
 }
 
@@ -317,6 +333,7 @@ void defineMessageBox()
    defMethod(cMessage, "setTextFont", Message_setTextFont, 1);
    defMethod(cMessage, "setTitleFont", Message_setTitleFont, 1);
    defMethod(cMessage, "setTitlePos", Message_setTitlePos, 2);
+   defMethod(cMessage, "titlePos=", Message_setTitlePoint, 1);
    defMethod(cMessage, "resize", Message_resize, 2);
 
    defMethod(cMessage, "title", Message_title, 0);
