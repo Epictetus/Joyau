@@ -397,6 +397,7 @@ void defineGameMap()
    defMethod(cMap, "tileWidth", GameMap_tileWidth, 0);
    defMethod(cMap, "tileHeight", GameMap_tileHeight, 0);
    defMethod(cMap, "collisionH=", GameMap_setCollisionH, 1);
+   defMethod(cMap, "collisionH", GameMap_collisionH, 0);
    defMethod(cMap, "addElem", GameMap_addElem, -1);
    defMethod(cMap, "<<", GameMap_push, 1);
    defMethod(cMap, "clear", GameMap_clear, 0);
