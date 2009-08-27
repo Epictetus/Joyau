@@ -27,7 +27,7 @@ Pad::Pad()
 
 void Pad::update()
 {
-   oldPad = pad;
+   oldPad = pad.Buttons;
    sceCtrlReadBufferPositive(&pad, 1);
 
    stickX = pad.Lx - 128;
@@ -37,13 +37,13 @@ void Pad::update()
 bool Pad::pressed(const std::string &key) const
 {
    int k = str2key(key);
-   return !(oldPad.Buttons & k) && pad.Buttons & k;
+   return !(oldPad & k) && pad.Buttons & k;
 }
 
 bool Pad::released(const std::string &key) const
 {
    int k = str2key(key);
-   return oldPad.Buttons & k && !(pad.Buttons & k);
+   return oldPad & k && !(pad.Buttons & k);
 }
 
 bool Pad::held(const string &key) const

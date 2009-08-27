@@ -38,7 +38,7 @@ protected:
    int str2key(const std::string &key) const;
 private:
    SceCtrlData pad;
-   SceCtrlData oldPad;
+   int oldPad;
 
    int stickX, stickY;
 };
