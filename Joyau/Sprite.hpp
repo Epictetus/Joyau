@@ -25,27 +25,20 @@ public:
    Sprite():
       _alpha(255),
       _zoom(160),
-      _angle(0)
-   {
-      setPos(0, 0);
-
-      animated = false;
-      
-      _nbrX = 1;
-      _nbrY = 1;
-
-      passedTime = 0;
-      animeState = 0;
-      nbrAnime = 6;
-
-      tiled = false;
-      xTile = 0;
-      yTile = 0;
-      wTile = 0;
-      hTile = 0;
-
-      autoDir = false;
-   }
+      _angle(0),
+      animated(false),
+      _nbrX(1),
+      _nbrY(1),
+      passedTime(0),
+      animeState(0),
+      nbrAnime(6),
+      tiled(false),
+      xTile(0),
+      yTile(0),
+      wTile(0),
+      hTile(0),
+      autoDir(false)
+   {}
 
    void setPicture(char *pic);
 
