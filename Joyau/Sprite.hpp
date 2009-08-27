@@ -26,7 +26,6 @@ public:
       _alpha(255),
       _zoom(160),
       _angle(0),
-      animated(false),
       _nbrX(1),
       _nbrY(1),
       passedTime(0),
@@ -37,7 +36,8 @@ public:
       yTile(0),
       wTile(0),
       hTile(0),
-      autoDir(false)
+      autoDir(false),
+      animated(false)
    {}
 
    void setPicture(char *pic);
