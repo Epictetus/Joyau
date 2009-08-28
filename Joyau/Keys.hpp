@@ -32,6 +32,10 @@ public:
    bool released(const std::string &key) const;
    bool held(const std::string &key) const;
 
+   bool pressed(int key) const;
+   bool released(int key) const;
+   bool held(int key) const;
+
    int getStickX() const { return stickX; }
    int getStickY() const { return stickY; }
 protected:

@@ -51,6 +51,21 @@ bool Pad::held(const string &key) const
    return pad.Buttons & str2key(key);
 }
 
+bool Pad::pressed(int key) const
+{
+   return !(oldPad & key) && pad.Buttons & key;
+}
+
+bool Pad::released(int key) const
+{
+   return oldPad & key && !(pad.Buttons & key);
+}
+
+bool Pad::held(int key) const
+{
+   return pad.Buttons & key;
+}
+
 int Pad::str2key(const string &key) const
 {
    if (key == "select")
@@ -273,19 +288,25 @@ VALUE Pad_update(VALUE self)
 VALUE Pad_held(VALUE self, VALUE key)
 {
    Pad &pad = Pad::getInstance();
-   return pad.held(StringValuePtr(key)) ? Qtrue : Qfalse;
+   if (TYPE(key) == T_STRING)
+      return pad.held(StringValuePtr(key)) ? Qtrue : Qfalse;
+   return pad.held(FIX2INT(key)) ? Qtrue : Qfalse;
 }
 
 VALUE Pad_released(VALUE self, VALUE key)
 {
    Pad &pad = Pad::getInstance();
-   return pad.released(StringValuePtr(key)) ? Qtrue : Qfalse;
+   if (TYPE(key) == T_STRING)
+      return pad.released(StringValuePtr(key)) ? Qtrue : Qfalse;
+    return pad.released(FIX2INT(key)) ? Qtrue : Qfalse;
 }
 
 VALUE Pad_pressed(VALUE self, VALUE key)
 {
    Pad &pad = Pad::getInstance();
-   return pad.pressed(StringValuePtr(key)) ? Qtrue : Qfalse;
+   if (TYPE(key) == T_STRING)
+      return pad.pressed(StringValuePtr(key)) ? Qtrue : Qfalse;
+   return pad.pressed(FIX2INT(key)) ? Qtrue : Qfalse;
 }
 
 VALUE Pad_stickX(VALUE self)
@@ -313,6 +334,24 @@ void defineKeys()
    defModFunc(mPad, "released?", Pad_released, 1);
    defModFunc(mPad, "stickX", Pad_stickX, 0);
    defModFunc(mPad, "stickY", Pad_stickY, 0);
+
+   defConst(mPad, "SELECT", INT2FIX(PSP_CTRL_SELECT));
+   defConst(mPad, "START", INT2FIX(PSP_CTRL_START));
+
+   defConst(mPad, "L", INT2FIX(PSP_CTRL_LTRIGGER));
+   defConst(mPad, "R", INT2FIX(PSP_CTRL_RTRIGGER));
+
+   defConst(mPad, "CROSS", INT2FIX(PSP_CTRL_CROSS));
+   defConst(mPad, "SQUARE", INT2FIX(PSP_CTRL_SQUARE));
+   defConst(mPad, "TRIANGLE", INT2FIX(PSP_CTRL_TRIANGLE));
+   defConst(mPad, "CIRCLE", INT2FIX(PSP_CTRL_CIRCLE));
+
+   defConst(mPad, "UP", INT2FIX(PSP_CTRL_UP));
+   defConst(mPad, "DOWN", INT2FIX(PSP_CTRL_DOWN));
+   defConst(mPad, "LEFT", INT2FIX(PSP_CTRL_LEFT));
+   defConst(mPad, "RIGHT", INT2FIX(PSP_CTRL_RIGHT));
+
+   defConst(mPad, "HOLD", INT2FIX(PSP_CTRL_HOLD));
 
    VALUE cCursor = defClass<Cursor>("Cursor", "Sprite");
    defMethod(cCursor, "updatePos", Cursor_updatePos, 0);
