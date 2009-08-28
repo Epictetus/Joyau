@@ -306,13 +306,13 @@ void defineKeys()
    defFunc("readKeys", checkKeys, 0);
    defFunc("gets", Joyau_gets, 0);
 
-   VALUE cPad = rb_define_class("Pad", rb_cObject);
-   defClassMethod(cPad, "update", Pad_update, 0);
-   defClassMethod(cPad, "held?", Pad_held, 1);
-   defClassMethod(cPad, "pressed?", Pad_pressed, 1);
-   defClassMethod(cPad, "released?", Pad_released, 1);
-   defClassMethod(cPad, "stickX", Pad_stickX, 0);
-   defClassMethod(cPad, "stickY", Pad_stickY, 0);
+   VALUE mPad = defModule("Pad");
+   defModFunc(mPad, "update", Pad_update, 0);
+   defModFunc(mPad, "held?", Pad_held, 1);
+   defModFunc(mPad, "pressed?", Pad_pressed, 1);
+   defModFunc(mPad, "released?", Pad_released, 1);
+   defModFunc(mPad, "stickX", Pad_stickX, 0);
+   defModFunc(mPad, "stickY", Pad_stickY, 0);
 
    VALUE cCursor = defClass<Cursor>("Cursor", "Sprite");
    defMethod(cCursor, "updatePos", Cursor_updatePos, 0);

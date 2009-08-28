@@ -21,13 +21,19 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 // Easier to understand
 #define defFunc(func, proto, argc) \
-   rb_define_global_function(func, RPROTO(proto), argc)
+    rb_define_global_function(func, RPROTO(proto), argc)
 #define defMethod(klass, func, proto, argc) \
-   rb_define_method(klass, func, RPROTO(proto), argc)
+    rb_define_method(klass, func, RPROTO(proto), argc)
 #define defClassMethod(klass, func, proto, argc) \
-   rb_define_singleton_method(klass, func, RPROTO(proto), argc)
+    rb_define_singleton_method(klass, func, RPROTO(proto), argc)
 #define defAlias(klass, oldName, newName) \
-   rb_define_alias(klass, newName, oldName)
+    rb_define_alias(klass, newName, oldName)
+#define defModFunc(mod, func, proto, argc) \
+    rb_define_module_function(mod, func, RPROTO(proto), argc)
+
+#define defModule rb_define_module
+
+#define defConst rb_define_const
 
 // generics functions for class wrapping
 template<typename T> void wrapped_free(void *info)
