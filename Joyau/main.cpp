@@ -34,6 +34,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "DrawableText.hpp"
 #include "Shape.hpp"
 #include "Usb.hpp"
+#include "RubyDrawable.hpp"
 
 using namespace std;
 
@@ -95,6 +96,7 @@ int main(int argc, char** argv)
 
    defineManager();
    defineDrawable();
+   defineRubyDrawable();
    defineShape();
    defineManager();
    defineSprite();

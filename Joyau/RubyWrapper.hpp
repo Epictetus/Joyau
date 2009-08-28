@@ -83,6 +83,11 @@ inline VALUE getClass(const char *name)
    return rb_const_get(rb_cObject, rb_intern(name));
 }
 
+inline VALUE getFunc(const char *name)
+{
+   return rb_intern(name);
+}
+
 template<typename T> VALUE defClass(const char *name, const char *father)
 {
    return defClass<T>(name, getClass(father));

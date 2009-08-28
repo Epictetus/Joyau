@@ -84,6 +84,7 @@ bool Drawable::collide(Drawable &item)
 	item corner is on this, we return true because it collides.
 	Otherwisely, we return false since it doesn't.
       */
+
       if (isOn(points1[i]))
 	 return true;
       if (item.isOn(points2[i]))
