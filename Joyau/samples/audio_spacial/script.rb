@@ -13,9 +13,7 @@ oldTime = timestamp
 
 while mayPlay and music.update and music.play
   if oldTime <= timestamp - 3
-    vector.x += 1.0
-    vector.y += 1.0
-    vector.z += 1.0
+    vector += Vector3f.new(10.0, 10.0, 10.0)
     music.pos = vector
   end
 
