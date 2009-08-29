@@ -341,5 +341,7 @@ void defineSprite()
    defAlias(cSprite, "setAlpha", "alpha=");
    defAlias(cSprite, "getDirection", "direction");
    defAlias(cSprite, "setDirection", "direction=");
+   defAlias(cSprite, "getDirection", "dir");
+   defAlias(cSprite, "setDirection", "dir=");
    defAlias(cSprite, "setPicture", "picture=");
 }

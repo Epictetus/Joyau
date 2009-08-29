@@ -204,6 +204,18 @@ VALUE Scrolling_setSpeed(VALUE self, VALUE s)
    return Qnil;
 }
 
+VALUE Scrolling_dir(VALUE self)
+{
+   Scrolling &ref = getRef<Scrolling>(self);
+   return INT2FIX(ref.getDir());
+}
+
+VALUE Scrolling_speed(VALUE self)
+{
+   Scrolling &ref = getRef<Scrolling>(self);
+   return INT2FIX(ref.getSpeed());
+}
+
 VALUE Scrolling_play(VALUE self)
 {
    Scrolling &ref = getRef<Scrolling>(self);
@@ -218,9 +230,13 @@ void defineScrolling()
    defMethod(cScroll, "setSprite", Scrolling_setSprite, 1);
    defMethod(cScroll, "setDir", Scrolling_setDir, 1);
    defMethod(cScroll, "setSpeed", Scrolling_setSpeed, 1);
+   defMethod(cScroll, "dir", Scrolling_dir, 0);
+   defMethod(cScroll, "speed", Scrolling_speed, 0); 
    defMethod(cScroll, "play", Scrolling_play, 0);
 
    defAlias(cScroll, "setSprite", "sprite=");
    defAlias(cScroll, "setDir", "dir=");
+   defAlias(cScroll, "dir", "direction");
+   defAlias(cScroll, "setDir", "direction=");
    defAlias(cScroll, "setSpeed", "speed=");
 }

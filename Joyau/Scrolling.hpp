@@ -26,8 +26,10 @@ public:
    void setSprite(char *spr);
    
    void setDir(int dir);
-
    void setSpeed(int s) { speed = s; }
+
+   int getSpeed() const { return speed; }
+   int getDir() const { return _dir; }
 
    void play();
    void draw();
@@ -52,6 +54,9 @@ private:
 VALUE Scrolling_setSprite(VALUE self, VALUE spr);
 VALUE Scrolling_setDir(VALUE self, VALUE dir);
 VALUE Scrolling_setSpeed(VALUE self, VALUE s);
+
+VALUE Scrolling_dir(VALUE self);
+VALUE Scrolling_speed(VALUE self);
 
 VALUE Scrolling_play(VALUE self);
 
