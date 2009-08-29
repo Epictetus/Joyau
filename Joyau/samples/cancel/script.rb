@@ -1,25 +1,23 @@
 initLib
 initGfx
 
-sprite = Sprite.new
-sprite.setPicture "sprite.png"
+sprite = Sprite.new("sprite.png")
+sprite.pos = Point.new(240 - sprite.w / 2, 136 - sprite.h / 2)
 
-sprite.setPos(240 - sprite.getW / 2, 136 - sprite.getH / 2)
-
-obstacle = Sprite.new
-obstacle.setPicture "obstacle.png"
+obstacle = Sprite.new("obstacle.png")
 
 skip = false
 
 while mayPlay
-  readKeys
-  if $keys["up"]
+  Pad.update
+
+  if Pad.held? Pad::UP
     sprite.move(0, -2)
-  elsif $keys["down"]
+  elsif Pad.held? Pad::DOWN
     sprite.move(0, 2)
-  elsif $keys["right"]
+  elsif Pad.held? Pad::RIGHT
     sprite.move(2, 0)
-  elsif $keys["left"]
+  elsif Pad.held? Pad::LEFT
     sprite.move(-2, 0)
   end
 
