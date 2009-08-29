@@ -5,21 +5,17 @@ initAudio
 music = Stream.new("music.ogg")
 sound = Sound.new("injury.wav")
 
-while mayPlay and music.update
+while mayPlay and music.update and music.play
+  Pad.update
 
-  readKeys
-  if $keys["cross"]
+  if Pad.held? Pad::CROSS
     sound.play
   end
 
   startDraw
-  drawText(0, 131, "This is an audio sample. It should play a music.")
-  drawText(0, 141, "Press cross if you want to hear a sound.")
+  drawText(0, 0, "This is an audio sample. It should play a music.")
+  drawText(0, 10, "Press cross if you want to hear a sound.")
   endDraw
-
-  if !music.play
-    break
-  end
 
   sync
 end
