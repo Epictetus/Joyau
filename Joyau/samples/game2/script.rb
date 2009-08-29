@@ -4,10 +4,9 @@ initGfx
 speed = 3
 
 scroll = Scrolling.new("bg.png")
-scroll.setSprite("bg.png")
 scroll.pos = Point.new(0, 0)
 scroll.speed = speed
-scroll.setDir($directions["LEFT"])
+scroll.direction = Scrolling::LEFT
 
 obstacles = []
 5.times {
@@ -28,18 +27,19 @@ timer = Timer.new
  
 while mayPlay and life > 0
   # We'll let the hero play
-  readKeys
-  if $keys["down"]
+  Pad.update
+
+  if Pad.held? Pad::DOWN
     if hero.y + 1 < 272 - hero.w
       hero.move(0, 1)
     end
-  elsif $keys["up"]
+  elsif Pad.held? Pad::UP
     if hero.y - 1 > 0
       hero.move(0, -1)
     end
   end
  
-  if $keys["right"]
+  if Pad.held? Pad::RIGHT
     hero.move(speed, 0)
   else
     hero.move(-speed * 2, 0)

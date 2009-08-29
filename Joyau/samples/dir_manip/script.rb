@@ -4,16 +4,16 @@ initGfx
 text1 = "Cross : Create the Hello folder"
 text2 = "Square : Remove it"
 
-length1 = getLength(text1)
-abs = 240 - length1/2
+length = getLength(text1)
+abs = 240 - length / 2
 
 while mayPlay
-  readKeys
+  Pad.update
 
-  if $keys["pressed_cross"]#Creating the same folders two times would be weird
-    mkdir("Hello")
-  elsif $keys["pressed_square"]
-    rmdir("Hello")
+  if Pad.pressed? Pad::CROSS # Creating the same folders twice is weird
+    mkdir "Hello"
+  elsif Pad.pressed? Pad::SQUARE
+    rmdir "Hello"
   end
 
   startDraw
