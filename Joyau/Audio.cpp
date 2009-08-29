@@ -100,7 +100,7 @@ bool Sound::loadWav(const char *filename)
    alSource3f(source, AL_POSITION, 0.f, 0.f, 0.f);
    alSource3f(source, AL_VELOCITY, 0.f, 0.f, 0.f);
    alSource3f(source, AL_DIRECTION, 0.f, 0.f, 0.f);
-   
+
    if (alGetError() == AL_NO_ERROR)
       return true;
    return false;
@@ -169,13 +169,13 @@ bool Stream::play()
    if(playing())
       return true;
    if(!streamBuf(buffers[0]))
-      return false;   
+      return false;
    if(!streamBuf(buffers[1]))
       return false;
 
    alSourceQueueBuffers(source, 2, buffers);
    alSourcePlay(source);
-   
+
    return true;
 }
 
@@ -203,14 +203,14 @@ bool Stream::update()
 {
    int processed;
    alGetSourcei(source, AL_BUFFERS_PROCESSED, &processed);
-   
+
    bool active = true;
    while (processed--)
    {
       ALuint buffer;
       alSourceUnqueueBuffers(source, 1, &buffer);
       active = streamBuf(buffer);
-      
+
       alSourceQueueBuffers(source, 1, &buffer);
    }
    return active;
@@ -219,22 +219,22 @@ bool Stream::update()
 bool Stream::streamBuf(ALuint buffer)
 {
    char data[BUFFER_SIZE];
-   
+
    int size = 0;
    int section, result;
 
    while (size < BUFFER_SIZE)
    {
-      result = ov_read(&stream, data + size, BUFFER_SIZE - size, 
-		       0, 2, 1, &section);
+      result = ov_read(&stream, data + size, BUFFER_SIZE - size,
+                       0, 2, 1, &section);
       if (result > 0)
-	 size += result;
+         size += result;
       else
       {
-	 if (result < 0)
-	    return false;
-	 else
-	    break;
+         if (result < 0)
+            return false;
+         else
+            break;
       }
    }
 
@@ -324,6 +324,32 @@ VALUE Vector3f_z(VALUE self)
    return rb_float_new(ref.z);
 }
 
+VALUE Vector3f_add(VALUE self, VALUE op)
+{
+   Vector3f &first = getRef<Vector3f>(self);
+   Vector3f &second = getRef<Vector3f>(op);
+
+   Vector3f ret;
+   ret.x = first.x + second.x;
+   ret.y = first.y + second.y;
+   ret.z = first.z + second.z;
+
+   return createObject(getClass("Vector3f"), ret);
+}
+
+VALUE Vector3f_sub(VALUE self, VALUE op)
+{
+   Vector3f &first = getRef<Vector3f>(self);
+   Vector3f &second = getRef<Vector3f>(op);
+
+   Vector3f ret;
+   ret.x = first.x - second.x;
+   ret.y = first.y - second.y;
+   ret.z = first.z - second.z;
+
+   return createObject(getClass("Vector3f"), ret);
+}
+
 VALUE AudioObject_setPos(VALUE self, VALUE x, VALUE y, VALUE z)
 {
    AudioObject &ref = getRef<AudioObject>(self);
@@ -364,7 +390,7 @@ VALUE AudioObject_setPosVector(VALUE self, VALUE val)
 {
    AudioObject &ref = getRef<AudioObject>(self);
    Vector3f &vector = getRef<Vector3f>(val);
-   
+
    ref.setPos(vector);
    return Qnil;
 }
@@ -373,7 +399,7 @@ VALUE AudioObject_setVelocityVector(VALUE self, VALUE val)
 {
    AudioObject &ref = getRef<AudioObject>(self);
    Vector3f &vector = getRef<Vector3f>(val);
-   
+
    ref.setVelocity(vector);
    return Qnil;
 }
@@ -382,7 +408,7 @@ VALUE AudioObject_setDirectionVector(VALUE self, VALUE val)
 {
    AudioObject &ref = getRef<AudioObject>(self);
    Vector3f &vector = getRef<Vector3f>(val);
-   
+
    ref.setDirection(vector);
    return Qnil;
 }
@@ -501,7 +527,7 @@ VALUE Listener_setDirection(VALUE self, VALUE x, VALUE y, VALUE z)
 }
 
 VALUE Listener_setOrientation(VALUE self, VALUE atX, VALUE atY, VALUE atZ,
-			      VALUE upX, VALUE upY, VALUE upZ)
+                              VALUE upX, VALUE upY, VALUE upZ)
 {
    float args[6];
 
@@ -520,7 +546,7 @@ VALUE Listener_posOp(VALUE self, VALUE val)
 {
    Vector3f &ref = getRef<Vector3f>(val);
    alListener3f(AL_POSITION, ref.x,ref.y, ref.z);
-   
+
    return Qnil;
 }
 
@@ -528,7 +554,7 @@ VALUE Listener_velocityOp(VALUE self, VALUE val)
 {
    Vector3f &ref = getRef<Vector3f>(val);
    alListener3f(AL_VELOCITY, ref.x,ref.y, ref.z);
-   
+
    return Qnil;
 }
 
@@ -536,7 +562,7 @@ VALUE Listener_directionOp(VALUE self, VALUE val)
 {
    Vector3f &ref = getRef<Vector3f>(val);
    alListener3f(AL_DIRECTION, ref.x,ref.y, ref.z);
-   
+
    return Qnil;
 }
 
@@ -546,10 +572,14 @@ void defineAudio()
    defMethod(cVector3f, "x=", Vector3f_setX, 1);
    defMethod(cVector3f, "y=", Vector3f_setY, 1);
    defMethod(cVector3f, "z=", Vector3f_setZ, 1);
+
    defMethod(cVector3f, "x", Vector3f_x, 0);
    defMethod(cVector3f, "y", Vector3f_y, 0);
    defMethod(cVector3f, "z", Vector3f_z, 0);
-   
+
+   defMethod(cVector3f, "+", Vector3f_add, 1);
+   defMethod(cVector3f, "-", Vector3f_sub, 1);
+
    VALUE cAudioObject = defClass<AudioObject>("AudioObject");
    defMethod(cAudioObject, "setPos", AudioObject_setPos, 3);
    defMethod(cAudioObject, "setDirection", AudioObject_setDirection, 3);
@@ -557,13 +587,13 @@ void defineAudio()
    defMethod(cAudioObject, "pos=", AudioObject_setPosVector, 1);
    defMethod(cAudioObject, "direction=", AudioObject_setDirectionVector, 1);
    defMethod(cAudioObject, "velocity=", AudioObject_setVelocityVector, 1);
-   
+
    VALUE cSound = defClass<Sound>("Sound", "AudioObject");
    defMethod(cSound, "loadWav", Sound_loadWav, 1);
    defMethod(cSound, "play", Sound_play, 0);
    defMethod(cSound, "pause", Sound_play, 0);
    defMethod(cSound, "stop", Sound_stop, 0);
-   
+
    VALUE cStream = defClass<Stream>("Stream", "AudioObject");
    defMethod(cStream, "loadOgg", Stream_loadOgg, 1);
    defMethod(cStream, "play", Stream_play, 0);
@@ -571,7 +601,7 @@ void defineAudio()
    defMethod(cStream, "update", Stream_update, 0);
    defMethod(cStream, "pause", Stream_play, 0);
    defMethod(cStream, "stop", Stream_stop, 0);
-   
+
    VALUE mListener = defModule("Listener");
    defModFunc(mListener, "setPos", Listener_setPos, 3);
    defModFunc(mListener, "setDirection", Listener_setDirection, 3);
@@ -580,7 +610,7 @@ void defineAudio()
    defModFunc(mListener, "direction=", Listener_directionOp, 1);
    defModFunc(mListener, "velocity=", Listener_velocityOp, 1);
    defModFunc(mListener, "setOrientation", Listener_setOrientation, 6);
-   
+
    defFunc("initAudio", Audio_init, 0);
    defFunc("stopAudio", Audio_stop, 0);
 }

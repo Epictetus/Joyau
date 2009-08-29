@@ -94,6 +94,9 @@ VALUE Vector3f_x(VALUE self);
 VALUE Vector3f_y(VALUE self);
 VALUE Vector3f_z(VALUE self);
 
+VALUE Vector3f_add(VALUE self, VALUE op);
+VALUE Vector3f_sub(VALUE self, VALUE op);
+
 VALUE AudioObject_setPos(VALUE self, VALUE x, VALUE y, VALUE z);
 VALUE AudioObject_setVelocity(VALUE self, VALUE x, VALUE y, VALUE z);
 VALUE AudioObject_setDirection(VALUE self, VALUE x, VALUE y, VALUE z);
