@@ -2,16 +2,10 @@ initLib
 initGfx
 
 circle = Circle.new
-circle.setRadius(50)
+circle.radius = 50
 circle.setCenter(100, 100)
 
-hash = Hash.new
-hash["r"] = 255
-hash["g"] = 0
-hash["b"] = 0
-hash["a"] = 255
-
-circle.setColor(hash)
+circle.color = color(255, 0, 0)
 
 while mayPlay
   startDraw
