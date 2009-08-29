@@ -87,6 +87,9 @@ VALUE Point_getY(VALUE self);
 VALUE Point_setX(VALUE self, VALUE val);
 VALUE Point_setY(VALUE self, VALUE val);
 
+VALUE Point_add(VALUE self, VALUE op);
+VALUE Point_sub(VALUE self, VALUE op);
+
 VALUE Rect_getX(VALUE self);
 VALUE Rect_getY(VALUE self);
 VALUE Rect_getW(VALUE self);

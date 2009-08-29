@@ -208,6 +208,30 @@ VALUE Point_setY(VALUE self, VALUE val)
    return Qnil;
 }
 
+VALUE Point_add(VALUE self, VALUE op)
+{
+   Point &first = getRef<Point>(self);
+   Point &second = getRef<Point>(op);
+   
+   Point ret;
+   ret.x = first.x + second.x;
+   ret.y = first.y + second.y;
+
+   return createObject(getClass("Point"), ret);
+}
+
+VALUE Point_sub(VALUE self, VALUE op)
+{
+   Point &first = getRef<Point>(self);
+   Point &second = getRef<Point>(op);
+   
+   Point ret;
+   ret.x = first.x - second.x;
+   ret.y = first.y - second.y;
+
+   return createObject(getClass("Point"), ret);
+}
+
 VALUE Rect_getX(VALUE self)
 {
    Rect &ref = getRef<Rect>(self);
@@ -396,8 +420,12 @@ void defineDrawable()
    VALUE cPoint = defClass<Point>("Point");
    defMethod(cPoint, "x", Point_getX, 0);
    defMethod(cPoint, "y", Point_getY, 0);
+
    defMethod(cPoint, "x=", Point_setX, 1);
    defMethod(cPoint, "y=", Point_setY, 1);
+
+   defMethod(cPoint, "+", Point_add, 1);
+   defMethod(cPoint, "-", Point_sub, 1);
 
    VALUE cRect = defClass<Rect>("Rect");
    defMethod(cRect, "x", Rect_getX, 0);
