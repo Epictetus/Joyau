@@ -47,6 +47,18 @@ void DrawableRect::resize(int w, int h)
    _y2 = getY() + _h;
 }
 
+void DrawableRect::setW(int w)
+{
+   _w = w;
+   _x2 = getX() + _w;
+}
+
+void DrawableRect::setH(int h)
+{
+   _h = h;
+   _y2 = getY() + _y;
+}
+
 void DrawableRect::setCorner(int x, int y)
 {
    _x2 = x;
@@ -75,6 +87,22 @@ VALUE DrawableRect_resize(VALUE self, VALUE w, VALUE h)
    return Qnil;
 }
 
+VALUE DrawableRect_setW(VALUE self, VALUE w)
+{
+   DrawableRect &ref = getRef<DrawableRect>(self);
+   ref.setW(FIX2INT(w));
+
+   return Qnil;
+}
+
+VALUE DrawableRect_setH(VALUE self, VALUE h)
+{
+   DrawableRect &ref = getRef<DrawableRect>(self);
+   ref.setH(FIX2INT(h));
+
+   return Qnil;
+}
+
 VALUE DrawableRect_setCorner(VALUE self, VALUE x, VALUE y)
 {
    DrawableRect &ref = getRef<DrawableRect>(self);
@@ -96,8 +124,11 @@ VALUE DrawableRect_getCorner(VALUE self)
 void defineDrawableRect()
 {
    VALUE cDrawableRect = defClass<DrawableRect>("DrawableRect", "FillableShape");
-   defMethod(cDrawableRect, "setCorner", DrawableRect_setCorner, 2);
    defMethod(cDrawableRect, "resize", DrawableRect_resize, 2);
+   defMethod(cDrawableRect, "w=", DrawableRect_setW, 1);
+   defMethod(cDrawableRect, "h=", DrawableRect_setH, 1);
+
+   defMethod(cDrawableRect, "setCorner", DrawableRect_setCorner, 2);
    defMethod(cDrawableRect, "getCorner", DrawableRect_getCorner, 0);
 
    defAlias(cDrawableRect, "getCorner", "corner");

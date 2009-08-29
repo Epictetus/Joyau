@@ -25,6 +25,9 @@ public:
    DrawableRect();
 
    void resize(int w, int h);
+   void setW(int w);
+   void setH(int h);
+
    void setCorner(int x, int y);
    Point getCorner() const { return Point(_x2, _y2); }
 
@@ -34,6 +37,9 @@ private:
 };
 
 VALUE DrawableRect_resize(VALUE self, VALUE w, VALUE h);
+VALUE DrawableRect_setW(VALUE self, VALUE w);
+VALUE DrawableRect_setH(VALUE self, VALUE h);
+
 VALUE DrawableRect_setCorner(VALUE self, VALUE x, VALUE y);
 VALUE DrawableRect_getCorner(VALUE self);
 
