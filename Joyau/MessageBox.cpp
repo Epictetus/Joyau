@@ -318,6 +318,22 @@ VALUE Message_resize(VALUE self, VALUE w, VALUE h)
    return Qnil;
 }
 
+VALUE Message_setW(VALUE self, VALUE w)
+{
+   Message &ref = getRef<Message>(self);
+   ref.setW(FIX2INT(w));
+
+   return Qnil;
+}
+
+VALUE Message_setH(VALUE self, VALUE h)
+{
+   Message &ref = getRef<Message>(self);
+   ref.setH(FIX2INT(h));
+
+   return Qnil;
+}
+
 void defineMessageBox()
 {
    VALUE cMessage = defClass<Message>("Message", "Drawable");
@@ -335,6 +351,8 @@ void defineMessageBox()
    defMethod(cMessage, "setTitlePos", Message_setTitlePos, 2);
    defMethod(cMessage, "titlePos=", Message_setTitlePoint, 1);
    defMethod(cMessage, "resize", Message_resize, 2);
+   defMethod(cMessage, "w=", Message_setW, 1);
+   defMethod(cMessage, "h=", Message_setH, 1);
 
    defMethod(cMessage, "title", Message_title, 0);
    defMethod(cMessage, "text", Message_text, 0);

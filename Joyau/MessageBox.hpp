@@ -62,6 +62,8 @@ public:
    Point getTitlePos() const { return Point(titleX, titleY); }
 
    void resize(int w, int h);
+   void setW(int w) { _w = w; }
+   void setH(int h) { _h = h; }
 private:
    Sprite *image;
    Sprite *bg;
@@ -118,6 +120,8 @@ VALUE Message_titleFont(VALUE self);
 VALUE Message_titlePos(VALUE self);
 
 VALUE Message_resize(VALUE self, VALUE w, VALUE h);
+VALUE Message_setW(VALUE self, VALUE w);
+VALUE Message_setH(VALUE self, VALUE h);
 
 void defineMessageBox();
 
