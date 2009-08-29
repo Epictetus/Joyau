@@ -239,4 +239,9 @@ void defineScrolling()
    defAlias(cScroll, "dir", "direction");
    defAlias(cScroll, "setDir", "direction=");
    defAlias(cScroll, "setSpeed", "speed=");
+
+   defConst(cScroll, "LEFT", INT2FIX(Sprite::LEFT));
+   defConst(cScroll, "RIGHT", INT2FIX(Sprite::RIGHT));
+   defConst(cScroll, "UP", INT2FIX(Sprite::UP));
+   defConst(cScroll, "DOWN", INT2FIX(Sprite::DOWN));
 }

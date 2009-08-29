@@ -344,4 +344,13 @@ void defineSprite()
    defAlias(cSprite, "getDirection", "dir");
    defAlias(cSprite, "setDirection", "dir=");
    defAlias(cSprite, "setPicture", "picture=");
+   
+   defConst(cSprite, "LEFT", INT2FIX(LEFT));
+   defConst(cSprite, "RIGHT", INT2FIX(RIGHT));
+   defConst(cSprite, "UP", INT2FIX(UP));
+   defConst(cSprite, "DOWN", INT2FIX(DOWN));
+   defConst(cSprite, "UP_LEFT", INT2FIX(UP_LEFT));
+   defConst(cSprite, "UP_RIGHT", INT2FIX(UP_RIGHT));
+   defConst(cSprite, "DOWN_LEFT", INT2FIX(DOWN_LEFT));
+   defConst(cSprite, "DOWN_RIGHT", INT2FIX(DOWN_RIGHT));
 }
