@@ -2,7 +2,7 @@ initLib
 initGfx
 
 circle = Circle.new
-circle.setCenter(240, 136)
+circle.center = Point.new(240, 136)
 circle.radius = 30
 
 skip = false
