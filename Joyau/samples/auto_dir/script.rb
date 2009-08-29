@@ -2,23 +2,24 @@ initLib
 initGfx
 
 sprite = Sprite.new
-sprite.setPicture "sprite.png"
+sprite.picture = "sprite.png"
 sprite.setAnim(3, 4)
 
 sprite.autoDir = true
 
 while mayPlay
-  readKeys
-  if $keys["up"]
+  Pad.update
+
+  if Pad.held? Pad::UP
     sprite.move(0, -2);
   end
-  if $keys["down"]
+  if Pad.held? Pad::DOWN
     sprite.move(0, 2);
   end
-  if $keys["left"]
+  if Pad.held? Pad::LEFT
     sprite.move(-2, 0);
   end
-  if $keys["right"]
+  if Pad.held? Pad::RIGHT
     sprite.move(2, 0);
   end
 
