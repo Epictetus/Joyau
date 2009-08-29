@@ -49,9 +49,9 @@ class Ghost < Sprite
         end
         pro.pos = Point.new(x, y)
         if y > hero.y
-          pro.direction = $directions["UP"]
+          pro.direction = Sprite::UP
         else
-          pro.direction = $directions["DOWN"]
+          pro.direction = Sprite::DOWN
         end
         @projectils << pro
       elsif y >= hero.y - 10 and y <= hero.y + 10
@@ -64,9 +64,9 @@ class Ghost < Sprite
         end
         pro.pos = Point.new(x, y)
         if x > hero.x
-          pro.direction = $directions["LEFT"]
+          pro.direction = Sprite::LEFT
         else
-          pro.direction = $directions["RIGHT"]
+          pro.direction = Sprite::RIGHT
         end
         @projectils << pro
       end

@@ -26,35 +26,35 @@ class Hero < Sprite
 
     @projectils.reject! { |pro| pro.count <= 0 || pro.hasCollided }
 
-    readKeys # Ahem, without that we don't need the folowing conditions...
+    Pad.update # Ahem, without that we don't need the folowing conditions...
     
-    if $keys["up"]
+    if Pad.held? Pad::UP
       move(0, -2) # We move it, of course, ...
       # But no direction = !
       # autodir = true ;)
     end
-    if $keys["down"]
+    if Pad.held? Pad::DOWN
       move(0, 2)
     end
-    if $keys["right"]
+    if Pad.held? Pad::RIGHT
       move(2, 0)
     end
-    if $keys["left"]
+    if Pad.held? Pad::LEFT
       move(-2, 0)
     end
 
-    if $keys["cross"]
+    if Pad.held? Pad::CROSS
       if self.alpha - 2 > 20 # Hey, I want to see Bota !
         self.alpha -= 2
       end
     end
-    if $keys["triangle"]
+    if Pad.held? Pad::TRIANGLE
       if self.alpha + 2 < 256 # What would happen with alpha = 500 ?
         self.alpha += 2
       end
     end
 
-    if $keys["pressed_square"]
+    if Pad.pressed? Pad::SQUARE
       if @projectils.length < 2
         pro = Projectil.new("proj.png")
         if self.alpha <= 127

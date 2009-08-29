@@ -23,10 +23,10 @@ advs = []
 for i in 1..4
   adv = Ghost.new
   if i % 2 == 0 # 2 ghosts, 2 solids. It's alright so.
-    adv.setPicture("ghost.png")
-    adv.setAlpha(127)
+    adv.picture = "ghost.png"
+    adv.alpha = 127
   else
-    adv.setPicture("solid.png")
+    adv.picture = "solid.png"
   end
   adv.setPos(rand(480), rand(272)) # Since there's no obstacle on the map...
   advs << adv
