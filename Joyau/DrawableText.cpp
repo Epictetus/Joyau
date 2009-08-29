@@ -122,6 +122,14 @@ VALUE DrawableText_stirring(VALUE self)
    return ref.isStirring() ? Qtrue : Qfalse;
 }
 
+VALUE DrawableText_setStirring(VALUE self, VALUE val)
+{
+   DrawableText &ref = getRef<DrawableText>(self);
+   ref.setStirring(val == Qtrue);
+
+   return Qnil;
+}
+
 VALUE DrawableText_background(VALUE self)
 {
    DrawableText &ref = getRef<DrawableText>(self);
@@ -150,6 +158,7 @@ void defineDrawableText()
    defMethod(cDrawableText, "setText", DrawableText_setText, 1);
    defMethod(cDrawableText, "scripted", DrawableText_scripted, 0);
    defMethod(cDrawableText, "stirring", DrawableText_stirring, 0);
+   defMethod(cDrawableText, "stirring=", DrawableText_setStirring, 1);
    defMethod(cDrawableText, "background", DrawableText_background, 0);
    defMethod(cDrawableText, "font", DrawableText_font, 0);
    defMethod(cDrawableText, "text", DrawableText_text, 0);

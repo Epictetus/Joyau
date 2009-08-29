@@ -26,6 +26,7 @@ public:
    void setText(std::string text) { _text = text; }
 
    void toggleStirring();
+   void setStirring(bool val) { stirring = val; }
    void toggleScripted();
    
    void setBackground(OSL_COLOR col) { bg = col; }
@@ -62,6 +63,7 @@ VALUE DrawableText_setFont(VALUE self, VALUE font);
 
 VALUE DrawableText_scripted(VALUE self);
 VALUE DrawableText_stirring(VALUE self);
+VALUE DrawableText_setStirring(VALUE self, VALUE val);
 
 VALUE DrawableText_background(VALUE self);
 VALUE DrawableText_font(VALUE self);
