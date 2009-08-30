@@ -45,7 +45,15 @@ private:
    VALUE self;
 };
 
+VALUE RubyDrawable_draw(VALUE self);
+
+VALUE RubyDrawable_boundingRect(VALUE self);
+
+VALUE RubyDrawable_collide(VALUE self, VALUE item);
+VALUE RubyDrawable_isOn(VALUE self, VALUE x, VALUE y);
+
 VALUE RubyDrawable_resize(VALUE self, VALUE w, VALUE h); 
+
 void defineRubyDrawable();
 
 #endif
