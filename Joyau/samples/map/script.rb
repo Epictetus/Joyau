@@ -15,9 +15,17 @@ obstacles.collisionH = 10
 # let's draw a really ugly background !
 
 for i in 0..20
-  bg.addElem(0, 0, 0, i * 32, 0)
-  bg.addElem Tile.new(0, 32, 0, i * 32, 32)
+  bg.addElem(-1, 0, 0, i * 32, 0)
+  bg.addElem Tile.new(-1, 32, 0, i * 32, 32)
 end
+
+# he ! The used tilesets aren't right, are they ?
+bg.each_tile { |tile|
+  tile.tileset += 1
+  tile
+}
+
+# fixed :) ( I just had to show each_tile )
 
 obstacles << Tile.new(0, 0, 0, 0, 0)
 obstacles.addElem(0, 0, 0, 5 * 32, 5 * 32)
