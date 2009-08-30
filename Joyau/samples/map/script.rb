@@ -25,40 +25,40 @@ obstacles.addElem(0, 0, 0, 5 * 32, 5 * 32)
 angel = Sprite.new("angel.png")
 angel.setAnim(3, 4)
 
-angel.direction = $directions["DOWN"]
+angel.direction = Sprite::DOWN
 angel.setPos(240 - angel.w / 2, 136 - angel.h / 2)
 
 skip = false
 
 while mayPlay
-  readKeys
+  Pad.update
 
-  if $keys["up"]
+  if Pad.held? Pad::UP
     bg.move(0, 2)
     obstacles.move(0, 2)
 
-    angel.direction = $directions["UP"]
+    angel.direction = Sprite::UP
   end
 
-  if $keys["down"]
+  if Pad.held? Pad::DOWN
     bg.move(0, -2)
     obstacles.move(0, -2)
     
-    angel.direction = $directions["DOWN"]
+    angel.direction = Sprite::DOWN
   end
   
-  if $keys["left"]
+  if Pad.held? Pad::LEFT
     bg.move(2, 0)
     obstacles.move(2, 0)
 
-    angel.direction = $directions["LEFT"]
+    angel.direction = Sprite::LEFT
   end
 
-  if $keys["right"]
+  if Pad.held? Pad::RIGHT
     bg.move(-2, 0)
     obstacles.move(-2, 0)
 
-    angel.direction = $directions["RIGHT"]
+    angel.direction = Sprite::RIGHT
   end
 
   if obstacles.collide(angel)
