@@ -21,37 +21,35 @@ angel.pos = Point.new(240 - angel.w / 2, 136 - angel.h / 2)
 skip = false
 
 while mayPlay
-  readKeys
+  Pad.update
 
-  if $keys["up"]
+  if Pad.held? Pad::UP
     bg.move(0, 2)
-    angel.direction = $directions["UP"]
+    angel.direction = Sprite::UP
   end
 
-  if $keys["down"]
+  if Pad.held? Pad::DOWN
     bg.move(0, -2)
-    angel.direction = $directions["DOWN"]
+    angel.direction = Sprite::DOWN
   end
   
-  if $keys["left"]
+  if Pad.held? Pad::LEFT
     bg.move(2, 0)
-    angel.direction = $directions["LEFT"]
+    angel.direction = Sprite::LEFT
   end
 
-  if $keys["right"]
+  if Pad.held? Pad::RIGHT
     bg.move(-2, 0)
-    angel.direction = $directions["RIGHT"]
+    angel.direction = Sprite::RIGHT
   end
 
-  tiles = bg.tiles.reject { |tile|
+  bg.reject_tiles { |tile|
     angel.isOn(bg.x + tile.x, bg.y + tile.y) or
     angel.isOn(bg.x + tile.x + 32, bg.y + tile.y) or
     angel.isOn(bg.x + tile.x + 32, bg.y + tile.y + 32) or
     angel.isOn(bg.x + tile.x, bg.y + tile.y + 32)
   }
-  bg.clearTiles
-  bg << tiles
-
+  
   if !skip
     startDraw
     clearScreen
