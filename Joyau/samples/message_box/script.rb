@@ -1,30 +1,20 @@
 def drawMessage(hero)
   message = Message.new
-  message.setPos(0, 0)
-  message.setTitlePos(477 - getLength("press X"), 10)
+  message.pos = Point.new(0, 0)
+  message.titlePos = Point.new(477 - getLength("press X"), 10)
 
   message.resize(480, 40)
-  message.setTitle("press X")
+  message.title = "press X"
 
-  red = Hash.new
-  red["a"] = 255
-  red["r"] = 255
-  red["g"] = 0
-  red["b"] = 0
-  message.setTitleColor(red)
-
-  message.setText("Alpha : " + hero.getAlpha.to_s)
+  message.titleColor = color(255, 0, 0)
+  message.text = "Alpha : " + hero.alpha.to_s
   
-  sprite = Sprite.new
-  sprite.setPicture("pic.png")
+  message.image = Sprite.new("pic.png")
 
-  message.setImage(sprite)
-
-  wouldContinue = true
-  while wouldContinue and mayPlay
-    readKeys
-    if $keys["cross"]
-      wouldContinue = false
+  while mayPlay
+    Pad.update
+    if Pad.held? Pad::CROSS
+      break
     end
 
     startDraw
@@ -39,38 +29,38 @@ end
 initLib
 initGfx
 
-hero = Sprite.new
-hero.setPicture("pic.png")
-hero.setPos(240 - hero.getW / 2, 136 - hero.getH / 2)
+hero = Sprite.new("pic.png")
+hero.setPos(240 - hero.w / 2, 136 - hero.h / 2)
 
-bg = Sprite.new
-bg.setPicture("bg.png")
+bg = Sprite.new("bg.png")
 
 while mayPlay
-  readKeys
-  if $keys["up"]
+  Pad.update
+  
+  if Pad.held? Pad::UP
     hero.move(0, -2)
   end
-  if $keys["down"]
+  if Pad.held? Pad::DOWN
     hero.move(0, 2)
   end
-  if $keys["left"]
+  if Pad.held? Pad::LEFT
     hero.move(-2, 0)
   end
-  if $keys["right"]
+  if Pad.held? Pad::RIGHT
     hero.move(2, 0)
   end
-  if $keys["cross"]
-    if hero.getAlpha - 2 > 30
-      hero.setAlpha(hero.getAlpha - 2)
+
+  if Pad.held? Pad::CROSS
+    if hero.alpha - 2 > 30
+      hero.alpha -= 2
     end
   end
-  if $keys["triangle"]
-    if hero.getAlpha + 2 < 256
-      hero.setAlpha(hero.getAlpha + 2)
+  if Pad.held? Pad::TRIANGLE
+    if hero.alpha + 2 < 256
+      hero.alpha += 2
     end
   end
-  if $keys["square"]
+  if Pad.held? Pad::SQUARE
     drawMessage(hero)
   end
 
