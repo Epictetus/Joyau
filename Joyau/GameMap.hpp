@@ -34,11 +34,22 @@ class GameMap: public Drawable
 public:
    struct Tile
    {
+      Tile():
+	 remove(false)
+      {}
+
       int tileset;
       int tileX, tileY;
       int x, y;
 
       CollisionType type;
+      
+      bool remove;
+   };
+
+   struct shouldRemove 
+   {
+      bool operator()(const Tile &t) { return t.remove; };
    };
 
    GameMap();
@@ -114,6 +125,8 @@ VALUE GameMap_clear(VALUE self);
 VALUE GameMap_clearTiles(VALUE self);
 
 VALUE GameMap_tiles(VALUE self);
+
+VALUE GameMap_reject_tiles(VALUE self);
 
 void defineGameMap();
 

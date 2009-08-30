@@ -67,7 +67,7 @@ template<> VALUE wrap<GameMap>(int argc, VALUE *argv, VALUE info)
 template<> VALUE wrap<GameMap::Tile>(int argc, VALUE *argv, VALUE info)
 {
    GameMap::Tile *ptr = new GameMap::Tile;
-
+   
    if (argc >= 5)
    {
       ptr->tileset = FIX2INT(argv[0]);
@@ -349,6 +349,25 @@ VALUE GameMap_tiles(VALUE self)
    return ret;
 }
 
+VALUE GameMap_reject_tiles(VALUE self)
+{
+   GameMap &ref = getRef<GameMap>(self);
+   list<GameMap::Tile> &tiles = ref.getTiles();
+
+   for (list<GameMap::Tile>::iterator i = tiles.begin(); i != tiles.end(); ++i)
+   {
+      (*i).remove = false;
+
+      VALUE obj = createObject(getClass("Tile"), *i);
+      VALUE ret = rb_yield(obj);
+
+      (*i).remove = ret == Qtrue;
+   }
+   tiles.remove_if(GameMap::shouldRemove());
+
+   return Qnil;
+}
+
 VALUE CollisionType_right(VALUE self)
 {
    CollisionType &ref = getRef<CollisionType>(self);
@@ -524,4 +543,5 @@ void defineGameMap()
    defMethod(cMap, "clear", GameMap_clear, 0);
    defMethod(cMap, "clearTiles", GameMap_clearTiles, 0);
    defMethod(cMap, "tiles", GameMap_tiles, 0);
+   defMethod(cMap, "reject_tiles", GameMap_reject_tiles, 0);
 }
