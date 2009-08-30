@@ -17,6 +17,21 @@
 #include "Audio.hpp"
 #include "Manager.hpp"
 
+Vector3f Vector3f::operator+(const Vector3f &op) const
+{
+   return Vector3f(x + op.x, y + op.y, z + op.z);
+}
+
+Vector3f Vector3f::operator-(const Vector3f &op) const
+{
+   return Vector3f(x + op.x, y + op.y, z + op.z);
+}
+
+bool Vector3f::operator==(const Vector3f &op) const
+{
+   return x == op.x && y == op.y && z == op.z;
+}
+
 void AudioObject::setPos(float x, float y, float z)
 {
    alSource3f(source, AL_POSITION, x, y, z);
@@ -329,11 +344,7 @@ VALUE Vector3f_add(VALUE self, VALUE op)
    Vector3f &first = getRef<Vector3f>(self);
    Vector3f &second = getRef<Vector3f>(op);
 
-   Vector3f ret;
-   ret.x = first.x + second.x;
-   ret.y = first.y + second.y;
-   ret.z = first.z + second.z;
-
+   Vector3f ret = first + second;
    return createObject(getClass("Vector3f"), ret);
 }
 
@@ -342,12 +353,16 @@ VALUE Vector3f_sub(VALUE self, VALUE op)
    Vector3f &first = getRef<Vector3f>(self);
    Vector3f &second = getRef<Vector3f>(op);
 
-   Vector3f ret;
-   ret.x = first.x - second.x;
-   ret.y = first.y - second.y;
-   ret.z = first.z - second.z;
-
+   Vector3f ret = first - second;
    return createObject(getClass("Vector3f"), ret);
+}
+
+VALUE Vector3f_eq(VALUE self, VALUE op)
+{
+   Vector3f &first = getRef<Vector3f>(self);
+   Vector3f &second = getRef<Vector3f>(op);
+
+   return first == second ? Qtrue : Qfalse;
 }
 
 VALUE AudioObject_setPos(VALUE self, VALUE x, VALUE y, VALUE z)
@@ -579,6 +594,7 @@ void defineAudio()
 
    defMethod(cVector3f, "+", Vector3f_add, 1);
    defMethod(cVector3f, "-", Vector3f_sub, 1);
+   defMethod(cVector3f, "==", Vector3f_eq, 1);
 
    VALUE cAudioObject = defClass<AudioObject>("AudioObject");
    defMethod(cAudioObject, "setPos", AudioObject_setPos, 3);

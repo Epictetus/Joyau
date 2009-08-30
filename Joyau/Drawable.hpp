@@ -27,6 +27,11 @@ struct Point
       x(X), y(Y)
    {}
 
+   Point operator+(const Point &op) const;
+   Point operator-(const Point &op) const;
+
+   bool operator==(const Point &op) const;
+
    int x, y;
 };
 
@@ -89,6 +94,7 @@ VALUE Point_setY(VALUE self, VALUE val);
 
 VALUE Point_add(VALUE self, VALUE op);
 VALUE Point_sub(VALUE self, VALUE op);
+VALUE Point_eq(VALUE self, VALUE op);
 
 VALUE Rect_getX(VALUE self);
 VALUE Rect_getY(VALUE self);

@@ -24,7 +24,19 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #define BUFFER_SIZE 4096 // A really little buffer, it's for the PSP...
 #define NUM_BUFFERS 8
 
-struct Vector3f { float x, y, z; };
+struct Vector3f 
+{
+   Vector3f(float argX = 0.f, float argY = 0.f, float argZ = 0.f):
+      x(argX), y(argY), z(argZ)
+   {}
+
+   Vector3f operator+(const Vector3f &op) const;
+   Vector3f operator-(const Vector3f &op) const;
+
+   bool operator==(const Vector3f &op) const;
+
+   float x, y, z; 
+};
 
 class AudioObject
 {
@@ -96,6 +108,7 @@ VALUE Vector3f_z(VALUE self);
 
 VALUE Vector3f_add(VALUE self, VALUE op);
 VALUE Vector3f_sub(VALUE self, VALUE op);
+VALUE Vector3f_eq(VALUE self, VALUE op);
 
 VALUE AudioObject_setPos(VALUE self, VALUE x, VALUE y, VALUE z);
 VALUE AudioObject_setVelocity(VALUE self, VALUE x, VALUE y, VALUE z);

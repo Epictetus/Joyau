@@ -47,6 +47,21 @@ template<> VALUE wrap<Point>(int argc, VALUE *argv, VALUE info)
    return tdata;
 }
 
+Point Point::operator+(const Point &op) const
+{
+   return Point(x + op.x, y + op.y);
+}
+
+Point Point::operator-(const Point &op) const
+{
+   return Point(x - op.x, y - op.y);
+}
+
+bool Point::operator==(const Point &op) const
+{
+   return x == op.x && y == op.y;
+}
+
 Drawable::Drawable()
 {
    _x = 0;
@@ -213,11 +228,16 @@ VALUE Point_add(VALUE self, VALUE op)
    Point &first = getRef<Point>(self);
    Point &second = getRef<Point>(op);
    
-   Point ret;
-   ret.x = first.x + second.x;
-   ret.y = first.y + second.y;
-
+   Point ret = first + second;
    return createObject(getClass("Point"), ret);
+}
+
+VALUE Point_eq(VALUE self, VALUE op)
+{
+   Point &first = getRef<Point>(self);
+   Point &second = getRef<Point>(op);
+
+   return first == second ? Qtrue : Qfalse;
 }
 
 VALUE Point_sub(VALUE self, VALUE op)
@@ -225,10 +245,7 @@ VALUE Point_sub(VALUE self, VALUE op)
    Point &first = getRef<Point>(self);
    Point &second = getRef<Point>(op);
    
-   Point ret;
-   ret.x = first.x - second.x;
-   ret.y = first.y - second.y;
-
+   Point ret = first - second;
    return createObject(getClass("Point"), ret);
 }
 
@@ -426,6 +443,7 @@ void defineDrawable()
 
    defMethod(cPoint, "+", Point_add, 1);
    defMethod(cPoint, "-", Point_sub, 1);
+   defMethod(cPoint, "==", Point_eq, 1);
 
    VALUE cRect = defClass<Rect>("Rect");
    defMethod(cRect, "x", Rect_getX, 0);
