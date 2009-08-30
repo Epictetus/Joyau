@@ -1,28 +1,24 @@
 initLib
 initGfx
 
-sprite = Sprite.new
-sprite.setPicture("image.png")
-w = sprite.getW
-h = sprite.getH
-sprite.setPos(480 / 2 - w / 2, 272 / 2 - h / 2)
+sprite = Sprite.new("image.png")
+sprite.setPos(240 - sprite.w / 2, 136 - sprite.h / 2)
 
-background = Sprite.new
-background.setPicture("bg.png")
+background = Sprite.new("bg.png")
 
 while mayPlay
-  readKeys
+  Pad.update
 
-  if $keys["right"]
+  if Pad.held? Pad::RIGHT
     sprite.move(2, 0)
   end
-  if $keys["left"]
+  if Pad.held? Pad::LEFT
     sprite.move(-2, 0)
   end
-  if $keys["up"]
+  if Pad.held? Pad::UP
     sprite.move(0, -2)
   end
-  if $keys["down"]
+  if Pad.held? Pad::DOWN
     sprite.move(0, 2)
   end
 
@@ -31,7 +27,6 @@ while mayPlay
   sprite.draw
   endDraw
   
-  audioSync
   sync
 end
 
