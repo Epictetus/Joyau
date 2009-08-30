@@ -20,6 +20,15 @@
 #include "StdInclude.hpp"
 #include "Sprite.hpp"
 
+struct CollisionType
+{
+   CollisionType():
+      left(false), right(false), up(false), down(false), content(true)
+   {}
+
+   bool left, right, up, down, content;
+};
+
 class GameMap: public Drawable
 {
 public:
@@ -28,6 +37,8 @@ public:
       int tileset;
       int tileX, tileY;
       int x, y;
+
+      CollisionType type;
    };
 
    GameMap();
@@ -62,6 +73,18 @@ private:
 protected:
    bool visible(const Tile &t) const;
 };
+
+VALUE CollisionType_right(VALUE self);
+VALUE CollisionType_left(VALUE self);
+VALUE CollisionType_up(VALUE self);
+VALUE CollisionType_down(VALUE self);
+VALUE CollisionType_content(VALUE self);
+
+VALUE CollisionType_setRight(VALUE self, VALUE val);
+VALUE CollisionType_setLeft(VALUE self, VALUE val);
+VALUE CollisionType_setUp(VALUE self, VALUE val);
+VALUE CollisionType_setDown(VALUE self, VALUE val);
+VALUE CollisionType_setContent(VALUE self, VALUE val);
 
 VALUE Tile_tileX(VALUE self);
 VALUE Tile_tileY(VALUE self);

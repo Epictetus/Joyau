@@ -16,8 +16,28 @@
 
 #include "GameMap.hpp"
 #include "DrawableRect.hpp"
+#include "Line.hpp"
 
 using namespace std;
+
+template<> VALUE wrap<CollisionType>(int argc, VALUE *argv, VALUE info)
+{
+   CollisionType *ptr = new CollisionType;
+   if (argc >= 1)
+   {
+      ptr->content = argv[0] == Qtrue;
+      if (argc >= 5)
+      {
+	 ptr->left = argv[1] == Qtrue;
+	 ptr->right = argv[2] == Qtrue;
+	 ptr->up = argv[3] == Qtrue;
+	 ptr->down = argv[4] == Qtrue;
+      }
+   }
+
+   VALUE tdata = Data_Wrap_Struct(info, 0, wrapped_free<CollisionType>, ptr);
+   return tdata;
+}
 
 template<> VALUE wrap<GameMap>(int argc, VALUE *argv, VALUE info)
 {
@@ -48,13 +68,15 @@ template<> VALUE wrap<GameMap::Tile>(int argc, VALUE *argv, VALUE info)
 {
    GameMap::Tile *ptr = new GameMap::Tile;
 
-   if (argc == 5)
+   if (argc >= 5)
    {
       ptr->tileset = FIX2INT(argv[0]);
       ptr->tileX = FIX2INT(argv[1]);
       ptr->tileY = FIX2INT(argv[2]);
       ptr->x = FIX2INT(argv[3]);
       ptr->y = FIX2INT(argv[4]);
+      if (argc == 6)
+	 ptr->type = getRef<CollisionType>(argv[5]);
    }
    
    VALUE tdata = Data_Wrap_Struct(info, 0, wrapped_free<GameMap::Tile>, ptr);
@@ -117,8 +139,45 @@ bool GameMap::collide(Drawable &spr)
       // Coord relative to the map !
       tile.setPos(getX() + (*i).x, getY() + (*i).y);
 
-      if (col.collide(tile))
-         return true; // If it collides with only one tile, it collides..
+      Line line;
+
+      if ((*i).type.right)
+      {
+	 line.setPos(getX() + (*i).x + tileWidth, getY() + (*i).y);
+	 line.setPoint(getX() + (*i).x + tileWidth, 
+		       getY() + (*i).y + tileHeight);
+	 if (col.collide(line))
+	    return true;
+      }
+
+      if ((*i).type.left)
+      {
+	 line.setPos(getX() + (*i).x, getY() + (*i).y);
+	 line.setPoint(getX() + (*i).x, getY() + (*i).y + tileHeight);
+	 if (col.collide(line))
+	    return true;
+      }
+
+      if ((*i).type.up)
+      {
+	 line.setPos(getX() + (*i).x, getY() + (*i).y);
+	 line.setPoint(getX() + (*i).x + tileWidth, getY() + (*i).y);
+	 if (col.collide(line))
+	    return true;
+      }
+
+      if ((*i).type.down)
+      {
+	 line.setPos(getX() + (*i).x, getY() + (*i).y + tileHeight);
+	 line.setPoint(getX() + (*i).x + tileWidth, 
+		       getY() + (*i).y + tileHeight);
+	 if (col.collide(line))
+	    return true;
+      }
+
+      if ((*i).type.content)
+	 if (col.collide(tile))
+	    return true; // If it collides with only one tile, it collides..
    }
    return false; // It didn't collide with any sprite.
 }
@@ -290,6 +349,76 @@ VALUE GameMap_tiles(VALUE self)
    return ret;
 }
 
+VALUE CollisionType_right(VALUE self)
+{
+   CollisionType &ref = getRef<CollisionType>(self);
+   return ref.right ? Qtrue : Qfalse;
+}
+
+VALUE CollisionType_left(VALUE self)
+{
+   CollisionType &ref = getRef<CollisionType>(self);
+   return ref.left ? Qtrue : Qfalse;
+}
+
+VALUE CollisionType_up(VALUE self)
+{
+   CollisionType &ref = getRef<CollisionType>(self);
+   return ref.up ? Qtrue : Qfalse;
+}
+
+VALUE CollisionType_down(VALUE self)
+{
+   CollisionType &ref = getRef<CollisionType>(self);
+   return ref.down ? Qtrue : Qfalse;
+}
+
+VALUE CollisionType_content(VALUE self)
+{
+   CollisionType &ref = getRef<CollisionType>(self);
+   return ref.content ? Qtrue : Qfalse;
+}
+
+VALUE CollisionType_setRight(VALUE self, VALUE val)
+{
+   CollisionType &ref = getRef<CollisionType>(self);
+   ref.right = val == Qtrue;
+
+   return Qnil;
+}
+
+VALUE CollisionType_setLeft(VALUE self, VALUE val)
+{
+   CollisionType &ref = getRef<CollisionType>(self);
+   ref.left = val == Qtrue;
+
+   return Qnil;
+}
+
+VALUE CollisionType_setUp(VALUE self, VALUE val)
+{
+   CollisionType &ref = getRef<CollisionType>(self);
+   ref.up = val == Qtrue;
+
+   return Qnil;
+}
+
+VALUE CollisionType_setDown(VALUE self, VALUE val)
+{
+   CollisionType &ref = getRef<CollisionType>(self);
+   ref.down = val == Qtrue;
+
+   return Qnil;
+}
+
+VALUE CollisionType_setContent(VALUE self, VALUE val)
+{
+   CollisionType &ref = getRef<CollisionType>(self);
+   ref.content = val == Qtrue;
+
+   return Qnil;
+}
+
 VALUE Tile_tileX(VALUE self)
 {
    return INT2FIX(getRef<GameMap::Tile>(self).tileX);
@@ -357,6 +486,19 @@ VALUE Tile_setTileset(VALUE self, VALUE val)
 
 void defineGameMap()
 {
+   VALUE cCollisionType = defClass<CollisionType>("CollisionType");
+   defMethod(cCollisionType, "left", CollisionType_left, 0);
+   defMethod(cCollisionType, "right", CollisionType_right, 0);
+   defMethod(cCollisionType, "up", CollisionType_up, 0);
+   defMethod(cCollisionType, "down", CollisionType_down, 0);
+   defMethod(cCollisionType, "content", CollisionType_content, 0);
+
+   defMethod(cCollisionType, "left=", CollisionType_setLeft, 1);
+   defMethod(cCollisionType, "right=", CollisionType_setRight, 1);
+   defMethod(cCollisionType, "up=", CollisionType_setUp, 1);
+   defMethod(cCollisionType, "down=", CollisionType_setDown, 1);
+   defMethod(cCollisionType, "content=", CollisionType_setContent, 1);
+   
    VALUE cTile = defClass<GameMap::Tile>("Tile");
    defMethod(cTile, "x", Tile_x, 0);
    defMethod(cTile, "y", Tile_y, 0);
