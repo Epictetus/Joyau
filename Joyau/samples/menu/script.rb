@@ -14,11 +14,11 @@ menu.load("menu.png", 4, # icons
           120) # icon heigth
 
 while mayPlay
-  readKeys
+  Pad.update
 
-  if $keys["pressed_left"]
+  if Pad.pressed? Pad::LEFT
     menu.changeSelection(1)
-  elsif $keys["pressed_right"]
+  elsif Pad.pressed? Pad::RIGHT
     menu.changeSelection(0)
   end
 
@@ -26,7 +26,7 @@ while mayPlay
   clearScreen
 
   menu.draw
-  drawText(0, 0, "Index : " + menu.getIndex.to_s)
+  drawText(0, 0, "Index : " + menu.index.to_s)
 
   endDraw
 
