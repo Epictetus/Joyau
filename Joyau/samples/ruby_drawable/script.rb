@@ -3,16 +3,6 @@ class FunnyDrawable < RubyDrawable
     puts "they drawed me !"
   end
 
-  def isOn(argX, argY) # nothing collide ! Nothing is on !
-    puts argX.to_s, argY.to_s
-    return false
-  end
-  
-  def collide(drawable)
-    puts "false"
-    return false
-  end
-
   def boundingRect()
     Rect.new(500, 500, 0, 0) # I've a funny bonding rect too !
   end
@@ -36,8 +26,7 @@ if !sprite.collide(draw)
   # however... we have redefined boundingRect :)
   # Basically, our (it's your as well as it's mine :) C++ class RubyDrawable
   # has redefined the methods for collide, etc.
-  # it calls our Ruby method. That's nice, BUT by default, we'll have an
-  # unlimited numbers of recursions. That's why we've redefined everything here.
+  # it calls our Ruby method.
   draw.draw
 end
 
