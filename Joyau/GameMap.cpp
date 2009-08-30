@@ -68,12 +68,6 @@ GameMap::GameMap()
    colH = -1;
 }
 
-void GameMap::resize(int w, int h)
-{
-   _w = w;
-   _h = h;
-}
-
 void GameMap::addTileset(char *name)
 {
    Sprite spr;
@@ -159,12 +153,8 @@ bool GameMap::visible(const Tile &t) const
    if (x + w < 0 || // Not even visible at the screen left side
        x + h < 0 || // Not even visible at the screen upper side
        x - w > 480 || // Not even visible at the screen right side
-       y - h > 272 || // Not even visible at the screen down side
-       x + w < getX() || // Not visible at the left side
-       y + h < getY() || // Not visible at the upper side
-       x - w > getX() + _w || // Not visible at the right side
-       y - h > getY() + _h ) // Not visible at the down side
-      return false;
+       y - h > 272 ) // Not even visible at the screen down side
+       return false;
    return true;
 }
 
@@ -187,16 +177,6 @@ void GameMap::draw()
          tile.draw();
       }
    }
-}
-
-VALUE GameMap_resize(VALUE self, VALUE w, VALUE h)
-{
-   GameMap &ref = getRef<GameMap>(self);
-   int _w = FIX2INT(w);
-   int _h = FIX2INT(h);
-
-   ref.resize(_w, _h);
-   return Qnil;
 }
 
 VALUE GameMap_addTileset(VALUE self, VALUE name)
@@ -391,7 +371,6 @@ void defineGameMap()
    defMethod(cTile, "tileY=", Tile_setTileY, 1);
    
    VALUE cMap = defClass<GameMap>("GameMap", "Drawable");
-   defMethod(cMap, "resize", GameMap_resize, 2);
    defMethod(cMap, "addTileset", GameMap_addTileset, 1);
    defMethod(cMap, "setTileSize", GameMap_setTileSize, 2);
    defMethod(cMap, "tileWidth", GameMap_tileWidth, 0);

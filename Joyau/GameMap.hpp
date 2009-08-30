@@ -32,8 +32,6 @@ public:
 
    GameMap();
 
-   void resize(int w, int h);
-
    void addTileset(char *name);
    void setTileSize(int w, int h);
 
@@ -76,8 +74,6 @@ VALUE Tile_setTileY(VALUE self, VALUE val);
 VALUE Tile_setX(VALUE self, VALUE val);
 VALUE Tile_setY(VALUE self, VALUE val);
 VALUE Tile_setTileset(VALUE self, VALUE val);
-
-VALUE GameMap_resize(VALUE self, VALUE w, VALUE h);
 
 VALUE GameMap_addTileset(VALUE self, VALUE name);
 VALUE GameMap_setTileSize(VALUE self, VALUE w, VALUE h);
