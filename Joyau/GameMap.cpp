@@ -349,6 +349,22 @@ VALUE GameMap_tiles(VALUE self)
    return ret;
 }
 
+VALUE GameMap_each_tile(VALUE self)
+{
+   GameMap &ref = getRef<GameMap>(self);
+   list<GameMap::Tile> &tiles = ref.getTiles();
+
+   for (list<GameMap::Tile>::iterator i = tiles.begin(); i != tiles.end(); ++i)
+   {
+      VALUE obj = createObject(getClass("Tile"), *i);
+      VALUE ret = rb_yield(obj);
+
+      (*i) = getRef<GameMap::Tile>(ret);
+   }
+
+   return Qnil;
+}
+
 VALUE GameMap_reject_tiles(VALUE self)
 {
    GameMap &ref = getRef<GameMap>(self);
@@ -543,5 +559,6 @@ void defineGameMap()
    defMethod(cMap, "clear", GameMap_clear, 0);
    defMethod(cMap, "clearTiles", GameMap_clearTiles, 0);
    defMethod(cMap, "tiles", GameMap_tiles, 0);
+   defMethod(cMap, "each_tile", GameMap_each_tile, 0);
    defMethod(cMap, "reject_tiles", GameMap_reject_tiles, 0);
 }

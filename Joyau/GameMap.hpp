@@ -125,7 +125,7 @@ VALUE GameMap_clear(VALUE self);
 VALUE GameMap_clearTiles(VALUE self);
 
 VALUE GameMap_tiles(VALUE self);
-
+VALUE GameMap_each_tile(VALUE self);
 VALUE GameMap_reject_tiles(VALUE self);
 
 void defineGameMap();
