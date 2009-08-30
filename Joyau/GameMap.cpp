@@ -112,7 +112,7 @@ bool GameMap::collide(Drawable &spr)
    {
       Rect rect = spr.boundingRect();
       tmp.setPos(rect.x, rect.y + rect.h - colH);
-      tmp.resize(rect.w, rect.h);
+      tmp.resize(rect.w, colH);
    }
    Drawable &col = colH != -1 ? tmp : spr;
 
