@@ -19,11 +19,7 @@ TARGET = Joyau
 OBJS = main.o Manager.o Graphics.o Keys.o Sprite.o Audio.o Kernel.o \
 	MessageBox.o Scrolling.o Particles.o GameMap.o CircleMenu.o \
 	Timer.o Drawable.o DrawableRect.o Circle.o Line.o Triangle.o \
-	DrawableText.o Shape.o Usb.o
-SRCS = main.cpp Manager.cpp Graphics.cpp Keys.cpp Sprite.cpp Audio.cpp \
-	Kernel.cpp MessageBox.cpp Scrolling.cpp Particles.cpp GameMap.cpp \
-	CircleMenu.cpp Timer.cpp Drawable.cpp DrawableRect.cpp Circle.cpp \
-	Line.cpp Triangle.cpp DrawableText.cpp Shape.cpp Usb.cpp
+	DrawableText.o Shape.o Usb.o RubyDrawable.o
 
 CFLAGS += -O2 -G0 -Wall -D_PSP_
 CXXFLAGS = $(CFLAGS) -fno-exceptions -fno-rtti
@@ -53,8 +49,5 @@ PSPSDK=$(shell psp-config --pspsdk-path)
 include $(PSPSDK)/lib/build.mak
 
 check-syntax:
-ifdef CHK_SOURCES
 	$(CXX) $(CXXFLAGS) -Wextra -fsyntax-only $(CHK_SOURCES)
-else
-	$(CXX) $(CXXFLAGS) -Wextra -fsyntax-only $(SRCS)
-endif
+
