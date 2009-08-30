@@ -1,14 +1,12 @@
 initLib
 initGfx
 
-scroll = Scrolling.new
-scroll.setSprite("bg.png")
-scroll.setPos(0, 0)
-scroll.setSpeed(3)
-scroll.setDir($directions["LEFT"])
+scroll = Scrolling.new("bg.png")
+scroll.pos = Point.new(0, 0)
+scroll.speed = 3
+scroll.dir = Scrolling::LEFT
 
 while mayPlay
-
   scroll.play
 
   startDraw
