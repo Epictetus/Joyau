@@ -82,6 +82,11 @@ template<> VALUE wrap<GameMap::Tile>(int argc, VALUE *argv, VALUE info)
    VALUE tdata = Data_Wrap_Struct(info, 0, wrapped_free<GameMap::Tile>, ptr);
    return tdata;
 }
+bool GameMap::shouldRemove::operator()(const Tile &t)
+{
+   VALUE obj = createObject(getClass("Tile"), t);
+   return rb_yield(obj) == Qtrue;
+}
 
 GameMap::GameMap()
 {
@@ -368,18 +373,7 @@ VALUE GameMap_each_tile(VALUE self)
 VALUE GameMap_reject_tiles(VALUE self)
 {
    GameMap &ref = getRef<GameMap>(self);
-   list<GameMap::Tile> &tiles = ref.getTiles();
-
-   for (list<GameMap::Tile>::iterator i = tiles.begin(); i != tiles.end(); ++i)
-   {
-      (*i).remove = false;
-
-      VALUE obj = createObject(getClass("Tile"), *i);
-      VALUE ret = rb_yield(obj);
-
-      (*i).remove = ret == Qtrue;
-   }
-   tiles.remove_if(GameMap::shouldRemove());
+   ref.getTiles().remove_if(GameMap::shouldRemove());
 
    return Qnil;
 }

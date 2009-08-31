@@ -60,7 +60,7 @@ template<typename T> T &getRef(VALUE val)
    return (*getPtr<T>(val));
 }
 
-template<typename T> VALUE createObject(VALUE info, T &val)
+template<typename T> VALUE createObject(VALUE info, const T &val)
 {
    VALUE ret = wrap<T>(0, NULL, info);
    T &ref = getRef<T>(ret);
