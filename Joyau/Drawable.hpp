@@ -78,7 +78,7 @@ public:
    void setPos(const Point &p);
 
    virtual void move(int x, int y);
-   virtual void cancelMove();
+   void cancelMove();
    virtual void clearMove(); // maybe the user would like to clear this.
 protected:
    int _w, _h;

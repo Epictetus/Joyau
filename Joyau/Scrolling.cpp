@@ -161,14 +161,6 @@ void Scrolling::setPos(int x, int y)
    bg[1].setPos(_x + deltaX, _y + deltaY);
 }
 
-void Scrolling::cancelMove()
-{
-   movedX = 0;
-   movedY = 0;
-   bg[0].cancelMove();
-   bg[1].cancelMove();
-}
-
 void Scrolling::clearMove()
 {
    movedX = 0;

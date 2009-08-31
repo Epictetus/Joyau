@@ -40,7 +40,6 @@ public:
    void setX(int x);
    void setY(int y);
 
-   void cancelMove();
    void clearMove();
 
    int getW() const;
