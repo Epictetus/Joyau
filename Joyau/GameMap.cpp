@@ -354,6 +354,18 @@ VALUE GameMap_tiles(VALUE self)
    return ret;
 }
 
+VALUE GameMap_tilesets(VALUE self)
+{
+   GameMap &ref = getRef<GameMap>(self);
+   vector<Sprite> tilesets = ref.getTilesets();
+
+   VALUE ret = rb_ary_new();
+   
+   for (vector<Sprite>::iterator i = tilesets.begin(); i != tilesets.end(); ++i)
+      rb_ary_push(ret, createObject(getClass("Sprite"), *i));
+   return ret;
+}
+
 VALUE GameMap_each_tile(VALUE self)
 {
    GameMap &ref = getRef<GameMap>(self);
@@ -553,6 +565,7 @@ void defineGameMap()
    defMethod(cMap, "clear", GameMap_clear, 0);
    defMethod(cMap, "clearTiles", GameMap_clearTiles, 0);
    defMethod(cMap, "tiles", GameMap_tiles, 0);
+   defMethod(cMap, "tilesets", GameMap_tilesets, 0);
    defMethod(cMap, "each_tile", GameMap_each_tile, 0);
    defMethod(cMap, "reject_tiles", GameMap_reject_tiles, 0);
 }

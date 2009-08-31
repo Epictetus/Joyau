@@ -68,7 +68,8 @@ public:
 
    void draw();
 
-   std::list<Tile> & getTiles() { return tiles; }
+   std::list<Tile> &getTiles() { return tiles; }
+   std::vector<Sprite> &getTilesets() { return tilesets; }
 private:
    std::vector<Sprite> tilesets;
    std::list<Tile> tiles;
@@ -119,6 +120,8 @@ VALUE GameMap_clear(VALUE self);
 VALUE GameMap_clearTiles(VALUE self);
 
 VALUE GameMap_tiles(VALUE self);
+VALUE GameMap_tilesets(VALUE self);
+
 VALUE GameMap_each_tile(VALUE self);
 VALUE GameMap_reject_tiles(VALUE self);
 
