@@ -223,6 +223,18 @@ VALUE Point_setY(VALUE self, VALUE val)
    return Qnil;
 }
 
+VALUE Drawable_movedX(VALUE self)
+{
+   Drawable &ref = getRef<Drawable>(self);
+   return INT2FIX(ref.getMovedX());
+}
+
+VALUE Drawable_movedY(VALUE self)
+{
+   Drawable &ref = getRef<Drawable>(self);
+   return INT2FIX(ref.getMovedY());
+}
+
 VALUE Point_add(VALUE self, VALUE op)
 {
    Point &first = getRef<Point>(self);
@@ -460,17 +472,26 @@ void defineDrawable()
    defMethod(cDrawable, "boundingRect", Drawable_boundingRect, 0);
    defMethod(cDrawable, "collide", Drawable_collide, 1);
    defMethod(cDrawable, "isOn", Drawable_isOn, 2);
+
    defMethod(cDrawable, "getX", Drawable_getX, 0);
    defMethod(cDrawable, "getY", Drawable_getY, 0);
+
    defMethod(cDrawable, "x=", Drawable_setX, 1);
    defMethod(cDrawable, "y=", Drawable_setY, 1);
+
+   defMethod(cDrawable, "movedX", Drawable_movedX, 0);
+   defMethod(cDrawable, "movedY", Drawable_movedY, 0);
+
    defMethod(cDrawable, "getW", Drawable_getW, 0);
    defMethod(cDrawable, "getH", Drawable_getH, 0);
+
    defMethod(cDrawable, "setPos", Drawable_setPos, 2);
    defMethod(cDrawable, "pos=", Drawable_setPoint, 1);
+
    defMethod(cDrawable, "move", Drawable_move, 2);
    defMethod(cDrawable, "cancelMove", Drawable_cancelMove, 0);
    defMethod(cDrawable, "clearMove", Drawable_clearMove, 0);
+
    defMethod(cDrawable, "draw", Drawable_draw, 0);
 
    defAlias(cDrawable, "getX", "x");

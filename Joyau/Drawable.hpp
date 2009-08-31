@@ -77,6 +77,9 @@ public:
    virtual void setPos(int x, int y);
    void setPos(const Point &p);
 
+   int getMovedX() const { return movedX; }
+   int getMovedY() const { return movedY; }
+
    virtual void move(int x, int y);
    void cancelMove();
    virtual void clearMove(); // maybe the user would like to clear this.
@@ -116,6 +119,9 @@ VALUE Drawable_getY(VALUE self);
 
 VALUE Drawable_setX(VALUE self, VALUE x);
 VALUE Drawable_setY(VALUE self, VALUE y);
+
+VALUE Drawable_movedX(VALUE self);
+VALUE Drawable_movedY(VALUE self);
 
 VALUE Drawable_getW(VALUE self);
 VALUE Drawable_getH(VALUE self);
