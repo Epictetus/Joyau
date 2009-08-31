@@ -109,6 +109,23 @@ void GameMap::setTileSize(int w, int h)
    tileHeight = h;
 }
 
+Point GameMap::absToRel(int x, int y) const
+{
+   return Point(x - _x, y - _y);
+}
+
+Point GameMap::relToAbs(int x, int y) const
+{
+   return Point(x + _x, y + _y);
+}
+
+void GameMap::centerOn(int x, int y)
+{
+   Point p = relToAbs(x, y);
+   
+   move(240 - p.x, 136 - p.y);
+}
+
 void GameMap::addElem(int tileset, int tX, int tY, int x, int y)
 {
    Tile t;
@@ -285,6 +302,14 @@ VALUE GameMap_collisionH(VALUE self)
 {
    GameMap &ref = getRef<GameMap>(self);
    return INT2FIX(ref.getCollisionH());
+}
+
+VALUE GameMap_centerOn(VALUE self, VALUE x, VALUE y)
+{
+   GameMap &ref = getRef<GameMap>(self);
+   ref.centerOn(FIX2INT(x), FIX2INT(y));
+
+   return Qnil;
 }
 
 VALUE GameMap_addElem(int argc, VALUE *argv, VALUE self)
@@ -576,6 +601,7 @@ void defineGameMap()
    defMethod(cMap, "tileHeight", GameMap_tileHeight, 0);
    defMethod(cMap, "collisionH=", GameMap_setCollisionH, 1);
    defMethod(cMap, "collisionH", GameMap_collisionH, 0);
+   defMethod(cMap, "centerOn", GameMap_centerOn, 2);
    defMethod(cMap, "addElem", GameMap_addElem, -1);
    defMethod(cMap, "<<", GameMap_push, 1);
    defMethod(cMap, "clear", GameMap_clear, 0);

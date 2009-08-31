@@ -57,6 +57,10 @@ public:
    void setCollisionH(int val) { colH = val; }
    int getCollisionH() const { return colH; }
 
+   Point absToRel(int x, int y) const;
+   Point relToAbs(int x, int y) const;
+   void centerOn(int x, int y);
+
    void addElem(int tileset, int tX, int tY, int x, int y);
    void addElem(const Tile &tile);
 
@@ -112,6 +116,8 @@ VALUE GameMap_tileHeight(VALUE self);
 
 VALUE GameMap_setCollisionH(VALUE self, VALUE val);
 VALUE GameMap_collisionH(VALUE self);
+
+VALUE GameMap_centerOn(VALUE self, VALUE x, VALUE y);
 
 VALUE GameMap_addElem(int argc, VALUE *argv, VALUE self);
 VALUE GameMap_push(VALUE self, VALUE tile);
