@@ -37,6 +37,11 @@ Rect RubyDrawable::boundingRect() const
    return getRef<Rect>(ret);
 }
 
+void RubyDrawable::move(int x, int y)
+{
+   rb_funcall(self, getFunc("move"), 2, INT2FIX(x), INT2FIX(y));
+}
+
 bool RubyDrawable::collide(Drawable &item)
 {
    VALUE drawable = createObject(getClass("Drawable"), item);
@@ -75,6 +80,16 @@ VALUE RubyDrawable_boundingRect(VALUE self)
    rect.h = ref.getH();
 
    return createObject(getClass("Rect"), rect);
+}
+
+VALUE RubyDrawable_move(VALUE self, VALUE x, VALUE y)
+{
+   RubyDrawable &ref = getRef<RubyDrawable>(self);
+   
+   ref.setX(ref.getX() + FIX2INT(x));
+   ref.setY(ref.getY() + FIX2INT(y));
+
+   return Qnil;
 }
 
 VALUE RubyDrawable_collide(VALUE self, VALUE item)

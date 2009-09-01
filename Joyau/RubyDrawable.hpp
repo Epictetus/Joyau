@@ -35,6 +35,8 @@ public:
 
    Rect boundingRect() const;
 
+   void move(int x, int y);
+
    bool collide(Drawable &item);
    bool isOn(int x, int y);
 
@@ -48,6 +50,8 @@ private:
 VALUE RubyDrawable_draw(VALUE self);
 
 VALUE RubyDrawable_boundingRect(VALUE self);
+
+VALUE RubyDrawable_move(VALUE self, VALUE x, VALUE y);
 
 VALUE RubyDrawable_collide(VALUE self, VALUE item);
 VALUE RubyDrawable_isOn(VALUE self, VALUE x, VALUE y);
