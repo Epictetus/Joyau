@@ -26,6 +26,10 @@ struct CollisionType
       left(false), right(false), up(false), down(false), content(true)
    {}
 
+   CollisionType(bool aContent, bool aLeft, bool aRight, bool aUp, bool aDown):
+      left(aLeft), right(aRight), up(aUp), down(aDown), content(aContent)
+   {}
+
    bool left, right, up, down, content;
 };
 

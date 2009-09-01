@@ -628,4 +628,30 @@ void defineGameMap()
    defMethod(cMap, "each_tile", GameMap_each_tile, 0);
    defMethod(cMap, "each_tileset", GameMap_each_tileset, 0);
    defMethod(cMap, "reject_tiles", GameMap_reject_tiles, 0);
+
+   CollisionType full(true, false, false, false, false);
+   CollisionType left(false, true, false, false, false);
+   CollisionType right(false, false, true, false, false);
+   CollisionType up(false, false, false, true, false);
+   CollisionType down(false, false, false, false, true);
+   CollisionType no(false, false, false, false, false);
+   CollisionType left_right(false, true, true, false, false);
+   CollisionType left_up(false, true, false, true, false);
+   CollisionType left_down(false, true, false, false, true);
+   CollisionType right_up(false, false, true, true, false);
+   CollisionType right_down(false, false, true, false, true);
+   CollisionType up_down(false, false, false, true, true);
+
+   defConst(cMap, "COL_FULL", createObject(cCollisionType, full));
+   defConst(cMap, "COL_LEFT", createObject(cCollisionType, left));
+   defConst(cMap, "COL_RIGHT", createObject(cCollisionType, right));
+   defConst(cMap, "COL_UP", createObject(cCollisionType, up));
+   defConst(cMap, "COL_DOWN", createObject(cCollisionType, down));
+   defConst(cMap, "COL_NO", createObject(cCollisionType, no));
+   defConst(cMap, "COL_LEFT_RIGHT", createObject(cCollisionType, left_right));
+   defConst(cMap, "COL_LEFT_UP", createObject(cCollisionType, left_up));
+   defConst(cMap, "COL_LEFT_DOWN", createObject(cCollisionType, left_down));
+   defConst(cMap, "COL_RIGHT_UP", createObject(cCollisionType, right_up));
+   defConst(cMap, "COL_RIGHT_DOWN", createObject(cCollisionType, right_down));
+   defConst(cMap, "COL_UP_DOWN", createObject(cCollisionType, up_down));
 }
