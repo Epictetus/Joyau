@@ -164,5 +164,6 @@ void defineRubyDrawable()
    defMethod(cRubyDrawable, "collide", RubyDrawable_collide, 1);
    defMethod(cRubyDrawable, "isOn", RubyDrawable_isOn, 2);
    defMethod(cRubyDrawable, "boundingRect", RubyDrawable_boundingRect, 0);
+   defMethod(cRubyDrawable, "move", RubyDrawable_move, 2);
    defMethod(cRubyDrawable, "resize", RubyDrawable_resize, 2);
 }
