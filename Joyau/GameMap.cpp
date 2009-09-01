@@ -122,7 +122,6 @@ Point GameMap::relToAbs(int x, int y) const
 void GameMap::centerOn(int x, int y)
 {
    Point p = relToAbs(x, y);
-   
    move(240 - p.x, 136 - p.y);
 }
 
@@ -302,6 +301,22 @@ VALUE GameMap_collisionH(VALUE self)
 {
    GameMap &ref = getRef<GameMap>(self);
    return INT2FIX(ref.getCollisionH());
+}
+
+VALUE GameMap_absToRel(VALUE self, VALUE x, VALUE y)
+{
+   GameMap &ref = getRef<GameMap>(self);
+   Point ret = ref.absToRel(FIX2INT(x), FIX2INT(y));
+
+   return createObject(getClass("Point"), ret);
+}
+
+VALUE GameMap_relToAbs(VALUE self, VALUE x, VALUE y)
+{
+   GameMap &ref = getRef<GameMap>(self);
+   Point ret = ref.relToAbs(FIX2INT(x), FIX2INT(y));
+
+   return createObject(getClass("Point"), ret);
 }
 
 VALUE GameMap_centerOn(VALUE self, VALUE x, VALUE y)
@@ -601,6 +616,8 @@ void defineGameMap()
    defMethod(cMap, "tileHeight", GameMap_tileHeight, 0);
    defMethod(cMap, "collisionH=", GameMap_setCollisionH, 1);
    defMethod(cMap, "collisionH", GameMap_collisionH, 0);
+   defMethod(cMap, "absToRel", GameMap_absToRel, 2);
+   defMethod(cMap, "relToAbs", GameMap_relToAbs, 2);
    defMethod(cMap, "centerOn", GameMap_centerOn, 2);
    defMethod(cMap, "addElem", GameMap_addElem, -1);
    defMethod(cMap, "<<", GameMap_push, 1);

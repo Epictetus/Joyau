@@ -117,6 +117,8 @@ VALUE GameMap_tileHeight(VALUE self);
 VALUE GameMap_setCollisionH(VALUE self, VALUE val);
 VALUE GameMap_collisionH(VALUE self);
 
+VALUE GameMap_absToRel(VALUE self, VALUE x, VALUE y);
+VALUE GameMap_relToAbs(VALUE self, VALUE x, VALUE y);
 VALUE GameMap_centerOn(VALUE self, VALUE x, VALUE y);
 
 VALUE GameMap_addElem(int argc, VALUE *argv, VALUE self);
