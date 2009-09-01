@@ -1,8 +1,7 @@
 initLib
 initGfx
 
-bg = Sprite.new
-bg.setPicture("bg.png")
+bg = Sprite.new("bg.png")
 
 part = Particles.new
 part.setFile("part.png")
@@ -12,22 +11,22 @@ pointerX = 0
 pointerY = 0
 
 while mayPlay
-  readKeys
+  Pad.update
   
-  if $keys["cross"]
+  if Pad.held? Pad::CROSS
     part.addParticles(pointerX, pointerY)
   end
 
-  if $keys["up"]
+  if Pad.held? Pad::UP
     pointerY -= 1
   end
-  if $keys["down"]
+  if Pad.held? Pad::DOWN
     pointerY += 1
   end
-  if $keys["right"]
+  if Pad.held? Pad::RIGHT
     pointerX += 1
   end
-  if $keys["left"]
+  if Pad.held? Pad::DOWN
     pointerX -= 1
   end
 

@@ -17,10 +17,10 @@ txt.toggleScripted
 txt.setPos(100, 0)
 
 while mayPlay
-  readKeys
-  if $keys["pressed_up"]
+  Pad.update
+  if Pad.pressed? Pad::UP
     rect.setGradient grad
-  elsif $keys["pressed_down"]
+  elsif Pad.pressed? Pad::DOWN
     rect.setColor grad[rand(4)]
   end
 

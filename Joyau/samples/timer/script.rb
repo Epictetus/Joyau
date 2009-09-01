@@ -4,11 +4,11 @@ initGfx
 timer = Timer.new
 
 while mayPlay
-  readKeys
+  Pad.update
 
-  if $keys["pressed_cross"]
+  if Pad.pressed? Pad::CROSS
     timer.pause
-  elsif $keys["pressed_square"]
+  elsif Pad.pressed? Pad::SQUARE
     timer.resume
   end
 

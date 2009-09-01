@@ -6,8 +6,7 @@ rect = DrawableRect.new
 rect.resize(100, 100)
 rect.setPos(0, 0)
 
-hash = color(255, 0, 0, 255)
-rect.setColor(hash)
+rect.color = color(255, 0, 0)
 
 bRect = rect.boundingRect()
 
