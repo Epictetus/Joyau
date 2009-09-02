@@ -81,13 +81,37 @@ VALUE usbState(VALUE self)
    return ret;
 }
 
+VALUE Usb_activated(VALUE self)
+{
+   u32 state = sceUsbGetState();
+   return state & PSP_USB_ACTIVATED ? Qtrue : Qfalse;
+}
+
+VALUE USb_established(VALUE self)
+{
+   u32 state = sceUsbGetState();
+   return state & PSP_USB_CONNECTION_ESTABLISHED ? Qtrue : Qfalse;
+}
+
+VALUE Usb_connected(VALUE self)
+{
+   u32 state = sceUsbGetState();
+   return state & PSP_USB_CABLE_CONNECTED ? Qtrue : Qfalse;
+}
+
 void defineUsb()
 {
-   defFunc("initUsb", initUsb, 0);
-   defFunc("stopUsb", stopUsb, 0);
+   VALUE mUsb = defModule("Usb");
 
-   defFunc("usbConnect", usbConnect, 0);
-   defFunc("usbDisconnect", usbDisconnect, 0);
+   defModFunc(mUsb, "init", initUsb, 0);
+   defModFunc(mUsb, "stop", stopUsb, 0);
+   
+   defModFunc(mUsb, "connect", usbConnect, 0);
+   defModFunc(mUsb, "disconnect", usbDisconnect, 0);
 
-   defFunc("usbState", usbState, 0);
+   defModFunc(mUsb, "state", usbState, 0);
+
+   defModFunc(mUsb, "activated?", Usb_activated, 0);
+   defModFunc(mUsb, "established?", USb_established, 0);
+   defModFunc(mUsb, "connected?", Usb_connected, 0);
 }

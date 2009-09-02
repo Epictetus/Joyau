@@ -29,6 +29,10 @@ VALUE usbDisconnect(VALUE self);
 
 VALUE usbState(VALUE self);
 
+VALUE Usb_activated(VALUE self);
+VALUE USb_established(VALUE self);
+VALUE Usb_connected(VALUE self);
+
 void defineUsb();
 
 #endif
