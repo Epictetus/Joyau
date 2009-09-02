@@ -1,24 +1,22 @@
 initLib
 initGfx
 
-initUsb
-usbConnect
+Usb.init
+Usb.connect
 
 skip = false
 
 while mayPlay
-  hash = usbState
-
   if !skip
     startDraw
     clearScreen
-    if hash["activated"]
+    if Usb.activated?
       drawText(0, 0, "activated")
     end
-    if hash["connected"]
+    if Usb.connected?
       drawText(0, 10, "cable connected")
     end
-    if hash["established"]
+    if Usb.established?
       drawText(0, 20, "connection established")
     end
     endDraw
@@ -27,8 +25,8 @@ while mayPlay
   skip = sync
 end
 
-usbDisconnect
-stopUsb
+Usb.disconnect
+Usb.stop
 
 stopGfx
 stopLib
