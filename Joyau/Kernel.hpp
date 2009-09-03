@@ -35,7 +35,6 @@ VALUE Kernel_UmdCheck(VALUE self);
 VALUE Kernel_UmdWaitState(VALUE self, VALUE state);
 VALUE Kernel_UmdMount(VALUE self);
 VALUE Kernel_UmdUmount(VALUE self);
-VALUE Kernel_UmdGetType(VALUE self);
 
 VALUE Kernel_Timestamp(VALUE self);
 

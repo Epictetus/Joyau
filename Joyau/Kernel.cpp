@@ -34,21 +34,7 @@ VALUE Kernel_UmdCheck(VALUE self)
 
 VALUE Kernel_UmdWaitState(VALUE self, VALUE state)
 {
-   string str = StringValuePtr(state);
-
-   if (str == "PRESENT")
-      sceUmdWaitDriveStat(PSP_UMD_PRESENT);
-   else if (str == "NOT_PRESENT")
-      sceUmdWaitDriveStat(PSP_UMD_NOT_PRESENT);
-   if (str == "CHANGED")
-      sceUmdWaitDriveStat(PSP_UMD_CHANGED);
-   if (str == "INITING")
-      sceUmdWaitDriveStat(PSP_UMD_INITING);
-   if (str == "INITED")
-      sceUmdWaitDriveStat(PSP_UMD_INITED);
-   if (str == "READY")
-      sceUmdWaitDriveStat(PSP_UMD_READY);
-
+   sceUmdWaitDriveStat(FIX2INT(state));
    return Qnil;
 }
 
@@ -64,20 +50,6 @@ VALUE Kernel_UmdUmount(VALUE self)
 {
    sceUmdDeactivate(1, "discO:");
    return Qnil;
-}
-
-VALUE Kernel_UmdGetType(VALUE self)
-{
-   pspUmdInfo info;
-   sceUmdGetDiscInfo(&info);
-   string val;
-   if (info.type == PSP_UMD_TYPE_GAME)
-      val = "GAME";
-   else if (info.type == PSP_UMD_TYPE_VIDEO)
-      val = "VIDEO";
-   else
-      val = "AUDIO";
-   return rb_str_new2(val.c_str());
 }
 
 VALUE Kernel_Timestamp(VALUE self)
@@ -126,12 +98,20 @@ VALUE Kernel_getPowerPercent(VALUE self)
 void defineKernel()
 {
    defFunc("cd", Kernel_cd, 1);
-   defFunc("umdCheck", Kernel_UmdCheck, 0);
-   defFunc("umdWaitState", Kernel_UmdWaitState, 1);
-   defFunc("umdMount", Kernel_UmdMount, 0);
-   defFunc("umdUmount", Kernel_UmdUmount, 0);
-   defFunc("umdType", Kernel_UmdGetType, 0);
 
+   VALUE mUmd = defModule("Umd");
+   defModFunc(mUmd, "check", Kernel_UmdCheck, 0);
+   defModFunc(mUmd, "waitState", Kernel_UmdWaitState, 1);
+   defModFunc(mUmd, "mount", Kernel_UmdMount, 0);
+   defModFunc(mUmd, "umount", Kernel_UmdUmount, 0);
+
+   defConst(mUmd, "NOT_PRESENT", INT2FIX(PSP_UMD_NOT_PRESENT));
+   defConst(mUmd, "PRESENT", INT2FIX(PSP_UMD_PRESENT));
+   defConst(mUmd, "CHANGED", INT2FIX(PSP_UMD_CHANGED));
+   defConst(mUmd, "INITING", INT2FIX(PSP_UMD_INITING));
+   defConst(mUmd, "INITED", INT2FIX(PSP_UMD_INITED));
+   defConst(mUmd, "READY", INT2FIX(PSP_UMD_READY));
+   
    defFunc("timestamp", Kernel_Timestamp, 0);
 
    defFunc("powerTime", Kernel_getPowerTime, 0);
