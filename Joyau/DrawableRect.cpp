@@ -113,6 +113,15 @@ VALUE DrawableRect_setCorner(VALUE self, VALUE x, VALUE y)
    return Qnil;
 }
 
+VALUE DrawableRect_cornerOp(VALUE self, VALUE p)
+{
+   DrawableRect &ref = getRef<DrawableRect>(self);
+   Point &point = getRef<Point>(p);
+   
+   ref.setCorner(point.x, point.y);
+   return Qnil;
+}
+
 VALUE DrawableRect_getCorner(VALUE self)
 {
    DrawableRect &ref = getRef<DrawableRect>(self);
@@ -129,6 +138,7 @@ void defineDrawableRect()
    defMethod(cDrawableRect, "h=", DrawableRect_setH, 1);
 
    defMethod(cDrawableRect, "setCorner", DrawableRect_setCorner, 2);
+   defMethod(cDrawableRect, "corner=", DrawableRect_cornerOp, 1); 
    defMethod(cDrawableRect, "getCorner", DrawableRect_getCorner, 0);
 
    defAlias(cDrawableRect, "getCorner", "corner");

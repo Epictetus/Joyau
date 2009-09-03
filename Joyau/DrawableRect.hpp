@@ -41,6 +41,7 @@ VALUE DrawableRect_setW(VALUE self, VALUE w);
 VALUE DrawableRect_setH(VALUE self, VALUE h);
 
 VALUE DrawableRect_setCorner(VALUE self, VALUE x, VALUE y);
+VALUE DrawableRect_cornerOp(VALUE self, VALUE p);
 VALUE DrawableRect_getCorner(VALUE self);
 
 void defineDrawableRect();
