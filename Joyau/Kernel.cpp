@@ -52,6 +52,18 @@ VALUE Kernel_UmdUmount(VALUE self)
    return Qnil;
 }
 
+VALUE Kernel_UmdPermitReplace(VALUE self)
+{
+   sceUmdReplacePermit();
+   return Qnil;
+}
+
+VALUE Kernel_UmdProhibitReplace(VALUE self)
+{
+   sceUmdReplaceProhibit();
+   return Qnil;
+}
+
 VALUE Kernel_Timestamp(VALUE self)
 {
    time_t time;
@@ -102,8 +114,12 @@ void defineKernel()
    VALUE mUmd = defModule("Umd");
    defModFunc(mUmd, "check", Kernel_UmdCheck, 0);
    defModFunc(mUmd, "waitState", Kernel_UmdWaitState, 1);
+   
    defModFunc(mUmd, "mount", Kernel_UmdMount, 0);
    defModFunc(mUmd, "umount", Kernel_UmdUmount, 0);
+
+   defModFunc(mUmd, "permitReplace", Kernel_UmdPermitReplace, 0);
+   defModFunc(mUmd, "prohibitReplace", Kernel_UmdProhibitReplace, 0);
 
    defConst(mUmd, "NOT_PRESENT", INT2FIX(PSP_UMD_NOT_PRESENT));
    defConst(mUmd, "PRESENT", INT2FIX(PSP_UMD_PRESENT));

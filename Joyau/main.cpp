@@ -75,9 +75,15 @@ VALUE Joyau_puts(int argc, VALUE *argv, VALUE self)
 {
    for (int i = 0; i < argc; ++i)
    {
-      pspDebugScreenPrintf(StringValuePtr(argv[i]));
+      pspDebugScreenPrintf("%s\n", StringValuePtr(argv[i]));
       cout << StringValuePtr(argv[i]) << endl;
    }
+   return Qnil;
+}
+
+VALUE Joyau_exit(VALUE self)
+{
+   sceKernelExitGame();
    return Qnil;
 }
 
@@ -122,6 +128,7 @@ int main(int argc, char** argv)
 
    defFunc("debug", debug, 1);
    defFunc("puts", Joyau_puts, -1); // puts redefined for the psp
+   defFunc("exitGame", Joyau_exit, 0);
    
    ruby_init_loadpath();
    ruby_script("embedded");
