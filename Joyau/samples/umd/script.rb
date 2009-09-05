@@ -1,7 +1,7 @@
 # "Kinda" inspired of a sample found on sceners.org :
 # http://sceners.org/?itemid=308
 
-if !Umd.check
+if !Umd.present?
   puts "No UMD present, please insert one"
   Umd.waitState Umd::PRESENT
   puts "Disc inserted"

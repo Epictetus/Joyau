@@ -112,7 +112,7 @@ void defineKernel()
    defFunc("cd", Kernel_cd, 1);
 
    VALUE mUmd = defModule("Umd");
-   defModFunc(mUmd, "check", Kernel_UmdCheck, 0);
+   defModFunc(mUmd, "present?", Kernel_UmdCheck, 0);
    defModFunc(mUmd, "waitState", Kernel_UmdWaitState, 1);
    
    defModFunc(mUmd, "mount", Kernel_UmdMount, 0);
