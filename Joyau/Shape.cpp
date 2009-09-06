@@ -22,6 +22,11 @@ Shape::Shape(int size)
    _col = new OSL_COLOR[size];
 }
 
+Shape::~Shape()
+{
+   delete[] _col;
+}
+
 void Shape::setColor(OSL_COLOR col)
 {
    for (int i = 0; i < _size; ++i)

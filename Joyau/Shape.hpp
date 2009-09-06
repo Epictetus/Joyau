@@ -23,6 +23,7 @@ class Shape: public Drawable
 {
 public:
    Shape(int size = 1);
+   virtual ~Shape();
 
    void setColor(OSL_COLOR col);
    void setGradient(OSL_COLOR *col);
