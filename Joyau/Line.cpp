@@ -37,6 +37,39 @@ void Line::setPoint(const Point &p)
    setPoint(p.x, p.y);
 }
 
+bool Line::collide(Drawable &draw)
+{
+   Rect rect = draw.boundingRect();
+   Point points[4] = {
+      rect.top_left(),
+      rect.top_right(),
+      rect.bottom_left(),
+      rect.bottom_right() };
+
+   bool colliding = false;
+   for (int i = 0; i < 4; ++i) 
+      colliding = colliding ? true : isOn(points[i].x, points[i].y);
+   return colliding;
+}
+
+bool Line::isOn(int x, int y)
+{
+   if (_x == _x2)
+      return y == _y && x >= _x && x <= _x + _w;
+   else if (_y == _y2)
+      return x == _x && y >= _y && y <= _y + _h;
+
+   float k = ((float)(_y - _y2) / (float)(_x - _x2));
+   float t = ((float)(_x2 * _y - _x * _y2) / (float)(_x2 - _x));
+
+   float sol = k * (float)x + t;
+   return sol > y - 0.7 && sol < y + 0.7 &&
+	 x > _x &&
+	 y > _y &&
+	 x < _x + _w &&
+	 y < _y + _h;
+}
+
 void Line::draw()
 {
    oslDrawGradientLine (getX(), getY(), _x2, _y2, 
