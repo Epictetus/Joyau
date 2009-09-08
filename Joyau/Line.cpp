@@ -64,10 +64,10 @@ bool Line::isOn(int x, int y)
 
    float sol = k * (float)x + t;
    return sol > y - 0.7 && sol < y + 0.7 &&
-	 x > _x &&
-	 y > _y &&
-	 x < _x + _w &&
-	 y < _y + _h;
+	 x >= _x &&
+	 y >= _y &&
+	 x <= _x + _w &&
+	 y <= _y + _h;
 }
 
 void Line::draw()
