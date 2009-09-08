@@ -31,7 +31,7 @@ while mayPlay
   clearScreen
   line.draw
   rect.draw
-  if line.collide(rect)
+  if line.isOn(rect.x, rect.y)
     drawText(0, 0, "ok")
   end
   endDraw
