@@ -24,7 +24,7 @@ template<> VALUE wrap<DrawableRect>(int argc, VALUE *argv, VALUE info)
    {
       ptr->setPos(FIX2INT(argv[0]), FIX2INT(argv[1]));
       if (argc >= 4)
-	 ptr->resize(FIX2INT(argv[2]), FIX2INT(argv[3]));
+	 ptr->setCorner(FIX2INT(argv[2]), FIX2INT(argv[3]));
    }
 
    VALUE tdata = Data_Wrap_Struct(info, 0, wrapped_free<DrawableRect>, ptr);
@@ -70,6 +70,9 @@ void DrawableRect::setCorner(int x, int y)
 
 void DrawableRect::draw()
 {
+   _x2 = getX() + _w;
+   _y2 = getY() + _h;
+
    if (filled)
       oslDrawGradientRect(getX(), getY(), _x2, _y2, 
 			  _col[0], _col[1], _col[2], _col[3]);
