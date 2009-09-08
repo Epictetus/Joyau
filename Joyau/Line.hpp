@@ -27,7 +27,6 @@ public:
    void setPoint(const Point &p);
    Point getPoint() const { return Point(_x2, _y2); }
 
-   bool collide(Drawable &draw);
    bool isOn(int x, int y);
 
    void draw();
