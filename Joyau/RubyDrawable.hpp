@@ -24,11 +24,7 @@ class RubyDrawable: public Drawable
 public:
    /*
      When calling these function from the C++ code,
-     their Ruby version will be called. This can be usefull, but it
-     implies that they're ALL redefined.
-
-     If one of them is not but is called, it'll do an unlimited numbers
-     of recursion.
+     their Ruby version will be called.
     */
 
    void draw();
