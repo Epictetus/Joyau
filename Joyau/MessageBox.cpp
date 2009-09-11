@@ -90,7 +90,8 @@ void Message::draw()
    if (textFont != "")
       oslSetFont(manager.getFont(textFont.c_str()));
    oslSetTextColor(textColor);
-   oslDrawTextBox(getX() + marge + offset, getY() + marge, getX() + _w - marge + offset,
+   oslDrawTextBox(getX() + marge + offset, getY() + marge, 
+		  getX() + _w - marge + offset,
 		  getY() + _h - marge, text.c_str(), 0);
 }
 

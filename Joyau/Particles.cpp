@@ -15,6 +15,18 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.*/
 
 #include "Particles.hpp"
+
+template<> VALUE wrap<Particles>(int argc, VALUE *argv, VALUE info)
+{
+   Particles *ptr = new Particles;
+   VALUE tdata;
+   
+   if (argc >= 1)
+      ptr->setFile(StringValuePtr(argv[0]));
+   
+   tdata = Data_Wrap_Struct(info, 0, wrapped_free<Particles>, ptr);
+   return tdata;
+}
  
 void Particles::setFile(char *file) // We can't use manager for that.
 {
