@@ -23,6 +23,7 @@ class Line: public Shape
 {
 public:
    Line();
+
    void setPoint(int x, int y);
    void setPoint(const Point &p);
    Point getPoint() const { return Point(_x2, _y2); }

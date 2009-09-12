@@ -38,7 +38,7 @@ public:
       wTile(0),
       hTile(0),
       autoDir(false)
-   {}
+   { setClass("Sprite"); }
 
    void setPicture(char *pic);
 

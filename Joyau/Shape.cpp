@@ -20,6 +20,8 @@ Shape::Shape(int size)
 {
    _size = size;
    _col = new OSL_COLOR[size];
+
+   setClass("Shape");
 }
 
 Shape::~Shape()

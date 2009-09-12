@@ -21,6 +21,7 @@ Line::Line():
 {
    for (int i = 0; i < 2; ++i)
       _col[i] = RGBA(255, 255, 255, 255);
+   setClass("Line");
 }
 
 void Line::setPoint(int x, int y)

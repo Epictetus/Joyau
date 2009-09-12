@@ -20,15 +20,15 @@
 #include "StdInclude.hpp"
 #include "Sprite.hpp"
 
-struct CollisionType
+struct CollisionType: public RubyObject
 {
    CollisionType():
       left(false), right(false), up(false), down(false), content(true)
-   {}
+   { setClass("CollisionType"); }
 
    CollisionType(bool aContent, bool aLeft, bool aRight, bool aUp, bool aDown):
       left(aLeft), right(aRight), up(aUp), down(aDown), content(aContent)
-   {}
+   { setClass("CollisionType"); }
 
    bool left, right, up, down, content;
 };
@@ -36,8 +36,10 @@ struct CollisionType
 class GameMap: public Drawable
 {
 public:
-   struct Tile
+   struct Tile: public RubyObject
    {
+      Tile() { setClass("Tile"); }
+
       int tileset;
       int tileX, tileY;
       int x, y;

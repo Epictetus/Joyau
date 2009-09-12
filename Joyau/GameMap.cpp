@@ -84,7 +84,7 @@ template<> VALUE wrap<GameMap::Tile>(int argc, VALUE *argv, VALUE info)
 }
 bool GameMap::shouldRemove::operator()(Tile &t)
 {
-   VALUE obj = createObject(getClass("Tile"), t, true);
+   VALUE obj = t.toRuby();
    return rb_yield(obj) == Qtrue;
 }
 
@@ -390,7 +390,7 @@ VALUE GameMap_tiles(VALUE self)
    VALUE ret = rb_ary_new();
 
    for (list<GameMap::Tile>::iterator i = tiles.begin(); i != tiles.end(); ++i)
-      rb_ary_push(ret, createObject(getClass("Tile"), *i, true));
+      rb_ary_push(ret, (*i).toRuby());
    return ret;
 }
 
@@ -402,7 +402,7 @@ VALUE GameMap_tilesets(VALUE self)
    VALUE ret = rb_ary_new();
    
    for (vector<Sprite>::iterator i = tilesets.begin(); i != tilesets.end(); ++i)
-      rb_ary_push(ret, createObject(getClass("Sprite"), *i, true));
+      rb_ary_push(ret, (*i).toRuby());
    return ret;
 }
 
@@ -413,7 +413,7 @@ VALUE GameMap_each_tile(VALUE self)
 
    for (list<GameMap::Tile>::iterator i = tiles.begin(); i != tiles.end(); ++i)
    {
-      VALUE obj = createObject(getClass("Tile"), *i, true);
+      VALUE obj = (*i).toRuby();
       rb_yield(obj);
    }
 
@@ -427,7 +427,7 @@ VALUE GameMap_each_tileset(VALUE self)
 
    for (vector<Sprite>::iterator i = tilesets.begin(); i != tilesets.end(); ++i)
    {
-      VALUE obj = createObject(getClass("Sprite"), *i, true);
+      VALUE obj = (*i).toRuby();
       rb_yield(obj);
    }
 
@@ -540,7 +540,7 @@ VALUE Tile_tileset(VALUE self)
 VALUE Tile_type(VALUE self)
 {
    GameMap::Tile &ref = getRef<GameMap::Tile>(self);
-   return createObject(getClass("CollisionType"), ref.type, true);
+   return ref.type.toRuby();
 }
 
 VALUE Tile_setTileX(VALUE self, VALUE val)

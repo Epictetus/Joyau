@@ -43,6 +43,8 @@ Message::Message()
 
    titleX = 0;
    titleY = 0;
+
+   setClass("Message");
 }
 
 void Message::draw()
@@ -256,13 +258,13 @@ VALUE Message_text(VALUE self)
 VALUE Message_image(VALUE self)
 {
    Message &ref = getRef<Message>(self);
-   return createObject(getClass("Sprite"), ref.getImage(), true);
+   return ref.getImage().toRuby();
 }
 
 VALUE Message_background(VALUE self)
 {
    Message &ref = getRef<Message>(self);
-   return createObject(getClass("Sprite"), ref.getBackground(), true);
+   return ref.getBackground().toRuby();
 }
 
 VALUE Message_bgColor(VALUE self)

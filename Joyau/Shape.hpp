@@ -41,7 +41,9 @@ protected:
 class FillableShape: public Shape
 {
 public:
-   FillableShape(int size = 1): Shape(size), filled(true) {}
+   FillableShape(int size = 1):
+      Shape(size), filled(true)
+   { setClass("FillableShape"); }
 
    void toggleFilled() { filled = !filled; }
    void setFilled(bool val) { filled = val; }

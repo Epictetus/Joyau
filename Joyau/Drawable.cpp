@@ -68,6 +68,8 @@ Drawable::Drawable()
    _y = 0;
    _w = 0;
    _h = 0;
+
+   setClass("Drawable");
 }
 
 Rect Drawable::boundingRect() const

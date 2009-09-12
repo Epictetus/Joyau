@@ -27,6 +27,8 @@ public:
      their Ruby version will be called.
     */
 
+   RubyDrawable() { setClass("RubyDrawable"); }
+
    void draw();
 
    Rect boundingRect() const;
@@ -39,6 +41,7 @@ public:
    void resize(int w, int h);
 
    void setSelf(VALUE val) { self = val; }
+   VALUE toRuby() { return self; }
 private:
    VALUE self;
 };

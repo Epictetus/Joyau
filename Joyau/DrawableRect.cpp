@@ -36,6 +36,7 @@ DrawableRect::DrawableRect():
 {
    for (int i = 0; i < 4; ++i)
       _col[i] = RGBA(255, 255, 255, 255);
+   setClass("DrawableRect");
 }
 
 void DrawableRect::resize(int w, int h)

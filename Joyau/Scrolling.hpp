@@ -23,6 +23,8 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 class Scrolling: public Drawable
 {
 public:
+   Scrolling() { setClass("Scrolling"); }
+
    void setSprite(char *spr);
    
    void setDir(int dir);

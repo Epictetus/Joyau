@@ -24,7 +24,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #define BUFFER_SIZE 4096 // A really little buffer, it's for the PSP...
 #define NUM_BUFFERS 8
 
-struct Vector3f 
+struct Vector3f
 {
    Vector3f(float argX = 0.f, float argY = 0.f, float argZ = 0.f):
       x(argX), y(argY), z(argZ)

@@ -99,6 +99,21 @@ template<typename T> VALUE defClass(const char *name, const char *father)
    return defClass<T>(name, getClass(father));
 }
 
+class RubyObject
+{
+public:
+   void setClass(const std::string &val) { className = val; }
+      
+   // We can't set the third arguments to false, because it
+   // needs a copy.
+   virtual VALUE toRuby()
+   {
+      return createObject(getClass(className.c_str()), *this, true);
+   }
+private:
+   std::string className;
+};
+
 // That code was really boring to write each time
 inline OSL_COLOR hash2col(VALUE hash)
 {

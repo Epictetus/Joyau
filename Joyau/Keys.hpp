@@ -50,6 +50,8 @@ private:
 class Cursor: public Sprite
 {
 public:
+   Cursor() { setClass("Cursor"); }
+
    void updatePos();
    void setSensibility(int s) { sensibility = s; }
 

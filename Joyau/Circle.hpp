@@ -22,6 +22,8 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 class Circle: public FillableShape
 {
 public:
+   Circle() { setClass("Circle"); }
+
    void setCenter(int x, int y);
    void setRadius(int r);
    

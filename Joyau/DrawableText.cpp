@@ -26,6 +26,8 @@ DrawableText::DrawableText()
    scripted = false;
    bg = RGBA(0, 0, 0, 0);
    _col[0] = RGBA(255, 255, 255, 255);
+
+   setClass("DrawableText");
 }
 
 int DrawableText::getW() const

@@ -52,7 +52,7 @@ struct Rect
    Point bottom_left() const { return Point(x, y + h); }
 };
 
-class Drawable
+class Drawable: public RubyObject
 {
 public:
    Drawable();

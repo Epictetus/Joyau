@@ -19,6 +19,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 CircleMenu::CircleMenu()
 {
    _menu = NULL;
+   setClass("CircleMenu");
 }
 
 CircleMenu::~CircleMenu()
