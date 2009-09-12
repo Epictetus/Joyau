@@ -63,11 +63,6 @@ template<typename T> T &getRef(VALUE val)
 inline void no_free(void *info) {}
 template<typename T> VALUE createObject(VALUE info, T &val)
 {
-   //VALUE ret = wrap<T>(0, NULL, info);
-   //T &ref = getRef<T>(ret);
-   //ref = val;
-   //return ret;
-
    return Data_Wrap_Struct(info, 0, no_free, &val);
 }
 
