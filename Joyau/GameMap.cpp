@@ -82,7 +82,7 @@ template<> VALUE wrap<GameMap::Tile>(int argc, VALUE *argv, VALUE info)
    VALUE tdata = Data_Wrap_Struct(info, 0, wrapped_free<GameMap::Tile>, ptr);
    return tdata;
 }
-bool GameMap::shouldRemove::operator()(const Tile &t)
+bool GameMap::shouldRemove::operator()(Tile &t)
 {
    VALUE obj = createObject(getClass("Tile"), t);
    return rb_yield(obj) == Qtrue;

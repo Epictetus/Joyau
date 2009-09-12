@@ -47,7 +47,7 @@ public:
 
    struct shouldRemove 
    {
-      bool operator()(const Tile &t);
+      bool operator()(Tile &t);
    };
 
    GameMap();
