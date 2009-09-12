@@ -61,9 +61,17 @@ template<typename T> T &getRef(VALUE val)
 }
 
 inline void no_free(void *info) {}
-template<typename T> VALUE createObject(VALUE info, T &val)
+template<typename T> VALUE createObject(VALUE info, T &val, bool exist = false)
 {
-   return Data_Wrap_Struct(info, 0, no_free, &val);
+   if (exist)
+      return Data_Wrap_Struct(info, 0, no_free, &val);
+
+   // If the object doesn't exist anymore, we have to copy it.
+   VALUE ret = wrap<T>(0, NULL, info);
+   T &ref = getRef<T>(ret);
+   ref = val;
+
+   return ret;
 }
 
 template<typename T> VALUE defClass(const char *name, 

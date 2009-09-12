@@ -256,13 +256,13 @@ VALUE Message_text(VALUE self)
 VALUE Message_image(VALUE self)
 {
    Message &ref = getRef<Message>(self);
-   return createObject(getClass("Sprite"), ref.getImage());
+   return createObject(getClass("Sprite"), ref.getImage(), true);
 }
 
 VALUE Message_background(VALUE self)
 {
    Message &ref = getRef<Message>(self);
-   return createObject(getClass("Sprite"), ref.getBackground());
+   return createObject(getClass("Sprite"), ref.getBackground(), true);
 }
 
 VALUE Message_bgColor(VALUE self)

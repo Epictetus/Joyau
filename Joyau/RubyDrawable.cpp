@@ -44,7 +44,7 @@ void RubyDrawable::move(int x, int y)
 
 bool RubyDrawable::collide(Drawable &item)
 {
-   VALUE drawable = createObject(getClass("Drawable"), item);
+   VALUE drawable = createObject(getClass("Drawable"), item, true);
    VALUE ret = rb_funcall(self, getFunc("collide"), 1, drawable);
    return ret == Qtrue;
 }

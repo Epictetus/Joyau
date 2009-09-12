@@ -84,7 +84,7 @@ template<> VALUE wrap<GameMap::Tile>(int argc, VALUE *argv, VALUE info)
 }
 bool GameMap::shouldRemove::operator()(Tile &t)
 {
-   VALUE obj = createObject(getClass("Tile"), t);
+   VALUE obj = createObject(getClass("Tile"), t, true);
    return rb_yield(obj) == Qtrue;
 }
 
@@ -390,7 +390,7 @@ VALUE GameMap_tiles(VALUE self)
    VALUE ret = rb_ary_new();
 
    for (list<GameMap::Tile>::iterator i = tiles.begin(); i != tiles.end(); ++i)
-      rb_ary_push(ret, createObject(getClass("Tile"), *i));
+      rb_ary_push(ret, createObject(getClass("Tile"), *i, true));
    return ret;
 }
 
@@ -402,7 +402,7 @@ VALUE GameMap_tilesets(VALUE self)
    VALUE ret = rb_ary_new();
    
    for (vector<Sprite>::iterator i = tilesets.begin(); i != tilesets.end(); ++i)
-      rb_ary_push(ret, createObject(getClass("Sprite"), *i));
+      rb_ary_push(ret, createObject(getClass("Sprite"), *i, true));
    return ret;
 }
 
@@ -413,10 +413,8 @@ VALUE GameMap_each_tile(VALUE self)
 
    for (list<GameMap::Tile>::iterator i = tiles.begin(); i != tiles.end(); ++i)
    {
-      VALUE obj = createObject(getClass("Tile"), *i);
-      VALUE ret = rb_yield(obj);
-
-      (*i) = getRef<GameMap::Tile>(ret);
+      VALUE obj = createObject(getClass("Tile"), *i, true);
+      rb_yield(obj);
    }
 
    return Qnil;
@@ -429,10 +427,8 @@ VALUE GameMap_each_tileset(VALUE self)
 
    for (vector<Sprite>::iterator i = tilesets.begin(); i != tilesets.end(); ++i)
    {
-      VALUE obj = createObject(getClass("Sprite"), *i);
-      VALUE ret = rb_yield(obj);
-
-      (*i) = getRef<Sprite>(ret);
+      VALUE obj = createObject(getClass("Sprite"), *i, true);
+      rb_yield(obj);
    }
 
    return Qnil;
