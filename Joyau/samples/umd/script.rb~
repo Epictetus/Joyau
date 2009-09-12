@@ -1,9 +1,7 @@
 # "Kinda" inspired of a sample found on sceners.org :
 # http://sceners.org/?itemid=308
 
-initLib
-
-if !Umd.present?
+if !Umd.check
   puts "No UMD present, please insert one"
   Umd.waitState Umd::PRESENT
   puts "Disc inserted"
@@ -27,5 +25,4 @@ Umd.umount
 puts "device unmounted. Please remove disc"
 
 Umd.waitStat Umd::NOT_PRESENT
-
-stopLib
+exitGame

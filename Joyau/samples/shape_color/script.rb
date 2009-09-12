@@ -13,24 +13,24 @@ grad = [ color(255, 0, 0),
          color(255, 255, 255) ]
 
 txt = DrawableText.new
-txt.toggleScripted
+txt.scripted = true
 txt.setPos(100, 0)
 
 while mayPlay
   Pad.update
   if Pad.pressed? Pad::UP
-    rect.setGradient grad
+    rect.gradient = grad
   elsif Pad.pressed? Pad::DOWN
-    rect.setColor grad[rand(4)]
+    rect.color = grad[rand(4)]
   end
 
   str = ""
-  rect.getColors.each { |col|
+  rect.colors.each { |col|
     str = str + "r: " + col["r"].to_s + " " + 
     "g: " + col["g"].to_s + " " + 
     "b: " + col["b"].to_s + "\n"
   }
-  txt.setText str
+  txt.text = str
 
   if !skip
     startDraw
