@@ -537,6 +537,12 @@ VALUE Tile_tileset(VALUE self)
    return INT2FIX(getRef<GameMap::Tile>(self).tileset);
 }
 
+VALUE Tile_type(VALUE self)
+{
+   GameMap::Tile &ref = getRef<GameMap::Tile>(self);
+   return createObject(getClass("CollisionType"), ref.type, true);
+}
+
 VALUE Tile_setTileX(VALUE self, VALUE val)
 {
    GameMap::Tile &ref = getRef<GameMap::Tile>(self);
@@ -577,6 +583,15 @@ VALUE Tile_setTileset(VALUE self, VALUE val)
    return Qnil;
 }
 
+VALUE Tile_setType(VALUE self, VALUE val)
+{
+   GameMap::Tile &ref = getRef<GameMap::Tile>(self);
+   CollisionType &type = getRef<CollisionType>(val);
+   
+   ref.type = type;
+   return Qnil;
+}
+
 void defineGameMap()
 {
    VALUE cCollisionType = defClass<CollisionType>("CollisionType");
@@ -598,13 +613,15 @@ void defineGameMap()
    defMethod(cTile, "tileset", Tile_tileset, 0);
    defMethod(cTile, "tileX", Tile_tileX, 0);
    defMethod(cTile, "tileY", Tile_tileY, 0);
+   defMethod(cTile, "type", Tile_type, 0);
 
    defMethod(cTile, "x=", Tile_setX, 1);
    defMethod(cTile, "y=", Tile_setY, 1);
    defMethod(cTile, "tileset=", Tile_setTileset, 1);
    defMethod(cTile, "tileX=", Tile_setTileX, 1);
    defMethod(cTile, "tileY=", Tile_setTileY, 1);
-   
+   defMethod(cTile, "type=", Tile_setType, 1);
+ 
    VALUE cMap = defClass<GameMap>("GameMap", "Drawable");
    defMethod(cMap, "addTileset", GameMap_addTileset, 1);
    defMethod(cMap, "setTileSize", GameMap_setTileSize, 2);

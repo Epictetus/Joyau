@@ -105,12 +105,14 @@ VALUE Tile_tileY(VALUE self);
 VALUE Tile_x(VALUE self);
 VALUE Tile_y(VALUE self);
 VALUE Tile_tileset(VALUE self);
+VALUE Tile_type(VALUE self);
 
 VALUE Tile_setTileX(VALUE self, VALUE val);
 VALUE Tile_setTileY(VALUE self, VALUE val);
 VALUE Tile_setX(VALUE self, VALUE val);
 VALUE Tile_setY(VALUE self, VALUE val);
 VALUE Tile_setTileset(VALUE self, VALUE val);
+VALUE Tile_setType(VALUE self, VALUE val);
 
 VALUE GameMap_addTileset(VALUE self, VALUE name);
 VALUE GameMap_setTileSize(VALUE self, VALUE w, VALUE h);
