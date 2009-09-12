@@ -102,16 +102,16 @@ template<typename T> VALUE defClass(const char *name, const char *father)
 class RubyObject
 {
 public:
-   void setClass(const std::string &val) { className = val; }
+   void setClass(const std::string &val) { klass = getClass(val.c_str()); }
       
    // We can't set the third arguments to false, because it
    // needs a copy.
    virtual VALUE toRuby()
    {
-      return createObject(getClass(className.c_str()), *this, true);
+      return createObject(klass, *this, true);
    }
 private:
-   std::string className;
+   VALUE klass;
 };
 
 // That code was really boring to write each time
