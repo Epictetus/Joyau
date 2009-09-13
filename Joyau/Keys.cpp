@@ -127,17 +127,13 @@ void Cursor::updatePos()
       int analogX = pad.getStickX();
       int analogY = pad.getStickY();
 
-      int _x = getX();
-      int _y = getY();
+      move(analogX / sensibility, analogY / sensibility);
+      
+      setX(_x > 480 ? 480 : _x);
+      setX(_x < 0 ? 0 : _x);
 
-      _x += analogX / sensibility;
-      _y += analogY / sensibility;
-
-      _x = _x > 480 ? 480 : _x;
-      _x = _x < 0 ? 0 : _x;
-
-      _y = _y > 272 ? 272 : _y;
-      _y = _y < 0 ? 0 : _y;
+      setY(_y > 272 ? 272 : _y);
+      setY(_y < 0 ? 0 : _y);
 
       setPos(_x, _y);
    }
