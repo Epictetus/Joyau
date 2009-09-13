@@ -134,8 +134,6 @@ void Cursor::updatePos()
 
       setY(_y > 272 ? 272 : _y);
       setY(_y < 0 ? 0 : _y);
-
-      setPos(_x, _y);
    }
 }
 
