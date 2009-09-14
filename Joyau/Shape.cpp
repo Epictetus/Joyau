@@ -24,6 +24,16 @@ Shape::Shape(int size)
    setClass("Shape");
 }
 
+Shape::Shape(const Shape &obj)
+{
+   _col = new OSL_COLOR[obj._size];
+   _size = obj._size;
+   for (int i = 0; i < _size; ++i)
+      _col[i] = obj._col[i];
+
+   setClass("Shape");
+}
+
 Shape::~Shape()
 {
    delete[] _col;
