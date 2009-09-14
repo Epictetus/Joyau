@@ -23,6 +23,7 @@ class CircleMenu: public Drawable
 {
 public:
    CircleMenu();
+   CircleMenu(const CircleMenu &obj);
    virtual ~CircleMenu();
    
    void load(char *str, int nbIcons, int dist, int w, int h, int x, int y,

@@ -22,6 +22,25 @@ CircleMenu::CircleMenu()
    setClass("CircleMenu");
 }
 
+CircleMenu::CircleMenu(const CircleMenu &obj)
+{
+   _menu = new OSL_CIRCLE_MENU;
+   _menu->AlphaMenu = obj._menu->AlphaMenu;
+   _menu->nbIcones = obj._menu->nbIcones;
+   _menu->SelectionEncour = obj._menu->SelectionEncour;
+   _menu->Image = oslCreateImageCopy(obj._menu->Image, OSL_IN_RAM);
+   _menu->sizeX = obj._menu->sizeX;
+   _menu->sizeY = obj._menu->sizeY;
+   _menu->Eloignement = obj._menu->Eloignement;
+   _menu->test_angle = obj._menu->test_angle;
+   _menu->X = obj._menu->X;
+   _menu->Y = obj._menu->Y;
+   _menu->LargeurAnimX = obj._menu->LargeurAnimX;
+   _menu->LargeurAnimY = obj._menu->LargeurAnimY;
+
+   setClass("CircleMenu");
+}
+
 CircleMenu::~CircleMenu()
 {
    if (_menu != NULL)
