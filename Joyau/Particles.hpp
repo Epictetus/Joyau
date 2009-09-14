@@ -22,6 +22,8 @@
 class Particles
 {
 public:
+   Particles() {}
+   Particles(const Particles &obj);
    ~Particles() { oslDeleteParticles(part); }
 
    void setFile(char *str);
@@ -40,6 +42,7 @@ private:
    OSL_PARTICLES *part;
 
    int _time, _speed, _gravity, _mspeed;
+   std::string filename;
 };
 
 VALUE Particles_setFile(VALUE self, VALUE str);

@@ -27,9 +27,24 @@ template<> VALUE wrap<Particles>(int argc, VALUE *argv, VALUE info)
    tdata = Data_Wrap_Struct(info, 0, wrapped_free<Particles>, ptr);
    return tdata;
 }
+
+Particles::Particles(const Particles &obj)
+{
+   _time = obj._time;
+   _speed = obj._speed;
+   _gravity = obj._gravity;
+   _mspeed = obj._mspeed;
+   setParam(_time, _speed, _gravity, _mspeed);
+
+   char txt[256];
+   strcpy(txt, obj.filename.c_str());
+
+   setFile(txt);
+}
  
 void Particles::setFile(char *file) // We can't use manager for that.
 {
+   filename = file;
    part = oslLoadParticles(file);
 }
 
