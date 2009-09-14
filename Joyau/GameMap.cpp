@@ -253,8 +253,7 @@ void GameMap::draw()
          tile.setTile((*i).tileX, (*i).tileY, tileWidth, tileHeight);
          tile.setPos(getX() + (*i).x, getY() + (*i).y);
 
-         tile.getImage();
-         tile.draw();
+	 tile.draw();
       }
    }
 }

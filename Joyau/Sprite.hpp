@@ -71,12 +71,6 @@ public:
    void setTile(int x, int y, int w, int h);
    void unTile() { tiled = false; }
 
-   // This function would set the correct position, ...
-   // before returning the pointer
-   // ( It's safe because the sprite change these value when the picture is
-   // drawn )
-   OSL_IMAGE *getImage();
-
    void saveImage(const char *fname);
 
    void setAutoDir(bool val) { autoDir = val; }
@@ -84,6 +78,13 @@ protected:
    char *picName;
 
    virtual void defaultDraw();
+
+   // This function would set the correct position, ...
+   // before returning the pointer
+   // ( It's safe because the sprite change these value when the picture is
+   // drawn )
+   OSL_IMAGE *getImage();
+
    int _w, _h;
 private:
    int _stretchX, _stretchY;
