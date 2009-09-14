@@ -55,6 +55,8 @@ protected:
 class Sound: public AudioObject // Short sound, wav. They're supported by alut.
 {
 public:
+   Sound() {}
+   Sound(const Sound &obj);
    virtual ~Sound();
 
    bool loadWav(const char *filename);
@@ -62,13 +64,17 @@ public:
    void play();
    void pause();
    void stop();
+
 private:
+   std::string sound;
    ALuint buffer;
 };
 
 class Stream: public AudioObject // We'll use ogg for stream.
 {
 public:
+   Stream() {}
+   Stream(const Stream &obj);
    virtual ~Stream();
 
    bool loadOgg(const char *filename);
@@ -76,9 +82,11 @@ public:
    bool play();
    void pause();
    void stop();
-   bool playing();
+   bool playing() const;
    bool update();
 private:
+   std::string sound;
+
    bool streamBuf(ALuint buffer);
    void clear();
 

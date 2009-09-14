@@ -96,6 +96,12 @@ template<> VALUE wrap<Vector3f>(int argc, VALUE *argv, VALUE info)
    return tdata;
 }
 
+
+Sound::Sound(const Sound &obj)
+{
+   loadWav(obj.sound.c_str());
+}
+
 Sound::~Sound()
 {
    alDeleteSources(1, &source);
@@ -103,6 +109,8 @@ Sound::~Sound()
 
 bool Sound::loadWav(const char *filename)
 {
+   sound = filename;
+
    buffer = Manager::getInstance().getBuffer(filename);
 
    // We create a source, binded to our buffer :
@@ -139,6 +147,13 @@ void Sound::stop()
    alSourceStop(source);
 }
 
+Stream::Stream(const Stream &obj)
+{
+   loadOgg(obj.sound.c_str());
+   if (obj.playing())
+      play();
+}
+
 Stream::~Stream()
 {
    alSourceStop(source);
@@ -152,6 +167,8 @@ Stream::~Stream()
 
 bool Stream::loadOgg(const char *filename)
 {
+   sound = filename;
+
    file = fopen(filename, "rb");
    ov_open(file, &stream, NULL, 0);
 
@@ -206,7 +223,7 @@ void Stream::stop()
    alSourceStop(source);
 }
 
-bool Stream::playing()
+bool Stream::playing() const
 {
    ALenum state;
    alGetSourcei(source, AL_SOURCE_STATE, &state);
