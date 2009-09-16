@@ -3,17 +3,15 @@ initGfx
 
 txt = ""
 
-skip = false
-
 while mayPlay
-  readKeys
-  if $keys["pressed_cross"]
+  Pad.update
+  if Pad.pressed? Pad::CROSS
     txt = gets
   end
 
   startDraw
   clearScreen
-  drawText(0, 0, txt)
+  drawScripted(0, 0, txt)
   endDraw
 
   sync

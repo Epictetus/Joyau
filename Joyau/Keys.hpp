@@ -51,7 +51,7 @@ class Cursor: public Sprite
 {
 public:
    Cursor():
-      rect(0, 0, 480, 27)
+      rect(0, 0, 480, 272)
    { setClass("Cursor"); }
 
    void updatePos();
