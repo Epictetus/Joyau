@@ -37,6 +37,7 @@ public:
 
    bool collide(Drawable &item);
    bool isOn(int x, int y);
+   bool isOn(const Point &p) { return isOn(p.x, p.y); }
 
    void resize(int w, int h);
 

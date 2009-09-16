@@ -97,7 +97,7 @@ VALUE RubyDrawable_collide(VALUE self, VALUE item)
    RubyDrawable &ref = getRef<RubyDrawable>(self);
    Drawable &draw = getRef<Drawable>(item);
    
-   Rect rect1(ref.getX(), ref.getY(), ref.getW(), ref.getH());
+   Rect rect1 = ref.boundingRect();
    Rect rect2 = draw.boundingRect();
 
    Point points1[4];
@@ -114,15 +114,7 @@ VALUE RubyDrawable_collide(VALUE self, VALUE item)
 
    for (int i = 0; i < 4; ++i)
    {
-      int x1 = rect1.x;
-      int x2 = rect1.x + rect1.w;
-      int y1 = rect1.y;
-      int y2 = rect1.y + rect1.h;
-
-      if (points1[i].x >= x1 &&
-	  points1[i].x <= x2 &&
-	  points1[i].y >= y1 &&
-	  points1[i].y <= y2)
+      if (ref.isOn(points1[i]))
 	 return Qtrue;
       if (draw.isOn(points2[i]))
 	 return Qtrue;
@@ -134,7 +126,8 @@ VALUE RubyDrawable_isOn(VALUE self, VALUE x, VALUE y)
 {
    RubyDrawable &ref = getRef<RubyDrawable>(self);
    
-   Rect rect(ref.getX(), ref.getY(), ref.getW(), ref.getH());
+   Rect rect = ref.boundingRect();
+
    int x1 = rect.x;
    int x2 = rect.x + rect.w;
    int y1 = rect.y;
