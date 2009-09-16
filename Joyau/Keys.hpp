@@ -50,19 +50,28 @@ private:
 class Cursor: public Sprite
 {
 public:
-   Cursor() { setClass("Cursor"); }
+   Cursor():
+      rect(0, 0, 480, 27)
+   { setClass("Cursor"); }
 
    void updatePos();
    void setSensibility(int s) { sensibility = s; }
 
    int getSensibility() const { return sensibility; }
+
+   void setRect(const Rect &r) { rect = r; }
 private:
    int sensibility;
+
+   Rect rect;
 };
 
 VALUE Cursor_updatePos(VALUE self);
+
 VALUE Cursor_setSensibility(VALUE self, VALUE s);
 VALUE Cursor_sensibility(VALUE self);
+
+VALUE Cursor_setRect(VALUE self, VALUE rect);
 
 VALUE checkKeys(VALUE self);
 VALUE Joyau_gets(VALUE self);

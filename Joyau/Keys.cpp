@@ -129,11 +129,11 @@ void Cursor::updatePos()
 
       move(analogX / sensibility, analogY / sensibility);
       
-      setX(_x > 480 ? 480 : _x);
-      setX(_x < 0 ? 0 : _x);
+      setX(_x > rect.x + rect.w ? rect.x + rect.w : _x);
+      setX(_x < rect.x ? rect.x : _x);
 
-      setY(_y > 272 ? 272 : _y);
-      setY(_y < 0 ? 0 : _y);
+      setY(_y > rect.y + rect.h ? rect.y + rect.h : _y);
+      setY(_y < rect.y ? rect.y : _y);
    }
 }
 
@@ -201,6 +201,15 @@ VALUE Cursor_sensibility(VALUE self)
 {
    Cursor &ref = getRef<Cursor>(self);
    return INT2FIX(ref.getSensibility());
+}
+
+VALUE Cursor_setRect(VALUE self, VALUE rect)
+{
+   Cursor &ref = getRef<Cursor>(self);
+   Rect &arg = getRef<Rect>(rect);
+   
+   ref.setRect(arg);
+   return Qnil;
 }
 
 VALUE Joyau_gets(VALUE self)
@@ -351,8 +360,11 @@ void defineKeys()
 
    VALUE cCursor = defClass<Cursor>("Cursor", "Sprite");
    defMethod(cCursor, "updatePos", Cursor_updatePos, 0);
+
    defMethod(cCursor, "setSensibility", Cursor_setSensibility, 1);
    defMethod(cCursor, "sensibility", Cursor_sensibility, 0);
+
+   defMethod(cCursor, "rect=", Cursor_setRect, 1);
 
    defAlias(cCursor, "setSensibility", "sensibility=");
 }
