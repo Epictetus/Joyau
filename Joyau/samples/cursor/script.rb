@@ -5,6 +5,7 @@ bg = Sprite.new("bg.png")
 
 cursor = Cursor.new("cur.png", 40)
 cursor.setPos(240 - cursor.w / 2, 136 - cursor.h / 2)
+cursor.rect = Rect.new(50, 50, 100, 100)
 
 obstacle = Sprite.new("obstacle.png")
 
