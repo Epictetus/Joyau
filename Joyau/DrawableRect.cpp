@@ -63,7 +63,7 @@ void DrawableRect::setH(int h)
 void DrawableRect::setCorner(int x, int y)
 {
    _x2 = x;
-   _y2 = 2;
+   _y2 = y;
 
    _w = _x2 - getX();
    _h = _y2 - getY();
