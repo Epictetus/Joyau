@@ -8,7 +8,7 @@ line.setPoint(480, 272)
 
 line.color = color(255, 0, 0)
 
-rect = DrawableRect.new(0, 0, 1, 1)
+rect = DrawableRect.new(0, 0, 5, 5)
 rect.color = color(255, 255, 255)
 
 while mayPlay
@@ -31,7 +31,7 @@ while mayPlay
   clearScreen
   line.draw
   rect.draw
-  if line.isOn(rect.x, rect.y)
+  if line.collide(rect)
     drawText(0, 0, "ok")
   end
   endDraw
