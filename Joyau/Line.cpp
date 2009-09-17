@@ -38,6 +38,46 @@ void Line::setPoint(const Point &p)
    setPoint(p.x, p.y);
 }
 
+bool Line::collide(Drawable &item)
+{
+   // When the lines are horizontal/vertical, we call the super method.
+   if (_x == _x2 || _y == _y2)
+      return Drawable::collide(item);
+
+   // The first thing we should check is whether we are insde
+   // the other object.
+   if (item.isOn(_x, _y) || item.isOn(_x2, _y2))
+      return true;
+
+   // now, we need to calculate the equation of this Line.
+   float k = ((float)(_y - _y2) / (float)(_x - _x2));
+   float t = ((float)(_x2 * _y - _x * _y2) / (float)(_x2 - _x));
+
+   // We'll start by checking the vertical lines.
+   float sol = k * (float)item.getX() + t;
+   if (sol >= item.getY() && sol <= item.getY() + item.getH() &&
+       sol >= _x && sol <= _x2)
+      return true;
+
+   sol = k * (float)item.getX() + item.getW() + t;
+   if (sol >= item.getY() && sol <= item.getY() + item.getH() &&
+       sol >= _x && sol <= _x2)
+      return true;
+
+   // Now we'll check the horizontal lines.
+   sol = ((float)item.getY() - t) / k;
+   if (sol >= item.getX() && sol <= item.getX() + item.getW() &&
+       sol >= _y && sol <= _y2)
+      return true;
+
+   sol = ((float)(item.getY() + item.getH()) - t) / k;
+   if (sol >= item.getX() && sol <= item.getX() + item.getW() &&
+       sol >= _y && sol <= _y2)
+      return true;
+
+   return false;
+}
+
 bool Line::isOn(int x, int y)
 {
    if (_x == _x2)

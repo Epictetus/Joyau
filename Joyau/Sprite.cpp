@@ -35,7 +35,6 @@ void Sprite::setPicture(char *pic)
    picName = pic;
    sprite = Manager::getInstance().getPic(pic);
 
-
    _w = sprite->sizeX;
    _h = sprite->sizeY;
 
