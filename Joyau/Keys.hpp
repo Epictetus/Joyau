@@ -60,6 +60,7 @@ public:
    int getSensibility() const { return sensibility; }
 
    void setRect(const Rect &r) { rect = r; }
+   Rect getRect() const { return rect; }
 private:
    int sensibility;
 
@@ -72,6 +73,7 @@ VALUE Cursor_setSensibility(VALUE self, VALUE s);
 VALUE Cursor_sensibility(VALUE self);
 
 VALUE Cursor_setRect(VALUE self, VALUE rect);
+VALUE Cursor_rect(VALUE self);
 
 VALUE checkKeys(VALUE self);
 VALUE Joyau_gets(VALUE self);

@@ -212,6 +212,14 @@ VALUE Cursor_setRect(VALUE self, VALUE rect)
    return Qnil;
 }
 
+VALUE Cursor_rect(VALUE self)
+{
+   Cursor &ref = getRef<Cursor>(self);
+   Rect ret = ref.getRect();
+
+   return createObject(getClass("Rect"), ret);
+}
+
 VALUE Joyau_gets(VALUE self)
 {
    SceUtilityOskData data;
@@ -365,6 +373,7 @@ void defineKeys()
    defMethod(cCursor, "sensibility", Cursor_sensibility, 0);
 
    defMethod(cCursor, "rect=", Cursor_setRect, 1);
+   defMethod(cCursor, "rect", Cursor_rect, 0);
 
    defAlias(cCursor, "setSensibility", "sensibility=");
 }
