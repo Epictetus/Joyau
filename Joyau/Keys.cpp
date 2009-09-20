@@ -29,11 +29,6 @@ void Pad::update()
 {
    oldPad = pad.Buttons;
    sceCtrlReadBufferPositive(&pad, 1);
-
-   // We'll use an offset of 128 pixels.
-   // This means the minimum value is -128, while the maximum is 128.
-   stickX = pad.Lx - 128;
-   stickY = pad.Ly - 128;
 }
 
 bool Pad::pressed(const std::string &key) const

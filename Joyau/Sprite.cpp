@@ -242,7 +242,6 @@ VALUE Sprite_setPicture(VALUE self, VALUE pic)
 VALUE Sprite_setAlpha(VALUE self, VALUE alpha)
 {
    Sprite &item = getRef<Sprite>(self);
-
    item.setAlpha(FIX2INT(alpha));
 
    return Qnil;

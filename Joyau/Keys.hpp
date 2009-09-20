@@ -36,15 +36,15 @@ public:
    bool released(int key) const;
    bool held(int key) const;
 
-   int getStickX() const { return stickX; }
-   int getStickY() const { return stickY; }
+   // We'll use an offset of 128 pixels.
+   // This means the minimum value is -128, while the maximum is 128.
+   int getStickX() const { return pad.Lx - 128; }
+   int getStickY() const { return pad.Ly - 128; }
 protected:
    int str2key(const std::string &key) const;
 private:
    SceCtrlData pad;
    int oldPad;
-
-   int stickX, stickY;
 };
 
 class Cursor: public Sprite
