@@ -143,14 +143,12 @@ int Drawable::getY() const
 
 void Drawable::setX(int x)
 {
-   movedX += _x - x;
-   _x = x;
+   move(x - _x, 0);
 }
 
 void Drawable::setY(int y)
 {
-   movedY += _y - y;
-   _y = y;
+   move(0, y - _y);
 }
 
 int Drawable::getW() const
@@ -165,10 +163,7 @@ int Drawable::getH() const
 
 void Drawable::setPos(int x, int y)
 {
-   movedX = 0;
-   movedY = 0;
-   _x = x;
-   _y = y;
+   move(x - _x, y - _y);
 }
 
 void Drawable::setPos(const Point &p)
