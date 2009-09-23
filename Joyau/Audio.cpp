@@ -176,7 +176,7 @@ bool Stream::loadOgg(const char *filename)
    comment = ov_comment(&stream, -1);
 
    format = SAMPLES_FORMAT;
-
+   
    alGenBuffers(2, buffers);
    if (alGetError() != AL_NO_ERROR)
       return false;
@@ -189,7 +189,7 @@ bool Stream::loadOgg(const char *filename)
    alSource3f(source, AL_VELOCITY, 0.f, 0.f, 0.f);
    alSource3f(source, AL_DIRECTION, 0.f, 0.f, 0.f);
 
-   alSourcef(source, AL_ROLLOFF_FACTOR, 0.f);
+   alSourcef(source, AL_ROLLOFF_FACTOR, 0.1f);
    alSourcei(source, AL_SOURCE_RELATIVE, AL_TRUE);
 
    return true;
