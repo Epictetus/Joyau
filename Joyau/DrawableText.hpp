@@ -23,7 +23,7 @@ class DrawableText: public Shape
 {
 public:
    DrawableText();
-   void setText(std::string text) { _text = text; }
+   void setText(std::string text) { _text = text;  }
 
    void toggleStirring();
    void setStirring(bool val) { stirring = val; }
