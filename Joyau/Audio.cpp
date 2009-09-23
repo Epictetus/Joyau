@@ -189,8 +189,8 @@ bool Stream::loadOgg(const char *filename)
    alSource3f(source, AL_VELOCITY, 0.f, 0.f, 0.f);
    alSource3f(source, AL_DIRECTION, 0.f, 0.f, 0.f);
 
-   alSourcef(source, AL_ROLLOFF_FACTOR, 0.1f);
-   alSourcei(source, AL_SOURCE_RELATIVE, AL_TRUE);
+   alSourcef(source, AL_PITCH, 1.0f);
+   alSourcef(source, AL_GAIN, 1.0f);
 
    return true;
 }
