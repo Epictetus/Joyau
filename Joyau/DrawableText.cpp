@@ -63,7 +63,7 @@ void DrawableText::draw()
       oslPrintStirringString(getX(), getY(), _text.c_str());
    else if (scripted)
    {
-      char txt[256];
+      char *txt = new char[_text.size() + 1];
       strcpy(txt, _text.c_str());
       oslScriptText(getX(), getY(), txt);
    }
