@@ -35,7 +35,7 @@ struct MsgConfig: public RubyObject
       titleY(0)
    { setClass("MsgConfig"); }
 
-   MsgConfig& copy(MsgConfig& obj) 
+   MsgConfig& operator=(const MsgConfig& obj) 
    {
       if (&obj == this)
 	 return *this;
@@ -80,11 +80,12 @@ class MsgSelecter: public Father
 public:
    typedef typename Father::content_t content_t;
 
+
    void forFocused(content_t &obj);
    void atLoop(content_t &obj, size_t pos);
 
-   void setConf(MsgConfig &val) { conf.copy(val); }
-   void setFocusConf(MsgConfig &val) { focusConf.copy(val); }
+   void setConf(const MsgConfig &val) { conf = val; }
+   void setFocusConf(const MsgConfig &val) { focusConf = val; }
 
    MsgConfig& getConf() { return conf; }
    MsgConfig& getFocusConf() { return focusConf; }
