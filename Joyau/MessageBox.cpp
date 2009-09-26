@@ -97,8 +97,8 @@ void Message::draw()
 		  getY() + _h - marge, text.c_str(), 0);
 }
 
-void Message::setTitle(string txt) { title = txt; }
-void Message::setText(string txt) { text = txt; }
+void Message::setTitle(const string &txt) { title = txt; }
+void Message::setText(const string &txt) { text = txt; }
 
 void Message::setImage(Sprite *pic) { image = pic; }
 
@@ -113,8 +113,8 @@ void Message::setTitleColor(OSL_COLOR col) { titleColor = col; }
 void Message::setTextColor(OSL_COLOR col) { textColor = col; }
 void Message::setBorderColor(OSL_COLOR col) { borderColor = col; }
 
-void Message::setTextFont(string f) { textFont = f; }
-void Message::setTitleFont(string f) { titleFont = f; }
+void Message::setTextFont(const string &f) { textFont = f; }
+void Message::setTitleFont(const string &f) { titleFont = f; }
 
 void Message::setTitlePos(int x, int y)
 {

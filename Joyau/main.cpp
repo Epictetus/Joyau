@@ -35,6 +35,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "Shape.hpp"
 #include "Usb.hpp"
 #include "RubyDrawable.hpp"
+#include "MsgSelecter.hpp"
 
 using namespace std;
 
@@ -122,6 +123,7 @@ int main(int argc, char** argv)
    defineTriangle();
    defineDrawableText();
    defineUsb();
+   defineMsgSelecter();
 
    Manager::getInstance().setArg(argc, argv);
    Pad::getInstance();

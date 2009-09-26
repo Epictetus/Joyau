@@ -31,6 +31,17 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #define defModFunc(mod, func, proto, argc) \
     rb_define_module_function(mod, func, RPROTO(proto), argc)
 
+#define defTplMethod(klass, func, proto) \
+    { VALUE(*tmp)(VALUE) = &proto; \
+	  rb_define_method(klass, func, (VALUE(*)(...))tmp, 0); }
+#define defTplMethod1(klass, func, proto) \
+    { VALUE(*tmp)(VALUE, VALUE) = &proto; \
+	  rb_define_method(klass, func, (VALUE(*)(...))tmp, 1); }
+
+#define defTplMethod2(klass, func, proto) \
+    { VALUE(*tmp)(VALUE, VALUE, VALUE) = &proto; \
+	  rb_define_method(klass, func, (VALUE(*)(...))tmp, 2); }
+
 #define defModule rb_define_module
 
 #define defConst rb_define_const

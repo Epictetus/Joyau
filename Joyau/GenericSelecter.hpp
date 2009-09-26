@@ -20,11 +20,19 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "Drawable.hpp"
 
 template<typename ContentType>
-class GenericSelecter:public Drawable
+class GenericSelecter: public Drawable
 {
 public:
    typedef std::vector<ContentType> container_t;
    typedef ContentType content_t;
+
+   GenericSelecter():
+      focused(true),
+      index(0),
+      size(0),
+      _w(480),
+      _h(272)
+   {}
 
    enum DIRECTION { NEXT = 1, PREV = -1 };
    
@@ -50,10 +58,11 @@ public:
    size_t getIndex() const { return index; }
 
    void setFocus(bool val) { focused = val; }
+   bool getFocus() const { return focused; }
 
    virtual void onAdd(content_t &obj) = 0;
    virtual void forFocused(content_t &obj) = 0;
-   virtual void atLoop(content_t &obj) = 0;
+   virtual void atLoop(content_t &obj, size_t pos) = 0;
 protected:
    bool focused;
 
@@ -69,15 +78,38 @@ template<typename ContentType>
 class HorizontalSelecter: public GenericSelecter<ContentType>
 {
 public:
+   typedef ContentType content_t;
+
    void onAdd(content_t &obj);
-}
+   void atLoop(content_t &obj, size_t pos);
+};
 
 template<typename ContentType>
 class VerticalSelecter: public GenericSelecter<ContentType>
 {
 public:
+   typedef ContentType content_t;
+
    void onAdd(content_t &obj);
-}
+   void atLoop(content_t &obj, size_t pos);
+};
+
+template<typename T> VALUE GenericSelecter_select(VALUE self, VALUE dir);
+
+template<typename T> VALUE GenericSelecter_addItem(VALUE self, VALUE obj);
+
+template<typename T> VALUE GenericSelecter_resize(VALUE self, VALUE w, VALUE h);
+
+template<typename T> VALUE GenericSelecter_selected(VALUE self);
+template<typename T> VALUE GenericSelecter_item(VALUE self, VALUE index);
+
+template<typename T> VALUE GenericSelecter_index(VALUE self);
+template<typename T> VALUE GenericSelecter_size(VALUE self);
+
+template<typename T> VALUE GenericSelecter_setFocus(VALUE self, VALUE val);
+template<typename T> VALUE GenericSelecter_focus(VALUE self);
+
+template<typename T> VALUE defineGenericSelecter(const char *name);
 
 #include "GenericSelecter.tpp"
 

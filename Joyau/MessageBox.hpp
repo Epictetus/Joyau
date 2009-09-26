@@ -28,8 +28,8 @@ public:
 
    void draw();
 
-   void setTitle(std::string txt);
-   void setText(std::string txt);
+   void setTitle(const std::string &txt);
+   void setText(const std::string &txt);
 
    void setImage(Sprite *pic);
    void setBackground(Sprite *pic);
@@ -39,8 +39,8 @@ public:
    void setTextColor(OSL_COLOR col);
    void setBorderColor(OSL_COLOR col);
 
-   void setTextFont(std::string f);
-   void setTitleFont(std::string f);
+   void setTextFont(const std::string &f);
+   void setTitleFont(const std::string &f);
 
    void setTitlePos(int x, int y);
    void setTitlePos(const Point &p);
