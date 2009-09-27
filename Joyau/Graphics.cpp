@@ -35,6 +35,7 @@ VALUE Graphics_endDraw(VALUE self)
 
 VALUE Graphics_sync(VALUE self)
 {
+   
    oslEndFrame();
    if (oslSyncFrame())
        return Qtrue;

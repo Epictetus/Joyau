@@ -34,6 +34,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include <pspusbstor.h>
 #include <pspsdk.h>
 #include <pspdebug.h>
+#include <pspgum.h>
 
 #include <intraFont.h>
 

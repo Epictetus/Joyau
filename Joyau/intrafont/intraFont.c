@@ -19,11 +19,12 @@
 #include <string.h>
 #include <malloc.h>
 
+#include <oslib/oslib.h>
+
 #include "intraFont.h"
 
 
 static unsigned int __attribute__((aligned(16))) clut[16];
-
 
 unsigned long intraFontGetV(unsigned long n, unsigned char *p, unsigned long *b) {
 	unsigned long i,v=0;
@@ -700,10 +701,10 @@ void intraFontUnload(intraFont *font) {
 }
 
 int intraFontInit(void) {
-	int n;
-	for(n = 0; n < 16; n++)
-		clut[n] = ((n * 17) << 24) | 0xffffff;
-	return 1;
+   int n;
+   for(n = 0; n < 16; n++)
+      clut[n] = ((n * 17) << 24) | 0xffffff;
+   return 1;
 }
 
 void intraFontShutdown(void) {
@@ -711,20 +712,23 @@ void intraFontShutdown(void) {
 }
 
 void intraFontActivate(intraFont *font) {
-	if(!font) return;
-	if(!font->texture) return;
+   if(!font) return;
+   if(!font->texture) return;
 
-	sceGuClutMode(GU_PSM_8888, 0, 255, 0);
-	sceGuClutLoad(2, clut);
-
-	sceGuEnable(GU_TEXTURE_2D);
-	sceGuTexMode(GU_PSM_T4, 0, 0, (font->options & INTRAFONT_CACHE_ASCII) ? 1 : 0);
-	sceGuTexImage(0, font->texWidth, font->texWidth, font->texWidth, font->texture);
-	sceGuTexFunc(GU_TFX_MODULATE, GU_TCC_RGBA);
-	sceGuTexEnvColor(0x0);
-	sceGuTexOffset(0.0f, 0.0f);
-	sceGuTexWrap(GU_CLAMP, GU_CLAMP);
-	sceGuTexFilter(GU_LINEAR, GU_LINEAR);
+   osl_curPalette = NULL;
+   osl_curTexture = NULL;
+   
+   sceGuClutMode(GU_PSM_8888, 0, 255, 0);
+   sceGuClutLoad(2, clut);
+   
+   //sceGuEnable(GU_TEXTURE_2D);
+   sceGuTexMode(GU_PSM_T4, 0, 0, (font->options & INTRAFONT_CACHE_ASCII) ? 1 : 0);
+   sceGuTexImage(0, font->texWidth, font->texWidth, font->texWidth, font->texture);
+   sceGuTexFunc(GU_TFX_MODULATE, GU_TCC_RGBA);
+   sceGuTexEnvColor(0x0);
+   sceGuTexOffset(0.0f, 0.0f);
+   sceGuTexWrap(GU_CLAMP, GU_CLAMP);
+   sceGuTexFilter(GU_LINEAR, GU_LINEAR);
 }
 
 void intraFontSetStyle(intraFont *font, float size, unsigned int color, unsigned int shadowColor, unsigned int options) {
