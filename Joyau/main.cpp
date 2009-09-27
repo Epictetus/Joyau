@@ -36,6 +36,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "Usb.hpp"
 #include "RubyDrawable.hpp"
 #include "MultiSelecter.hpp"
+#include "Font.hpp"
 
 using namespace std;
 
@@ -125,6 +126,7 @@ int main(int argc, char** argv)
    defineUsb();
    defineMsgSelecter();
    defineMultiSelecter();
+   defineIntrafont();
 
    Manager::getInstance().setArg(argc, argv);
    Pad::getInstance();

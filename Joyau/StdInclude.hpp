@@ -35,6 +35,8 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include <pspsdk.h>
 #include <pspdebug.h>
 
+#include <intraFont.h>
+
 #include <oslib/oslib.h>
 
 #include <ruby/ruby.h>
