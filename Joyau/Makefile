@@ -22,6 +22,10 @@ OBJS = main.o Manager.o Graphics.o Keys.o Sprite.o Audio.o Kernel.o \
 	DrawableText.o Shape.o Usb.o RubyDrawable.o MsgSelecter.o \
 	MultiSelecter.o
 
+OBJS += intrafont/libccc.o intrafont/intraFont.o
+
+INCDIR += ./intrafont/
+
 CFLAGS += -O2 -G0 -Wall -D_PSP_
 CXXFLAGS = $(CFLAGS) -fno-exceptions -fno-rtti
 ASFLAGS = $(CFLAGS)
