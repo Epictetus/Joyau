@@ -17,6 +17,10 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #ifndef JOYAU_WRAPPER
 #define JOYAU_WRAPPER
 
+/** @defgroup Ruby
+ *  Contains functions and macros in order to wrap C++ classes in Ruby.
+ */
+
 /** @addtogroup Ruby **/
 /*@{*/
 

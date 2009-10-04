@@ -124,7 +124,7 @@ protected:
 
 /**
  * @class HorizontalSelecter
- * @description Like GenericSelecter, but the items are automatically
+ * Like GenericSelecter, but the items are automatically
  * disposed horizontally.
  */
 template<typename ContentType>

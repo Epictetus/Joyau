@@ -54,6 +54,10 @@ protected:
 
 template<typename T> T* Singleton<T>::singleton = NULL;
 
+/** @defgroup Memory
+ *  Contains classes for memory management.
+ */
+
 /** @addtogroup Memory **/
 /*@{*/
 

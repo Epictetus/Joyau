@@ -19,6 +19,10 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include "StdInclude.hpp"
 
+/** @defgroup Drawables
+ *  Contains classes representing drawable objects, or related to them.
+ */
+
 /** @addtogroup Drawables **/
 /*@{*/
 

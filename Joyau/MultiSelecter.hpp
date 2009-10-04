@@ -24,7 +24,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 /** 
  * @class MultiSelecter
- * @description A selecter's selecter
+ * A selecter's selecter
  */
 template<typename Father>
 class MultiSelecter: public Father

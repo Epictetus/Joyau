@@ -20,6 +20,11 @@
 #include "Sprite.hpp"
 #include "Manager.hpp"
 
+/** @defgroup Input
+ *  Contains classes which allows to check the keys' state, and the
+ *  analogic stick's position.
+ */
+
 /** @addtogroup Input **/
 /*@{*/
 
