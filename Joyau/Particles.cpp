@@ -30,6 +30,8 @@ template<> VALUE wrap<Particles>(int argc, VALUE *argv, VALUE info)
 
 Particles::Particles(const Particles &obj)
 {
+   setClass("Particles");
+
    _time = obj._time;
    _speed = obj._speed;
    _gravity = obj._gravity;

@@ -29,7 +29,7 @@
 class Particles: public Drawable
 {
 public:
-   Particles() {}
+   Particles() { setClass("Particles"); }
    Particles(const Particles &obj);
    ~Particles() { oslDeleteParticles(part); }
 
