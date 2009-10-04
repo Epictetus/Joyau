@@ -62,7 +62,6 @@ void AudioObject::setDirection(const Vector3f &vector)
    setDirection(vector.x, vector.y, vector.z);
 }
 
-
 void AudioObject::setPitch(float val)
 {
    alSourcef(source, AL_PITCH, val);
@@ -509,6 +508,14 @@ VALUE AudioObject_setDirectionVector(VALUE self, VALUE val)
    return Qnil;
 }
 
+VALUE AudioObject_playing(VALUE self)
+{
+   AudioObject &ref = getRef<AudioObject>(self);
+   if (ref.playing())
+      return Qtrue;
+   return Qfalse;
+}
+
 VALUE Sound_loadWav(VALUE self, VALUE filename)
 {
    Sound &ref = getRef<Sound>(self);
@@ -574,14 +581,6 @@ VALUE Stream_stop(VALUE self)
    ref.stop();
 
    return Qnil;
-}
-
-VALUE Stream_playing(VALUE self)
-{
-   Stream &ref = getRef<Stream>(self);
-   if (ref.playing())
-      return Qtrue;
-   return Qfalse;
 }
 
 VALUE Stream_update(VALUE self)
@@ -681,9 +680,12 @@ void defineAudio()
    defMethod(cAudioObject, "setPos", AudioObject_setPos, 3);
    defMethod(cAudioObject, "setDirection", AudioObject_setDirection, 3);
    defMethod(cAudioObject, "setVelocity", AudioObject_setVelocity, 3);
+   
    defMethod(cAudioObject, "pos=", AudioObject_setPosVector, 1);
    defMethod(cAudioObject, "direction=", AudioObject_setDirectionVector, 1);
    defMethod(cAudioObject, "velocity=", AudioObject_setVelocityVector, 1);
+
+   defMethod(cAudioObject, "playing?", AudioObject_playing, 0);
 
    VALUE cSound = defClass<Sound>("Sound", "AudioObject");
    defMethod(cSound, "loadWav", Sound_loadWav, 1);
@@ -694,7 +696,6 @@ void defineAudio()
    VALUE cStream = defClass<Stream>("Stream", "AudioObject");
    defMethod(cStream, "loadOgg", Stream_loadOgg, 1);
    defMethod(cStream, "play", Stream_play, 0);
-   defMethod(cStream, "playing", Stream_playing, 0);
    defMethod(cStream, "update", Stream_update, 0);
    defMethod(cStream, "pause", Stream_play, 0);
    defMethod(cStream, "stop", Stream_stop, 0);

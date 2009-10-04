@@ -310,6 +310,8 @@ VALUE AudioObject_setPosVector(VALUE self, VALUE val);
 VALUE AudioObject_setVelocityVector(VALUE self, VALUE val);
 VALUE AudioObject_setDirectionVector(VALUE self, VALUE val);
 
+VALUE AudioObject_playing(VALUE self);
+
 VALUE Sound_loadWav(VALUE self, VALUE filename);
 
 VALUE Sound_play(VALUE self);
@@ -321,7 +323,6 @@ VALUE Stream_loadOgg(VALUE self, VALUE filename);
 VALUE Stream_play(VALUE self);
 VALUE Stream_pause(VALUE self);
 VALUE Stream_stop(VALUE self);
-VALUE Stream_playing(VALUE self);
 VALUE Stream_update(VALUE self);
 
 VALUE Listener_setPos(VALUE self, VALUE x, VALUE y, VALUE z);
