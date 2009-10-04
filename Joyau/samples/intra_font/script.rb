@@ -6,11 +6,10 @@ Intrafont.init
 
 txt = IntraText.new
 txt.text = "Mon ouïe"
-txt.load("flash0:/font/ltn4.pgf", Intrafont::CACHE_ALL)
-txt.setStyle(1, 0xFFFFFFFF, 0xFF000000, Intrafont::ALIGN_LEFT)
+txt.load("flash0:/font/ltn7.pgf", 0)
+txt.setStyle(0.8, 0xFFFFFF00, 0, 0)
 txt.encoding = Intrafont::STRING_UTF8
 txt.move(100, 100)
-
 
 bg = Sprite.new("bg.png")
 
@@ -25,7 +24,6 @@ while mayPlay
   bg.draw
   txt.activate
   txt.draw
-  txt.setStyle(1, 0xFFFFFFFF, 0xFF000000, Intrafont::ALIGN_LEFT)
   endDraw
   
   sync
