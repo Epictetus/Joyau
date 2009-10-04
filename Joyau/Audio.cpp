@@ -62,6 +62,81 @@ void AudioObject::setDirection(const Vector3f &vector)
    setDirection(vector.x, vector.y, vector.z);
 }
 
+
+void AudioObject::setPitch(float val)
+{
+   alSourcef(source, AL_PITCH, val);
+}
+
+void AudioObject::setGain(float val)
+{
+   alSourcef(source, AL_GAIN, val);
+}
+
+bool AudioObject::playing() const
+{
+   ALenum state;
+   alGetSourcei(source, AL_SOURCE_STATE, &state);
+
+   return state == AL_PLAYING;
+}
+
+void AudioObject::generateSource()
+{
+   alGenSources(1, &source);
+}
+
+void AudioObject::deleteSource()
+{
+   alDeleteSources(1, &source);
+}
+
+int AudioObject::queuedBuffers()
+{
+   int queued;
+   alGetSourcei(source, AL_BUFFERS_QUEUED, &queued);
+   
+   return queued;
+}
+
+int AudioObject::processedBuffers()
+{
+   int processed;
+   alGetSourcei(source, AL_BUFFERS_PROCESSED, &processed);
+   
+   return processed;
+}
+
+void AudioObject::unqueueBuffers(int n, ALuint *buffers)
+{
+   alSourceUnqueueBuffers(source, n, buffers);
+}
+
+void AudioObject::queueBuffers(int n, ALuint *buffers)
+{
+   alSourceQueueBuffers(source, n, buffers);
+}
+
+void AudioObject::setBuffer(ALuint buffer)
+{
+   alSourcei(source, AL_BUFFER, buffer);
+}
+
+void AudioObject::playSource()
+{
+   alSourcePlay(source);
+}
+
+void AudioObject::pauseSource()
+{
+   alSourcePause(source);
+}
+
+void AudioObject::stopSource()
+{
+   alSourceStop(source);
+}
+
 template<> VALUE wrap<Sound>(int argc, VALUE *argv, VALUE info)
 {
    Sound *ptr = new Sound;
@@ -104,7 +179,7 @@ Sound::Sound(const Sound &obj)
 
 Sound::~Sound()
 {
-   alDeleteSources(1, &source);
+   deleteSource();
 }
 
 bool Sound::loadWav(const char *filename)
@@ -114,16 +189,16 @@ bool Sound::loadWav(const char *filename)
    buffer = Manager::getInstance().getBuffer(filename);
 
    // We create a source, binded to our buffer :
-   alGenSources(1, &source);
+   generateSource();
    if (alGetError() != AL_NO_ERROR)
       return false;
 
-   alSourcei(source, AL_BUFFER, buffer);
+   setBuffer(buffer);
 
-   alSource3f(source, AL_POSITION, 0.f, 0.f, 0.f);
-   alSource3f(source, AL_VELOCITY, 0.f, 0.f, 0.f);
-   alSource3f(source, AL_DIRECTION, 0.f, 0.f, 0.f);
-
+   setPos(0.f, 0.f, 0.f);
+   setVelocity(0.f, 0.f, 0.f);
+   setDirection(0.f, 0.f, 0.f);
+   
    if (alGetError() == AL_NO_ERROR)
       return true;
    return false;
@@ -131,20 +206,18 @@ bool Sound::loadWav(const char *filename)
 
 void Sound::play()
 {
-   ALint state;
-   alGetSourcei(source, AL_SOURCE_STATE, &state);
-   if (state != AL_PLAYING)
-      alSourcePlay(source);
+   if (!playing())
+      playSource();
 }
 
 void Sound::pause()
 {
-   alSourcePause(source);
+   pauseSource();
 }
 
 void Sound::stop()
 {
-   alSourceStop(source);
+   stopSource();
 }
 
 Stream::Stream(const Stream &obj)
@@ -156,10 +229,10 @@ Stream::Stream(const Stream &obj)
 
 Stream::~Stream()
 {
-   alSourceStop(source);
+   stopSource();
    clear();
 
-   alDeleteSources(1, &source);
+   deleteSource();
    alDeleteBuffers(1, buffers);
 
    ov_clear(&stream);
@@ -181,16 +254,16 @@ bool Stream::loadOgg(const char *filename)
    if (alGetError() != AL_NO_ERROR)
       return false;
 
-   alGenSources(1, &source);
+   generateSource();
    if (alGetError() != AL_NO_ERROR)
       return false;
 
-   alSource3f(source, AL_POSITION, 0.f, 0.f, 0.f);
-   alSource3f(source, AL_VELOCITY, 0.f, 0.f, 0.f);
-   alSource3f(source, AL_DIRECTION, 0.f, 0.f, 0.f);
+   setPos(0.f, 0.f, 0.f);
+   setVelocity(0.f, 0.f, 0.f);
+   setDirection(0.f, 0.f, 0.f);
 
-   alSourcef(source, AL_PITCH, 1.0f);
-   alSourcef(source, AL_GAIN, 1.0f);
+   setPitch(1.f);
+   setGain(1.f);
 
    return true;
 }
@@ -205,51 +278,43 @@ bool Stream::play()
    if (!streamBuf(buffers[1]))
       return false;
 
-   alSourceQueueBuffers(source, 2, buffers);
-   alSourcePlay(source);
+   queueBuffers(2, buffers);
+   playSource();
 
    return true;
 }
 
 void Stream::pause()
 {
-   alSourceQueueBuffers(source, 2, buffers);
-   alSourcePause(source);
+   queueBuffers(2, buffers);
+   pauseSource();
 }
 
 void Stream::stop()
 {
-   alSourceQueueBuffers(source, 2, buffers);
-   alSourceStop(source);
-}
-
-bool Stream::playing() const
-{
-   ALenum state;
-   alGetSourcei(source, AL_SOURCE_STATE, &state);
-
-   return state == AL_PLAYING;
+   queueBuffers(2, buffers);
+   stopSource();
 }
 
 bool Stream::update()
 {
-   int processed;
-   alGetSourcei(source, AL_BUFFERS_PROCESSED, &processed);
+   int processed = processedBuffers();
 
    bool active = true;
    while (processed--)
    {
       ALuint buffer;
-      alSourceUnqueueBuffers(source, 1, &buffer);
+      unqueueBuffers(1, &buffer);
+      
       active = streamBuf(buffer);
 
-      alSourceQueueBuffers(source, 1, &buffer);
+      queueBuffers(1, &buffer);
    }
    return active;
 }
 
 bool Stream::streamBuf(ALuint buffer)
- {
+{
    char data[BUFFER_SIZE];
 
    int size = 0;
@@ -280,13 +345,12 @@ bool Stream::streamBuf(ALuint buffer)
 
 void Stream::clear()
 {
-   int queued;
-   alGetSourcei(source, AL_BUFFERS_QUEUED, &queued);
-
+   int queued = queuedBuffers();
+   
    while (queued--)
    {
       ALuint buffer;
-      alSourceUnqueueBuffers(source, 1, &buffer);
+      unqueueBuffers(1, &buffer);
    }
 }
 

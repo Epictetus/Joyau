@@ -145,7 +145,52 @@ public:
     *  @param vector the new direction..
     */
    void setDirection(const Vector3f &vector);
+
+   /** Sets the object's pitch **/
+   void setPitch(float val);
+
+   /** Sets the object's gain **/
+   void setGain(float val);
+
+   /** Returns whether we're playing. **/
+   bool playing() const;
 protected:
+   /** Generates a source. **/
+   void generateSource();
+
+   /** Deletes the source **/
+   void deleteSource();
+
+   /** Returns the queued buffers number **/
+   int queuedBuffers();
+
+   /** Returns the processed buffers number **/
+   int processedBuffers();
+
+   /** Unqueue some buffers
+    *  @param n Tells how many buffers are used.
+    *  @param buffers array where buffers are set.
+    */
+   void unqueueBuffers(int n, ALuint *buffers);
+   
+   /** Queue some buffers
+    *  @param n Tells how many buffers are used.
+    *  @param buffers array where buffers are set.
+    */
+   void queueBuffers(int n, ALuint *buffers);
+
+   /** Sets the sound's buffer **/
+   void setBuffer(ALuint buffer);
+
+   /** plays the source **/
+   void playSource();
+
+   /** pauses the source **/
+   void pauseSource();
+
+   /** Stops the source **/
+   void stopSource();
+private:
    /** Source, from where the sound is emited. **/
    ALuint source;
 };
@@ -175,7 +220,6 @@ public:
 
    /** stops it **/
    void stop();
-
 private:
    std::string sound;
    ALuint buffer;
@@ -207,9 +251,6 @@ public:
 
    /** Stops the sound. **/
    void stop();
-
-   /** Returns whether the sound is playing. **/
-   bool playing() const;
 
    /** Updates the stream. Should be called as often as possible.
     *  @code
