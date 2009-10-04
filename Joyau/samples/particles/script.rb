@@ -26,7 +26,7 @@ while mayPlay
   if Pad.held? Pad::RIGHT
     pointerX += 1
   end
-  if Pad.held? Pad::DOWN
+  if Pad.held? Pad::LEFT
     pointerX -= 1
   end
 

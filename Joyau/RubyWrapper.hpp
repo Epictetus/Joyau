@@ -140,7 +140,7 @@ template<typename T> VALUE createObject(VALUE info, T &val, bool exist = false)
    if (exist)
       return Data_Wrap_Struct(info, 0, no_free, &val);
 
-   // If the object doesn't exist anymore, we have to copy it.
+   // If the object won't exist anymore, we have to copy it.
    T *ptr = new T(val);
    VALUE tdata = Data_Wrap_Struct(info, 0, wrapped_free<T>, ptr);
    

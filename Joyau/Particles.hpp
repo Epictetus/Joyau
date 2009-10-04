@@ -17,7 +17,7 @@
 #ifndef JOYAU_PARTICLES
 #define JOYAU_PARTICLES
 
-#include "StdInclude.hpp"
+#include "Drawable.hpp"
 
 /** @addtogroup Drawables **/
 /*@{*/
@@ -26,7 +26,7 @@
  * @class Particles
  * A particles generator.
  */
-class Particles
+class Particles: public Drawable
 {
 public:
    Particles() {}
@@ -45,10 +45,6 @@ public:
     */
    void setParam(int time, int speed, int gravity, int mspeed);
 
-   /** Moves the particle.
-    *  @param x x offset
-    *  @param y y offset
-    */
    void move(int x, int y);
 
    /** Adds a particle.
@@ -57,7 +53,6 @@ public:
     */
    void addParticles(int x, int y);
 
-   /** Draws the Particles on the screen **/
    void draw();
 
    /** Returns a particle's lifetime **/
@@ -85,10 +80,7 @@ VALUE Particles_setFile(VALUE self, VALUE str);
 VALUE Particles_setParam(VALUE self, VALUE time, VALUE speed, VALUE gravity,
 			 VALUE mspeed);
 
-VALUE Particles_move(VALUE self, VALUE x, VALUE y);
 VALUE Particles_addParticles(VALUE self, VALUE x, VALUE y);
-
-VALUE Particles_draw(VALUE self);
 
 VALUE Particles_getTime(VALUE self);
 VALUE Particles_getSpeed(VALUE self);

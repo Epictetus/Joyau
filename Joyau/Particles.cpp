@@ -59,6 +59,7 @@ void Particles::setParam(int time, int speed, int gravity, int mspeed)
 
 void Particles::move(int x, int y)
 {
+   Drawable::move(x, y);
    oslMoveXParticles(part, x);
    oslMoveYParticles(part, y);
 }
@@ -96,16 +97,6 @@ VALUE Particles_setParam(VALUE self, VALUE time, VALUE speed, VALUE gravity,
    return Qnil;
 }
 
-VALUE Particles_move(VALUE self, VALUE x, VALUE y)
-{
-   Particles &ref = getRef<Particles>(self);
-   int _x = FIX2INT(x);
-   int _y = FIX2INT(y);
-
-   ref.move(_x, _y);
-   return Qnil;
-}
-
 VALUE Particles_addParticles(VALUE self, VALUE x, VALUE y)
 {
    Particles &ref = getRef<Particles>(self);
@@ -113,13 +104,6 @@ VALUE Particles_addParticles(VALUE self, VALUE x, VALUE y)
    int _y = FIX2INT(y);
 
    ref.addParticles(_x, _y);
-   return Qnil;
-}
-
-VALUE Particles_draw(VALUE self)
-{
-   Particles &ref = getRef<Particles>(self);
-   ref.draw();
    return Qnil;
 }
 
@@ -149,12 +133,10 @@ VALUE Particles_getMinSpeed(VALUE self)
 
 void defineParticles()
 {
-   VALUE cPart = defClass<Particles>("Particles");
+   VALUE cPart = defClass<Particles>("Particles", "Drawable");
    defMethod(cPart, "setFile", Particles_setFile, 1);
    defMethod(cPart, "setParam", Particles_setParam, 4);
-   defMethod(cPart, "move", Particles_move, 2);
    defMethod(cPart, "addParticles", Particles_addParticles, 2);
-   defMethod(cPart, "draw", Particles_draw, 0);
    defMethod(cPart, "getTime", Particles_getTime, 0);
    defMethod(cPart, "getSpeed", Particles_getSpeed, 0);
    defMethod(cPart, "getGravity", Particles_getGravity, 0);
