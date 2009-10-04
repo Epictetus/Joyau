@@ -157,9 +157,6 @@ private:
 
 /*@}*/
 
-enum DIRECTION { DOWN, LEFT, RIGHT, UP, UP_LEFT, UP_RIGHT, DOWN_LEFT,
-		 DOWN_RIGHT };
-
 VALUE Sprite_setPicture(VALUE self, VALUE pic);
 
 VALUE Sprite_rotate(VALUE self, VALUE angle);

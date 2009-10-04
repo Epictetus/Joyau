@@ -306,14 +306,14 @@ VALUE Sprite_setAutoDir(VALUE self, VALUE val)
 void defineSprite()
 {
    VALUE dirHash = rb_hash_new();
-   rb_hash_aset(dirHash, rb_str_new2("LEFT"), INT2FIX(LEFT));
-   rb_hash_aset(dirHash, rb_str_new2("RIGHT"), INT2FIX(RIGHT));
-   rb_hash_aset(dirHash, rb_str_new2("UP"), INT2FIX(UP));
-   rb_hash_aset(dirHash, rb_str_new2("DOWN"), INT2FIX(DOWN));
-   rb_hash_aset(dirHash, rb_str_new2("UP_LEFT"), INT2FIX(UP_LEFT));
-   rb_hash_aset(dirHash, rb_str_new2("UP_RIGHT"), INT2FIX(UP_RIGHT));
-   rb_hash_aset(dirHash, rb_str_new2("DOWN_LEFT"), INT2FIX(DOWN_LEFT));
-   rb_hash_aset(dirHash, rb_str_new2("DOWN_RIGHT"), INT2FIX(DOWN_RIGHT));
+   rb_hash_aset(dirHash, rb_str_new2("LEFT"), INT2FIX(Sprite::LEFT));
+   rb_hash_aset(dirHash, rb_str_new2("RIGHT"), INT2FIX(Sprite::RIGHT));
+   rb_hash_aset(dirHash, rb_str_new2("UP"), INT2FIX(Sprite::UP));
+   rb_hash_aset(dirHash, rb_str_new2("DOWN"), INT2FIX(Sprite::DOWN));
+   rb_hash_aset(dirHash, rb_str_new2("UP_LEFT"), INT2FIX(Sprite::UP_LEFT));
+   rb_hash_aset(dirHash, rb_str_new2("UP_RIGHT"), INT2FIX(Sprite::UP_RIGHT));
+   rb_hash_aset(dirHash, rb_str_new2("DOWN_LEFT"), INT2FIX(Sprite::DOWN_LEFT));
+   rb_hash_aset(dirHash, rb_str_new2("DOWN_RIGHT"), INT2FIX(Sprite::DOWN_RIGHT));
    rb_gv_set("$directions", dirHash);
 
    VALUE cSprite = defClass<Sprite>("Sprite", "Drawable");
@@ -343,12 +343,12 @@ void defineSprite()
    defAlias(cSprite, "setDirection", "dir=");
    defAlias(cSprite, "setPicture", "picture=");
    
-   defConst(cSprite, "LEFT", INT2FIX(LEFT));
-   defConst(cSprite, "RIGHT", INT2FIX(RIGHT));
-   defConst(cSprite, "UP", INT2FIX(UP));
-   defConst(cSprite, "DOWN", INT2FIX(DOWN));
-   defConst(cSprite, "UP_LEFT", INT2FIX(UP_LEFT));
-   defConst(cSprite, "UP_RIGHT", INT2FIX(UP_RIGHT));
-   defConst(cSprite, "DOWN_LEFT", INT2FIX(DOWN_LEFT));
-   defConst(cSprite, "DOWN_RIGHT", INT2FIX(DOWN_RIGHT));
+   defConst(cSprite, "LEFT", INT2FIX(Sprite::LEFT));
+   defConst(cSprite, "RIGHT", INT2FIX(Sprite::RIGHT));
+   defConst(cSprite, "UP", INT2FIX(Sprite::UP));
+   defConst(cSprite, "DOWN", INT2FIX(Sprite::DOWN));
+   defConst(cSprite, "UP_LEFT", INT2FIX(Sprite::UP_LEFT));
+   defConst(cSprite, "UP_RIGHT", INT2FIX(Sprite::UP_RIGHT));
+   defConst(cSprite, "DOWN_LEFT", INT2FIX(Sprite::DOWN_LEFT));
+   defConst(cSprite, "DOWN_RIGHT", INT2FIX(Sprite::DOWN_RIGHT));
 }
