@@ -19,6 +19,14 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include "Drawable.hpp"
 
+/** @addtogroup Drawables **/
+/*@{*/
+
+/**
+ * @class CircleMenu
+ * A class which allows to draw a menu,
+ * whose icons are disposed as in a circle.
+ */
 class CircleMenu: public Drawable
 {
 public:
@@ -26,25 +34,58 @@ public:
    CircleMenu(const CircleMenu &obj);
    virtual ~CircleMenu();
    
+   /** Loads a menu.
+    *  @param str menu's filename.
+    *  @param nbIcons Tells how many icons there are on the menu.
+    *  @param dist The menu's distance.
+    *  @param w menu's width
+    *  @param h menu's height
+    *  @param x x position of the menu.
+    *  @param y y position of the menu.
+    *  @param iconW icon's width in the file.
+    *  @param iconH icon's height in the file.
+    */
    void load(char *str, int nbIcons, int dist, int w, int h, int x, int y,
 	     int iconW, int iconH);
    
+   /** Changes the selected item.
+    *  @param dir 1 for the left direction, 0 for the right direction.
+    */
    void changeSelection(int dir);
+
+   /** Returns the menu index **/
    int getIndex();
 
    void draw();
 
+   /** Sets the menu alpha
+    *  @param alpha new alpha value.
+    */
    void setAlpha(int alpha);
 
+   /** Sets the menu distance
+    *  @param dist new dist value.
+    */
    void setDist(int dist);
+
+   /** Sets the menu angle
+    *  @param angle new angle value.
+    */
    void setAngle(int angle);
 
+   /** Returns the menu alpha **/
    int getAlpha() const { return _menu->AlphaMenu; }
+
+   /** Returns the menu dist **/
    int getDist() const { return _menu->Eloignement; }
+
+   /** Returns the menu angle **/
    int getAngle() const { return _menu->AngleVoullue; }
 private:
    OSL_CIRCLE_MENU *_menu;
 };
+
+/*@}*/
 
 VALUE CircleMenu_load(VALUE self, VALUE str, VALUE nbIcons, VALUE dist, VALUE w, 
 		      VALUE h, VALUE x, VALUE y, VALUE iconW, VALUE iconH);

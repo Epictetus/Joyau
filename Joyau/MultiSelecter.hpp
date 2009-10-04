@@ -19,10 +19,18 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include "MsgSelecter.hpp"
 
+/** @addtogroup Drawables **/
+/*@{*/
+
+/** 
+ * @class MultiSelecter
+ * @description A selecter's selecter
+ */
 template<typename Father>
 class MultiSelecter: public Father
 {
 public:
+   /** Type representing the content's type. **/
    typedef typename Father::content_t content_t;
 
    void atLoop(content_t &obj, size_t pos)
@@ -37,11 +45,15 @@ public:
    }
 };
 
+/** A VerticalMsgSelecter's selecter **/
 typedef MultiSelecter< HorizontalSelecter<VerticalMsgSelecter> > 
 MultiVerticalMsgSelecter;
 
+/** An HorizontalMsgSelecter's selecter **/
 typedef MultiSelecter< VerticalSelecter<HorizontalMsgSelecter> > 
 MultiHorizontalMsgSelecter;
+
+/*@}*/
 
 void defineMultiSelecter();
 

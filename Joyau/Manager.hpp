@@ -19,9 +19,17 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include "StdInclude.hpp"
 
+/** @addtogroup Misc **/
+/*@{*/
+
+/** 
+ * @class Singleton
+ * A Singleton class has only one instance.
+ */
 template<typename T> class Singleton
 {
 public:
+   /** Returns the class instance. **/
    static T& getInstance()
    {
       if (singleton == NULL)
@@ -29,6 +37,7 @@ public:
       return (*singleton);
    }
 
+   /** Deletes the class instance. **/
    static void deleteInstance()
    {
       if (singleton != NULL)
@@ -38,11 +47,21 @@ public:
       }
    }
 protected:
+   /** class instance **/
    static T *singleton;
 };
+/*@}*/
 
 template<typename T> T* Singleton<T>::singleton = NULL;
 
+/** @addtogroup Memory **/
+/*@{*/
+
+/** 
+ * @class Manager
+ * Contains functions which avoid to load the same ressource
+ * twice.
+ */
 class Manager: public Singleton<Manager>
 {
    friend Manager &Singleton<Manager>::getInstance();
@@ -50,20 +69,42 @@ class Manager: public Singleton<Manager>
    virtual ~Manager();
 
 public:
-   
+   /** Asks for a picture, which is loaded if it's not already done.
+    *  @param name picture name.
+    *  @return a pointer to the loaded ressource.
+    */
    OSL_IMAGE *getPic(char *name);
-   OSL_FONT *getFont(const char *name);
-   ALuint getBuffer(const char *name); // Would return a WAV buffer
 
+   /** Asks for a font, which is loaded if it's not already done.
+    *  @param name picture name.
+    *  @return a pointer to the loaded ressource.
+    */
+   OSL_FONT *getFont(const char *name);
+
+   /** Asks for a WAV bufer, which is loaded if it's not already done.
+    *  @param name picture name.
+    *  @return a pointer to the loaded ressource.
+    */
+   ALuint getBuffer(const char *name);
+
+   /** Clears loaded images. **/
    void clearImages();
+
+   /** Clears loaded fonts. **/
    void clearFonts();
+
+   /** Clears loaded buffers. **/
    void clearBuffers();
 
-   int getArgc() { return _argc; }
+   /** returns argc, given in setArg **/
+   int getArgc() const { return _argc; }
+
+   /** returns argv, given in setArg **/
    char **getArgv() { return _argv; }
 
+   /** Sets the argument, as in main. **/
    void setArg(int argc, char** argv);
-protected:
+private:
    std::map<std::string, OSL_IMAGE*> images;
    std::map<std::string, OSL_FONT*> fonts;
    std::map<std::string, ALuint> buffers;
@@ -71,6 +112,8 @@ protected:
    int _argc;
    char **_argv;
 };
+
+/*@}*/
 
 VALUE clearImages(VALUE self);
 VALUE clearFonts(VALUE self);

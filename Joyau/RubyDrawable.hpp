@@ -19,14 +19,17 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include "Drawable.hpp"
 
+/** @addtogroup Drawables **/
+/*@{*/
+
+/** 
+ * @class RubyDrawable
+ * When calling its method from the C++ code, their Ruby
+ * version are called.
+ */
 class RubyDrawable: public Drawable
 {
 public:
-   /*
-     When calling these function from the C++ code,
-     their Ruby version will be called.
-    */
-
    RubyDrawable() { setClass("RubyDrawable"); }
 
    void draw();
@@ -39,13 +42,20 @@ public:
    bool isOn(int x, int y);
    bool isOn(const Point &p) { return isOn(p.x, p.y); }
 
+   /** Resizes the RubyDrawable.
+    *  @param w new width
+    *  @param h new height.
+    */
    void resize(int w, int h);
 
+   /** Sets the ruby object, whose methods are used. **/
    void setSelf(VALUE val) { self = val; }
    VALUE toRuby() { return self; }
 private:
    VALUE self;
 };
+
+/*@}*/
 
 VALUE RubyDrawable_draw(VALUE self);
 

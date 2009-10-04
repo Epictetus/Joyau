@@ -19,22 +19,50 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include "Shape.hpp"
 
+/** @addtogroup Drawables **/
+/*@{*/
+
+/**
+ * @class DrawableRect
+ * A class which represents a rect, which can be drawed.
+ * (unlike Rect)
+ */
 class DrawableRect: public FillableShape
 {
 public:
    DrawableRect();
 
+   /** Resizes the DrawableRect.
+    *  @param w the rect's new width
+    *  @param h the rect's new height
+    */
    void resize(int w, int h);
+
+    /** Changes the DrawableRect's width.
+     *  @param w the rect's new width
+     */
    void setW(int w);
+
+   /** Changes the DrawableRect's height.
+    *  @param h the rect's new height
+    */
    void setH(int h);
 
+   /** Changes the corner's position
+    *  @param x corner's x position
+    *  @param y corner's y position
+    */
    void setCorner(int x, int y);
+
+   /** Returns the corner position as a Point **/
    Point getCorner() const { return Point(_x2, _y2); }
 
    void draw();
 private:
    int _x2, _y2;
 };
+
+/*@}*/
 
 VALUE DrawableRect_resize(VALUE self, VALUE w, VALUE h);
 VALUE DrawableRect_setW(VALUE self, VALUE w);

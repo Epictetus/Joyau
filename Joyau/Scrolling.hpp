@@ -19,29 +19,45 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include "Sprite.hpp"
 
-// Just a background with scrolling.
+/** @addtogroup Drawables **/
+/*@{*/
+
+/** 
+ * @class Scrolling
+ * A moving background.
+ */
 class Scrolling: public Drawable
 {
 public:
    Scrolling() { setClass("Scrolling"); }
 
+   /** Sets the background.
+    *  @param spr filename
+    */
    void setSprite(char *spr);
    
+   /** Sets the direction. Only four are supported.
+    *  @param dir a constant in Sprite.
+    */
    void setDir(int dir);
+
+   /** Sets speed. The scrolling move of speed pixels per play call.
+    *  @param s speed value.
+    */
    void setSpeed(int s) { speed = s; }
 
+   /** returns the speed **/
    int getSpeed() const { return speed; }
+
+   /** returns the direction **/
    int getDir() const { return _dir; }
 
+   /** Scrolls the scrolling. **/
    void play();
+
    void draw();
 
-   void move(int x, int y);
-   void setPos(int x, int y);
-
-   void setX(int x);
-   void setY(int y);
-
+   void move(int x, int y);   
    void clearMove();
 
    int getW() const;
@@ -51,6 +67,8 @@ private:
    Sprite bg[2];
    int speed;
 };
+
+/*@}*/
 
 VALUE Scrolling_setSprite(VALUE self, VALUE spr);
 VALUE Scrolling_setDir(VALUE self, VALUE dir);

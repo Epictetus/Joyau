@@ -20,6 +20,13 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "GenericSelecter.hpp"
 #include "MessageBox.hpp"
 
+/** @addtogroup Drawables **/
+/*@{*/
+
+/** 
+ * @class MsgConfig
+ * Used for Message's configuration
+ */
 struct MsgConfig: public RubyObject
 {
    MsgConfig():
@@ -57,44 +64,73 @@ struct MsgConfig: public RubyObject
       return *this;
    }
 
+   /** Pointer to the image set on a Message **/
    Sprite *image;
+
+   /** Pointer to the image set as background on a Message **/
    Sprite *bg;
 
-   std::string text;
-   std::string title;
-
+   /** Color used for the text **/
    OSL_COLOR textColor;
+
+   /** Color used for the title **/
    OSL_COLOR titleColor;
+
+   /** Color used for the background **/
    OSL_COLOR bgColor;
+   
+   /** Color used for the border **/
    OSL_COLOR borderColor;
 
    std::string titleFont;
    std::string textFont;
 
-   int titleX, titleY;
+   /** title's x position**/
+   int titleX;
+
+   /** title's y position **/
+   int titleY;
 };
 
+/** 
+ * @class MsgSelecter
+ * Allows to select a message. Father should be 
+ * HorizontalSelecter<Message>, or VerticalSelecter<Message>.
+ */
 template<typename Father>
 class MsgSelecter: public Father
 {
 public:
+   /** Type representing the content's type. **/
    typedef typename Father::content_t content_t;
-
 
    void forFocused(content_t &obj);
    void atLoop(content_t &obj, size_t pos);
 
+   /** Sets the configuration applied to any Message.
+    *  @param val a configuration
+    */
    void setConf(const MsgConfig &val) { conf = val; }
+
+   /** Sets the configuration applied to the focused Message.
+    *  @param val a configuration
+    */
    void setFocusConf(const MsgConfig &val) { focusConf = val; }
 
+   /** Returns the configuration applied to any Message. **/
    MsgConfig& getConf() { return conf; }
+
+   /** Returns the configuration applied to the focused Message. **/
    MsgConfig& getFocusConf() { return focusConf; }
 protected:
    MsgConfig conf;
    MsgConfig focusConf;
 
+   /** Applies a configuration to a Message. **/
    void applyConf(content_t &obj, MsgConfig &arg);
 };
+
+/*@}*/
 
 template<typename T> VALUE MsgSelecter_setConf(VALUE self, VALUE val);
 template<typename T> VALUE MsgSelecter_setFocusConf(VALUE self, VALUE val);
@@ -106,8 +142,16 @@ template<typename T> VALUE defineMsgSelecterKlass(const char *name);
 
 #include "MsgSelecter.tpp"
 
+/** @addtogroup Drawables **/
+/*@{*/
+
+/** Allows to select message horizontally. **/
 typedef MsgSelecter< HorizontalSelecter<Message> > HorizontalMsgSelecter;
+
+/** Allows to select message vertically. **/
 typedef MsgSelecter< VerticalSelecter<Message> > VerticalMsgSelecter;
+
+/*@}*/
 
 VALUE MsgConfig_image(VALUE self);
 VALUE MsgConfig_setImage(VALUE self, VALUE val);

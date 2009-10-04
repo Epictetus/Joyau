@@ -17,41 +17,89 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #ifndef JOYAU_WRAPPER
 #define JOYAU_WRAPPER
 
+/** @addtogroup Ruby **/
+/*@{*/
+
+/** Cast, which converts a prototype so that it can be used
+ *  with ruby's function.
+ */
 #define RPROTO(proto) (VALUE(*)(...))&proto // A boring cast...
 
 // Easier to understand
+
+/** Defines a ruby function
+ *  @param func function's name
+ *  @param proto function's implementation (automatically casted)
+ *  @param argc argument count
+ */
 #define defFunc(func, proto, argc) \
     rb_define_global_function(func, RPROTO(proto), argc)
+
+/** Defines a ruby method
+ *  @param klass class in which the method should be defined.
+ *  @param func method's name
+ *  @param proto method's implementation (automatically casted)
+ *  @param argc argument count
+ */
 #define defMethod(klass, func, proto, argc) \
     rb_define_method(klass, func, RPROTO(proto), argc)
+
+/** Defines a ruby class method
+ *  @param klass class in which the method should be defined.
+ *  @param func method's name
+ *  @param proto method's implementation (automatically casted)
+ *  @param argc argument count
+ */
 #define defClassMethod(klass, func, proto, argc) \
     rb_define_singleton_method(klass, func, RPROTO(proto), argc)
+
+/** Defines a ruby alias
+ *  @param klass class in which the alias should be defined
+ *  @param oldName symbol's old name
+ *  @param newName symbol's new name
+ */
 #define defAlias(klass, oldName, newName) \
     rb_define_alias(klass, newName, oldName)
+
+/** Defines a function in a module.
+ *  @param mod module in whichthe function should be added.
+ *  @param func function's name
+ *  @param proto function's implementation (automatically casted)
+ *  @param argc argument count
+ */
 #define defModFunc(mod, func, proto, argc) \
     rb_define_module_function(mod, func, RPROTO(proto), argc)
 
+/** Like defFunc, but works for template functions which takes no arguments. */
 #define defTplMethod(klass, func, proto) \
     { VALUE(*tmp)(VALUE) = &proto; \
 	  rb_define_method(klass, func, (VALUE(*)(...))tmp, 0); }
+
+/** Like defFunc, but works for template functions which takes 1 argument. **/
 #define defTplMethod1(klass, func, proto) \
     { VALUE(*tmp)(VALUE, VALUE) = &proto; \
 	  rb_define_method(klass, func, (VALUE(*)(...))tmp, 1); }
 
+/** Like defFunc, but works for template functions which takes 2 arguments. **/
 #define defTplMethod2(klass, func, proto) \
     { VALUE(*tmp)(VALUE, VALUE, VALUE) = &proto; \
 	  rb_define_method(klass, func, (VALUE(*)(...))tmp, 2); }
 
+/** Defines a module **/
 #define defModule rb_define_module
 
+/** Defines a constant **/
 #define defConst rb_define_const
 
-// generics functions for class wrapping
+/** Destroys the object info. Used when a ruby object is destroyed. **/
 template<typename T> void wrapped_free(void *info)
 {
    delete (T*)info;
 }
 
+/** Returns a ruby object, whose class is info, and in which we've
+ *  wrapped a new object, whose type is T. 
+ */
 template<typename T> VALUE wrap(int argc, VALUE *argv, VALUE info)
 {
    T *ptr = new T;
@@ -59,6 +107,7 @@ template<typename T> VALUE wrap(int argc, VALUE *argv, VALUE info)
    return tdata;
 }
 
+/** Returns a pointer wrapped in val **/
 template<typename T> T *getPtr(VALUE val)
 {
    T *ptr;
@@ -66,12 +115,22 @@ template<typename T> T *getPtr(VALUE val)
    return ptr;
 }
 
+/** Returns a reference to the object wrapped in val. **/
 template<typename T> T &getRef(VALUE val)
 {
    return (*getPtr<T>(val));
 }
 
+/** Don't free the object. Used in some cases, when we need the C++ object
+ *  even if the ruby object has been destroyed.
+ */
 inline void no_free(void *info) {}
+
+/** Crates a Ruby object from a C++ object.
+ *  @param info ruby class
+ *  @param val ruby object.
+ *  @param exist when true, the object won't be copied.
+ */
 template<typename T> VALUE createObject(VALUE info, T &val, bool exist = false)
 {
    if (exist)
@@ -84,6 +143,10 @@ template<typename T> VALUE createObject(VALUE info, T &val, bool exist = false)
    return tdata;
 }
 
+/** Defines a Ruby class.
+ *  @param name class name.
+ *  @param father father class.
+ */
 template<typename T> VALUE defClass(const char *name, 
 				    VALUE father = rb_cObject)
 {
@@ -94,28 +157,44 @@ template<typename T> VALUE defClass(const char *name,
    return ret;
 }
 
+/** Returns a Ruby class.
+ *  @param name class name.
+ */
 inline VALUE getClass(const char *name)
 {
    return rb_const_get(rb_cObject, rb_intern(name));
 }
 
+/** Returns a Ruby function.
+ *  @param name function name.
+ */
 inline VALUE getFunc(const char *name)
 {
    return rb_intern(name);
 }
 
+/** Defines a Ruby class.
+ *  @param name class name.
+ *  @param father father class name.
+ */
 template<typename T> VALUE defClass(const char *name, const char *father)
 {
    return defClass<T>(name, getClass(father));
 }
 
+/** 
+ * @class RubyObject
+ * Allows to create ruby objects from C++ object.
+ */
 class RubyObject
 {
 public:
+   /** Sets the Ruby class.
+    *  @param val class name (has to exist).
+    */
    void setClass(const std::string &val) { klass = getClass(val.c_str()); }
       
-   // We can't set the third arguments to false, because it
-   // needs a copy.
+   /** Returns a ruby object, without copying this. **/
    virtual VALUE toRuby()
    {
       return createObject(klass, *this, true);
@@ -124,7 +203,7 @@ private:
    VALUE klass;
 };
 
-// That code was really boring to write each time
+/** Converts a ruby hash to an OSL_COLOR. **/
 inline OSL_COLOR hash2col(VALUE hash)
 {
    int r = FIX2INT(rb_hash_aref(hash, rb_str_new2("r")));
@@ -135,6 +214,7 @@ inline OSL_COLOR hash2col(VALUE hash)
    return RGBA(r, g, b, a);
 }
 
+/** Converts an OSL_COLOR to a ruby hash. **/
 inline VALUE col2hash(OSL_COLOR col)
 {
    u8 red, green, blue, alpha;
@@ -148,5 +228,7 @@ inline VALUE col2hash(OSL_COLOR col)
 
    return hash;
 }
+
+/*@}*/
 
 #endif

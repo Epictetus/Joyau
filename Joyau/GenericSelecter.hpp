@@ -19,11 +19,22 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include "Drawable.hpp"
 
+/** @addtogroup Drawables **/
+/*@{*/
+
+/**
+ * @class GenericSelecter
+ * A class which allows to selecter on item, whose
+ * type is ContentType.
+ */
 template<typename ContentType>
 class GenericSelecter: public Drawable
 {
 public:
+   /** Type representing the container used internally. **/
    typedef std::vector<ContentType> container_t;
+   
+   /** Type representing the content's type. **/
    typedef ContentType content_t;
 
    GenericSelecter():
@@ -34,12 +45,25 @@ public:
       _h(272)
    {}
 
-   enum DIRECTION { NEXT = 1, PREV = -1 };
+   /** Contains the commonly used direction. **/
+   enum DIRECTION { 
+      /** Used for selecting the element n + 1 **/
+      NEXT =  1,
+
+      /** Used for selecting the element n - 1 **/
+      PREV = -1
+   };
    
    void draw();
 
+   /** Selects the element at getIndex() + dir.
+    *  Notice it checks if the index is correct.
+    **/
    void select(int dir);
 
+   /** Inserts an object in the Selecter.
+    *  @param obj object which should be added
+    */
    void addItem(const content_t &obj);
 
    bool collide(Drawable &item);
@@ -49,19 +73,43 @@ public:
    int getH() const;
 
    void move(int x, int y);
+
+   /** Resizes the selecter.
+    *  @param w new width
+    *  @param h new height.
+    */
    void resize(int w, int h);
 
+   /** Returns a reference to the selected item. **/
    content_t &getSelected() { return content[index]; }
+
+   /** Returns an item at a specified index.
+    *  @param ind index where is the wanted object. 
+    */
    content_t &getItem(size_t ind) { return content[ind]; }
 
+   /** Returns the container's size **/
    size_t getSize() const { return size; }
+
+   /** Returns the selected index. **/
    size_t getIndex() const { return index; }
 
+   /** Changes the focused value. If false, no item will be
+    *  considered as being focused.
+    *  @param val focused's value.
+    */
    void setFocus(bool val) { focused = val; }
+
+   /** Returns focused value **/
    bool getFocus() const { return focused; }
 
+   /** Called on an item after being added to the container. **/
    virtual void onAdd(content_t &obj) = 0;
+
+   /** Called on an item at each loop if it has focus **/
    virtual void forFocused(content_t &obj) = 0;
+
+   /** Called on each item **/
    virtual void atLoop(content_t &obj, size_t pos) = 0;
 protected:
    bool focused;
@@ -74,25 +122,39 @@ protected:
    int _w, _h;
 };
 
+/**
+ * @class HorizontalSelecter
+ * @description Like GenericSelecter, but the items are automatically
+ * disposed horizontally.
+ */
 template<typename ContentType>
 class HorizontalSelecter: public GenericSelecter<ContentType>
 {
 public:
+   /** Type representing the content's type. **/
    typedef ContentType content_t;
 
    void onAdd(content_t &obj);
    void atLoop(content_t &obj, size_t pos);
 };
 
+/**
+ * @class VerticalSelecter
+ * Like GenericSelecter, but the items are automatically
+ * disposed vertically.
+ */
 template<typename ContentType>
 class VerticalSelecter: public GenericSelecter<ContentType>
 {
 public:
+   /** Type representing the content's type. **/
    typedef ContentType content_t;
 
    void onAdd(content_t &obj);
    void atLoop(content_t &obj, size_t pos);
 };
+
+/*@}*/
 
 template<typename T> VALUE GenericSelecter_select(VALUE self, VALUE dir);
 

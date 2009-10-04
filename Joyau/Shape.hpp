@@ -19,26 +19,50 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include "Drawable.hpp"
 
+/** @addtogroup Drawables **/
+/*@{*/
+
+/** 
+ * @class Shape
+ * A Drawable which can be colorized
+ */
 class Shape: public Drawable
 {
 public:
+   /** Creates a new Shape.
+    *  @param size tells how many colors there are in the shape.
+    */
    Shape(int size = 1);
    Shape(const Shape &obj);
    virtual ~Shape();
 
+   /** Changes all the color.
+    *  @param col new color.
+    */
    void setColor(OSL_COLOR col);
+
+   /** Changes the color with an array.
+    *  @param col an array, in which we can found getColorsNumber() colors.
+    */
    void setGradient(OSL_COLOR *col);
 
+   /** Returns an array containing all the color **/
    OSL_COLOR *getColors() const { return _col; }
+
+   /** Returns the first color. **/
    OSL_COLOR getColor() const { return _col[0]; }
 
+   /** Tels how many colors there are in this **/
    int getColorsNumber() const { return _size; }
 protected:
-   // A shape can just be colorized.
    OSL_COLOR *_col;
    int _size;
 };
 
+/** 
+ * @class FillableShape
+ * A Shape which can be (un)filled.
+ */
 class FillableShape: public Shape
 {
 public:
@@ -46,12 +70,19 @@ public:
       Shape(size), filled(true)
    { setClass("FillableShape"); }
 
+   /** Reverses the filled value. **/
    void toggleFilled() { filled = !filled; }
+
+   /** Changes the filled value. **/
    void setFilled(bool val) { filled = val; }
+
+   /** Returns whether the shape is filled. **/
    bool isFilled() const { return filled; }
 protected:
    bool filled;
 };
+
+/*@}*/
 
 VALUE Shape_setColor(int argc, VALUE *argv, VALUE self);
 VALUE Shape_setGradient(VALUE self, VALUE col);

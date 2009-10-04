@@ -19,6 +19,14 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include "Drawable.hpp"
 
+/** @addtogroup Drawables **/
+/*@{*/
+
+/** 
+ * @class Sprite
+ * An image, which can be animated, ... and which allows
+ * to use the same ressource twice.
+ */
 class Sprite: public Drawable
 {
 public:
@@ -40,17 +48,32 @@ public:
       autoDir(false)
    { setClass("Sprite"); }
 
+   /** Loads the picture.
+    *  @param pic filename.
+    */
    void setPicture(char *pic);
 
+   /** increase the angle of angle. **/
    void rotate(int angle) { _angle += angle; }
+
+   /** Returns the angle **/
    int getAngle() const { return _angle; }
+
+   /** Changes the angle value **/
    void setAngle(int angle) { _angle = angle; }
+
+   /** Increases the zoom. **/
    void zoom(int increase);
+
+   /** Returns the zoom **/
    int getZoom() const { return _zoom; }
 
    void move(int x, int y);
 
+   /** Changes the alpha value **/
    void setAlpha(int alpha);
+
+   /** Returns the alpha value **/
    int getAlpha() const;
    
    int getW() const;
@@ -58,31 +81,52 @@ public:
 
    virtual void draw();
    
-   enum DIRECTION { DOWN, LEFT, RIGHT, UP, UP_LEFT, UP_RIGHT, DOWN_LEFT,
-		    DOWN_RIGHT };
-
+   /** Enumeration containing directions, used in setDirection **/
+   enum DIRECTION { 
+      DOWN, 
+      LEFT, 
+      RIGHT, 
+      UP, 
+      UP_LEFT, 
+      UP_RIGHT, 
+      DOWN_LEFT,
+      DOWN_RIGHT 
+   };
+   
+   /** Changes the used direction **/
    void setDirection(int dir);
+
+   /** Retusn the actual direction **/
    int getDirection() const { return _dir; }
    
-   // Configure the number of sprite.
+   /** Sets how many animation steps there are in the Sprite. **/
    void setAnimation(int nbrX, int nbrY);
+
+   /** sets how many frames there'll be betwenn two animation steps **/
    void setAnimationTime(int t) { nbrAnime = t; }
 
+   /** Enanles tile. The rect Rect(x, y, w, h) will be displayed. **/
    void setTile(int x, int y, int w, int h);
+   
+   /** Disable tilling. **/
    void unTile() { tiled = false; }
 
+   /** Saves the image in a file.
+    *  @param fname file name.
+    */
    void saveImage(const char *fname);
 
+   /** Changes autodir value. If it's true, when moving, the
+    *  Sprite will guess in which direction it should go.
+    */
    void setAutoDir(bool val) { autoDir = val; }
 protected:
    char *picName;
 
+   /** Functions which draws the image.**/
    virtual void defaultDraw();
 
-   // This function would set the correct position, ...
-   // before returning the pointer
-   // ( It's safe because the sprite change these value when the picture is
-   // drawn )
+   /** Updates the image, an returns it. **/
    OSL_IMAGE *getImage();
 
    int _w, _h;
@@ -110,6 +154,8 @@ private:
 
    bool autoDir;
 };
+
+/*@}*/
 
 enum DIRECTION { DOWN, LEFT, RIGHT, UP, UP_LEFT, UP_RIGHT, DOWN_LEFT,
 		 DOWN_RIGHT };

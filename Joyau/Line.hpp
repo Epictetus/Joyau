@@ -19,13 +19,30 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include "Shape.hpp"
 
+/** @addtogroup Drawables **/
+/*@{*/
+
+/** 
+ * @class Line
+ * A sprite whose moves are done according to the analogic stick.
+ */
 class Line: public Shape
 {
 public:
    Line();
 
+   /** Sets the line's second point.
+    *  @param x second point's x position
+    *  @param y second point's y position
+    */
    void setPoint(int x, int y);
+   
+   /** Sets the line's second point.
+    *  @param p second point.
+    */
    void setPoint(const Point &p);
+   
+   /** Returns the line's second point **/
    Point getPoint() const { return Point(_x2, _y2); }
 
    bool collide(Drawable &item);
@@ -35,6 +52,8 @@ public:
 private:
    int _x2, _y2;
 };
+
+/*@}*/
 
 VALUE Line_setPoint(VALUE self, VALUE x, VALUE y);
 VALUE Line_setPointPoint(VALUE self, VALUE p);

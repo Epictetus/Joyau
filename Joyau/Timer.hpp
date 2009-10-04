@@ -19,17 +19,31 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include "StdInclude.hpp"
 
+/** @addtogroup Misc **/
+/*@{*/
+
+/** 
+ * @class Timer
+ * Counts the ellapsed seconds.
+ */
 class Timer
 {
 public:
    Timer();
+
+   /** Resets the timer. **/
    void reset();
 
+   /** Returns the ellapsed time. **/
    time_t getTime() const;
 
+   /** Pauses the timer. **/
    void pause();
+
+   /** Resumes the timer. **/
    void resume();
 
+   /** Returns whether the timer is paused. **/
    bool isPaused() const { return paused; }
 private:
    bool paused;
@@ -37,6 +51,8 @@ private:
    time_t offset;
    time_t startTimestamp;
 };
+
+/*@}*/
 
 VALUE Timer_reset(VALUE self);
 

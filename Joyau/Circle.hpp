@@ -19,23 +19,45 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include "Shape.hpp"
 
+/** @addtogroup Drawables **/
+/*@{*/
+
+/**
+ * @class Circle
+ * A class which allows to draw circles.
+ */
 class Circle: public FillableShape
 {
 public:
    Circle() { setClass("Circle"); }
 
+   /** Sets the circle's center.
+    *  @param x center's x position
+    *  @param y center's y position
+    */
    void setCenter(int x, int y);
+
+   /** Sets the circle's radius.
+    *  @param r circle's radius
+    */
    void setRadius(int r);
    
    void draw();
 
+   /** returns the center's x position **/
    int getCenterX() const { return centerX; }
+
+   /** returns the center's y position **/
    int getCenterY() const { return centerY; }
+
+   /** returns the radius **/
    int getRadius() const { return _r; }
 private:
    int centerX, centerY;
    int _r;
 };
+
+/*@}*/
 
 VALUE Circle_setCenter(VALUE self, VALUE x, VALUE y);
 VALUE Circle_setCenterPoint(VALUE self, VALUE point);

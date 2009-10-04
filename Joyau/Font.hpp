@@ -19,6 +19,13 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include "Drawable.hpp"
 
+/** @addtogroup Drawables **/
+/*@{*/
+
+/**
+ * @class IntraText
+ * A class which draws text using Intrafont
+ */
 class IntraText: public Drawable
 {
 public:
@@ -28,18 +35,42 @@ public:
 
    ~IntraText();
 
+   /** Changes the text.
+    *  @param text the new text.
+    */
    void setText(const std::string &val) { txt = val; }
+
+   /** returns the text **/
    std::string getText() const { return txt; }
 
+   /** Loads a font.
+    *  @param name font name
+    *  @param options options for the font. Use Intrafont's constants.
+    */
    void load(const std::string &name, int options);
+
+   /** Changes the text encoding.
+    *  @param options options for the font. Use Intrafont's constants.
+    */
    void setEncoding(int options);
 
    int getW() const;
    
+   /** activated the text. Should be called before drawing. **/
    void activate();
 
-   void setStyle(int size, int color, int shadowColor, int option);
-
+   /** Applies a style to the text.
+    *  @param size the text size.
+    *  @param color text's color. Use its hexadecimal color.
+    *  @param shadowColor shadow's color.
+    *  @param option Some intrafont's constants.
+    */
+   void setStyle(float size, int color, int shadowColor, int option);
+   
+   /** Sets a font as an alternative when a character cannot be drawed
+    *  with ours.
+    *  @param val alternative font.
+    */
    void setAltFont(IntraText &val);
 
    void draw();
@@ -47,6 +78,8 @@ private:
    intraFont *font;
    std::string txt;
 };
+
+/*@}*/
 
 VALUE Intrafont_init(VALUE self);
 VALUE Intrafont_stop(VALUE self);

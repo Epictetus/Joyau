@@ -19,29 +19,62 @@
 
 #include "Shape.hpp"
 
+/** @addtogroup Drawables **/
+/*@{*/
+
+/**
+ * @class DrawableText
+ * A class which represents a text, which can be drawed.
+ */
 class DrawableText: public Shape
 {
 public:
    DrawableText();
-   void setText(std::string text) { _text = text;  }
+   
+   /** Changes the text.
+    *  @param text the new text.
+    */
+   void setText(const std::string &text) { _text = text;  }
 
+   /** Reverses the stirring state. **/
    void toggleStirring();
+
+   /** Changes the stirring state.
+    *  @param val new state
+    */
    void setStirring(bool val) { stirring = val; }
+
+   /** Reverses the scripted state. **/
    void toggleScripted();
    
+   /** Changes the background color.
+    *  @param col background color.
+    */
    void setBackground(OSL_COLOR col) { bg = col; }
-   void setFont(std::string filename) { font = filename; }
+
+   /** Changes the background color.
+    *  @param col background color.
+    */
+   void setFont(const std::string &filename) { font = filename; }
 
    void draw();
 
    int getW() const;
    int getH() const { return 10; }
 
+   /** returns whether the text is scripted **/
    bool isScripted() const { return scripted; }
+   
+   /** returns whether the text is stirring **/
    bool isStirring() const { return stirring; }
 
+   /** returns the background  **/
    OSL_COLOR getBackground() const { return bg; }
+
+   /** returns the used font's name  **/
    std::string getFont() const { return font; }
+
+   /** returns the drawed text **/
    std::string getText() const { return _text; }
 private:
    std::string font;
@@ -52,6 +85,8 @@ private:
 
    OSL_COLOR bg;
 };
+
+/*@}*/
 
 VALUE DrawableText_setText(VALUE self, VALUE text);
 

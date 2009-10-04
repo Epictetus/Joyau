@@ -129,38 +129,6 @@ void Scrolling::move(int x, int y)
       bg[i].move(x, y);
 }
 
-void Scrolling::setX(int x)
-{
-   movedX += _x - x;
-   _x = x;
-
-   for (int i = 0; i < 2; ++i)
-      bg[i].setPos(_x, _y);
-}
-
-void Scrolling::setY(int y)
-{
-   movedY += _y - y;
-   _y = y;
-
-   for (int i = 0; i < 2; ++i)
-      bg[i].setPos(_x, _y);
-}
-
-void Scrolling::setPos(int x, int y)
-{
-   _x = x;
-   _y = y;
-   movedX = 0;
-   movedY = 0;
-
-   int deltaX = bg[0].getX() - bg[1].getX();
-   int deltaY = bg[0].getX() - bg[1].getY();
-
-   bg[0].setPos(_x, _y);
-   bg[1].setPos(_x + deltaX, _y + deltaY);
-}
-
 void Scrolling::clearMove()
 {
    movedX = 0;

@@ -19,6 +19,13 @@
 
 #include "StdInclude.hpp"
 
+/** @addtogroup Drawables **/
+/*@{*/
+
+/** 
+ * @class Particles
+ * A particles generator.
+ */
 class Particles
 {
 public:
@@ -26,17 +33,43 @@ public:
    Particles(const Particles &obj);
    ~Particles() { oslDeleteParticles(part); }
 
+   /** Loads a particle file.
+    *  @param str filename
+    */
    void setFile(char *str);
+
+   /** Configurates the generator. Should be called only once.
+    *  @param time particle's lifetime
+    *  @param speed particle's speed
+    *  @param mspeed minimum speed
+    */
    void setParam(int time, int speed, int gravity, int mspeed);
 
+   /** Moves the particle.
+    *  @param x x offset
+    *  @param y y offset
+    */
    void move(int x, int y);
+
+   /** Adds a particle.
+    *  @param x particle's x position
+    *  @param y particle's y position
+    */
    void addParticles(int x, int y);
 
+   /** Draws the Particles on the screen **/
    void draw();
 
+   /** Returns a particle's lifetime **/
    int getTime() const { return _time; }
+
+   /** Returns a particle's speed **/
    int getSpeed() const { return _speed; }
+
+   /** Returns the gravity **/
    int getGravity() const { return _gravity; }
+
+   /** Returns the minimum speed **/
    int getMinSpeed() const { return _mspeed; }
 private:
    OSL_PARTICLES *part;
@@ -44,6 +77,9 @@ private:
    int _time, _speed, _gravity, _mspeed;
    std::string filename;
 };
+
+/*@}*/
+
 
 VALUE Particles_setFile(VALUE self, VALUE str);
 VALUE Particles_setParam(VALUE self, VALUE time, VALUE speed, VALUE gravity,

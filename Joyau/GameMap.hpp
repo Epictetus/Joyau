@@ -20,12 +20,26 @@
 #include "StdInclude.hpp"
 #include "Sprite.hpp"
 
+/** @addtogroup Drawables **/
+/*@{*/
+
+/**
+ * @class CollisionType
+ * A class which tells where to check collision to a GameMap.
+ */
 struct CollisionType: public RubyObject
 {
    CollisionType():
       left(false), right(false), up(false), down(false), content(true)
    { setClass("CollisionType"); }
 
+   /** Creates a new CollisionType
+    *  @param aContent True if we have to check collision with everything
+    *  @param aLeft True if we have to check collision with the left side.
+    *  @param aRight True if we have to check collision with the right side.
+    *  @param aUp True if we have to check collision with the upper side.
+    *  @param aDown True if we have to check collision with the downer side.
+    */
    CollisionType(bool aContent, bool aLeft, bool aRight, bool aUp, bool aDown):
       left(aLeft), right(aRight), up(aUp), down(aDown), content(aContent)
    { setClass("CollisionType"); }
@@ -33,52 +47,125 @@ struct CollisionType: public RubyObject
    bool left, right, up, down, content;
 };
 
+/**
+ * @class GameMap
+ * A class which draws a list of tiles, using some tilesets.
+ */
 class GameMap: public Drawable
 {
 public:
+   /**
+    * @class Tile
+    * Represents an element in a GameMap
+    */
    struct Tile: public RubyObject
    {
       Tile() { setClass("Tile"); }
 
+      /** used tileset's id **/
       int tileset;
-      int tileX, tileY;
-      int x, y;
 
+      /** x position on the tileset **/
+      int tileX;
+
+      /** y position on the tileset **/
+      int tileY;
+      
+      /** x position relatively to the map **/
+      int x;
+
+      /** y position relatively to the map **/
+      int y;
+
+      /** tells where to check collision for that tile **/
       CollisionType type;
    };
 
+   /**
+    * @class shouldRemove
+    * Returns true when a tile should be removed
+    */
    struct shouldRemove 
    {
+      /** yields the tile, and, if true is evaluated, returns true. **/
       bool operator()(Tile &t);
    };
 
    GameMap();
 
+   /** Loads a tileset.
+    *  @param name tileset's filename.
+    */
    void addTileset(char *name);
+
+   /** Sets the size for all the tilesets in the map.
+    *  @param w each tile's width.
+    *  @param h each tile's height.
+    */
    void setTileSize(int w, int h);
 
+   /** returns each tile's height **/
    int getTileH() const { return tileHeight; }
+
+   /** returns each tile's width **/
    int getTileW() const { return tileWidth; }
 
+   /** Sets collisionH to val. When it's different to -1, collision are only
+    *  checked for the the drawable's collisionH lower pixels.
+    *  @param val collisionH value
+    */
    void setCollisionH(int val) { colH = val; }
+
+   /** returns collisionH **/
    int getCollisionH() const { return colH; }
 
+   /** Returns a Point's relative position.
+    *  @param x x (absolute position)
+    *  @param y y (absolute poision)
+    */
    Point absToRel(int x, int y) const;
+
+   /** Returns a Point's absolute position.
+    *  @param x x (relative position)
+    *  @param y y (relative poision)
+    */
    Point relToAbs(int x, int y) const;
+
+   /** Centers the map on a point.
+    *  @param x x position, relative to the map.
+    *  @param y y position, relative to the map.
+    */
    void centerOn(int x, int y);
 
+   /** Creates a new tileset and insert it in the map.
+    *  @param tileset tile's tileset
+    *  @param tX tile's x position on the tileset
+    *  @param tY tile's y position on the tileset
+    *  @param x tile's x position on the map
+    *  @param y tile's y position on the map
+    */
    void addElem(int tileset, int tX, int tY, int x, int y);
+
+   /** Inserts a tile in the GameMap.
+    *  @param tile the tile which should be added.
+    */
    void addElem(const Tile &tile);
 
    bool collide(Drawable &spr);
    bool isOn(int x, int y);
 
+   /** Clears both tilesets and tiles **/
    void clear();
+
+   /** Clears all the tiles **/
    void clearTiles() { tiles.clear(); }
 
    void draw();
 
+   /** Returns a reference to the tile list. **/
    std::list<Tile> &getTiles() { return tiles; }
+
+   /** Returns a reference to the tileset vector**/
    std::vector<Sprite> &getTilesets() { return tilesets; }
 private:
    std::vector<Sprite> tilesets;
@@ -87,8 +174,11 @@ private:
    int tileWidth, tileHeight;
    int colH;
 protected:
+   /** returns whether a tile is visible **/
    bool visible(const Tile &t) const;
 };
+
+/*@}*/
 
 VALUE CollisionType_right(VALUE self);
 VALUE CollisionType_left(VALUE self);

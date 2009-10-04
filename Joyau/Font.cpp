@@ -36,7 +36,7 @@ void IntraText::activate()
    intraFontActivate(font);
 }
 
-void IntraText::setStyle(int size, int color, int shadowColor, int option)
+void IntraText::setStyle(float size, int color, int shadowColor, int option)
 {
    intraFontSetStyle(font, size, color, shadowColor, option);
 }
@@ -102,7 +102,7 @@ VALUE IntraText_setStyle(VALUE self, VALUE size, VALUE color, VALUE shadow,
 			 VALUE options)
 {
    IntraText &ref = getRef<IntraText>(self);
-   ref.setStyle(FIX2INT(size), FIX2INT(color), FIX2INT(shadow), 
+   ref.setStyle(NUM2DBL(size), FIX2INT(color), FIX2INT(shadow), 
 		FIX2INT(options));
 
    return Qnil;
