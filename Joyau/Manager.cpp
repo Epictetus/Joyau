@@ -16,17 +16,15 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include "Manager.hpp"
 
-using namespace std;
-
 Manager::~Manager()
 {
-   for (map<string, OSL_IMAGE*>::iterator i = images.begin(); 
+   for (std::map<std::string, OSL_IMAGE*>::iterator i = images.begin(); 
 	i != images.end(); ++i)
       oslDeleteImage(i->second);
-   for (map<string, OSL_FONT*>::iterator i = fonts.begin(); 
+   for (std::map<std::string, OSL_FONT*>::iterator i = fonts.begin(); 
 	i != fonts.end(); ++i)
       oslDeleteFont(i->second);
-   for (map<string, ALuint>::iterator i = buffers.begin(); 
+   for (std::map<std::string, ALuint>::iterator i = buffers.begin(); 
 	i != buffers.end(); ++i)
       alDeleteBuffers(1, &i->second);
 }
@@ -57,7 +55,7 @@ ALuint Manager::getBuffer(const char *name)
 // images which were freed.
 void Manager::clearImages()
 {
-   for (map<string, OSL_IMAGE*>::iterator i = images.begin(); 
+   for (std::map<std::string, OSL_IMAGE*>::iterator i = images.begin(); 
 	i != images.end(); ++i)
       oslDeleteImage(i->second); // We'll free the ressources
    // We don't want to give a null pointer to the user
@@ -66,7 +64,7 @@ void Manager::clearImages()
 
 void Manager::clearFonts()
 {
-   for (map<string, OSL_FONT*>::iterator i = fonts.begin(); 
+   for (std::map<std::string, OSL_FONT*>::iterator i = fonts.begin(); 
 	i != fonts.end(); ++i)
       oslDeleteFont(i->second);
    fonts.clear();
@@ -74,7 +72,7 @@ void Manager::clearFonts()
 
 void Manager::clearBuffers()
 {
-   for (map<string, ALuint>::iterator i = buffers.begin(); 
+   for (std::map<std::string, ALuint>::iterator i = buffers.begin(); 
 	i != buffers.end(); ++i)
       alDeleteBuffers(1, &i->second);
    buffers.clear();

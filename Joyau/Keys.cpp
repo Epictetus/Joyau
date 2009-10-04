@@ -16,8 +16,6 @@
 
 #include "Keys.hpp"
 
-using namespace std;
-
 Pad::Pad()
 {
    sceCtrlSetSamplingCycle(0);
@@ -43,7 +41,7 @@ bool Pad::released(const std::string &key) const
    return oldPad & k && !(pad.Buttons & k);
 }
 
-bool Pad::held(const string &key) const
+bool Pad::held(const std::string &key) const
 {
    return pad.Buttons & str2key(key);
 }
@@ -63,7 +61,7 @@ bool Pad::held(int key) const
    return pad.Buttons & key;
 }
 
-int Pad::str2key(const string &key) const
+int Pad::str2key(const std::string &key) const
 {
    if (key == "select")
       return PSP_CTRL_SELECT;
@@ -136,7 +134,7 @@ VALUE checkKeys(VALUE self)
 {
    VALUE keys = rb_gv_get("$keys");
 
-   string keys_str[] = { "select", "start", "up", "down", "left",
+   std::string keys_str[] = { "select", "start", "up", "down", "left",
 			 "right", "L", "R", "cross", "triangle", "square",
 			 "hold" };
    

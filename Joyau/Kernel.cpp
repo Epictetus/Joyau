@@ -16,8 +16,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include "Kernel.hpp"
 
-using namespace std;
-
 VALUE Kernel_cd(VALUE self, VALUE dir)
 {
    sceIoChdir(StringValuePtr(dir));

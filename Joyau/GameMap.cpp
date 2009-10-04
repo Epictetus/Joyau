@@ -18,8 +18,6 @@
 #include "DrawableRect.hpp"
 #include "Line.hpp"
 
-using namespace std;
-
 template<> VALUE wrap<CollisionType>(int argc, VALUE *argv, VALUE info)
 {
    CollisionType *ptr = new CollisionType;
@@ -153,7 +151,7 @@ bool GameMap::collide(Drawable &spr)
    }
    Drawable &col = colH != -1 ? tmp : spr;
 
-   for (list<Tile>::iterator i = tiles.begin(); i != tiles.end(); ++i)
+   for (std::list<Tile>::iterator i = tiles.begin(); i != tiles.end(); ++i)
    {
       Sprite &tile = tilesets[(*i).tileset];
       tile.setTile((*i).tileX, (*i).tileY, tileWidth, tileHeight);
@@ -205,7 +203,7 @@ bool GameMap::collide(Drawable &spr)
 
 bool GameMap::isOn(int x, int y)
 {
-   for (list<Tile>::iterator i = tiles.begin(); i != tiles.end(); ++i)
+   for (std::list<Tile>::iterator i = tiles.begin(); i != tiles.end(); ++i)
    {
       Sprite &tile = tilesets[(*i).tileset];
       tile.setTile((*i).tileX, (*i).tileY, tileWidth, tileHeight);
@@ -240,7 +238,7 @@ bool GameMap::visible(const Tile &t) const
 
 void GameMap::draw()
 {
-   for (list<Tile>::iterator i = tiles.begin(); i != tiles.end(); ++i)
+   for (std::list<Tile>::iterator i = tiles.begin(); i != tiles.end(); ++i)
    {
       /*
         Don't waste time, don't draw not visible tiles.
@@ -384,11 +382,12 @@ VALUE GameMap_clearTiles(VALUE self)
 VALUE GameMap_tiles(VALUE self)
 {
    GameMap &ref = getRef<GameMap>(self);
-   list<GameMap::Tile> tiles = ref.getTiles();
+   std::list<GameMap::Tile> tiles = ref.getTiles();
 
    VALUE ret = rb_ary_new();
 
-   for (list<GameMap::Tile>::iterator i = tiles.begin(); i != tiles.end(); ++i)
+   for (std::list<GameMap::Tile>::iterator i = tiles.begin(); i != tiles.end(); 
+	++i)
       rb_ary_push(ret, (*i).toRuby());
    return ret;
 }
@@ -396,11 +395,12 @@ VALUE GameMap_tiles(VALUE self)
 VALUE GameMap_tilesets(VALUE self)
 {
    GameMap &ref = getRef<GameMap>(self);
-   vector<Sprite> tilesets = ref.getTilesets();
+   std::vector<Sprite> tilesets = ref.getTilesets();
 
    VALUE ret = rb_ary_new();
    
-   for (vector<Sprite>::iterator i = tilesets.begin(); i != tilesets.end(); ++i)
+   for (std::vector<Sprite>::iterator i = tilesets.begin(); i != tilesets.end();
+	++i)
       rb_ary_push(ret, (*i).toRuby());
    return ret;
 }
@@ -408,9 +408,10 @@ VALUE GameMap_tilesets(VALUE self)
 VALUE GameMap_each_tile(VALUE self)
 {
    GameMap &ref = getRef<GameMap>(self);
-   list<GameMap::Tile> &tiles = ref.getTiles();
+   std::list<GameMap::Tile> &tiles = ref.getTiles();
 
-   for (list<GameMap::Tile>::iterator i = tiles.begin(); i != tiles.end(); ++i)
+   for (std::list<GameMap::Tile>::iterator i = tiles.begin(); i != tiles.end(); 
+	++i)
    {
       VALUE obj = (*i).toRuby();
       rb_yield(obj);
@@ -422,9 +423,10 @@ VALUE GameMap_each_tile(VALUE self)
 VALUE GameMap_each_tileset(VALUE self)
 {
    GameMap &ref = getRef<GameMap>(self);
-   vector<Sprite> &tilesets = ref.getTilesets();
+   std::vector<Sprite> &tilesets = ref.getTilesets();
 
-   for (vector<Sprite>::iterator i = tilesets.begin(); i != tilesets.end(); ++i)
+   for (std::vector<Sprite>::iterator i = tilesets.begin(); i != tilesets.end();
+	++i)
    {
       VALUE obj = (*i).toRuby();
       rb_yield(obj);

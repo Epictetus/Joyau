@@ -38,8 +38,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "MultiSelecter.hpp"
 #include "Font.hpp"
 
-using namespace std;
-
 PSP_MODULE_INFO("Joyau", 0, 1, 1);
 PSP_MAIN_THREAD_ATTR(THREAD_ATTR_USER | THREAD_ATTR_VFPU);
 PSP_HEAP_SIZE_KB(-1024);
@@ -78,7 +76,7 @@ VALUE Joyau_puts(int argc, VALUE *argv, VALUE self)
    for (int i = 0; i < argc; ++i)
    {
       pspDebugScreenPrintf("%s\n", StringValuePtr(argv[i]));
-      cout << StringValuePtr(argv[i]) << endl;
+      std::cout << StringValuePtr(argv[i]) << std::endl;
    }
    return Qnil;
 }
@@ -91,8 +89,8 @@ VALUE Joyau_exit(VALUE self)
 
 int main(int argc, char** argv)
 {
-   string scriptName = "script.rb";
-   string scriptFilename = argv[0];
+   std:: string scriptName = "script.rb";
+   std::string scriptFilename = argv[0];
    size_t id = scriptFilename.rfind('/') + 1;
    scriptFilename.erase(id);
    scriptFilename = scriptFilename + scriptName;

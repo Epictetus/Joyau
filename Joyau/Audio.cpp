@@ -198,11 +198,11 @@ bool Stream::loadOgg(const char *filename)
 bool Stream::play()
 {
    // We don't want to play this Stream twice, do we ?
-   if(playing())
+   if (playing())
       return true;
-   if(!streamBuf(buffers[0]))
+   if (!streamBuf(buffers[0]))
       return false;
-   if(!streamBuf(buffers[1]))
+   if (!streamBuf(buffers[1]))
       return false;
 
    alSourceQueueBuffers(source, 2, buffers);
@@ -249,7 +249,7 @@ bool Stream::update()
 }
 
 bool Stream::streamBuf(ALuint buffer)
-{
+ {
    char data[BUFFER_SIZE];
 
    int size = 0;

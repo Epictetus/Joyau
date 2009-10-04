@@ -17,8 +17,6 @@
 #include "DrawableText.hpp"
 #include "Manager.hpp"
 
-using namespace std;
-
 DrawableText::DrawableText()
 {
    font = "";
@@ -74,7 +72,7 @@ void DrawableText::draw()
 VALUE DrawableText_setText(VALUE self, VALUE text)
 {
    DrawableText &ref = getRef<DrawableText>(self);
-   string txt = StringValuePtr(text);
+   std::string txt = StringValuePtr(text);
 
    ref.setText(txt);
    return Qnil;
@@ -106,7 +104,7 @@ VALUE DrawableText_setBackground(VALUE self, VALUE color)
 VALUE DrawableText_setFont(VALUE self, VALUE font)
 {
    DrawableText &ref = getRef<DrawableText>(self);
-   string str = StringValuePtr(font);
+   std::string str = StringValuePtr(font);
 
    ref.setFont(str);
    return Qnil;

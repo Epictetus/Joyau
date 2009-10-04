@@ -18,8 +18,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "Manager.hpp"
 #include "Sprite.hpp"
 
-using namespace std;
-
 Message::Message()
 {
    image = NULL;
@@ -97,8 +95,8 @@ void Message::draw()
 		  getY() + _h - marge, text.c_str(), 0);
 }
 
-void Message::setTitle(const string &txt) { title = txt; }
-void Message::setText(const string &txt) { text = txt; }
+void Message::setTitle(const std::string &txt) { title = txt; }
+void Message::setText(const std::string &txt) { text = txt; }
 
 void Message::setImage(Sprite *pic) { image = pic; }
 
@@ -113,8 +111,8 @@ void Message::setTitleColor(OSL_COLOR col) { titleColor = col; }
 void Message::setTextColor(OSL_COLOR col) { textColor = col; }
 void Message::setBorderColor(OSL_COLOR col) { borderColor = col; }
 
-void Message::setTextFont(const string &f) { textFont = f; }
-void Message::setTitleFont(const string &f) { titleFont = f; }
+void Message::setTextFont(const std::string &f) { textFont = f; }
+void Message::setTitleFont(const std::string &f) { titleFont = f; }
 
 void Message::setTitlePos(int x, int y)
 {
@@ -136,7 +134,7 @@ void Message::resize(int w, int h)
 VALUE Message_setTitle(VALUE self, VALUE txt)
 {
    Message &ref = getRef<Message>(self);
-   string str = StringValuePtr(txt);
+   std::string str = StringValuePtr(txt);
 
    ref.setTitle(str);
    return Qnil;
@@ -145,7 +143,7 @@ VALUE Message_setTitle(VALUE self, VALUE txt)
 VALUE Message_setText(VALUE self, VALUE txt)
 {
    Message &ref = getRef<Message>(self);
-   string str = StringValuePtr(txt);
+   std::string str = StringValuePtr(txt);
 
    ref.setText(str);
    return Qnil;
@@ -208,7 +206,7 @@ VALUE Message_setBorderColor(VALUE self, VALUE col)
 VALUE Message_setTextFont(VALUE self, VALUE f)
 {
    Message &ref = getRef<Message>(self);
-   string str = StringValuePtr(f);
+   std::string str = StringValuePtr(f);
 
    ref.setTextFont(str);
    return Qnil;
@@ -217,7 +215,7 @@ VALUE Message_setTextFont(VALUE self, VALUE f)
 VALUE Message_setTitleFont(VALUE self, VALUE f)
 {
    Message &ref = getRef<Message>(self);
-   string str = StringValuePtr(f);
+   std::string str = StringValuePtr(f);
 
    ref.setTitleFont(str);
    return Qnil;
