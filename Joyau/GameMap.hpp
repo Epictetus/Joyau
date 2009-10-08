@@ -172,12 +172,6 @@ public:
     *  Both read and write access are allowed.
     */
    VALUE rbTilesets();
-
-   /** Returns a reference to the tile list. **/
-   std::vector<Tile> &getTiles() { return tiles; }
-
-   /** Returns a reference to the tileset vector**/
-   std::vector<Sprite> &getTilesets() { return tilesets; }
 private:
    std::vector<Sprite> tilesets;
    std::vector<Tile> tiles;
