@@ -257,6 +257,29 @@ void GameMap::draw()
    }
 }
 
+void GameMap::rbEachTile()
+{
+   for (unsigned int i = 0; i < tiles.size(); ++i)
+   {
+      VALUE obj = tiles[i].toRuby();
+      rb_yield(obj);
+   }
+}
+
+void GameMap::rbEachTileset()
+{
+   for (unsigned int i = 0; i < tilesets.size(); ++i)
+   {
+      VALUE obj = tilesets[i].toRuby();
+      rb_yield(obj);
+   }
+}
+
+void GameMap::rbRejectTiles()
+{
+   std::remove_if(tiles.begin(), tiles.end(), shouldRemove());
+}
+
 VALUE GameMap_addTileset(VALUE self, VALUE name)
 {
    GameMap &ref = getRef<GameMap>(self);
@@ -407,13 +430,7 @@ VALUE GameMap_tilesets(VALUE self)
 VALUE GameMap_each_tile(VALUE self)
 {
    GameMap &ref = getRef<GameMap>(self);
-   std::vector<GameMap::Tile> &tiles = ref.getTiles();
-
-   for (unsigned int i = 0; i < tiles.size(); ++i)
-   {
-      VALUE obj = tiles[i].toRuby();
-      rb_yield(obj);
-   }
+   ref.rbEachTile();
 
    return Qnil;
 }
@@ -421,23 +438,15 @@ VALUE GameMap_each_tile(VALUE self)
 VALUE GameMap_each_tileset(VALUE self)
 {
    GameMap &ref = getRef<GameMap>(self);
-   std::vector<Sprite> &tilesets = ref.getTilesets();
-
-   for (unsigned int i = 0; i < tilesets.size(); ++i)
-   {
-      VALUE obj = tilesets[i].toRuby();
-      rb_yield(obj);
-   }
-
+   ref.rbEachTileset();
+   
    return Qnil;
 }
 
 VALUE GameMap_reject_tiles(VALUE self)
 {
    GameMap &ref = getRef<GameMap>(self);
-   std::vector<GameMap::Tile> &tiles = ref.getTiles();
-
-   std::remove_if(tiles.begin(), tiles.end(), GameMap::shouldRemove());
+   ref.rbRejectTiles();
 
    return Qnil;
 }

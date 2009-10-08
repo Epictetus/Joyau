@@ -162,6 +162,15 @@ public:
 
    void draw();
 
+   /** Yields each tile in Ruby **/
+   void rbEachTile();
+
+   /** Yields each tileset in Ruby **/
+   void rbEachTileset();
+
+   /** removes tiles which match to a condition, via Ruby. **/
+   void rbRejectTiles();
+
    /** Returns a reference to the tile list. **/
    std::vector<Tile> &getTiles() { return tiles; }
 
