@@ -48,7 +48,7 @@ VALUE MsgConfig_setImage(VALUE self, VALUE val)
    MsgConfig &ref = getRef<MsgConfig>(self);
    ref.image = getPtr<Sprite>(val);
 
-   return Qnil;
+   return val;
 }
 
 VALUE MsgConfig_bg(VALUE self)
@@ -62,7 +62,7 @@ VALUE MsgConfig_setBg(VALUE self, VALUE val)
    MsgConfig &ref = getRef<MsgConfig>(self);
    ref.bg = getPtr<Sprite>(val);
 
-   return Qnil;
+   return val;
 }
 
 VALUE MsgConfig_textColor(VALUE self)
@@ -76,7 +76,7 @@ VALUE MsgConfig_setTextColor(VALUE self, VALUE val)
    MsgConfig &ref = getRef<MsgConfig>(self);
    ref.textColor = hash2col(val);
 
-   return Qnil;
+   return val;
 }
 
 VALUE MsgConfig_titleColor(VALUE self)
@@ -90,7 +90,7 @@ VALUE MsgConfig_setTitleColor(VALUE self, VALUE val)
    MsgConfig &ref = getRef<MsgConfig>(self);
    ref.titleColor = hash2col(val);
 
-   return Qnil;
+   return val;
 }
 
 VALUE MsgConfig_bgColor(VALUE self)
@@ -104,7 +104,7 @@ VALUE MsgConfig_setBgColor(VALUE self, VALUE val)
    MsgConfig &ref = getRef<MsgConfig>(self);
    ref.bgColor = hash2col(val);
 
-   return Qnil;
+   return val;
 }
 
 VALUE MsgConfig_borderColor(VALUE self)
@@ -118,7 +118,7 @@ VALUE MsgConfig_setBorderColor(VALUE self, VALUE val)
    MsgConfig &ref = getRef<MsgConfig>(self);
    ref.borderColor = hash2col(val);
 
-   return Qnil;
+   return val;
 }
 
 VALUE MsgConfig_textFont(VALUE self)
@@ -132,7 +132,7 @@ VALUE MsgConfig_setTextFont(VALUE self, VALUE val)
    MsgConfig &ref = getRef<MsgConfig>(self);
    ref.textFont = StringValuePtr(val);
 
-   return Qnil;
+   return val;
 }
 
 VALUE MsgConfig_titleFont(VALUE self)
@@ -146,7 +146,7 @@ VALUE MsgConfig_setTitleFont(VALUE self, VALUE val)
    MsgConfig &ref = getRef<MsgConfig>(self);
    ref.titleFont = StringValuePtr(val);
 
-   return Qnil;
+   return val;
 }
 
 VALUE MsgConfig_titlePos(VALUE self)
@@ -165,7 +165,7 @@ VALUE MsgConfig_setTitlePos(VALUE self, VALUE val)
    ref.titleX = p.x;
    ref.titleY = p.y;
    
-   return Qnil;
+   return val;
 }
 
 void defineMsgConfig()

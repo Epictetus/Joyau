@@ -143,7 +143,7 @@ VALUE Scrolling_setSprite(VALUE self, VALUE spr)
    char *str = StringValuePtr(spr);
 
    ref.setSprite(str);
-   return Qnil;
+   return spr;
 }
 
 VALUE Scrolling_setDir(VALUE self, VALUE dir)
@@ -152,7 +152,7 @@ VALUE Scrolling_setDir(VALUE self, VALUE dir)
    int _dir = FIX2INT(dir);
    
    ref.setDir(_dir);
-   return Qnil;
+   return dir;
 }
 
 VALUE Scrolling_setSpeed(VALUE self, VALUE s)
@@ -161,7 +161,7 @@ VALUE Scrolling_setSpeed(VALUE self, VALUE s)
    int speed = FIX2INT(s);
    
    ref.setSpeed(speed);
-   return Qnil;
+   return s;
 }
 
 VALUE Scrolling_dir(VALUE self)

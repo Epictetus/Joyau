@@ -55,7 +55,7 @@ template<typename T> VALUE MsgSelecter_setConf(VALUE self, VALUE val)
    MsgConfig &arg = getRef<MsgConfig>(self);
    
    ref.setConf(arg);
-   return Qnil;
+   return val;
 }
 
 template<typename T> VALUE MsgSelecter_setFocusConf(VALUE self, VALUE val)

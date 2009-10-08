@@ -118,7 +118,7 @@ VALUE Line_setPointPoint(VALUE self, VALUE p)
    Point &point = getRef<Point>(p);
    
    ref.setPoint(point);
-   return Qnil;
+   return p;
 }
 
 VALUE Line_getPoint(VALUE self)

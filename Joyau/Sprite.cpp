@@ -198,7 +198,7 @@ VALUE Sprite_setAngle(VALUE self, VALUE angle)
 
    item.setAngle(FIX2INT(angle));
 
-   return Qnil;
+   return angle;
 }
 
 VALUE Sprite_getZoom(VALUE self)
@@ -228,7 +228,7 @@ VALUE Sprite_setAnimationTime(VALUE self, VALUE t)
    Sprite &item = getRef<Sprite>(self);
 
    item.setAnimationTime(FIX2INT(t));
-   return Qnil;
+   return t;
 }
 
 VALUE Sprite_setPicture(VALUE self, VALUE pic)
@@ -236,7 +236,7 @@ VALUE Sprite_setPicture(VALUE self, VALUE pic)
    Sprite &item = getRef<Sprite>(self);
    item.setPicture(StringValuePtr(pic));
 
-   return Qnil;
+   return pic;
 }
 
 VALUE Sprite_setAlpha(VALUE self, VALUE alpha)
@@ -244,7 +244,7 @@ VALUE Sprite_setAlpha(VALUE self, VALUE alpha)
    Sprite &item = getRef<Sprite>(self);
    item.setAlpha(FIX2INT(alpha));
 
-   return Qnil;
+   return alpha;
 }
 
 VALUE Sprite_getAlpha(VALUE self)
@@ -259,7 +259,7 @@ VALUE Sprite_setDirection(VALUE self, VALUE dir)
    Sprite &item = getRef<Sprite>(self);
    item.setDirection(FIX2INT(dir));
 
-   return Qnil;
+   return dir;
 }
 
 VALUE Sprite_zoom(VALUE self, VALUE val)
@@ -300,7 +300,7 @@ VALUE Sprite_setAutoDir(VALUE self, VALUE val)
    Sprite &ref = getRef<Sprite>(self);
    ref.setAutoDir(val == Qtrue);
 
-   return Qnil;
+   return val;
 }
 
 void defineSprite()

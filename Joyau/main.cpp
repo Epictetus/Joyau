@@ -89,7 +89,7 @@ VALUE Joyau_exit(VALUE self)
 
 int main(int argc, char** argv)
 {
-   std:: string scriptName = "script.rb";
+   std::string scriptName = "script.rb";
    std::string scriptFilename = argv[0];
    size_t id = scriptFilename.rfind('/') + 1;
    scriptFilename.erase(id);

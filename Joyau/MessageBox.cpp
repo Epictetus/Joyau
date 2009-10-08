@@ -137,7 +137,7 @@ VALUE Message_setTitle(VALUE self, VALUE txt)
    std::string str = StringValuePtr(txt);
 
    ref.setTitle(str);
-   return Qnil;
+   return txt;
 }
 
 VALUE Message_setText(VALUE self, VALUE txt)
@@ -146,7 +146,7 @@ VALUE Message_setText(VALUE self, VALUE txt)
    std::string str = StringValuePtr(txt);
 
    ref.setText(str);
-   return Qnil;
+   return txt;
 }
 
 VALUE Message_setImage(VALUE self, VALUE pic)
@@ -155,7 +155,7 @@ VALUE Message_setImage(VALUE self, VALUE pic)
    Sprite *spr = getPtr<Sprite>(pic);
    
    ref.setImage(spr);
-   return Qnil;
+   return pic;
 }
 
 VALUE Message_setBackground(VALUE self, VALUE pic)
@@ -164,7 +164,7 @@ VALUE Message_setBackground(VALUE self, VALUE pic)
    Sprite *spr = getPtr<Sprite>(pic);
  
    ref.setBackground(spr);
-   return Qnil;
+   return pic;
 }
 
 VALUE Message_setBgColor(VALUE self, VALUE col)
@@ -173,7 +173,7 @@ VALUE Message_setBgColor(VALUE self, VALUE col)
    OSL_COLOR color = hash2col(col);
 
    ref.setBgColor(color);
-   return Qnil;
+   return col;
 }
 
 VALUE Message_setTitleColor(VALUE self, VALUE col)
@@ -182,7 +182,7 @@ VALUE Message_setTitleColor(VALUE self, VALUE col)
    OSL_COLOR color = hash2col(col);
 
    ref.setTitleColor(color);
-   return Qnil;
+   return col;
 }
 
 VALUE Message_setTextColor(VALUE self, VALUE col)
@@ -191,7 +191,7 @@ VALUE Message_setTextColor(VALUE self, VALUE col)
    OSL_COLOR color = hash2col(col);
 
    ref.setTextColor(color);
-   return Qnil;
+   return col;
 }
 
 VALUE Message_setBorderColor(VALUE self, VALUE col)
@@ -200,7 +200,7 @@ VALUE Message_setBorderColor(VALUE self, VALUE col)
    OSL_COLOR color = hash2col(col);
 
    ref.setBorderColor(color);
-   return Qnil;
+   return col;
 }
 
 VALUE Message_setTextFont(VALUE self, VALUE f)
@@ -209,7 +209,7 @@ VALUE Message_setTextFont(VALUE self, VALUE f)
    std::string str = StringValuePtr(f);
 
    ref.setTextFont(str);
-   return Qnil;
+   return f;
 }
 
 VALUE Message_setTitleFont(VALUE self, VALUE f)
@@ -218,7 +218,7 @@ VALUE Message_setTitleFont(VALUE self, VALUE f)
    std::string str = StringValuePtr(f);
 
    ref.setTitleFont(str);
-   return Qnil;
+   return f;
 }
 
 VALUE Message_setTitlePos(VALUE self, VALUE x, VALUE y)
@@ -324,7 +324,7 @@ VALUE Message_setW(VALUE self, VALUE w)
    Message &ref = getRef<Message>(self);
    ref.setW(FIX2INT(w));
 
-   return Qnil;
+   return w;
 }
 
 VALUE Message_setH(VALUE self, VALUE h)
@@ -332,7 +332,7 @@ VALUE Message_setH(VALUE self, VALUE h)
    Message &ref = getRef<Message>(self);
    ref.setH(FIX2INT(h));
 
-   return Qnil;
+   return h;
 }
 
 void defineMessageBox()

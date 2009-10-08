@@ -81,7 +81,7 @@ VALUE Shape_setGradient(VALUE self, VALUE col)
       args[i] = hash2col(rb_ary_entry(col, i));
 
    ref.setGradient(args);
-   return Qnil;
+   return col;
 }
 
 VALUE Shape_getColorsNumber(VALUE self)
@@ -122,7 +122,7 @@ VALUE FillableShape_setFilled(VALUE self, VALUE val)
    FillableShape &ref = getRef<FillableShape>(self);
    
    ref.setFilled(val == Qtrue);
-   return Qnil;
+   return val;
 }
 
 VALUE FillablleShape_filled(VALUE self)
