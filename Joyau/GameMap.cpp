@@ -151,7 +151,7 @@ bool GameMap::collide(Drawable &spr)
    }
    Drawable &col = colH != -1 ? tmp : spr;
 
-   for (std::list<Tile>::iterator i = tiles.begin(); i != tiles.end(); ++i)
+   for (std::vector<Tile>::iterator i = tiles.begin(); i != tiles.end(); ++i)
    {
       Sprite &tile = tilesets[(*i).tileset];
       tile.setTile((*i).tileX, (*i).tileY, tileWidth, tileHeight);
@@ -203,7 +203,7 @@ bool GameMap::collide(Drawable &spr)
 
 bool GameMap::isOn(int x, int y)
 {
-   for (std::list<Tile>::iterator i = tiles.begin(); i != tiles.end(); ++i)
+   for (std::vector<Tile>::iterator i = tiles.begin(); i != tiles.end(); ++i)
    {
       Sprite &tile = tilesets[(*i).tileset];
       tile.setTile((*i).tileX, (*i).tileY, tileWidth, tileHeight);
@@ -238,7 +238,7 @@ bool GameMap::visible(const Tile &t) const
 
 void GameMap::draw()
 {
-   for (std::list<Tile>::iterator i = tiles.begin(); i != tiles.end(); ++i)
+   for (std::vector<Tile>::iterator i = tiles.begin(); i != tiles.end(); ++i)
    {
       /*
         Don't waste time, don't draw not visible tiles.
@@ -382,12 +382,12 @@ VALUE GameMap_clearTiles(VALUE self)
 VALUE GameMap_tiles(VALUE self)
 {
    GameMap &ref = getRef<GameMap>(self);
-   std::list<GameMap::Tile> tiles = ref.getTiles();
+   std::vector<GameMap::Tile> tiles = ref.getTiles();
 
    VALUE ret = rb_ary_new();
 
-   for (std::list<GameMap::Tile>::iterator i = tiles.begin(); i != tiles.end(); 
-	++i)
+   for (std::vector<GameMap::Tile>::iterator i = tiles.begin(); 
+	i != tiles.end(); ++i)
       rb_ary_push(ret, (*i).toRuby());
    return ret;
 }
@@ -408,10 +408,10 @@ VALUE GameMap_tilesets(VALUE self)
 VALUE GameMap_each_tile(VALUE self)
 {
    GameMap &ref = getRef<GameMap>(self);
-   std::list<GameMap::Tile> &tiles = ref.getTiles();
+   std::vector<GameMap::Tile> &tiles = ref.getTiles();
 
-   for (std::list<GameMap::Tile>::iterator i = tiles.begin(); i != tiles.end(); 
-	++i)
+   for (std::vector<GameMap::Tile>::iterator i = tiles.begin(); 
+	i != tiles.end(); ++i)
    {
       VALUE obj = (*i).toRuby();
       rb_yield(obj);
@@ -438,7 +438,9 @@ VALUE GameMap_each_tileset(VALUE self)
 VALUE GameMap_reject_tiles(VALUE self)
 {
    GameMap &ref = getRef<GameMap>(self);
-   ref.getTiles().remove_if(GameMap::shouldRemove());
+   std::vector<GameMap::Tile> &tiles = ref.getTiles();
+
+   std::remove_if(tiles.begin(), tiles.end(), GameMap::shouldRemove());
 
    return Qnil;
 }

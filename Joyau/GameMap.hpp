@@ -163,13 +163,13 @@ public:
    void draw();
 
    /** Returns a reference to the tile list. **/
-   std::list<Tile> &getTiles() { return tiles; }
+   std::vector<Tile> &getTiles() { return tiles; }
 
    /** Returns a reference to the tileset vector**/
    std::vector<Sprite> &getTilesets() { return tilesets; }
 private:
    std::vector<Sprite> tilesets;
-   std::list<Tile> tiles;
+   std::vector<Tile> tiles;
 
    int tileWidth, tileHeight;
    int colH;

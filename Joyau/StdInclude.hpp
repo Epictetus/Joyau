@@ -21,6 +21,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include <string>
 #include <list>
 #include <vector>
+#include <algorithm>
 #include <map>
 
 #include <pspkernel.h>
