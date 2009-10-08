@@ -75,7 +75,7 @@ VALUE DrawableText_setText(VALUE self, VALUE text)
    std::string txt = StringValuePtr(text);
 
    ref.setText(txt);
-   return Qnil;
+   return text;
 }
 
 VALUE DrawableText_toggleStirring(VALUE self)
@@ -98,7 +98,7 @@ VALUE DrawableText_setBackground(VALUE self, VALUE color)
    OSL_COLOR col = hash2col(color);
 
    ref.setBackground(col);
-   return Qnil;
+   return color;
 }
 
 VALUE DrawableText_setFont(VALUE self, VALUE font)
@@ -107,7 +107,7 @@ VALUE DrawableText_setFont(VALUE self, VALUE font)
    std::string str = StringValuePtr(font);
 
    ref.setFont(str);
-   return Qnil;
+   return font;
 }
 
 VALUE DrawableText_scripted(VALUE self)
@@ -127,7 +127,7 @@ VALUE DrawableText_setStirring(VALUE self, VALUE val)
    DrawableText &ref = getRef<DrawableText>(self);
    ref.setStirring(val == Qtrue);
 
-   return Qnil;
+   return val;
 }
 
 VALUE DrawableText_background(VALUE self)

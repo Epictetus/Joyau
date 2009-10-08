@@ -96,7 +96,7 @@ VALUE DrawableRect_setW(VALUE self, VALUE w)
    DrawableRect &ref = getRef<DrawableRect>(self);
    ref.setW(FIX2INT(w));
 
-   return Qnil;
+   return w;
 }
 
 VALUE DrawableRect_setH(VALUE self, VALUE h)
@@ -104,7 +104,7 @@ VALUE DrawableRect_setH(VALUE self, VALUE h)
    DrawableRect &ref = getRef<DrawableRect>(self);
    ref.setH(FIX2INT(h));
 
-   return Qnil;
+   return h;
 }
 
 VALUE DrawableRect_setCorner(VALUE self, VALUE x, VALUE y)
@@ -123,7 +123,7 @@ VALUE DrawableRect_cornerOp(VALUE self, VALUE p)
    Point &point = getRef<Point>(p);
    
    ref.setCorner(point.x, point.y);
-   return Qnil;
+   return p;
 }
 
 VALUE DrawableRect_getCorner(VALUE self)

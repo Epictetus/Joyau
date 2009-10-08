@@ -128,7 +128,7 @@ VALUE CircleMenu_setAlpha(VALUE self, VALUE alpha)
    int _alpha = FIX2INT(alpha);
 
    ref.setAlpha(_alpha);
-   return Qnil;
+   return alpha;
 }
 
 VALUE CircleMenu_setDist(VALUE self, VALUE dist)
@@ -137,7 +137,7 @@ VALUE CircleMenu_setDist(VALUE self, VALUE dist)
    int _dist = FIX2INT(dist);
    
    ref.setDist(_dist);
-   return Qnil;
+   return dist;
 }
 
 VALUE CircleMenu_setAngle(VALUE self, VALUE angle)
@@ -146,7 +146,7 @@ VALUE CircleMenu_setAngle(VALUE self, VALUE angle)
    int _angle = FIX2INT(angle);
    
    ref.setDist(_angle);
-   return Qnil;
+   return angle;
 }
 
 VALUE CircleMenu_alpha(VALUE self)

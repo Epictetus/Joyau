@@ -328,7 +328,7 @@ VALUE GameMap_setCollisionH(VALUE self, VALUE val)
    GameMap &ref = getRef<GameMap>(self);
    ref.setCollisionH(FIX2INT(val));
 
-   return Qnil;
+   return val;
 }
 
 VALUE GameMap_collisionH(VALUE self)
@@ -376,7 +376,7 @@ VALUE GameMap_addElem(int argc, VALUE *argv, VALUE self)
    }
    else
       GameMap_push(self, argv[0]);
-   return Qnil;
+   return self;
 }
 
 VALUE GameMap_push(VALUE self, VALUE tile)
@@ -397,7 +397,7 @@ VALUE GameMap_push(VALUE self, VALUE tile)
       ref.addElem(tRef);
    }
    
-   return Qnil;
+   return self;
 }
 
 VALUE GameMap_clear(VALUE self)
@@ -487,7 +487,7 @@ VALUE CollisionType_setRight(VALUE self, VALUE val)
    CollisionType &ref = getRef<CollisionType>(self);
    ref.right = val == Qtrue;
 
-   return Qnil;
+   return val;
 }
 
 VALUE CollisionType_setLeft(VALUE self, VALUE val)
@@ -495,7 +495,7 @@ VALUE CollisionType_setLeft(VALUE self, VALUE val)
    CollisionType &ref = getRef<CollisionType>(self);
    ref.left = val == Qtrue;
 
-   return Qnil;
+   return val;
 }
 
 VALUE CollisionType_setUp(VALUE self, VALUE val)
@@ -503,7 +503,7 @@ VALUE CollisionType_setUp(VALUE self, VALUE val)
    CollisionType &ref = getRef<CollisionType>(self);
    ref.up = val == Qtrue;
 
-   return Qnil;
+   return val;
 }
 
 VALUE CollisionType_setDown(VALUE self, VALUE val)
@@ -511,7 +511,7 @@ VALUE CollisionType_setDown(VALUE self, VALUE val)
    CollisionType &ref = getRef<CollisionType>(self);
    ref.down = val == Qtrue;
 
-   return Qnil;
+   return val;
 }
 
 VALUE CollisionType_setContent(VALUE self, VALUE val)
@@ -519,7 +519,7 @@ VALUE CollisionType_setContent(VALUE self, VALUE val)
    CollisionType &ref = getRef<CollisionType>(self);
    ref.content = val == Qtrue;
 
-   return Qnil;
+   return val;
 }
 
 VALUE Tile_tileX(VALUE self)
@@ -558,7 +558,7 @@ VALUE Tile_setTileX(VALUE self, VALUE val)
    GameMap::Tile &ref = getRef<GameMap::Tile>(self);
    ref.tileX = FIX2INT(val);
 
-   return Qnil;
+   return val;
 }
 
 VALUE Tile_setTileY(VALUE self, VALUE val)
@@ -566,7 +566,7 @@ VALUE Tile_setTileY(VALUE self, VALUE val)
    GameMap::Tile &ref = getRef<GameMap::Tile>(self);
    ref.tileY = FIX2INT(val);
 
-   return Qnil;
+   return val;
 }
 
 VALUE Tile_setX(VALUE self, VALUE val)
@@ -574,7 +574,7 @@ VALUE Tile_setX(VALUE self, VALUE val)
    GameMap::Tile &ref = getRef<GameMap::Tile>(self);
    ref.x = FIX2INT(val);
 
-   return Qnil;
+   return val;
 }
 
 VALUE Tile_setY(VALUE self, VALUE val)
@@ -582,7 +582,7 @@ VALUE Tile_setY(VALUE self, VALUE val)
    GameMap::Tile &ref = getRef<GameMap::Tile>(self);
    ref.y = FIX2INT(val);
 
-   return Qnil;
+   return val;
 }
 
 VALUE Tile_setTileset(VALUE self, VALUE val)
@@ -590,7 +590,7 @@ VALUE Tile_setTileset(VALUE self, VALUE val)
    GameMap::Tile &ref = getRef<GameMap::Tile>(self);
    ref.tileset = FIX2INT(val);
 
-   return Qnil;
+   return val;
 }
 
 VALUE Tile_setType(VALUE self, VALUE val)
@@ -599,7 +599,7 @@ VALUE Tile_setType(VALUE self, VALUE val)
    CollisionType &type = getRef<CollisionType>(val);
    
    ref.type = type;
-   return Qnil;
+   return val;
 }
 
 void defineGameMap()

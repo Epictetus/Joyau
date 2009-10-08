@@ -81,7 +81,7 @@ VALUE Circle_setCenterPoint(VALUE self, VALUE point)
    Point &p = getRef<Point>(point);
    
    ref.setCenter(p.x, p.y);
-   return Qnil;
+   return point;
 }
 
 VALUE Circle_setRadius(VALUE self, VALUE r)
@@ -90,7 +90,7 @@ VALUE Circle_setRadius(VALUE self, VALUE r)
    int _r = FIX2INT(r);
 
    ref.setRadius(_r);
-   return Qnil;
+   return r;
 }
 
 VALUE Circle_setColor(VALUE self, VALUE col)

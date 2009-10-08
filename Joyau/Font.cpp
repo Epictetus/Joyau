@@ -73,7 +73,7 @@ VALUE IntraText_setText(VALUE self, VALUE txt)
    IntraText &ref = getRef<IntraText>(self);
    ref.setText(StringValuePtr(txt));
 
-   return Qnil;
+   return txt;
 }
 
 VALUE IntraText_text(VALUE self)

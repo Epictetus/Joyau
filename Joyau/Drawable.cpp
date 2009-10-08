@@ -208,7 +208,7 @@ VALUE Point_setX(VALUE self, VALUE val)
    int _val = FIX2INT(val);
    
    ref.x = _val;
-   return Qnil;
+   return val;
 }
 
 VALUE Point_setY(VALUE self, VALUE val)
@@ -217,7 +217,7 @@ VALUE Point_setY(VALUE self, VALUE val)
    int _val = FIX2INT(val);
    
    ref.y = _val;
-   return Qnil;
+   return val;
 }
 
 VALUE Drawable_movedX(VALUE self)
@@ -288,7 +288,7 @@ VALUE Rect_setX(VALUE self, VALUE val)
    int _val = FIX2INT(val);
 
    ref.x = _val;
-   return Qnil;
+   return val;
 }
 
 
@@ -298,7 +298,7 @@ VALUE Rect_setY(VALUE self, VALUE val)
    int _val = FIX2INT(val);
 
    ref.y = _val;
-   return Qnil;
+   return val;
 }
 
 VALUE Rect_setW(VALUE self, VALUE val)
@@ -307,7 +307,7 @@ VALUE Rect_setW(VALUE self, VALUE val)
    int _val = FIX2INT(val);
 
    ref.w = _val;
-   return Qnil;
+   return val;
 }
 
 VALUE Rect_setH(VALUE self, VALUE val)
@@ -316,7 +316,7 @@ VALUE Rect_setH(VALUE self, VALUE val)
    int _val = FIX2INT(val);
 
    ref.h = _val;
-   return Qnil;
+   return val;
 }
 
 VALUE Drawable_boundingRect(VALUE self)
@@ -364,7 +364,7 @@ VALUE Drawable_setX(VALUE self, VALUE x)
    Drawable &ref = getRef<Drawable>(self);
    ref.setX(INT2FIX(x));
 
-   return Qnil;
+   return x;
 }
 
 VALUE Drawable_setY(VALUE self, VALUE y)
@@ -372,7 +372,7 @@ VALUE Drawable_setY(VALUE self, VALUE y)
    Drawable &ref = getRef<Drawable>(self);
    ref.setY(INT2FIX(y));
 
-   return Qnil;
+   return y;
 }
 
 VALUE Drawable_getW(VALUE self)
@@ -403,7 +403,7 @@ VALUE Drawable_setPoint(VALUE self, VALUE p)
    Point &pRef = getRef<Point>(p);
    ref.setPos(pRef);
 
-   return Qnil;
+   return p;
 }
 
 VALUE Drawable_move(VALUE self, VALUE x, VALUE y)

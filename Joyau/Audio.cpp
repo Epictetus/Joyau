@@ -382,7 +382,7 @@ VALUE Vector3f_setX(VALUE self, VALUE val)
    Vector3f &ref = getRef<Vector3f>(self);
    ref.x = NUM2DBL(val);
 
-   return Qnil;
+   return val;
 }
 
 VALUE Vector3f_setY(VALUE self, VALUE val)
@@ -390,7 +390,7 @@ VALUE Vector3f_setY(VALUE self, VALUE val)
    Vector3f &ref = getRef<Vector3f>(self);
    ref.y = NUM2DBL(val);
 
-   return Qnil;
+   return val;
 }
 
 VALUE Vector3f_setZ(VALUE self, VALUE val)
@@ -398,7 +398,7 @@ VALUE Vector3f_setZ(VALUE self, VALUE val)
    Vector3f &ref = getRef<Vector3f>(self);
    ref.z = NUM2DBL(val);
 
-   return Qnil;
+   return val;
 }
 
 VALUE Vector3f_x(VALUE self)
@@ -487,7 +487,7 @@ VALUE AudioObject_setPosVector(VALUE self, VALUE val)
    Vector3f &vector = getRef<Vector3f>(val);
 
    ref.setPos(vector);
-   return Qnil;
+   return val;
 }
 
 VALUE AudioObject_setVelocityVector(VALUE self, VALUE val)
@@ -496,7 +496,7 @@ VALUE AudioObject_setVelocityVector(VALUE self, VALUE val)
    Vector3f &vector = getRef<Vector3f>(val);
 
    ref.setVelocity(vector);
-   return Qnil;
+   return val;
 }
 
 VALUE AudioObject_setDirectionVector(VALUE self, VALUE val)
@@ -505,7 +505,7 @@ VALUE AudioObject_setDirectionVector(VALUE self, VALUE val)
    Vector3f &vector = getRef<Vector3f>(val);
 
    ref.setDirection(vector);
-   return Qnil;
+   return val;
 }
 
 VALUE AudioObject_playing(VALUE self)
@@ -642,7 +642,7 @@ VALUE Listener_posOp(VALUE self, VALUE val)
    Vector3f &ref = getRef<Vector3f>(val);
    alListener3f(AL_POSITION, ref.x,ref.y, ref.z);
 
-   return Qnil;
+   return val;
 }
 
 VALUE Listener_velocityOp(VALUE self, VALUE val)
@@ -650,7 +650,7 @@ VALUE Listener_velocityOp(VALUE self, VALUE val)
    Vector3f &ref = getRef<Vector3f>(val);
    alListener3f(AL_VELOCITY, ref.x,ref.y, ref.z);
 
-   return Qnil;
+   return val;
 }
 
 VALUE Listener_directionOp(VALUE self, VALUE val)
@@ -658,7 +658,7 @@ VALUE Listener_directionOp(VALUE self, VALUE val)
    Vector3f &ref = getRef<Vector3f>(val);
    alListener3f(AL_DIRECTION, ref.x,ref.y, ref.z);
 
-   return Qnil;
+   return val;
 }
 
 void defineAudio()

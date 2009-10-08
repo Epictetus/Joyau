@@ -24,7 +24,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #define BUFFER_SIZE 4096 // A really little buffer, it's for the PSP...
 #define NUM_BUFFERS 8
 
-/** @defgroup Audio
+/** @defgroup Audio Audio
  *  Contains classes related to the audio module. There are streams,
  *  short sounds, vectors for their position, ...
  */
@@ -227,7 +227,7 @@ private:
 
 /**
  * @class Stream
- * @description A class which represents an ogg stream.
+ * A class which represents an ogg stream.
  */
 class Stream: public AudioObject
 {
