@@ -81,15 +81,7 @@ public:
       CollisionType type;
    };
 
-   /**
-    * @class shouldRemove
-    * Returns true when a tile should be removed
-    */
-   struct shouldRemove 
-   {
-      /** yields the tile, and, if true is evaluated, returns true. **/
-      bool operator()(Tile &t);
-   };
+   typedef RubyReject<Tile> shouldRemove;
 
    GameMap();
 

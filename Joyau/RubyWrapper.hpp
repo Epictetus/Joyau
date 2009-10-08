@@ -207,6 +207,23 @@ private:
    VALUE klass;
 };
 
+/**
+ *  @class RubyReject
+ *  A class which yields an object in Ruby, and then check
+ *  if the evaluated expression is true.
+ */
+template<typename T>
+struct RubyReject
+{
+   /** Yields the object, and returns true if the evaluated expression is. **/
+   bool operator()(T &obj)
+   {
+      VALUE rbObj = obj.toRuby();
+      return rb_yield(rbObj) == Qtrue;
+   }
+};
+
+
 /** Converts a ruby hash to an OSL_COLOR. **/
 inline OSL_COLOR hash2col(VALUE hash)
 {
