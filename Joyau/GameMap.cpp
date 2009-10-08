@@ -151,63 +151,64 @@ bool GameMap::collide(Drawable &spr)
    }
    Drawable &col = colH != -1 ? tmp : spr;
 
-   for (std::vector<Tile>::iterator i = tiles.begin(); i != tiles.end(); ++i)
+   for (unsigned int i = 0; i < tiles.size(); ++i)
    {
-      Sprite &tile = tilesets[(*i).tileset];
-      tile.setTile((*i).tileX, (*i).tileY, tileWidth, tileHeight);
+      Sprite &tile = tilesets[tiles[i].tileset];
+      tile.setTile(tiles[i].tileX, tiles[i].tileY, tileWidth, tileHeight);
+      
       // Coord relative to the map !
-      tile.setPos(getX() + (*i).x, getY() + (*i).y);
+      tile.setPos(getX() + tiles[i].x, getY() + tiles[i].y);
 
       Line line;
 
-      if ((*i).type.right)
+      if (tiles[i].type.right)
       {
-	 line.setPos(getX() + (*i).x + tileWidth, getY() + (*i).y);
-	 line.setPoint(getX() + (*i).x + tileWidth, 
-		       getY() + (*i).y + tileHeight);
+	 line.setPos(getX() + tiles[i].x + tileWidth, getY() + tiles[i].y);
+	 line.setPoint(getX() + tiles[i].x + tileWidth, 
+		       getY() + tiles[i].y + tileHeight);
 	 if (col.collide(line))
 	    return true;
       }
 
-      if ((*i).type.left)
+      if (tiles[i].type.left)
       {
-	 line.setPos(getX() + (*i).x, getY() + (*i).y);
-	 line.setPoint(getX() + (*i).x, getY() + (*i).y + tileHeight);
+	 line.setPos(getX() + tiles[i].x, getY() + tiles[i].y);
+	 line.setPoint(getX() + tiles[i].x, getY() + tiles[i].y + tileHeight);
 	 if (col.collide(line))
 	    return true;
       }
 
-      if ((*i).type.up)
+      if (tiles[i].type.up)
       {
-	 line.setPos(getX() + (*i).x, getY() + (*i).y);
-	 line.setPoint(getX() + (*i).x + tileWidth, getY() + (*i).y);
+	 line.setPos(getX() + tiles[i].x, getY() + tiles[i].y);
+	 line.setPoint(getX() + tiles[i].x + tileWidth, getY() + tiles[i].y);
 	 if (col.collide(line))
 	    return true;
       }
 
-      if ((*i).type.down)
+      if (tiles[i].type.down)
       {
-	 line.setPos(getX() + (*i).x, getY() + (*i).y + tileHeight);
-	 line.setPoint(getX() + (*i).x + tileWidth, 
-		       getY() + (*i).y + tileHeight);
+	 line.setPos(getX() + tiles[i].x, getY() + tiles[i].y + tileHeight);
+	 line.setPoint(getX() + tiles[i].x + tileWidth, 
+		       getY() + tiles[i].y + tileHeight);
 	 if (col.collide(line))
 	    return true;
       }
 
-      if ((*i).type.content)
+      if (tiles[i].type.content)
 	 if (col.collide(tile))
 	    return true; // If it collides with only one tile, it collides..
    }
-   return false; // It didn't collide with any sprite.
+   return false; // It didn't collide with any tiles.
 }
 
 bool GameMap::isOn(int x, int y)
 {
-   for (std::vector<Tile>::iterator i = tiles.begin(); i != tiles.end(); ++i)
+   for (unsigned int i = 0; i< tiles.size(); ++i)
    {
-      Sprite &tile = tilesets[(*i).tileset];
-      tile.setTile((*i).tileX, (*i).tileY, tileWidth, tileHeight);
-      tile.setPos(getX() + (*i).x, getY() + (*i).y);
+      Sprite &tile = tilesets[tiles[i].tileset];
+      tile.setTile(tiles[i].tileX, tiles[i].tileY, tileWidth, tileHeight);
+      tile.setPos(getX() + tiles[i].x, getY() + tiles[i].y);
 
       if (tile.isOn(x, y))
          return true;
@@ -238,18 +239,18 @@ bool GameMap::visible(const Tile &t) const
 
 void GameMap::draw()
 {
-   for (std::vector<Tile>::iterator i = tiles.begin(); i != tiles.end(); ++i)
+   for (unsigned int i = 0; i < tiles.size(); ++i)
    {
       /*
         Don't waste time, don't draw not visible tiles.
         ( It's also possible that the size of the map is inferior
 	to the screen size )
       */
-      if (visible(*i))
+      if (visible(tiles[i]))
       {
-         Sprite &tile = tilesets[(*i).tileset];
-         tile.setTile((*i).tileX, (*i).tileY, tileWidth, tileHeight);
-         tile.setPos(getX() + (*i).x, getY() + (*i).y);
+         Sprite &tile = tilesets[tiles[i].tileset];
+         tile.setTile(tiles[i].tileX, tiles[i].tileY, tileWidth, tileHeight);
+         tile.setPos(getX() + tiles[i].x, getY() + tiles[i].y);
 
 	 tile.draw();
       }
@@ -382,26 +383,24 @@ VALUE GameMap_clearTiles(VALUE self)
 VALUE GameMap_tiles(VALUE self)
 {
    GameMap &ref = getRef<GameMap>(self);
-   std::vector<GameMap::Tile> tiles = ref.getTiles();
+   std::vector<GameMap::Tile> &tiles = ref.getTiles();
 
    VALUE ret = rb_ary_new();
 
-   for (std::vector<GameMap::Tile>::iterator i = tiles.begin(); 
-	i != tiles.end(); ++i)
-      rb_ary_push(ret, (*i).toRuby());
+   for (unsigned int i = 0; i < tiles.size(); ++i)
+      rb_ary_push(ret, tiles[i].toRuby());
    return ret;
 }
 
 VALUE GameMap_tilesets(VALUE self)
 {
    GameMap &ref = getRef<GameMap>(self);
-   std::vector<Sprite> tilesets = ref.getTilesets();
+   std::vector<Sprite> &tilesets = ref.getTilesets();
 
    VALUE ret = rb_ary_new();
    
-   for (std::vector<Sprite>::iterator i = tilesets.begin(); i != tilesets.end();
-	++i)
-      rb_ary_push(ret, (*i).toRuby());
+   for (unsigned int i = 0; i < tilesets.size(); ++i)
+      rb_ary_push(ret, tilesets[i].toRuby());
    return ret;
 }
 
@@ -410,10 +409,9 @@ VALUE GameMap_each_tile(VALUE self)
    GameMap &ref = getRef<GameMap>(self);
    std::vector<GameMap::Tile> &tiles = ref.getTiles();
 
-   for (std::vector<GameMap::Tile>::iterator i = tiles.begin(); 
-	i != tiles.end(); ++i)
+   for (unsigned int i = 0; i < tiles.size(); ++i)
    {
-      VALUE obj = (*i).toRuby();
+      VALUE obj = tiles[i].toRuby();
       rb_yield(obj);
    }
 
@@ -425,10 +423,9 @@ VALUE GameMap_each_tileset(VALUE self)
    GameMap &ref = getRef<GameMap>(self);
    std::vector<Sprite> &tilesets = ref.getTilesets();
 
-   for (std::vector<Sprite>::iterator i = tilesets.begin(); i != tilesets.end();
-	++i)
+   for (unsigned int i = 0; i < tilesets.size(); ++i)
    {
-      VALUE obj = (*i).toRuby();
+      VALUE obj = tilesets[i].toRuby();
       rb_yield(obj);
    }
 
