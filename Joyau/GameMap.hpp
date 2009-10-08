@@ -163,6 +163,16 @@ public:
    /** removes tiles which match to a condition, via Ruby. **/
    void rbRejectTiles();
 
+   /** Returns a ruby array containing all the tiles. Both
+    *  Both read and write access are allowed.
+    */
+   VALUE rbTiles();
+
+   /** Returns a ruby array containing all the tilesets. Both
+    *  Both read and write access are allowed.
+    */
+   VALUE rbTilesets();
+
    /** Returns a reference to the tile list. **/
    std::vector<Tile> &getTiles() { return tiles; }
 
