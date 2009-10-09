@@ -140,7 +140,7 @@ template<typename T> VALUE MsgSelecter_focusConf(VALUE self);
 
 template<typename T> VALUE defineMsgSelecterKlass(const char *name);
 
-#include "MsgSelecter.tpp"
+#include "MsgSelecterImpl.hpp"
 
 /** @addtogroup Drawables **/
 /*@{*/

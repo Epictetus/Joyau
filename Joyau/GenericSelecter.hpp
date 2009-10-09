@@ -173,6 +173,6 @@ template<typename T> VALUE GenericSelecter_focus(VALUE self);
 
 template<typename T> VALUE defineGenericSelecter(const char *name);
 
-#include "GenericSelecter.tpp"
+#include "GenericSelecterImpl.hpp"
 
 #endif
