@@ -19,9 +19,7 @@
 bool loadStartModule(const std::string &prx)
 {
    SceUID mod = pspSdkLoadStartModule(prx.c_str(), PSP_MEMORY_PARTITION_KERNEL);
-   if (mod < 0)
-      return false;
-   return true;
+   return mod > 0;
 }
 
 VALUE initUsb(VALUE self)
