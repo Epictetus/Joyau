@@ -101,10 +101,7 @@ void Sprite::zoom(int increase)
 
 void Sprite::move(int x, int y)
 {
-   _x += x;
-   _y += y;
-   movedX += x;
-   movedY += y;
+   Drawable::move(x, y);
 
    if (autoDir)
    {

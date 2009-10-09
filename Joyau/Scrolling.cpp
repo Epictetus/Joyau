@@ -120,10 +120,7 @@ void Scrolling::draw()
 
 void Scrolling::move(int x, int y)
 {
-   _x += x;
-   _y += y;
-   movedX += x;
-   movedY += y;
+   Drawable::move(x, y);
 
    for (int i = 0; i < 2; ++i)
       bg[i].move(x, y);
