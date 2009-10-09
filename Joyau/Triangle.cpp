@@ -54,8 +54,8 @@ void Triangle::setPoints(int x1, int y1, int x2, int y2, int x3, int y3)
 	 minY = y[i];
    }
 
-   _w = maxX - getX();
-   _h = maxY - getY();
+   _w = maxX - minX;
+   _h = maxY - minY;
 }
 
 Point* Triangle::getPoints() const
