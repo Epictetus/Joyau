@@ -19,7 +19,7 @@
 
 #include "StdInclude.hpp"
 
-bool loadStartModule(std::string prx);
+bool loadStartModule(const std::string &prx);
 
 VALUE initUsb(VALUE self);
 VALUE stopUsb(VALUE self);
