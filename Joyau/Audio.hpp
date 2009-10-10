@@ -20,7 +20,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "StdInclude.hpp"
 
 #define SAMPLES_RATE 44100
-#define SAMPLES_FORMAT AL_FORMAT_MONO16
+#define SAMPLES_FORMAT AL_FORMAT_MONO16 // Stereo isn't supported
 #define BUFFER_SIZE 4096 // A really little buffer, it's for the PSP...
 #define NUM_BUFFERS 8
 

@@ -42,12 +42,12 @@ struct Point
       x(X), y(Y)
    {}
 
-   /** Returns a new point, whose x and y positions are the our position and 
+   /** Returns a new point, whose x and y positions are our position and 
     *  op's position sum.
     */
    Point operator+(const Point &op) const;
 
-   /** Returns a new point, whose x and y positions are the our position and 
+   /** Returns a new point, whose x and y positions are our position and 
     *  op's position substraction.
     */
    Point operator-(const Point &op) const;
