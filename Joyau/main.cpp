@@ -100,6 +100,16 @@ int main(int argc, char** argv)
 
    ruby_init();
 
+   // We add our include path, in order to allow extension.
+   ruby_incpush("./ruby/1.8");
+   ruby_incpush("./ruby/site_ruby");
+   ruby_incpush("./ruby/site_ruby/1.8");
+
+   // We'll also allow include at memory stick's root
+   ruby_incpush("ms0:/ruby/1.8");
+   ruby_incpush("ms0:/ruby/site_ruby");
+   ruby_incpush("ms0:/ruby/site_ruby/1.8");
+
    defineManager();
    defineDrawable();
    defineRubyDrawable();
