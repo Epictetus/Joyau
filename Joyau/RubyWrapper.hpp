@@ -227,12 +227,16 @@ struct RubyReject
 /** Converts a ruby hash to an OSL_COLOR. **/
 inline OSL_COLOR hash2col(VALUE hash)
 {
-   int r = FIX2INT(rb_hash_aref(hash, rb_str_new2("r")));
-   int g = FIX2INT(rb_hash_aref(hash, rb_str_new2("g")));
-   int b = FIX2INT(rb_hash_aref(hash, rb_str_new2("b")));
-   int a = FIX2INT(rb_hash_aref(hash, rb_str_new2("a")));
+   if (TYPE(hash) == T_HASH) {
+      int r = FIX2INT(rb_hash_aref(hash, rb_str_new2("r")));
+      int g = FIX2INT(rb_hash_aref(hash, rb_str_new2("g")));
+      int b = FIX2INT(rb_hash_aref(hash, rb_str_new2("b")));
+      int a = FIX2INT(rb_hash_aref(hash, rb_str_new2("a")));
 
-   return RGBA(r, g, b, a);
+      return RGBA(r, g, b, a);
+   }
+   else
+      return hash2col(rb_funcall(hash, getFunc("hash"), 0));
 }
 
 /** Converts an OSL_COLOR to a ruby hash. **/

@@ -322,7 +322,7 @@ VALUE Pad_stickX(VALUE self)
 
 VALUE Pad_stickY(VALUE self)
 {
-   return INT2FIX(Pad::getInstance().getStickX());
+   return INT2FIX(Pad::getInstance().getStickY());
 }
 
 void defineKeys()
