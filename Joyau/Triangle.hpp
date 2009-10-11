@@ -38,6 +38,8 @@ public:
    Point *getPoints() const;
    
    void draw();
+
+   void move(int x, int y);
 private:
    int x[3];
    int y[3];

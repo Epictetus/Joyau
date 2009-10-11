@@ -72,6 +72,15 @@ void Triangle::draw()
 			    _col[0], _col[1], _col[2]);
 }
 
+void Triangle::move(int x_pos, int y_pos)
+{
+   Drawable::move(x_pos, y_pos); // For cancel move
+   for (int i = 0; i < 3; ++i) {
+      x[i] += x_pos;
+      y[i] += y_pos;
+   }
+}
+
 VALUE Triangle_setPoints(VALUE self, VALUE x1, VALUE y1, VALUE x2, VALUE y2,
 			 VALUE x3, VALUE y3)
 {
