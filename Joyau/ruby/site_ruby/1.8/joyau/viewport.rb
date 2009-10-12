@@ -1,5 +1,5 @@
 #
-# pad.rb
+# viewport.rb
 # Copyright 2009 Verhetsel Kilian
 #
 # This program can be distributed under the terms of the GNU GPL.
