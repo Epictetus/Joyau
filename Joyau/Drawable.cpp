@@ -14,7 +14,7 @@ You should have received a copy of the GNU General Public License along
 with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.*/
 
-#include "Drawable.hpp"
+#include "RubyDrawable.hpp"
 
 template<> VALUE wrap<Rect>(int argc, VALUE *argv, VALUE info)
 {
@@ -330,7 +330,7 @@ VALUE Drawable_boundingRect(VALUE self)
 VALUE Drawable_collide(VALUE self, VALUE item)
 {
    Drawable &ref = getRef<Drawable>(self);
-   Drawable &val = getRef<Drawable>(item);
+   RubyDrawable val(item);
    if (ref.collide(val))
       return Qtrue;
    return Qfalse;

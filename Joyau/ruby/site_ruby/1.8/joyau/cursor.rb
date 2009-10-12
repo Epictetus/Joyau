@@ -1,4 +1,12 @@
 #
+# cursor.rb
+# Copyright 2009 Verhetsel Kilian
+#
+# This program can be distributed under the terms of the GNU GPL.
+# See the file COPYING.
+#
+
+#
 # Joyau has got a Cursor class, which allows to move a sprite
 # via the stick, but this class isn't a module which can be included in
 # any drawable. Therefore, StickFollower allows to do that, and works

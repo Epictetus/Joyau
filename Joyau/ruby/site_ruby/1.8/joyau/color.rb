@@ -1,4 +1,12 @@
 #
+# color.rb
+# Copyright 2009 Verhetsel Kilian
+#
+# This program can be distributed under the terms of the GNU GPL.
+# See the file COPYING.
+#
+
+#
 # A class which represents a color. Used in order to have a better interface
 # than a simple hash.
 #

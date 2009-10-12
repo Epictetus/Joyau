@@ -39,7 +39,6 @@ void Circle::setCenter(int x, int y)
    centerY = y;
 
    setPos(centerX - _r, centerY - _r);
-   _col[0] = RGBA(255, 255, 255, 255);
 }
 
 void Circle::setRadius(int r)

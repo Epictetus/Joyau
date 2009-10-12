@@ -112,7 +112,6 @@ int main(int argc, char** argv)
 
    defineManager();
    defineDrawable();
-   defineRubyDrawable();
    defineShape();
    defineManager();
    defineSprite();

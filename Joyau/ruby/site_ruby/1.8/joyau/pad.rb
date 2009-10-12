@@ -1,4 +1,12 @@
 #
+# pad.rb
+# Copyright 2009 Verhetsel Kilian
+#
+# This program can be distributed under the terms of the GNU GPL.
+# See the file COPYING.
+#
+
+#
 # Pad is a module which allows to read the keys. It's reopened in joyau/pad.rb,
 # in order to add some features, like method which allow to know how many
 # keys are held, ...

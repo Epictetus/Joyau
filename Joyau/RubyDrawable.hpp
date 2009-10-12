@@ -19,7 +19,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include "Drawable.hpp"
 
-/** @addtogroup Drawables **/
+/** @addtogroup Ruby **/
 /*@{*/
 
 /** 
@@ -30,7 +30,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 class RubyDrawable: public Drawable
 {
 public:
-   RubyDrawable() { setClass("RubyDrawable"); }
+   RubyDrawable(VALUE val = Qnil): self(val) {}
 
    void draw();
 
@@ -40,14 +40,20 @@ public:
 
    bool collide(Drawable &item);
    bool isOn(int x, int y);
-   bool isOn(const Point &p) { return isOn(p.x, p.y); }
+   
+   int getX() const;
+   int getY() const;
 
-   /** Resizes the RubyDrawable.
-    *  @param w new width
-    *  @param h new height.
-    */
-   void resize(int w, int h);
+   void setX(int val);
+   void setY(int val);
 
+   int getW() const;
+   int getH() const;
+
+   void setPos(int x, int y);
+
+   void clearMove();
+   
    /** Sets the ruby object, whose methods are used. **/
    void setSelf(VALUE val) { self = val; }
    VALUE toRuby() { return self; }
@@ -56,18 +62,5 @@ private:
 };
 
 /*@}*/
-
-VALUE RubyDrawable_draw(VALUE self);
-
-VALUE RubyDrawable_boundingRect(VALUE self);
-
-VALUE RubyDrawable_move(VALUE self, VALUE x, VALUE y);
-
-VALUE RubyDrawable_collide(VALUE self, VALUE item);
-VALUE RubyDrawable_isOn(VALUE self, VALUE x, VALUE y);
-
-VALUE RubyDrawable_resize(VALUE self, VALUE w, VALUE h); 
-
-void defineRubyDrawable();
 
 #endif

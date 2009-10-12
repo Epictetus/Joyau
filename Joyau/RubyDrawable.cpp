@@ -16,16 +16,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include "RubyDrawable.hpp"
 
-template<> VALUE wrap<RubyDrawable>(int argc, VALUE *argv, VALUE info)
-{
-   RubyDrawable *ptr = new RubyDrawable;
-
-   VALUE tdata = Data_Wrap_Struct(info, 0, wrapped_free<RubyDrawable>, ptr);
-   ptr->setSelf(tdata);
-
-   return tdata;
-}
-
 void RubyDrawable::draw()
 {
    rb_funcall(self, getFunc("draw"), 0);
@@ -57,106 +47,48 @@ bool RubyDrawable::isOn(int x, int y)
    return ret == Qtrue;
 }
 
-void RubyDrawable::resize(int w, int h)
+int RubyDrawable::getX() const
 {
-   _w = w;
-   _h = h;
+   VALUE ret = rb_funcall(self, getFunc("getX"), 0);
+   return FIX2INT(ret);
 }
 
-VALUE RubyDrawable_draw(VALUE self)
+int RubyDrawable::getY() const
 {
-   rb_notimplement(); // Of course, I can't guess that...
-   return Qnil;
+   VALUE ret = rb_funcall(self, getFunc("getY"), 0);
+   return FIX2INT(ret);
 }
 
-VALUE RubyDrawable_boundingRect(VALUE self)
+void RubyDrawable::setX(int val)
 {
-   RubyDrawable &ref = getRef<RubyDrawable>(self);
-   Rect rect;
-
-   rect.x = ref.getX();
-   rect.y = ref.getY();
-   rect.w = ref.getW();
-   rect.h = ref.getH();
-
-   return createObject(getClass("Rect"), rect);
+   rb_funcall(self, getFunc("setX"), 1, INT2FIX(val));
 }
 
-VALUE RubyDrawable_move(VALUE self, VALUE x, VALUE y)
+void RubyDrawable::setY(int val)
 {
-   RubyDrawable &ref = getRef<RubyDrawable>(self);
-   
-   ref.setX(ref.getX() + FIX2INT(x));
-   ref.setY(ref.getY() + FIX2INT(y));
-
-   return Qnil;
+   rb_funcall(self, getFunc("setY"), 1, INT2FIX(val));
 }
 
-VALUE RubyDrawable_collide(VALUE self, VALUE item)
+int RubyDrawable::getW() const
 {
-   RubyDrawable &ref = getRef<RubyDrawable>(self);
-   Drawable &draw = getRef<Drawable>(item);
-   
-   Rect rect1 = ref.boundingRect();
-   Rect rect2 = draw.boundingRect();
-
-   Point points1[4];
-   points1[0] = rect1.top_right();
-   points1[1] = rect1.top_left();
-   points1[2] = rect1.bottom_left();
-   points1[3] = rect1.bottom_right();
-
-   Point points2[4];
-   points2[0] = rect2.top_right();
-   points2[1] = rect2.top_left();
-   points2[2] = rect2.bottom_left();
-   points2[3] = rect2.bottom_right();
-
-   for (int i = 0; i < 4; ++i)
-   {
-      if (ref.isOn(points1[i]))
-	 return Qtrue;
-      if (draw.isOn(points2[i]))
-	 return Qtrue;
-   }
-   return Qfalse;
+   VALUE ret = rb_funcall(self, getFunc("getW"), 0);
+   return FIX2INT(ret);
 }
 
-VALUE RubyDrawable_isOn(VALUE self, VALUE x, VALUE y)
+int RubyDrawable::getH() const
 {
-   RubyDrawable &ref = getRef<RubyDrawable>(self);
-   
-   Rect rect = ref.boundingRect();
-
-   int x1 = rect.x;
-   int x2 = rect.x + rect.w;
-   int y1 = rect.y;
-   int y2 = rect.y + rect.h;
-
-   if (FIX2INT(x) >= x1 &&
-       FIX2INT(x) <= x2 &&
-       FIX2INT(y) >= y1 &&
-       FIX2INT(y) <= y2)
-      return Qtrue;
-   return Qfalse;
+   VALUE ret = rb_funcall(self, getFunc("getH"), 0);
+   return FIX2INT(ret);
 }
 
-VALUE RubyDrawable_resize(VALUE self, VALUE w, VALUE h)
+void RubyDrawable::setPos(int x, int y)
 {
-   RubyDrawable &ref = getRef<RubyDrawable>(self);
-
-   ref.resize(FIX2INT(w), FIX2INT(h));
-   return Qnil;
+   VALUE xArg = INT2FIX(x);
+   VALUE yArg = INT2FIX(y);
+   rb_funcall(self, getFunc("setPos"), 2, xArg, yArg);
 }
 
-void defineRubyDrawable()
+void RubyDrawable::clearMove()
 {
-   VALUE cRubyDrawable = defClass<RubyDrawable>("RubyDrawable", "Drawable");
-
-   defMethod(cRubyDrawable, "draw", RubyDrawable_draw, 0);
-   defMethod(cRubyDrawable, "collide", RubyDrawable_collide, 1);
-   defMethod(cRubyDrawable, "isOn", RubyDrawable_isOn, 2);
-   defMethod(cRubyDrawable, "boundingRect", RubyDrawable_boundingRect, 0);
-   defMethod(cRubyDrawable, "move", RubyDrawable_move, 2);
-   defMethod(cRubyDrawable, "resize", RubyDrawable_resize, 2);
+   rb_funcall(self, getFunc("clearMove"), 0);
 }
