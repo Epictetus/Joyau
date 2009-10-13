@@ -38,6 +38,8 @@ class Viewport < Drawable
   def <<(obj)
     raise TypeError, "obj has to be a Drawable." unless obj.is_a? Drawable
     @objects << obj
+
+    return self
   end
 
   #
@@ -50,6 +52,28 @@ class Viewport < Drawable
       i.draw
       i.pos = old_pos
     }
+  end
+
+  #
+  # Convers an aboslute position (given as a point) to a relative position.
+  #
+  def abs2rel(point)
+    return Point.new(point.x - self.x, point.y - self.y)
+  end
+
+  #
+  # Converts a relative position (given as a point) to an absolute position.
+  #
+  def rel2abs(point)
+    return Point.new(point.x + self.x, point.y + self.y)
+  end
+
+  #
+  # Centers the view on point, which is relative to the view.
+  #
+  def center_on(point)
+    p = rel2abs(point)
+    move(240 - p.x, 136 - p.y)
   end
 
   public :initialize
