@@ -51,6 +51,7 @@ class Viewport < Drawable
       i.pos = Point.new(x + i.x, y + i.y)
       i.draw
       i.pos = old_pos
+      i.clearMove
     }
   end
 
