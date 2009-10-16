@@ -20,15 +20,23 @@
 #
 #   a_color = Color.new(line.color)
 #
+# Another syntax is provided, for convenience :
+#
+#   { "r" => 255, "g" => 120, "b" => 40, "a" => 70 }.to_col
+#   => Color(255, 120, 40, 70)
+#
 # If you want to use it with intrafont, you'll need to get an hexadecimal value :
 #
 #   a_color = Color.new.hex
 #
 class Color
   # 
-  # The hash, which allows the compatibility with Joyau.
+  # Returns the hash. This methods allows the compatibility with Joyau,
+  # and is called internally. This way, you can create similar classes.
   #
-  attr_reader :hash
+  def to_hash
+    @bash
+  end
 
   #
   # Returns the red level in the color
@@ -189,13 +197,33 @@ class Color
     return str.to_i
   end
 
-  alias_method :red, :r
-  alias_method :green, :g
-  alias_method :blue, :b
-  alias_method :alpha, :a
+  def inspect # :nodoc:
+    "#{self.class}(#{@hash["r"]}, #{@hash["g"]}, #{@hash["b"]}, #{@hash["a"]})"
+  end
 
-  alias_method :red=, :r=
-  alias_method :green=, :g=
-  alias_method :blue=, :b=
-  alias_method :alpha=, :a=
+  BLACK = Color.new(  0,   0,   0, 255)
+  WHITE = Color.new(255, 255, 255, 255)
+  NONE  = Color.new(  0,   0,   0,   0)
+  RED   = Color.new(255,   0,   0, 255)
+  BLUE  = Color.new(  0,   0, 255, 255)
+  GREEN = Color.new(  0, 255,   0, 255)
+
+  alias :red :r
+  alias :green :g
+  alias :blue :b
+  alias :alpha :a
+
+  alias :red= :r=
+  alias :green= :g=
+  alias :blue= :b=
+  alias :alpha= :a=
+end
+
+class Hash
+  #
+  # Converts this hash to a color object for Joyau
+  #
+  def to_col
+    Color.new(self)
+  end
 end

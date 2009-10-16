@@ -236,7 +236,7 @@ inline OSL_COLOR hash2col(VALUE hash)
       return RGBA(r, g, b, a);
    }
    else
-      return hash2col(rb_funcall(hash, getFunc("hash"), 0));
+      return hash2col(rb_funcall(hash, getFunc("to_hash"), 0));
 }
 
 /** Converts an OSL_COLOR to a ruby hash. **/
