@@ -24,6 +24,9 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 /** @addtogroup Ruby **/
 /*@{*/
 
+/** Returns Joyau's module **/
+#define JOYAU_MOD rb_const_get(rb_cObject, rb_intern("Joyau"))
+
 /** Cast, which converts a prototype so that it can be used
  *  with ruby's function.
  */
@@ -90,7 +93,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 	  rb_define_method(klass, func, (VALUE(*)(...))tmp, 2); }
 
 /** Defines a module **/
-#define defModule rb_define_module
+#define defModule(name) rb_define_module_under(JOYAU_MOD, name)
 
 /** Defines a constant **/
 #define defConst rb_define_const
@@ -154,7 +157,7 @@ template<typename T> VALUE createObject(VALUE info, T &val, bool exist = false)
 template<typename T> VALUE defClass(const char *name, 
 				    VALUE father = rb_cObject)
 {
-   VALUE ret = rb_define_class(name, father);
+   VALUE ret = rb_define_class_under(JOYAU_MOD, name, father);
    VALUE (*func)(int, VALUE*, VALUE) = &wrap<T>;
    
    rb_define_singleton_method(ret, "new", (VALUE(*)(...))func, -1);
@@ -166,7 +169,7 @@ template<typename T> VALUE defClass(const char *name,
  */
 inline VALUE getClass(const char *name)
 {
-   return rb_const_get(rb_cObject, rb_intern(name));
+   return rb_const_get(JOYAU_MOD, rb_intern(name));
 }
 
 /** Returns a Ruby function.

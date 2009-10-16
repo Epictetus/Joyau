@@ -235,40 +235,41 @@ VALUE setAutoSwizzle(VALUE self)
 
 void defineGraphics()
 {
-   defFunc("swizzle", setAutoSwizzle, 0);
+   VALUE joyau = JOYAU_MOD;
+   defModFunc(joyau, "swizzle", setAutoSwizzle, 0);
 
-   defFunc("mayPlay", Graphics_mayPlay, 0);
+   defModFunc(joyau, "mayPlay", Graphics_mayPlay, 0);
 
-   defFunc("startDraw", Graphics_startDraw, 0);
-   defFunc("endDraw", Graphics_endDraw, 0);
-   defFunc("sync", Graphics_sync, 0);
+   defModFunc(joyau, "startDraw", Graphics_startDraw, 0);
+   defModFunc(joyau, "endDraw", Graphics_endDraw, 0);
+   defModFunc(joyau, "sync", Graphics_sync, 0);
 
-   defFunc("frameskip", Graphics_frameskip, 2);
+   defModFunc(joyau, "frameskip", Graphics_frameskip, 2);
 
-   defFunc("color", Graphics_color, -1);
+   defModFunc(joyau, "color", Graphics_color, -1);
 
-   defFunc("drawLine", Graphics_drawLine, 5);
-   defFunc("drawRect", Graphics_drawRect, 5);
-   defFunc("drawFillRect", Graphics_drawFillRect, 5);
-   defFunc("drawTriangle", Graphics_drawTriangle, 9);
-   defFunc("drawCircle", Graphics_drawCircle, 4);
-   defFunc("drawFillCircle", Graphics_drawFillCircle, 4);
+   defModFunc(joyau, "drawLine", Graphics_drawLine, 5);
+   defModFunc(joyau, "drawRect", Graphics_drawRect, 5);
+   defModFunc(joyau, "drawFillRect", Graphics_drawFillRect, 5);
+   defModFunc(joyau, "drawTriangle", Graphics_drawTriangle, 9);
+   defModFunc(joyau, "drawCircle", Graphics_drawCircle, 4);
+   defModFunc(joyau, "drawFillCircle", Graphics_drawFillCircle, 4);
 
-   defFunc("screenshot", Graphics_screenshot, 1);
-   defFunc("fade", Graphics_fade, 0);
+   defModFunc(joyau, "screenshot", Graphics_screenshot, 1);
+   defModFunc(joyau, "fade", Graphics_fade, 0);
 
-   defFunc("setFont", setTextFont, 1);
-   defFunc("getLength", getTextSize, 1);
-   defFunc("setTextBackground", setTextBackground,1);
-   defFunc("setTextColor", setTextColor, 1);
-   defFunc("drawText", drawText, 3);
-   defFunc("drawScripted", drawScripted, 3);
-   defFunc("drawStirringText", drawStirringText, 3);
+   defModFunc(joyau, "setFont", setTextFont, 1);
+   defModFunc(joyau, "getLength", getTextSize, 1);
+   defModFunc(joyau, "setTextBackground", setTextBackground,1);
+   defModFunc(joyau, "setTextColor", setTextColor, 1);
+   defModFunc(joyau, "drawText", drawText, 3);
+   defModFunc(joyau, "drawScripted", drawScripted, 3);
+   defModFunc(joyau, "drawStirringText", drawStirringText, 3);
 
-   defFunc("clearScreen", Graphics_clear, 0);
+   defModFunc(joyau, "clearScreen", Graphics_clear, 0);
 
-   defFunc("initGfx", Graphics_init, 0);
-   defFunc("initLib", lib_start, 0);
-   defFunc("stopLib", lib_stop, 0);
-   defFunc("stopGfx", Graphics_stop, 0);
+   defModFunc(joyau, "initGfx", Graphics_init, 0);
+   defModFunc(joyau, "initLib", lib_start, 0);
+   defModFunc(joyau, "stopLib", lib_stop, 0);
+   defModFunc(joyau, "stopGfx", Graphics_stop, 0);
 }

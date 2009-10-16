@@ -302,6 +302,7 @@ VALUE Sprite_setAutoDir(VALUE self, VALUE val)
 
 void defineSprite()
 {
+  /* This will be created ibn Ruby for backward compatibility.
    VALUE dirHash = rb_hash_new();
    rb_hash_aset(dirHash, rb_str_new2("LEFT"), INT2FIX(Sprite::LEFT));
    rb_hash_aset(dirHash, rb_str_new2("RIGHT"), INT2FIX(Sprite::RIGHT));
@@ -312,6 +313,7 @@ void defineSprite()
    rb_hash_aset(dirHash, rb_str_new2("DOWN_LEFT"), INT2FIX(Sprite::DOWN_LEFT));
    rb_hash_aset(dirHash, rb_str_new2("DOWN_RIGHT"), INT2FIX(Sprite::DOWN_RIGHT));
    rb_gv_set("$directions", dirHash);
+  */
 
    VALUE cSprite = defClass<Sprite>("Sprite", "Drawable");
    defMethod(cSprite, "setPicture", Sprite_setPicture, 1);

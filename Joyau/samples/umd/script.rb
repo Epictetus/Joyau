@@ -1,6 +1,8 @@
 # "Kinda" inspired of a sample found on sceners.org :
 # http://sceners.org/?itemid=308
 
+require 'joyau/old'
+
 initLib
 
 if !Umd.present?

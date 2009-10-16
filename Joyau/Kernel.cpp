@@ -107,7 +107,8 @@ VALUE Kernel_getPowerPercent(VALUE self)
 
 void defineKernel()
 {
-   defFunc("cd", Kernel_cd, 1);
+   VALUE joyau = JOYAU_MOD;
+   defModFunc(joyau, "cd", Kernel_cd, 1);
 
    VALUE mUmd = defModule("Umd");
    defModFunc(mUmd, "present?", Kernel_UmdCheck, 0);
@@ -126,13 +127,13 @@ void defineKernel()
    defConst(mUmd, "INITED", INT2FIX(PSP_UMD_INITED));
    defConst(mUmd, "READY", INT2FIX(PSP_UMD_READY));
    
-   defFunc("timestamp", Kernel_Timestamp, 0);
+   defModFunc(joyau, "timestamp", Kernel_Timestamp, 0);
 
-   defFunc("powerTime", Kernel_getPowerTime, 0);
-   defFunc("powerPercent", Kernel_getPowerPercent, 0);
+   defModFunc(joyau, "powerTime", Kernel_getPowerTime, 0);
+   defModFunc(joyau, "powerPercent", Kernel_getPowerPercent, 0);
 
-   defFunc("mkdir", File_mkdir, 1);
-   defFunc("rmdir", File_rmdir, 1);
-   defFunc("rm", File_remove, 1);
-   defFunc("mv", File_rename, 2);
+   defModFunc(joyau, "mkdir", File_mkdir, 1);
+   defModFunc(joyau, "rmdir", File_rmdir, 1);
+   defModFunc(joyau, "rm", File_remove, 1);
+   defModFunc(joyau, "mv", File_rename, 2);
 }

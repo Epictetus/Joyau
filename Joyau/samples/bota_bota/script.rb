@@ -1,6 +1,8 @@
 # A full game in Ruby for the PSP !
 # Enjoy :-)
 
+require 'joyau/old'
+
 load "projectil.rb"
 load "ghost.rb"
 load "hero.rb"

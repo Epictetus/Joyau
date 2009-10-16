@@ -1,4 +1,5 @@
-require "joyau/pad"
+require 'joyau/old'
+require 'joyau/pad'
 
 initLib
 initGfx

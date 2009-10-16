@@ -110,6 +110,8 @@ int main(int argc, char** argv)
    ruby_incpush("ms0:/ruby/site_ruby");
    ruby_incpush("ms0:/ruby/site_ruby/1.8");
 
+   VALUE joyau = rb_define_module("Joyau");
+
    defineManager();
    defineDrawable();
    defineShape();
@@ -138,9 +140,9 @@ int main(int argc, char** argv)
    Manager::getInstance().setArg(argc, argv);
    Pad::getInstance();
 
-   defFunc("debug", debug, 1);
-   defFunc("puts", Joyau_puts, -1); // puts redefined for the psp
-   defFunc("exitGame", Joyau_exit, 0);
+   defModFunc(joyau, "debug", debug, 1);
+   defModFunc(joyau, "puts", Joyau_puts, -1); // puts redefined for the psp
+   defModFunc(joyau, "exitGame", Joyau_exit, 0);
    
    ruby_init_loadpath();
    ruby_script("embedded");

@@ -110,7 +110,8 @@ VALUE clearBuffers(VALUE self)
 
 void defineManager()
 {
-   defFunc("clearImages", clearImages, 0);
-   defFunc("clearFonts", clearFonts, 0);
-   defFunc("clearSounds", clearBuffers, 0);
+   VALUE joyau = JOYAU_MOD;
+   defModFunc(joyau, "clearImages", clearImages, 0);
+   defModFunc(joyau, "clearFonts", clearFonts, 0);
+   defModFunc(joyau, "clearSounds", clearBuffers, 0);
 }

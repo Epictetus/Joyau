@@ -330,8 +330,9 @@ void defineKeys()
    VALUE keys = rb_hash_new();
    rb_gv_set("$keys", keys);
 
-   defFunc("readKeys", checkKeys, 0);
-   defFunc("gets", Joyau_gets, 0);
+   VALUE joyau = JOYAU_MOD;
+   defModFunc(joyau, "readKeys", checkKeys, 0);
+   defModFunc(joyau, "gets", Joyau_gets, 0);
 
    VALUE mPad = defModule("Pad");
    defModFunc(mPad, "update", Pad_update, 0);

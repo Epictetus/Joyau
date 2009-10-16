@@ -1,52 +1,64 @@
 #
-# cursor.rb
+# cursor.rb - a Cursor module for Joyau, for object which move with the stick.
 # Copyright 2009 Verhetsel Kilian
 #
 # This program can be distributed under the terms of the GNU GPL.
 # See the file COPYING.
 #
 
-#
-# Joyau has got a Cursor class, which allows to move a sprite
-# via the stick, but this class isn't a module which can be included in
-# any drawable. Therefore, StickFollower allows to do that, and works
-# pretty much the same way.
-#
-module StickFollower
+module Joyau
   #
-  # If the sensibility is higher, the object moves harder.
+  # Joyau has got a Cursor class, which allows to move a sprite
+  # via the stick, but this class isn't a module which can be included in
+  # any drawable. Therefore, StickFollower allows to do that, and works
+  # pretty much the same way.
   #
-  attr_accessor :sensibility
+  module StickFollower
+    #
+    # If the sensibility is higher, the object moves harder.
+    #
+    attr_accessor :sensibility
 
-  #
-  # The area in which the object may move.
-  #
-  attr_accessor :area
+    #
+    # The area in which the object may move.
+    #
+    attr_accessor :area
 
-  #
-  # Updates the object's position, according to the analogic stick's position.
-  #
-  def update_pos
-    Pad.update
-    
-    unless @sensibility == 0
-      move(Pad.stickX / @sensibility, Pad.stickY / @sensibility);
+    #
+    # Updates the object's position, according to the analogic stick's position.
+    #
+    def update_pos
+      Pad.update
 
-      x_pos = self.x > @area.x + @area.w ? @area.x + @area.w : self.x
-      x_pos = self.x < @area.x ? @area.x : self.x
+      unless @sensibility == 0
+        move(Pad.stickX / @sensibility, Pad.stickY / @sensibility);
 
-      y_pos = self.y > @area.y + @area.h ? @area.y + @area.h : self.y
-      y_pos = self.y < @area.y ? @area.y : self.y
+        if self.x > (@area.x + @area.w)
+          x_pos = @area.x + @area.w
+        elsif self.x < @area.x
+          x_pos = @area.x
+        else
+          x_pos = self.x
+        end
+        
+        if self.y > (@area.y + @area.h)
+          y_pos = @area.y + @area.h
+        elsif self.y < @area.y
+          y_pos = @area.y
+        else
+          y_pos = self.y
+        end
 
-      setPos(x_pos, y_pos)
+        setPos(x_pos, y_pos)
+      end
     end
-  end
 
-  #
-  # Configurates the cursor's attribute
-  #
-  def cursor_conf(sensibility, area = Rect.new(0, 0, 480, 272))
-    @sensibility = sensibility
-    @area = area
+    #
+    # Configurates the cursor's attribute
+    #
+    def cursor_conf(sensibility, area = Rect.new(0, 0, 480, 272))
+      @sensibility = sensibility
+      @area = area
+    end
   end
 end

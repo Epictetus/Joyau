@@ -1,3 +1,5 @@
+require 'joyau/old'
+
 initLib
 initGfx
 

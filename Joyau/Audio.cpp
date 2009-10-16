@@ -709,6 +709,7 @@ void defineAudio()
    defModFunc(mListener, "velocity=", Listener_velocityOp, 1);
    defModFunc(mListener, "setOrientation", Listener_setOrientation, 6);
 
-   defFunc("initAudio", Audio_init, 0);
-   defFunc("stopAudio", Audio_stop, 0);
+   VALUE joyau = JOYAU_MOD;
+   defModFunc(joyau, "initAudio", Audio_init, 0);
+   defModFunc(joyau, "stopAudio", Audio_stop, 0);
 }

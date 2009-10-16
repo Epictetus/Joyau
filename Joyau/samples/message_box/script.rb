@@ -1,3 +1,5 @@
+require 'joyau/old'
+
 def drawMessage(hero)
   message = Message.new
   message.pos = Point.new(0, 0)

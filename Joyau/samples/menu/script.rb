@@ -1,3 +1,5 @@
+require 'joyau/old'
+
 # Almost exactly like one of the devlib sample :)
 
 initLib
