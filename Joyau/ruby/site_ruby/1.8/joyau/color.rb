@@ -35,7 +35,7 @@ class Color
   # and is called internally. This way, you can create similar classes.
   #
   def to_hash
-    @bash
+    @hash
   end
 
   #
