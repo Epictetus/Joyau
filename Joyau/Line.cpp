@@ -113,7 +113,7 @@ VALUE Line_setPoint(VALUE self, VALUE x, VALUE y)
 }
 
 VALUE Line_setPointPoint(VALUE self, VALUE p)
-{
+ {
    Line &ref = getRef<Line>(self);
    Point &point = getRef<Point>(p);
    

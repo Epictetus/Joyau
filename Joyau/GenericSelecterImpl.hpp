@@ -201,7 +201,6 @@ template<typename T> VALUE defineGenericSelecter(const char *name)
    defTplMethod1(klass, "select", GenericSelecter_select<T>);
    defTplMethod1(klass, "<<", GenericSelecter_addItem<T>);
    defTplMethod2(klass, "resize", GenericSelecter_resize<T>);
-   defTplMethod1(klass, "select", GenericSelecter_select<T>); 
    defTplMethod(klass, "selected", GenericSelecter_selected<T>);
    defTplMethod1(klass, "item", GenericSelecter_item<T>);
    defTplMethod(klass, "index", GenericSelecter_index<T>);

@@ -202,3 +202,4 @@ void defineMsgSelecter()
    defineMsgSelecterKlass<VerticalMsgSelecter>("VerticalMsgSelecter");
    defineMsgSelecterKlass<HorizontalMsgSelecter>("HorizontalMsgSelecter");
 }
+
