@@ -45,7 +45,7 @@ class JoyauOutputMethod < IRB::OutputMethod
     Joyau.startDraw
     Joyau.clearScreen
     @olds.each { |i|
-      Joyau.drawScripted(0, y, i)
+      Joyau.drawScripted(0, y, i + "\n")
       y += 10
     }
     Joyau.endDraw
