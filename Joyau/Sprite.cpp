@@ -236,6 +236,12 @@ VALUE Sprite_setPicture(VALUE self, VALUE pic)
    return pic;
 }
 
+VALUE Sprite_picture(VALUE self)
+{
+   Sprite &ref = getRef<Sprite>(self);
+   return rb_str_new2(ref.getPicName().c_str());
+}
+
 VALUE Sprite_setAlpha(VALUE self, VALUE alpha)
 {
    Sprite &item = getRef<Sprite>(self);
@@ -317,6 +323,7 @@ void defineSprite()
 
    VALUE cSprite = defClass<Sprite>("Sprite", "Drawable");
    defMethod(cSprite, "setPicture", Sprite_setPicture, 1);
+   defMethod(cSprite, "picture", Sprite_picture, 0);
    defMethod(cSprite, "getAngle", Sprite_getAngle, 0);
    defMethod(cSprite, "setAngle", Sprite_setAngle, 1);
    defMethod(cSprite, "zoom", Sprite_zoom, 1);

@@ -512,6 +512,9 @@ if false # Joyau's documentation should not be included
       # Loads the picture <em>pic</em>.
       def setPicture(pic); end
 
+      # Returns the picture's name.
+      def picture; end
+
       # Returns the sprite's angle.
       def getAngle; end
 

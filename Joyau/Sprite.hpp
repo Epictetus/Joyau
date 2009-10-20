@@ -53,6 +53,9 @@ public:
     */
    void setPicture(char *pic);
 
+   /** Returns the picture's name **/
+   std::string getPicName() const { return std::string(picName); }
+
    /** increase the angle of angle. **/
    void rotate(int angle) { _angle += angle; }
 
@@ -158,6 +161,7 @@ private:
 /*@}*/
 
 VALUE Sprite_setPicture(VALUE self, VALUE pic);
+VALUE Sprite_picture(VALUE self);
 
 VALUE Sprite_rotate(VALUE self, VALUE angle);
 VALUE Sprite_getAngle(VALUE self);

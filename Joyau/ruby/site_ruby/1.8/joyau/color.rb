@@ -221,9 +221,9 @@ module Joyau
     alias :alpha :a
 
     alias :red= :r=
-      alias :green= :g=
-      alias :blue= :b=
-      alias :alpha= :a=
+    alias :green= :g=
+    alias :blue= :b=
+    alias :alpha= :a=
   end
 end
 
