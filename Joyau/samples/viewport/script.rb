@@ -1,32 +1,31 @@
-require 'joyau/old'
 require 'joyau/viewport'
 
-initLib
-initGfx
+Joyau.initLib
+Joyau.initGfx
 
-spr = Sprite.new("pic.png")
+spr = Joyau::Sprite.new("pic.png")
 viewport = Joyau::Viewport.new
 
 viewport << spr
 
-while mayPlay
-  Pad.update
+while Joyau.mayPlay
+  Joyau::Pad.update
 
-  if Pad.held? Pad::LEFT
+  if Joyau::Pad.held? Joyau::Pad::LEFT
     viewport.move(6, 0)
-  elsif Pad.held? Pad::RIGHT
+  elsif Joyau::Pad.held? Joyau::Pad::RIGHT
     viewport.move(-6, 0)
   end
 
   spr.move(1, 0)
 
-  startDraw
-  clearScreen
+  Joyau.startDraw
+  Joyau.clearScreen
   viewport.draw
-  endDraw
+  Joyau.endDraw
 
-  sync
+  Joyau.sync
 end
 
-stopGfx
-stopLib
+Joyau.stopGfx
+Joyau.stopLib

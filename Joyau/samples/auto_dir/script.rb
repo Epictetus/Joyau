@@ -1,37 +1,27 @@
-require 'joyau/old'
+Joyau.initLib
+Joyau.initGfx
 
-initLib
-initGfx
-
-sprite = Sprite.new
+sprite = Joyau::Sprite.new
 sprite.picture = "sprite.png"
 sprite.setAnim(3, 4)
 
 sprite.autoDir = true
 
-while mayPlay
-  Pad.update
+while Joyau.mayPlay
+  Joyau::Pad.update
 
-  if Pad.held? Pad::UP
-    sprite.move(0, -2);
-  end
-  if Pad.held? Pad::DOWN
-    sprite.move(0, 2);
-  end
-  if Pad.held? Pad::LEFT
-    sprite.move(-2, 0);
-  end
-  if Pad.held? Pad::RIGHT
-    sprite.move(2, 0);
-  end
-
-  startDraw
-  clearScreen
+  sprite.move(0, -2) if Joyau::Pad.held? Joyau::Pad::UP
+  sprite.move(0, 2) if Joyau::Pad.held? Joyau::Pad::DOWN
+  sprite.move(-2, 0) if Joyau::Pad.held? Joyau::Pad::LEFT
+  sprite.move(2, 0) if Joyau::Pad.held? Joyau::Pad::RIGHT
+  
+  Joyau.startDraw
+  Joyau.clearScreen
   sprite.draw
-  endDraw
+  Joyau.endDraw
 
-  sync
+  Joyau.sync
 end
 
-stopGfx
-stopLib
+Joyau.stopGfx
+Joyau.stopLib

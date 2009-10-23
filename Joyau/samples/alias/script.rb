@@ -1,28 +1,29 @@
-require 'joyau/old'
+require 'joyau/color'
 
-initLib
-initGfx
+Joyau.initLib
+Joyau.initGfx
 
-circle = Circle.new
-circle.center = Point.new(240, 136)
+circle = Joyau::Circle.new
+circle.center = Joyau::Point.new(240, 136)
+circle.color = Joyau::Color::WHITE
 circle.radius = 30
 
 skip = false
 
-while mayPlay
+while Joyau.mayPlay
   if !skip
-    startDraw
-    clearScreen
+    Joyau.startDraw
+    Joyau.clearScreen
     circle.draw
-    drawText(0, 0, circle.x.to_s)
-    drawText(0, 10, circle.y.to_s)
-    drawText(0, 20, circle.w.to_s)
-    drawText(0, 30, circle.h.to_s)
-    endDraw
+    Joyau.drawText(0, 0, circle.x.to_s)
+    Joyau.drawText(0, 10, circle.y.to_s)
+    Joyau.drawText(0, 20, circle.w.to_s)
+    Joyau.drawText(0, 30, circle.h.to_s)
+    Joyau.endDraw
   end
 
-  skip = sync
+  skip = Joyau.sync
 end
 
-stopGfx
-stopLib
+Joyau.stopGfx
+Joyau.stopLib

@@ -1,37 +1,35 @@
-require 'joyau/old'
+Joyau.initLib
+Joyau.initGfx
+Joyau.initAudio
 
-initLib
-initGfx
-initAudio
+pos = Joyau::Vector3f.new(0.0, 0.0, 0.0)
+vel = Joyau::Vector3f.new(0.0, 0.0, 0.1)
 
-pos = Vector3f.new(0.0, 0.0, 0.0)
-vel = Vector3f.new(0.0, 0.0, 0.1)
+Joyau::Listener.pos = Joyau::Vector3f.new(0.0, 0.0, 0.0)
+Joyau::Listener.setOrientation(0.0, 0.0, -1.0,  0.0, 1.0, 0.0)
 
-Listener.pos = Vector3f.new(0.0, 0.0, 0.0)
-Listener.setOrientation(0.0, 0.0, -1.0,  0.0, 1.0, 0.0)
-
-music = Stream.new("music.ogg")
+music = Joyau::Stream.new("music.ogg")
 music.pos = pos
 music.velocity = vel
 skip = false
 
-oldTime = timestamp
+oldTime = Joyau.timestamp
 
-while mayPlay and music.update and music.play
-  if oldTime <= timestamp - 1
+while Joyau.mayPlay and music.update and music.play
+  if oldTime <= Joyau.timestamp - 1
     pos += vel
     music.pos = pos
   end
 
   if !skip
-    startDraw
-    drawText(0, 0, "This is an audio sample. It should play a music.")
-    endDraw
+    Joyau.startDraw
+    Joyau.drawText(0, 0, "This is an audio sample. It should play a music.")
+    Joyau.endDraw
   end
 
-  skip = sync
+  skip = Joyau.sync
 end
 
-stopAudio
-stopGfx
-stopLib
+Joyau.stopAudio
+Joyau.stopGfx
+Joyau.stopLib
