@@ -272,4 +272,6 @@ void defineGraphics()
    defModFunc(joyau, "initLib", lib_start, 0);
    defModFunc(joyau, "stopLib", lib_stop, 0);
    defModFunc(joyau, "stopGfx", Graphics_stop, 0);
+
+   defAlias(joyau, "mayPlay", "may_play?");
 }

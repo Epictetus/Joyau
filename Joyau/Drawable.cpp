@@ -495,4 +495,7 @@ void defineDrawable()
    defAlias(cDrawable, "getY", "y");
    defAlias(cDrawable, "getW", "w");
    defAlias(cDrawable, "getH", "h");
+
+   defAlias(cDrawable, "collide", "collide?");
+   defAlias(cDrawable, "isOn", "is_on?");
 }

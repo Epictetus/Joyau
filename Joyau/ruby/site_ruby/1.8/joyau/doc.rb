@@ -453,6 +453,9 @@ if false # Joyau's documentation should not be included
       alias :y :getY
       alias :w :getW
       alias :h :getH
+
+      alias :collide? :collide
+      alias :is_on? :isOn
     end
 
     # A Shape is a Drawable which can be colorized.
@@ -1752,4 +1755,6 @@ if false # Joyau's documentation should not be included
       alias :points :getPoints
     end
   end
+
+  alias :may_play? :mayPlay
 end
