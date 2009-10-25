@@ -13,6 +13,7 @@
 # :startdoc:
 
 require 'joyau/color'
+require 'joyau/inspect'
 
 module Joyau
   #
@@ -135,7 +136,7 @@ module Joyau
       elsif id < 6
         case_y = self.y + case_height
       else
-        case_y = self.y + (case_width * 2)
+        case_y = self.y + (case_height * 2)
       end
 
       return Point.new(case_x, case_y)
@@ -196,7 +197,7 @@ module Joyau
         str = "Spc" if str == ' '
 
         str_x = point.x + (width / 2) - (Joyau.getLength(str) / 2)
-        str_y = point.y + height - 10
+        str_y = point.y + height - 9
 
         Joyau.drawText(str_x, str_y, str)
         
@@ -205,7 +206,7 @@ module Joyau
         str = "Spc" if str == ' '
 
         str_x = point.x + (width / 2) - (Joyau.getLength(str) / 2)
-        str_y = point.y
+        str_y = point.y + 1
 
         Joyau.drawText(str_x, str_y, str)
 
@@ -213,7 +214,7 @@ module Joyau
         str = "Del" if str == -1
         str = "Spc" if str == ' '
 
-        str_x = point.x
+        str_x = point.x + 1
         str_y = point.y + (height / 2) - 5
 
         Joyau.drawText(str_x, str_y, str)
@@ -231,6 +232,7 @@ module Joyau
 
     attr_accessor :w, :h
     attr_accessor :txt_colors, :bg_colors, :border_col, :keys, :pages
-    attr_reader :str, :page_id
+    attr_accessor :str
+    attr_reader :page_id
   end
 end
