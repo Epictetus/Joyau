@@ -230,9 +230,33 @@ module Joyau
       end
     end
 
+    # Keyboard's geometry
     attr_accessor :w, :h
-    attr_accessor :txt_colors, :bg_colors, :border_col, :keys, :pages
+    
+    # A hash whose keys :normal and :focus are checked. The color
+    # You give there is set for the text which is either focused or not.
+    attr_accessor :txt_colors
+    
+    # Like txt_colors, but for the background. Notice that a Sprite can be given
+    # too here.
+    attr_accessor :bg_colors
+
+    # The border's color.
+    attr_accessor :border_col
+
+    # A Hash where you can set the keys at which the keyboards should react.
+    # :next_page, :prev_page, :bottom, :up, :left, and :right are the valid
+    # keys.
+    attr_accessor :keys
+
+    # Three dimension array containing all the keys which are pressed
+    # by the user. Use it so : level[page_id][case_id][char_id].
+    attr_accessor :pages
+
+    # Contains the message entered by the user.
     attr_accessor :str
+
+    # Retuns the selected page's id.
     attr_reader :page_id
   end
 end
