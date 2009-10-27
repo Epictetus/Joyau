@@ -101,14 +101,14 @@ int main(int argc, char** argv)
    ruby_init();
 
    // We add our include path, in order to allow extension.
-   ruby_incpush("./ruby/1.8");
+   ruby_incpush("./ruby/1.9");
    ruby_incpush("./ruby/site_ruby");
-   ruby_incpush("./ruby/site_ruby/1.8");
+   ruby_incpush("./ruby/site_ruby/1.9");
 
    // We'll also allow include at memory stick's root
-   ruby_incpush("ms0:/ruby/1.8");
+   ruby_incpush("ms0:/ruby/1.9");
    ruby_incpush("ms0:/ruby/site_ruby");
-   ruby_incpush("ms0:/ruby/site_ruby/1.8");
+   ruby_incpush("ms0:/ruby/site_ruby/1.9");
 
    VALUE joyau = rb_define_module("Joyau");
 
@@ -147,8 +147,8 @@ int main(int argc, char** argv)
    ruby_init_loadpath();
    ruby_script("embedded");
 
-   rb_load_file(scriptFilename.c_str());
-   ruby_run();
+   void *node = rb_load_file(scriptFilename.c_str());
+   ruby_run_node(node);
 
    Manager::deleteInstance();
    Pad::deleteInstance();

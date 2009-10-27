@@ -36,7 +36,8 @@ CFLAGS += -g
 CXXFLAGS += -g
 endif
 
-LIBS = -losl -lpng -lz -lpspsdk -lpspvfpu -lpspctrl -lpspumd -lpsprtc \
+LIBS = -lruby -lpthread-psp
+LIBS +=	-losl -lpng -lz -lpspsdk -lpspvfpu -lpspctrl -lpspumd -lpsprtc \
 	-lpsppower -lpspgu -lpspmpeg -lpspaudiocodec -lpspaudiolib -lalut \
 	-lOpenAL32 -lvorbisfile -lvorbis -lpspaudio -lpspusb -lpspusbstor \
 	-lpsphprm -lpsputility -lruby -lpspgum -lm -logg -lpsprtc -lstdc++
