@@ -44,7 +44,7 @@ template<> VALUE wrap<GameMap>(int argc, VALUE *argv, VALUE info)
    {
       if (TYPE(argv[0]) == T_ARRAY)
       {
-	 int size = RARRAY(argv[0])->len;
+	 int size = RARRAY_LEN(argv[0]);
 	 for (int i = 0; i < size; ++i)
 	 {
 	    VALUE val = rb_ary_entry(argv[0], i);
@@ -384,7 +384,7 @@ VALUE GameMap_push(VALUE self, VALUE tile)
    GameMap &ref = getRef<GameMap>(self);
    if (TYPE(tile) == T_ARRAY)
    {
-      int size = RARRAY(tile)->len;
+      int size = RARRAY_LEN(tile);
       for (int i = 0; i < size; ++i)
       {
 	 VALUE val = rb_ary_entry(tile, i);
