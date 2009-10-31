@@ -100,14 +100,14 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 
 #ifdef JOYAU_RB_19
-# define JOYAU_RB_VERSION "1.8"
+# define JOYAU_RB_VERSION "1.9"
 #else
 # define JOYAU_RB_VERSION "1.8"
 # define JOYAU_RB_18
 #endif
 
 inline void runScript(const std::string &filename) {
-#ifdef JOYAU_RB_18 //"1.8"
+#ifdef JOYAU_RB_18
    rb_load_file(filename.c_str());
    ruby_run();
 #else
