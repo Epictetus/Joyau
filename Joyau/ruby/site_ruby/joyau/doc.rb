@@ -149,6 +149,8 @@ if false # Joyau's documentation should not be included
       # Stops the sound.
       #
       def stop; end
+
+      alias :load_wav :loadWav
     end
 
     #
@@ -196,6 +198,8 @@ if false # Joyau's documentation should not be included
       # Stops the stream.
       #
       def stop; end
+
+      alias :load_ogg :loadOgg
     end
 
     #
@@ -456,6 +460,11 @@ if false # Joyau's documentation should not be included
 
       alias :collide? :collide
       alias :is_on? :isOn
+      alias :bounding_rect :boundingRect
+      alias :moved_x :movedX
+      alias :moved_y :moved_y
+      alias :cancel_move :cancelMove
+      alias :clear_move :clearMove
     end
 
     # A Shape is a Drawable which can be colorized.
@@ -624,6 +633,8 @@ if false # Joyau's documentation should not be included
       alias :radius= :setRadius
       alias :centerX :getCenterX
       alias :centerY :getCenterY
+      alias :center_x :getCenterX
+      alias :center_y :getCenterY
       alias :radius :getRadius
     end
 
@@ -727,6 +738,7 @@ if false # Joyau's documentation should not be included
       alias :alpha= :setAlpha
       alias :dist= :setDist
       alias :angle= :setAngle
+      alias :change_selection :changeSelection
     end
 
     #
@@ -1055,7 +1067,7 @@ if false # Joyau's documentation should not be included
       #
       #   map.reject_tiles { |tile| tile.x > 100 }
       #
-      def reject_tiles
+      def reject_tiles # :yield:
       end
 
       COL_FULL       = CollisionType.new(true , false, false, false, false)
@@ -1070,6 +1082,18 @@ if false # Joyau's documentation should not be included
       COL_RIGHT_UP   = CollisionType.new(false, false, true , true , false)
       COL_RIGHT_DOWN = CollisionType.new(false, false, true , false, true )
       COL_UP_DOWN    = CollisionType.new(false, false, false, true , true )
+
+      alias :add_tileset :addTileset
+      alias :set_tilie_size :setTileSize
+      alias :tile_width :tileWidth
+      alias :tileHeight :tileHeight
+      alias :collision_h :collisionH
+      alias :collision_h= :collisionH=
+      alias :absToRel :abs2rel
+      alias :relToAbs :rel2abs
+      alias :center_on :centerOn
+      alias :add_elem :addElem
+      alias :clearTiles :clear_tiles
     end
 
     # Enables auto swizzling for all the pictures which will be loaded.
@@ -1310,6 +1334,7 @@ if false # Joyau's documentation should not be included
       def rect; end
 
       alias :sensibility= :setSensibility
+      alias :update_pos :updatePos
     end
 
     # Allows to draw line, and to check collision with them with precision.
@@ -1324,6 +1349,7 @@ if false # Joyau's documentation should not be included
       def getPoint; end
 
       alias :point :getPoint
+      alias :set_point :setPoint
     end
 
     # Allows to draw a text inside a message box.
