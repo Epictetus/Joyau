@@ -40,7 +40,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 PSP_MODULE_INFO("Joyau", 0, 1, 1);
 PSP_MAIN_THREAD_ATTR(THREAD_ATTR_USER | THREAD_ATTR_VFPU);
-PSP_HEAP_SIZE_KB(-1024);
+PSP_HEAP_SIZE_KB(-256);
 
 int exit_callback(int arg1, int arg2, void* commons)
 {
@@ -101,15 +101,15 @@ int main(int argc, char** argv)
    ruby_init();
 
    // We add our include path, in order to allow extension.
-   ruby_incpush("./ruby/1.9");
+   ruby_incpush((std::string("./ruby/") + JOYAU_RB_VERSION).c_str());
    ruby_incpush("./ruby/site_ruby");
-   ruby_incpush("./ruby/site_ruby/1.9");
+   ruby_incpush((std::string("./ruby/site_ruby/") + JOYAU_RB_VERSION).c_str());
 
    // We'll also allow include at memory stick's root
-   ruby_incpush("ms0:/ruby/1.9");
+   ruby_incpush((std::string("ms0:/ruby/") + JOYAU_RB_VERSION).c_str());
    ruby_incpush("ms0:/ruby/site_ruby");
-   ruby_incpush("ms0:/ruby/site_ruby/1.9");
-
+   ruby_incpush((std::string("ms0:/ruby/site_ruby/") + JOYAU_RB_VERSION).c_str());
+   
    VALUE joyau = rb_define_module("Joyau");
 
    defineManager();
@@ -147,8 +147,7 @@ int main(int argc, char** argv)
    ruby_init_loadpath();
    ruby_script("embedded");
 
-   void *node = rb_load_file(scriptFilename.c_str());
-   ruby_run_node(node);
+   runScript(scriptFilename);
 
    Manager::deleteInstance();
    Pad::deleteInstance();

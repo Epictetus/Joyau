@@ -26,7 +26,7 @@ OBJS += intrafont/libccc.o intrafont/intraFont.o
 
 INCDIR += ./intrafont/
 
-CFLAGS += -O2 -G0 -Wall -D_PSP_
+CFLAGS += -O2 -G0 -Wall -D_PSP_ -DHAVE_STRUCT_TIMESPEC
 CXXFLAGS = $(CFLAGS) -fno-exceptions -fno-rtti
 ASFLAGS = $(CFLAGS)
 

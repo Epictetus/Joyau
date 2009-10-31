@@ -98,6 +98,24 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 /** Defines a constant **/
 #define defConst rb_define_const
 
+
+#ifdef JOYAU_RB_19
+# define JOYAU_RB_VERSION "1.8"
+#else
+# define JOYAU_RB_VERSION "1.8"
+# define JOYAU_RB_18
+#endif
+
+inline void runScript(const std::string &filename) {
+#ifdef JOYAU_RB_18 //"1.8"
+   rb_load_file(filename.c_str());
+   ruby_run();
+#else
+   void *node = rb_load_file(filename.c_str());
+   ruby_run_node(node);
+#endif
+}
+
 /** Destroys the object info. Used when a ruby object is destroyed. **/
 template<typename T> void wrapped_free(void *info)
 {
