@@ -1781,6 +1781,4 @@ if false # Joyau's documentation should not be included
       alias :points :getPoints
     end
   end
-
-  alias :may_play? :mayPlay
 end
