@@ -140,5 +140,7 @@ void defineCircle()
    defAlias(cCircle, "setRadius", "radius=");
    defAlias(cCircle, "getCenterX", "centerX");
    defAlias(cCircle, "getCenterY", "centerY");
+   defAlias(cCircle, "getCenterX", "center_x");
+   defAlias(cCircle, "getCenterY", "center_y");
    defAlias(cCircle, "getRadius", "radius");
 }

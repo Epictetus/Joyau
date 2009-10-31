@@ -498,4 +498,9 @@ void defineDrawable()
 
    defAlias(cDrawable, "collide", "collide?");
    defAlias(cDrawable, "isOn", "is_on?");
+   defAlias(cDrawable, "boundingRect", "bounding_rect");
+   defAlias(cDrawable, "movedX", "moved_x");
+   defAlias(cDrawable, "movedY", "moved_y");
+   defAlias(cDrawable, "cancelMove", "cancel_mvoe");
+   defAlias(cDrawable, "clearMove", "clear_move");
 }

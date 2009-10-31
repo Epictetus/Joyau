@@ -137,4 +137,5 @@ void defineLine()
    defMethod(cLine, "getPoint", Line_getPoint, 0);
 
    defAlias(cLine, "getPoint", "point");
+   defAlias(cLine, "setPoint", "set_point");
 }

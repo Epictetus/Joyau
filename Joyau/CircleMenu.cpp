@@ -184,4 +184,5 @@ void defineCircleMenu()
    defAlias(cCircleMenu, "setAlpha", "alpha=");
    defAlias(cCircleMenu, "setDist", "dist=");
    defAlias(cCircleMenu, "setAngle", "angle=");
+   defAlias(cCircleMenu, "changeSelection", "change_selection");
 }

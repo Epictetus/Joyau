@@ -693,12 +693,16 @@ void defineAudio()
    defMethod(cSound, "pause", Sound_play, 0);
    defMethod(cSound, "stop", Sound_stop, 0);
 
+   defAlias(cSound, "loadWav", "load_wav");
+
    VALUE cStream = defClass<Stream>("Stream", "AudioObject");
    defMethod(cStream, "loadOgg", Stream_loadOgg, 1);
    defMethod(cStream, "play", Stream_play, 0);
    defMethod(cStream, "update", Stream_update, 0);
    defMethod(cStream, "pause", Stream_play, 0);
    defMethod(cStream, "stop", Stream_stop, 0);
+
+   defAlias(cStream, "loadOgg", "load_ogg");
 
    VALUE mListener = defModule("Listener");
    defModFunc(mListener, "setPos", Listener_setPos, 3);

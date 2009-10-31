@@ -652,6 +652,18 @@ void defineGameMap()
    defMethod(cMap, "each_tileset", GameMap_each_tileset, 0);
    defMethod(cMap, "reject_tiles", GameMap_reject_tiles, 0);
 
+   defAlias(cMap, "addTileset", "add_tileset");
+   defAlias(cMap, "setTileSize", "set_tile_size");
+   defAlias(cMap, "tileWidth", "tile_width");
+   defAlias(cMap, "tileHeight", "tile_height");
+   defAlias(cMap, "collisionH", "collision_h");
+   defAlias(cMap, "collisionH=", "collision_h=");
+   defAlias(cMap, "absToRel", "abs2rel");
+   defAlias(cMap, "relToAbs", "rel2abs");
+   defAlias(cMap, "centerOn", "center_on");
+   defAlias(cMap, "addElem", "add_elem");
+   defAlias(cMap, "clearTiles", "clear_tiles");
+
    CollisionType full(true, false, false, false, false);
    CollisionType left(false, true, false, false, false);
    CollisionType right(false, false, true, false, false);
