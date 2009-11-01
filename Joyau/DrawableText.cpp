@@ -31,7 +31,8 @@ DrawableText::DrawableText()
 int DrawableText::getW() const
 {
    // Don't forget to update the font
-   oslSetFont(Manager::getInstance().getFont(font.c_str()));
+   if (font != "")
+      oslSetFont(Manager::getInstance().getFont(font.c_str()));
    return oslGetStringWidth(_text.c_str());
 }
 
