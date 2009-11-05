@@ -6,7 +6,7 @@
 
 #
 # Copyright 2009 Verhetsel Kilian
-# This program can be distributed under the terms of the GNU GPL.
+# This program can be distributed under the terms of the GNU LGPL.
 # See the file COPYING.
 #
 
