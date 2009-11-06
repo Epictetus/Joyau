@@ -49,10 +49,7 @@ void Message::draw()
 {
    Manager &manager = Manager::getInstance(); // Needed for getFont
    
-   // Firstly, let's draw the border.
-   oslDrawRect(getX(), getY(), getX() + _w, getY() + _h, borderColor);
-
-   // Then, the background.
+   // Firtsly, the background.
    // If it's a picture :
    if (bg_pic)
    {
@@ -66,6 +63,9 @@ void Message::draw()
       oslDrawFillRect(getX() + 1, getY() +1, getX() + _w - 1, getY() 
 		      + _h - 1, bgColor);
    }
+
+   // Then, let's draw the border.
+   oslDrawRect(getX(), getY(), getX() + _w, getY() + _h, borderColor);
 
    int offset = 0;
    if (image != NULL)
