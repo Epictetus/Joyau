@@ -91,7 +91,7 @@ public:
 
    struct SortBetween {
       bool operator()(const Drawable *obj, const Drawable *obj2) {
-	 return obj->getY() < obj2->getY();
+	 return obj->getY() > obj2->getY();
       }
    };
 
@@ -160,11 +160,14 @@ public:
    bool collide(Drawable &spr);
    bool isOn(int x, int y);
 
-   /** Clears both tilesets and tiles **/
+   /** Clears tilesets, tiles, and between **/
    void clear();
 
    /** Clears all the tiles **/
    void clearTiles() { tiles.clear(); }
+
+   /** Clears between **/
+   void clearBetween();
 
    void draw();
 
@@ -250,6 +253,7 @@ VALUE GameMap_push(VALUE self, VALUE tile);
 
 VALUE GameMap_clear(VALUE self);
 VALUE GameMap_clearTiles(VALUE self);
+VALUE GameMap_clearBetween(VALUE self);
 
 VALUE GameMap_tiles(VALUE self);
 VALUE GameMap_tilesets(VALUE self);

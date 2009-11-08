@@ -217,6 +217,11 @@ void GameMap::clear()
 {
    tiles.clear(); // Let's say the user'd want to use the same object twice
    tilesets.clear();
+   between.clear();
+}
+
+void GameMap::clearBetween() {
+   between.clear();
 }
 
 bool GameMap::visible(const Tile &t) const
@@ -256,9 +261,14 @@ void GameMap::draw() {
 	 for (unsigned int j = start; j < between.size(); ++j) {
 	    if (!drawn[j]) {
 	       if (between[j]->getY() < (getY() + tiles[i].y)) {
-		  between[j]->draw();
-		  drawn[j] = true;
-		  start = j;
+		  DrawableRect rect;
+		  rect.setPos(tiles[i].x + getX(), tiles[i].y + getY());
+		  rect.resize(tileWidth, tileHeight);
+		  if (between[j]->collide(rect)) {
+		     between[j]->draw();
+		     drawn[j] = true;
+		     start = j;
+		  }
 	       }
 	    }
 	 }
@@ -443,6 +453,14 @@ VALUE GameMap_clearTiles(VALUE self)
 {
    GameMap &ref = getRef<GameMap>(self);
    ref.clearTiles();
+
+   return Qnil;
+}
+
+VALUE GameMap_clearBetween(VALUE self)
+{
+   GameMap &ref = getRef<GameMap>(self);
+   ref.clearBetween();
 
    return Qnil;
 }
@@ -685,6 +703,7 @@ void defineGameMap()
    defMethod(cMap, "<<", GameMap_push, 1);
    defMethod(cMap, "clear", GameMap_clear, 0);
    defMethod(cMap, "clearTiles", GameMap_clearTiles, 0);
+   defMethod(cMap, "clear_between", GameMap_clearBetween, 0);
    defMethod(cMap, "tiles", GameMap_tiles, 0);
    defMethod(cMap, "tilesets", GameMap_tilesets, 0);
    defMethod(cMap, "each_tile", GameMap_each_tile, 0);
