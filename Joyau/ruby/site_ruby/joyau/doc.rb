@@ -1027,11 +1027,14 @@ if false # Joyau's documentation should not be included
       #
       def <<(obj); end
 
-      # Clears the map's tiles and tilesets.
+      # Clears the map's tiles and tilesets, and between.
       def clear; end
 
       # Clears the map's tiles.
       def clearTiles; end
+
+      # Clears between.
+      def clearBetween; end
 
       #
       # Returns an array containing all the tiles. Deleting or inserting
