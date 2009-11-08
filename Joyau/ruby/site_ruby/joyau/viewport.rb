@@ -78,7 +78,5 @@ module Joyau
       p = rel2abs(point)
       move(240 - p.x, 136 - p.y)
     end
-
-    public :initialize
   end
 end

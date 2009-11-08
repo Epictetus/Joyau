@@ -81,11 +81,12 @@ template<> VALUE wrap<GameMap::Tile>(int argc, VALUE *argv, VALUE info)
    return tdata;
 }
 
-GameMap::GameMap()
+GameMap::GameMap():
+   colH(-1),
+   between(NULL)
 {
    _w = 480;
    _h = 272;
-   colH = -1;
 }
 
 void GameMap::addTileset(char *name)
@@ -133,6 +134,8 @@ void GameMap::addElem(int tileset, int tX, int tY, int x, int y)
 void GameMap::addElem(const Tile &tile)
 {
    tiles.push_back(tile);
+   if (between != NULL)
+      std::sort(tiles.begin(), tiles.end(), SortTile());
 }
 
 bool GameMap::collide(Drawable &spr)
@@ -232,23 +235,39 @@ bool GameMap::visible(const Tile &t) const
    return true;
 }
 
-void GameMap::draw()
-{
-   for (unsigned int i = 0; i < tiles.size(); ++i)
-   {
+void GameMap::draw() {
+   bool drawn = between == NULL;
+   Point oldPos;
+   if (!drawn) {
+      oldPos.x = between->getX();
+      oldPos.y = between->getY();
+      between->setPos(getX() + oldPos.x, getY() + oldPos.y);
+   }
+   for (unsigned int i = 0; i < tiles.size(); ++i) {
       /*
         Don't waste time, don't draw not visible tiles.
         ( It's also possible that the size of the map is inferior
 	to the screen size )
       */
-      if (visible(tiles[i]))
-      {
-         Sprite &tile = tilesets[tiles[i].tileset];
+      if (visible(tiles[i])) {
+	 if (!drawn) {
+	    if (between->getY() < (getY() + tiles[i].y)) {
+	       between->draw();
+	       drawn = true;
+	    }
+	 }
+	 Sprite &tile = tilesets[tiles[i].tileset];
          tile.setTile(tiles[i].tileX, tiles[i].tileY, tileWidth, tileHeight);
          tile.setPos(getX() + tiles[i].x, getY() + tiles[i].y);
 
 	 tile.draw();
       }
+   }
+   if (between != NULL) {
+      if (!drawn)
+	 between->draw();
+      between->setPos(oldPos);
+      between->clearMove();
    }
 }
 
@@ -291,6 +310,12 @@ VALUE GameMap::rbTilesets()
       rb_ary_push(ret, tilesets[i].toRuby());
 
    return ret;
+}
+
+void GameMap::setBetween(Drawable *obj) {
+   between = obj;
+   if (between != NULL)
+      std::sort(tiles.begin(), tiles.end(), SortTile());
 }
 
 VALUE GameMap_addTileset(VALUE self, VALUE name)
@@ -450,6 +475,14 @@ VALUE GameMap_reject_tiles(VALUE self)
    ref.rbRejectTiles();
 
    return Qnil;
+}
+
+VALUE GameMap_setBetween(VALUE self, VALUE obj) {
+   GameMap &ref = getRef<GameMap>(self);
+   Drawable *draw = obj == Qnil ? NULL : getPtr<Drawable>(obj);
+					     
+   ref.setBetween(draw);
+   return obj;
 }
 
 VALUE CollisionType_right(VALUE self)
@@ -651,6 +684,7 @@ void defineGameMap()
    defMethod(cMap, "each_tile", GameMap_each_tile, 0);
    defMethod(cMap, "each_tileset", GameMap_each_tileset, 0);
    defMethod(cMap, "reject_tiles", GameMap_reject_tiles, 0);
+   defMethod(cMap, "between=", GameMap_setBetween, 1);
 
    defAlias(cMap, "addTileset", "add_tileset");
    defAlias(cMap, "setTileSize", "set_tile_size");

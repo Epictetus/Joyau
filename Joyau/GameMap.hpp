@@ -81,6 +81,14 @@ public:
       CollisionType type;
    };
 
+   /** Used in order to sort tiles **/
+   struct SortTile {
+      /** Returns true if obj2.y is greater than obj.y **/
+      bool operator()(const Tile &obj, const Tile &obj2) {
+	 return obj.y < obj2.y;
+      }
+   };
+
    typedef RubyReject<Tile> shouldRemove;
 
    GameMap();
@@ -172,12 +180,19 @@ public:
     *  Both read and write access are allowed.
     */
    VALUE rbTilesets();
+
+   /** Sets the object drawn between the map's tiles.
+    *  It'll be drawn under the tiles which have a lower ordinate.
+    */
+   void setBetween(Drawable *obj);
 private:
    std::vector<Sprite> tilesets;
    std::vector<Tile> tiles;
 
    int tileWidth, tileHeight;
    int colH;
+
+   Drawable* between;
 protected:
    /** returns whether a tile is visible **/
    bool visible(const Tile &t) const;
@@ -236,6 +251,8 @@ VALUE GameMap_tilesets(VALUE self);
 VALUE GameMap_each_tile(VALUE self);
 VALUE GameMap_each_tileset(VALUE self);
 VALUE GameMap_reject_tiles(VALUE self);
+
+VALUE GameMap_setBetween(VALUE self, VALUE obj);
 
 void defineGameMap();
 

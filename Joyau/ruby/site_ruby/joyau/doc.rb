@@ -1070,6 +1070,13 @@ if false # Joyau's documentation should not be included
       def reject_tiles # :yield:
       end
 
+      #
+      # Sets the object drawn between the map's tiles.
+      # It'll be drawn under the tiles which have a lower ordinate.
+      # Its position should be relative to the GameMap ( as in a Viewport )
+      #
+      def between=(obj); end
+
       COL_FULL       = CollisionType.new(true , false, false, false, false)
       COL_LEFT       = CollisionType.new(false, true , false, false, false)
       COL_RIGHT      = CollisionType.new(false, false, true , false, false)
