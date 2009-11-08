@@ -82,8 +82,7 @@ template<> VALUE wrap<GameMap::Tile>(int argc, VALUE *argv, VALUE info)
 }
 
 GameMap::GameMap():
-   colH(-1),
-   between(NULL)
+   colH(-1)
 {
    _w = 480;
    _h = 272;
@@ -134,7 +133,7 @@ void GameMap::addElem(int tileset, int tX, int tY, int x, int y)
 void GameMap::addElem(const Tile &tile)
 {
    tiles.push_back(tile);
-   if (between != NULL)
+   if (between.size() != 0)
       std::sort(tiles.begin(), tiles.end(), SortTile());
 }
 
@@ -236,12 +235,16 @@ bool GameMap::visible(const Tile &t) const
 }
 
 void GameMap::draw() {
-   bool drawn = between == NULL;
-   Point oldPos;
-   if (!drawn) {
-      oldPos.x = between->getX();
-      oldPos.y = between->getY();
-      between->setPos(getX() + oldPos.x, getY() + oldPos.y);
+   std::vector<bool> drawn(between.size(), false);
+   std::vector<Point> oldPos(between.size());
+   int start = 0;
+
+   std::sort(between.begin(), between.end(), SortBetween());
+
+   for (unsigned int i = 0; i < between.size(); ++i) {
+      oldPos[i].x = between[i]->getX();
+      oldPos[i].y = between[i]->getY();
+      between[i]->setPos(getX() + oldPos[i].x, getY() + oldPos[i].y);
    }
    for (unsigned int i = 0; i < tiles.size(); ++i) {
       /*
@@ -250,10 +253,13 @@ void GameMap::draw() {
 	to the screen size )
       */
       if (visible(tiles[i])) {
-	 if (!drawn) {
-	    if (between->getY() < (getY() + tiles[i].y)) {
-	       between->draw();
-	       drawn = true;
+	 for (unsigned int j = start; j < between.size(); ++j) {
+	    if (!drawn[j]) {
+	       if (between[j]->getY() < (getY() + tiles[i].y)) {
+		  between[j]->draw();
+		  drawn[j] = true;
+		  start = j;
+	       }
 	    }
 	 }
 	 Sprite &tile = tilesets[tiles[i].tileset];
@@ -263,11 +269,11 @@ void GameMap::draw() {
 	 tile.draw();
       }
    }
-   if (between != NULL) {
-      if (!drawn)
-	 between->draw();
-      between->setPos(oldPos);
-      between->clearMove();
+   for (unsigned int i = 0; i < between.size(); ++i) {
+      if (!drawn[i])
+	 between[i]->draw();
+      between[i]->setPos(oldPos[i]);
+      between[i]->clearMove();
    }
 }
 
@@ -312,10 +318,10 @@ VALUE GameMap::rbTilesets()
    return ret;
 }
 
-void GameMap::setBetween(Drawable *obj) {
-   between = obj;
-   if (between != NULL)
-      std::sort(tiles.begin(), tiles.end(), SortTile());
+void GameMap::addBetween(Drawable *obj) {
+   between.push_back(obj);
+   std::sort(between.begin(), between.end(), SortBetween());
+   std::sort(tiles.begin(), tiles.end(), SortTile());
 }
 
 VALUE GameMap_addTileset(VALUE self, VALUE name)
@@ -477,11 +483,11 @@ VALUE GameMap_reject_tiles(VALUE self)
    return Qnil;
 }
 
-VALUE GameMap_setBetween(VALUE self, VALUE obj) {
+VALUE GameMap_addBetween(VALUE self, VALUE obj) {
    GameMap &ref = getRef<GameMap>(self);
-   Drawable *draw = obj == Qnil ? NULL : getPtr<Drawable>(obj);
+   Drawable *draw = getPtr<Drawable>(obj);
 					     
-   ref.setBetween(draw);
+   ref.addBetween(draw);
    return obj;
 }
 
@@ -684,7 +690,7 @@ void defineGameMap()
    defMethod(cMap, "each_tile", GameMap_each_tile, 0);
    defMethod(cMap, "each_tileset", GameMap_each_tileset, 0);
    defMethod(cMap, "reject_tiles", GameMap_reject_tiles, 0);
-   defMethod(cMap, "between=", GameMap_setBetween, 1);
+   defMethod(cMap, "addBetween", GameMap_addBetween, 1);
 
    defAlias(cMap, "addTileset", "add_tileset");
    defAlias(cMap, "setTileSize", "set_tile_size");

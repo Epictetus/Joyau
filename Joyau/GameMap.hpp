@@ -89,6 +89,12 @@ public:
       }
    };
 
+   struct SortBetween {
+      bool operator()(const Drawable *obj, const Drawable *obj2) {
+	 return obj->getY() < obj2->getY();
+      }
+   };
+
    typedef RubyReject<Tile> shouldRemove;
 
    GameMap();
@@ -184,7 +190,7 @@ public:
    /** Sets the object drawn between the map's tiles.
     *  It'll be drawn under the tiles which have a lower ordinate.
     */
-   void setBetween(Drawable *obj);
+   void addBetween(Drawable *obj);
 private:
    std::vector<Sprite> tilesets;
    std::vector<Tile> tiles;
@@ -192,7 +198,7 @@ private:
    int tileWidth, tileHeight;
    int colH;
 
-   Drawable* between;
+   std::vector<Drawable*> between;
 protected:
    /** returns whether a tile is visible **/
    bool visible(const Tile &t) const;
@@ -252,7 +258,7 @@ VALUE GameMap_each_tile(VALUE self);
 VALUE GameMap_each_tileset(VALUE self);
 VALUE GameMap_reject_tiles(VALUE self);
 
-VALUE GameMap_setBetween(VALUE self, VALUE obj);
+VALUE GameMap_addBetween(VALUE self, VALUE obj);
 
 void defineGameMap();
 
