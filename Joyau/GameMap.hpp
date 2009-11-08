@@ -91,7 +91,7 @@ public:
 
    struct SortBetween {
       bool operator()(const Drawable *obj, const Drawable *obj2) {
-	 return obj->getY() > obj2->getY();
+	 return obj->getY() < obj2->getY();
       }
    };
 
