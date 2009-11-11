@@ -37,6 +37,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "RubyDrawable.hpp"
 #include "MultiSelecter.hpp"
 #include "Font.hpp"
+#include "Console.hpp"
 
 PSP_MODULE_INFO("Joyau", 0, 1, 1);
 PSP_MAIN_THREAD_ATTR(THREAD_ATTR_USER | THREAD_ATTR_VFPU);
@@ -136,6 +137,7 @@ int main(int argc, char** argv)
    defineMsgSelecter();
    defineMultiSelecter();
    defineIntrafont();
+   defineConsole();
 
    Manager::getInstance().setArg(argc, argv);
    Pad::getInstance();
