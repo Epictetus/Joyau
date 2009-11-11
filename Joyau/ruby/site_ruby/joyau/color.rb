@@ -173,35 +173,7 @@ module Joyau
     #   => 0xffffff00
     #
     def hex
-      str = ""
-      tmp = @hash["a"].to_s(16)
-      if tmp.size == 1
-        tmp = "0" + tmp
-      end
-
-      str += tmp
-
-      tmp = @hash["r"].to_s(16)
-      if tmp.size == 1
-        tmp = "0" + tmp
-      end
-
-      str += tmp
-
-      tmp = @hash["g"].to_s(16)
-      if tmp.size == 1
-        tmp = "0" + tmp
-      end
-
-      str += tmp
-
-      tmp = @hash["b"].to_s(16)
-      if tmp.size == 1
-        tmp = "0" + tmp
-      end
-
-      str += tmp
-      return str.to_i
+      ((@hash["r"]) | (@hash["g"] << 8) | (@hash["b"] << 16) | (@hash["a"] << 24))
     end
 
     def inspect # :nodoc:
