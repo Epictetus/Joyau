@@ -91,6 +91,51 @@ VALUE rubyConsoleSwitchFixedMode(VALUE self) {
    return Qnil;
 }
 
+VALUE rubyConsole2dInit(VALUE self) {
+   console2dInit();
+   return Qnil;
+}
+
+VALUE rubyConsole2dExit(VALUE self) {
+   console2dExit();
+   return Qnil;
+}
+
+VALUE rubyConsole2dPrint(VALUE self, VALUE x, VALUE y, VALUE mode, VALUE txt) {
+   console2dPrint(FIX2INT(x), FIX2INT(y), FIX2INT(mode), StringValuePtr(txt));
+   return Qnil;
+}
+
+VALUE rubyConsole2dFillLine(VALUE self, VALUE mode, VALUE pos, VALUE adv, VALUE txt) {
+   console2dFillLine(FIX2INT(mode), FIX2INT(pos), FIX2INT(adv), StringValuePtr(txt));
+   return Qnil;
+}
+
+VALUE rubyConsole2dSetLineColor(VALUE self, VALUE y, VALUE col) {
+   console2dSetLineColor(FIX2INT(y), FIX2INT(col));
+   return Qnil;
+}
+
+VALUE rubyConsole2dSetColor(VALUE self, VALUE col) {
+   console2dSetColor(FIX2INT(col));
+   return Qnil;
+}
+
+VALUE rubyConsole2dClear(VALUE self) {
+   console2dClear();
+   return Qnil;
+}
+
+VALUE rubyConsole2dFlip(VALUE self) {
+   console2dFlip();
+   return Qnil;
+}
+
+VALUE rubyConsole2dSwitchAutoFlip(VALUE self) {
+   console2dSwitchAutoFlip();
+   return Qnil;
+}
+
 void defineConsole() {
    VALUE mConsole = rb_define_module("Console"); // Not defined in Joyau
    defModFunc(mConsole, "init", rubyConsoleInit, 1);
@@ -121,4 +166,27 @@ void defineConsole() {
    defConst(mConsole, "STILL_PRESSED", INT2FIX(STILL_PRESSED));
 
    defConst(mConsole, "ANY_KEY", INT2FIX(0));
+
+   VALUE mConsole2d = rb_define_module("Console2d");
+
+   defModFunc(mConsole2d, "init", rubyConsole2dInit, 0);
+   defModFunc(mConsole2d, "exit", rubyConsole2dExit, 0);
+
+   defModFunc(mConsole2d, "print", rubyConsole2dPrint, 4);
+   
+   defModFunc(mConsole2d, "fill_line", rubyConsole2dFillLine, 4);
+   defModFunc(mConsole2d, "set_line_color", rubyConsole2dSetLineColor, 2);
+
+   defModFunc(mConsole2d, "color=", rubyConsole2dSetColor, 1);
+
+   defModFunc(mConsole2d, "clear", rubyConsole2dClear, 0);
+
+   defModFunc(mConsole2d, "flip", rubyConsole2dFlip, 0);
+   defModFunc(mConsole2d, "switch_auto_flip", rubyConsole2dSwitchAutoFlip, 0);
+
+   defConst(mConsole2d, "HORIZONTAL", INT2FIX(H));
+   defConst(mConsole2d, "VERTICAL", INT2FIX(V));
+
+   defConst(mConsole2d, "LEFT", INT2FIX(L));
+   defConst(mConsole2d, "RIGHT", INT2FIX(R));
 }

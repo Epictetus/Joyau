@@ -37,4 +37,19 @@ VALUE rubyConsoleSetTextColor(VALUE self, VALUE color);
 
 VALUE rubyConsoleSwitchFixedMode(VALUE self);
 
+VALUE rubyConsole2dInit(VALUE self);
+VALUE rubyConsole2dExit(VALUE self);
+
+VALUE rubyConsole2dPrint(VALUE self, VALUE x, VALUE y, VALUE mode, VALUE txt);
+
+VALUE rubyConsole2dFillLine(VALUE self, VALUE mode, VALUE pos, VALUE adv, VALUE txt);
+VALUE rubyConsole2dSetLineColor(VALUE self, VALUE y, VALUE col);
+
+VALUE rubyConsole2dSetColor(VALUE self, VALUE col);
+
+VALUE rubyConsole2dClear(VALUE self);
+
+VALUE rubyConsole2dFlip(VALUE self);
+VALUE rubyConsole2dSwitchAutoFlip(VALUE self);
+
 void defineConsole();
