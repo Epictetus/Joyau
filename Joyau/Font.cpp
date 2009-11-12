@@ -102,7 +102,7 @@ VALUE IntraText_setStyle(VALUE self, VALUE size, VALUE color, VALUE shadow,
 			 VALUE options)
 {
    IntraText &ref = getRef<IntraText>(self);
-   ref.setStyle(NUM2DBL(size), FIX2INT(color), FIX2INT(shadow), 
+   ref.setStyle(NUM2DBL(size), hash2col(color), hash2col(shadow), 
 		FIX2INT(options));
 
    return Qnil;
