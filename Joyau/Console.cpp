@@ -82,7 +82,7 @@ VALUE rubyConsoleWaitKey(VALUE self, VALUE button, VALUE str) {
 }
 
 VALUE rubyConsoleSetTextColor(VALUE self, VALUE color) {
-   consoleSetTextColor(FIX2INT(color));
+   consoleSetTextColor(hash2col(color));
    return Qnil;
 }
 
@@ -112,12 +112,12 @@ VALUE rubyConsole2dFillLine(VALUE self, VALUE mode, VALUE pos, VALUE adv, VALUE 
 }
 
 VALUE rubyConsole2dSetLineColor(VALUE self, VALUE y, VALUE col) {
-   console2dSetLineColor(FIX2INT(y), FIX2INT(col));
+   console2dSetLineColor(FIX2INT(y), hash2col(col));
    return Qnil;
 }
 
 VALUE rubyConsole2dSetColor(VALUE self, VALUE col) {
-   console2dSetColor(FIX2INT(col));
+   console2dSetColor(hash2col(col));
    return Qnil;
 }
 
