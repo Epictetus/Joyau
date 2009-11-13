@@ -101,13 +101,17 @@ VALUE rubyConsole2dExit(VALUE self) {
    return Qnil;
 }
 
-VALUE rubyConsole2dPrint(VALUE self, VALUE x, VALUE y, VALUE mode, VALUE txt) {
-   console2dPrint(FIX2INT(x), FIX2INT(y), FIX2INT(mode), StringValuePtr(txt));
+VALUE rubyConsole2dPrint(VALUE self, VALUE x, VALUE y, VALUE mode, 
+			 VALUE txt) {
+   console2dPrint(FIX2INT(x), FIX2INT(y), FIX2INT(mode), 
+		  StringValuePtr(txt));
    return Qnil;
 }
 
-VALUE rubyConsole2dFillLine(VALUE self, VALUE mode, VALUE pos, VALUE adv, VALUE txt) {
-   console2dFillLine(FIX2INT(mode), FIX2INT(pos), FIX2INT(adv), StringValuePtr(txt));
+VALUE rubyConsole2dFillLine(VALUE self, VALUE mode, VALUE pos, VALUE adv, 
+			    VALUE txt) {
+   console2dFillLine(FIX2INT(mode), FIX2INT(pos), FIX2INT(adv), 
+		     StringValuePtr(txt));
    return Qnil;
 }
 
