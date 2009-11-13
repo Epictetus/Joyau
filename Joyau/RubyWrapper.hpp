@@ -256,6 +256,9 @@ inline OSL_COLOR hash2col(VALUE hash)
 
       return RGBA(r, g, b, a);
    }
+   else if (TYPE(hash) == T_FIXNUM) {
+      return FIX2INT(hash);
+   }
    else
       return hash2col(rb_funcall(hash, getFunc("to_hash"), 0));
 }
