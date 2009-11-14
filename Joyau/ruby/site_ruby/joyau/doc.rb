@@ -879,8 +879,8 @@ if false # Joyau's documentation should not be included
       #
       # Sets the font's style.
       # <em>size</em> is the scalling applied to the font.
-      # <em>color</em> is its color's hexadecimal value.
-      # <em>shadow</em> is the hexadecimal value of the shadow's color.
+      # <em>color</em> is its color.
+      # <em>shadow</em> is the shadow's color.
       # <em>options</em> are some of Intrafont's constants.
       #
       def setStyle(size, color, shadow, options); end
@@ -1790,5 +1790,95 @@ if false # Joyau's documentation should not be included
 
       alias :points :getPoints
     end
+  end
+
+  # Contains functions in order to draw text.
+  module Console
+    # Inits the Console library. mode can be either FULL or LITE.
+    # When set to full, the Danzeff keyboard is enabled.
+    def self.init(mode); end
+
+    # Exits the Console library, with a fading effect.
+    def self.exit; end
+    
+    # Switches the scroll and fade effect on/off.
+    def self.switch_sfx; end
+
+    # Writes a line on the console.
+    def self.puts(str); end
+
+    # Adds text to the actual line
+    def self.print(str); end
+
+    # Replaces the actual line with +str+.
+    def self.end(str); end
+
+    # Returns a string, typed by the user.
+    def self.gets; end
+
+    # Returns an integer, typed by the user.
+    def self.get_num; end
+
+    # Returns whether the button <em>button</em> ( a constant in +Joyau::Pad+) 
+    # is at <em>state</em>, where +state+ is a constant defined in +Console+.
+    def self.is_button?(button, state); end
+
+    # Waits untill the user presses <em>button</em>, displaying <em>str</em>.
+    def self.wait_key(button, str); end
+
+    # Sets the text color to <em>col</em>.
+    def self.text_color=(col); end
+
+    # Switch the fixed width state on/off.
+    def self.switch_fixed; end
+
+    FULL = 0
+    LITE = 1
+
+    ANY_KEY = 0
+
+    PRESSED       = 0
+    JUST_PRESSED  = 1
+    JUST_RELEASED = 2
+    STILL_PRESSED = 3
+  end
+
+  # Module containning functions in order to create text-based games.
+  module Console2d
+    # Inits the Console2d library
+    def self.init; end
+
+    # Exits the Console2d library, with a fading effect.
+    def self.exit; end
+
+    # Prints <em>txt<em> at <em>(x, y)</em>, alligned to <em>mode</em>, which
+    # is either +Console2d::LEFT+ or +Console2d::RIGHT+.
+    def self.print(x, y, mode, txt); end
+    
+    # Fills an horizontal or a vertical line (depending on <em>mode</em>),
+    # from <em>pos</em>, startring whith the <em>adv</em>th char, and drawing
+    # <em>txt</em>.
+    def self.fill_line(mode, pos, adv, txt); end
+
+    # Draws a line in <em>col</em>.
+    def self.set_line_color(y, col); end
+    
+    # Sets the color to <em>col</em>.
+    def self.color=(col); end
+
+    # Clears the screen.
+    def self.clear; end
+
+    # Updates the screen.
+    def self.flip; end
+
+    # Switches the auto-update when drawing things.
+    def self.switch_auto_flip; end
+
+    HORIZONTAL = 0
+    VERTICAL   = 1
+
+    LEFT       = 0
+    RIGHT      = 1
   end
 end

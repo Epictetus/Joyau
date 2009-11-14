@@ -31,11 +31,6 @@ module Joyau
   #   { "r" => 255, "g" => 120, "b" => 40, "a" => 70 }.to_col
   #   => Color(255, 120, 40, 70)
   #
-  # If you want to use it with intrafont, you'll need to get an hexadecimal 
-  # value :
-  #
-  #   a_color = Color.new.hex
-  #
   class Color
     #
     # Returns the hash. This methods allows the compatibility with Joyau,
@@ -173,7 +168,8 @@ module Joyau
     #   => 0xffffff00
     #
     def hex
-      ((@hash["r"]) | (@hash["g"] << 8) | (@hash["b"] << 16) | (@hash["a"] << 24))
+      ((@hash["r"]) | (@hash["g"] << 8) | (@hash["b"] << 16) | 
+       (@hash["a"] << 24))
     end
 
     def inspect # :nodoc:
@@ -201,7 +197,7 @@ end
 
 class Hash
   #
-  # Converts this hash to a color object for Joyau
+  # Converts this hash into a color object for Joyau
   #
   def to_col
     Joyau::Color.new(self)
