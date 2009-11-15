@@ -30,7 +30,8 @@ class IntraText: public Drawable
 {
 public:
    IntraText():
-      font(NULL), txt(""), _col(0), _shadow(0), _style(0), _encoding(0)
+      font(NULL), txt(""), _col(0), _shadow(0), _style(0), 
+      _encoding(0), maxWidth(-1)
    { setClass("IntraText"); }
 
    /** Changes the text.
@@ -40,6 +41,8 @@ public:
 
    /** returns the text **/
    std::string getText() const { return txt; }
+
+   void setMaxWidth(int val) { maxWidth = val; }
 
    /** Loads a font.
     *  @param name font name
@@ -79,6 +82,8 @@ private:
 
    int _col, _shadow, _style, _encoding;
    float scale;
+
+   int maxWidth;
 };
 
 /*@}*/
@@ -88,6 +93,8 @@ VALUE Intrafont_stop(VALUE self);
 
 VALUE IntraText_setText(VALUE self, VALUE txt);
 VALUE IntraText_text(VALUE self);
+
+VALUE IntraText_setMaxWidth(VALUE self, VALUE val);
 
 VALUE IntraText_load(VALUE self, VALUE name, VALUE options);
 

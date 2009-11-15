@@ -24,7 +24,7 @@ void IntraText::load(const std::string &name, int options)
 
 int IntraText::getW() const
 {
-   return intraFontMeasureText(font, txt.c_str());
+   return maxWidth == -1 ? intraFontMeasureText(font, txt.c_str()) : maxWidth;
 }
 
 void IntraText::activate()
@@ -54,7 +54,10 @@ void IntraText::draw()
 {
    intraFontSetEncoding(font, _encoding);
    intraFontSetStyle(font, scale, _col, _shadow, _style);
-   intraFontPrint(font, getX(), getY(), txt.c_str());
+   if (maxWidth == -1)
+      intraFontPrint(font, getX(), getY(), txt.c_str());
+   else
+      intraFontPrintColumn(font, getX(), getY(), maxWidth, txt.c_str());
 }
 
 VALUE Intrafont_init(VALUE self)
@@ -81,6 +84,13 @@ VALUE IntraText_text(VALUE self)
 {
    IntraText &ref = getRef<IntraText>(self);
    return rb_str_new2(ref.getText().c_str());
+}
+
+VALUE IntraText_setMaxWidth(VALUE self, VALUE val) {
+   IntraText &ref = getRef<IntraText>(self);
+   ref.setMaxWidth(FIX2INT(val));
+
+   return val;
 }
 
 VALUE IntraText_load(VALUE self, VALUE name, VALUE options)
@@ -170,6 +180,7 @@ void defineIntrafont()
    VALUE cIntraText = defClass<IntraText>("IntraText", "Drawable");
    defMethod(cIntraText, "text=", IntraText_setText, 1);
    defMethod(cIntraText, "text", IntraText_text, 0);
+   defMethod(cIntraText, "max_width=", IntraText_setMaxWidth, 1);
    defMethod(cIntraText, "load", IntraText_load, 2);
    defMethod(cIntraText, "activate", IntraText_activate, 0);
    defMethod(cIntraText, "setStyle", IntraText_setStyle, 4);
