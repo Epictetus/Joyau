@@ -37,6 +37,12 @@ def gen_text
   txt[17].encoding = Joyau::Intrafont::STRING_UTF8
   txt[17].setPos(200, 60)
 
+  txt << Joyau::IntraText.new
+  txt[18].text = "中国"
+  txt[18].load("flash0:/font/gb3s1518.bwfon", Joyau::Intrafont::CACHE_MED)
+  txt[18].setStyle(1, rand_col, rand_col, 0)
+  txt[18].encoding = Joyau::Intrafont::STRING_UTF8
+  txt[18].setPos(200, 90)
   return txt
 end
 
@@ -47,7 +53,7 @@ general = true
 while Joyau.mayPlay
   Joyau::Pad.update
   txt = gen_text if Joyau::Pad.pressed? Joyau::Pad::CROSS
-  index += 1 if Joyau::Pad.pressed? Joyau::Pad::RIGHT and txt[index + 1]
+  index += 1 if Joyau::Pad.pressed? Joyau::Pad::RIGHT and txt[index + 1]        
   index -= 1 if Joyau::Pad.pressed? Joyau::Pad::LEFT and txt[index - 1]
   general = !general if Joyau::Pad.pressed? Joyau::Pad::SELECT
   
