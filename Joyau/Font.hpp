@@ -30,10 +30,8 @@ class IntraText: public Drawable
 {
 public:
    IntraText():
-      font(NULL)
+      font(NULL), txt(""), _col(0), _shadow(0), _style(0), _encoding(0)
    { setClass("IntraText"); }
-
-   ~IntraText();
 
    /** Changes the text.
     *  @param text the new text.
@@ -76,7 +74,11 @@ public:
    void draw();
 private:
    intraFont *font;
+
    std::string txt;
+
+   int _col, _shadow, _style, _encoding;
+   float scale;
 };
 
 /*@}*/

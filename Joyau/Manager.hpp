@@ -80,10 +80,14 @@ public:
    OSL_IMAGE *getPic(char *name);
 
    /** Asks for a font, which is loaded if it's not already done.
-    *  @param name picture name.
+    *  @param name font name.
     *  @return a pointer to the loaded ressource.
     */
    OSL_FONT *getFont(const char *name);
+
+   /** Ask for a font, which is loaded with opt if it's not already done.
+    */
+   intraFont *getIntraFont(const std::string &name, int opt);
 
    /** Asks for a WAV bufer, which is loaded if it's not already done.
     *  @param name picture name.
@@ -111,6 +115,7 @@ public:
 private:
    std::map<std::string, OSL_IMAGE*> images;
    std::map<std::string, OSL_FONT*> fonts;
+   std::map<std::string, intraFont*> intra_fonts;
    std::map<std::string, ALuint> buffers;
 
    int _argc;

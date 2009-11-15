@@ -15,15 +15,11 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.*/
 
 #include "Font.hpp"
-
-IntraText::~IntraText()
-{
-   intraFontUnload(font);
-}
+#include "Manager.hpp"
 
 void IntraText::load(const std::string &name, int options)
 {
-   font = intraFontLoad(name.c_str(), options);
+   font = Manager::getInstance().getIntraFont(name, options);
 }
 
 int IntraText::getW() const
@@ -38,12 +34,15 @@ void IntraText::activate()
 
 void IntraText::setStyle(float size, int color, int shadowColor, int option)
 {
-   intraFontSetStyle(font, size, color, shadowColor, option);
+   scale   = size;
+   _col    = color;
+   _shadow = shadowColor;
+   _style  = option;
 }
 
 void IntraText::setEncoding(int options)
 {
-   intraFontSetEncoding(font, options);
+   _encoding = options;
 }
 
 void IntraText::setAltFont(IntraText &val)
@@ -53,6 +52,8 @@ void IntraText::setAltFont(IntraText &val)
 
 void IntraText::draw()
 {
+   intraFontSetEncoding(font, _encoding);
+   intraFontSetStyle(font, scale, _col, _shadow, _style);
    intraFontPrint(font, getX(), getY(), txt.c_str());
 }
 
