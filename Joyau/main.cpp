@@ -90,12 +90,6 @@ VALUE Joyau_exit(VALUE self)
 
 int main(int argc, char** argv)
 {
-   std::string scriptName = "script.rb";
-   std::string scriptFilename = argv[0];
-   size_t id = scriptFilename.rfind('/') + 1;
-   scriptFilename.erase(id);
-   scriptFilename = scriptFilename + scriptName;
-
    pspDebugScreenInit();
    SetupCallbacks();
 
@@ -109,7 +103,10 @@ int main(int argc, char** argv)
    // We'll also allow include at memory stick's root
    ruby_incpush((std::string("ms0:/ruby/") + JOYAU_RB_VERSION).c_str());
    ruby_incpush("ms0:/ruby/site_ruby");
-   ruby_incpush((std::string("ms0:/ruby/site_ruby/") + JOYAU_RB_VERSION).c_str());
+   ruby_incpush((std::string("ms0:/ruby/site_ruby/") + 
+		 JOYAU_RB_VERSION).c_str());
+
+   ruby_incpush("./");
    
    VALUE joyau = rb_define_module("Joyau");
 
@@ -147,9 +144,72 @@ int main(int argc, char** argv)
    defModFunc(joyau, "exitGame", Joyau_exit, 0);
    
    ruby_init_loadpath();
-   ruby_script("embedded");
+   ruby_script("joyau");
 
-   runScript(scriptFilename);
+   try {
+      runScript("./script.rb");
+   }
+   catch (...) { // An error occured from Ruby/
+      pspDebugScreenInit();
+      pspDebugScreenSetTextColor(RGB(255, 0, 0));
+      pspDebugScreenPrintf("Joyau - error manager\n\n\n");
+      pspDebugScreenSetTextColor(RGB(255, 255, 255));
+      
+      pspDebugScreenPrintf("This is Joyau's error manager.An exception ");
+      pspDebugScreenPrintf("has been thrown, and the script ");
+      pspDebugScreenPrintf("cannot be run. If you're the developper of");
+      pspDebugScreenPrintf(" this application,\ncheck yout script.");
+      pspDebugScreenPrintf(" If it seems fine to you, consider ");
+      pspDebugScreenPrintf("filling a bug report.\n");
+      pspDebugScreenPrintf("If you're not the developper, consider");
+      pspDebugScreenPrintf(" contacting him.\n\n\n");
+
+      pspDebugScreenSetTextColor(RGB(255, 0, 0));
+      pspDebugScreenPrintf("Errors informations :\n\n\n");
+      pspDebugScreenSetTextColor(RGB(255, 255, 255));
+
+      // Now, we get the error.
+      VALUE error = rb_gv_get("$!");
+      
+      // And the information we want to have about it.
+      VALUE backtrace = rb_funcall(error, getFunc("backtrace"), 0);
+      VALUE type      = rb_funcall(error, getFunc("class"), 0);
+      VALUE msg       = rb_funcall(error, getFunc("message"), 0);
+
+      type = rb_funcall(type, getFunc("to_s"), 0); // We need a String
+
+      VALUE first = rb_ary_entry(backtrace, 0);
+
+      // It should be printed in a file too.
+      std::ofstream errorFile("joyau-error.log");
+
+      pspDebugScreenPrintf("%s: %s: %s\n", StringValuePtr(first),
+			                   StringValuePtr(type),
+			                   StringValuePtr(msg));
+      errorFile << StringValuePtr(first) << ": ";
+      errorFile << StringValuePtr(type)  << ": ";
+      errorFile << StringValuePtr(msg)   << "\n";
+
+      for (int i = 1; i < RARRAY_LEN(backtrace); ++i) {
+	 VALUE entry = rb_ary_entry(backtrace, i);
+	 pspDebugScreenPrintf("%s\n", StringValuePtr(entry));
+	 errorFile << StringValuePtr(entry) << "\n";
+      }
+      errorFile.close();
+
+      pspDebugScreenPrintf("\nThese informations can be found in ");
+      pspDebugScreenPrintf("joyau-error.log\n\n");
+
+      pspDebugScreenPrintf("Press X in order to quit.");
+      
+      Pad &pad = Pad::getInstance();
+      pad.update();
+      while (!pad.pressed(PSP_CTRL_CROSS))
+	 pad.update();
+
+      sceKernelExitGame();
+      return 0;
+   }
 
    Manager::deleteInstance();
    Pad::deleteInstance();

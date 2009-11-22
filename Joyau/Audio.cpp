@@ -181,7 +181,7 @@ Sound::~Sound()
    deleteSource();
 }
 
-bool Sound::loadWav(const char *filename)
+void Sound::loadWav(const char *filename)
 {
    sound = filename;
 
@@ -190,7 +190,7 @@ bool Sound::loadWav(const char *filename)
    // We create a source, binded to our buffer :
    generateSource();
    if (alGetError() != AL_NO_ERROR)
-      return false;
+      throw RubyException(rb_eRuntimeError, "Cannot generator source.");
 
    setBuffer(buffer);
 
@@ -198,9 +198,8 @@ bool Sound::loadWav(const char *filename)
    setVelocity(0.f, 0.f, 0.f);
    setDirection(0.f, 0.f, 0.f);
    
-   if (alGetError() == AL_NO_ERROR)
-      return true;
-   return false;
+   if (alGetError() != AL_NO_ERROR)
+      throw RubyException(rb_eRuntimeError, "Cannot set buffer.");
 }
 
 void Sound::play()
@@ -237,11 +236,13 @@ Stream::~Stream()
    ov_clear(&stream);
 }
 
-bool Stream::loadOgg(const char *filename)
+void Stream::loadOgg(const char *filename)
 {
    sound = filename;
 
    file = fopen(filename, "rb");
+   if (!file)
+      throw RubyException(rb_eRuntimeError, "Cannot open the stream file.");
    ov_open(file, &stream, NULL, 0);
 
    info = ov_info(&stream, -1);
@@ -251,11 +252,11 @@ bool Stream::loadOgg(const char *filename)
    
    alGenBuffers(2, buffers);
    if (alGetError() != AL_NO_ERROR)
-      return false;
+      throw RubyException(rb_eRuntimeError, "Cannot generate the buffer.");
 
    generateSource();
    if (alGetError() != AL_NO_ERROR)
-      return false;
+     throw RubyException(rb_eRuntimeError, "Cannot generate sources.");
 
    setPos(0.f, 0.f, 0.f);
    setVelocity(0.f, 0.f, 0.f);
@@ -263,8 +264,6 @@ bool Stream::loadOgg(const char *filename)
 
    setPitch(1.f);
    setGain(1.f);
-
-   return true;
 }
 
 bool Stream::play()
@@ -521,9 +520,13 @@ VALUE Sound_loadWav(VALUE self, VALUE filename)
    Sound &ref = getRef<Sound>(self);
    char *str = StringValuePtr(filename);
 
-   if (ref.loadWav(str))
-      return Qtrue;
-   return Qfalse;
+   try {
+      ref.loadWav(str);
+   }
+   catch (const RubyException &e) {
+      e.rbRaise();
+   }
+   return Qtrue;
 }
 
 VALUE Sound_play(VALUE self)
@@ -554,9 +557,13 @@ VALUE Stream_loadOgg(VALUE self, VALUE filename)
    Stream &ref = getRef<Stream>(self);
    char *str = StringValuePtr(filename);
 
-   if (ref.loadOgg(str))
-      return Qtrue;
-   return Qfalse;
+   try  {
+      ref.loadOgg(str);
+   }
+   catch (const RubyException &e) {
+      e.rbRaise();
+   }
+   return Qtrue;
 }
 
 VALUE Stream_play(VALUE self)

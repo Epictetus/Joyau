@@ -106,16 +106,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 # define JOYAU_RB_18
 #endif
 
-inline void runScript(const std::string &filename) {
-#ifdef JOYAU_RB_18
-   rb_load_file(filename.c_str());
-   ruby_run();
-#else
-   void *node = rb_load_file(filename.c_str());
-   ruby_run_node(node);
-#endif
-}
-
 /** Destroys the object info. Used when a ruby object is destroyed. **/
 template<typename T> void wrapped_free(void *info)
 {
@@ -244,6 +234,44 @@ struct RubyReject
    }
 };
 
+/**
+ *  @class RubyException
+ *  Class which allows to raise Ruby exception from a C++ one.
+ */
+class RubyException: public std::exception {
+public:
+   /** 
+    *  Creates a new exception, whose class is rbKlass, and whose message is
+    *  str.
+    */
+   RubyException(VALUE rbKlass, const std::string &str) throw():
+      _rbKlass(rbKlass), _str(str) {}
+   virtual ~RubyException() throw() {}
+
+   virtual const char* what() const throw() {
+      return _str.c_str();
+   }
+
+   /* Raise the exception in Ruby */
+   void rbRaise() const throw() { rb_raise(_rbKlass, _str.c_str()); }
+private:
+   VALUE _rbKlass;
+   std::string _str;
+};
+
+inline VALUE safe_load(VALUE arg) {
+   return rb_require(StringValuePtr((arg = rb_gv_get("$file_to_load"), arg)));
+}
+
+/** Run the script called filename **/
+inline VALUE runScript(const std::string &filename) {
+   int error;
+   rb_gv_set("$file_to_load", rb_str_new2(filename.c_str()));
+   VALUE res = rb_protect(safe_load, 0, &error);
+   if (error != 0)
+      throw;
+   return res;
+}
 
 /** Converts a ruby hash to an OSL_COLOR. **/
 inline OSL_COLOR hash2col(VALUE hash)

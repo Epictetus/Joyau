@@ -18,10 +18,12 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #define JOYAU_STDINCLUDE
 
 #include <iostream>
+#include <fstream>
 #include <string>
+#include <algorithm>
+#include <exception>
 #include <list>
 #include <vector>
-#include <algorithm>
 #include <map>
 
 #include <pspkernel.h>

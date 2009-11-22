@@ -34,6 +34,8 @@ void Sprite::setPicture(char *pic)
 {
    picName = pic;
    sprite = Manager::getInstance().getPic(pic);
+   if (sprite == NULL)
+     throw RubyException(rb_eRuntimeError, "Cannot load the Sprite");
 
    _w = sprite->sizeX;
    _h = sprite->sizeY;
@@ -73,6 +75,8 @@ void Sprite::defaultDraw()
      change theses attributes value.
     */
 
+   if (sprite == NULL)
+      return; // Nothing to draw
    oslDrawImage(getImage());
    oslSetAlpha(OSL_FX_RGBA, _alpha);
 }
@@ -231,7 +235,12 @@ VALUE Sprite_setAnimationTime(VALUE self, VALUE t)
 VALUE Sprite_setPicture(VALUE self, VALUE pic)
 {
    Sprite &item = getRef<Sprite>(self);
-   item.setPicture(StringValuePtr(pic));
+   try { 
+      item.setPicture(StringValuePtr(pic)); 
+   }
+   catch(const RubyException &e) {
+      e.rbRaise();
+   }
 
    return pic;
 }

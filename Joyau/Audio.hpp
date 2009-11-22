@@ -210,7 +210,7 @@ public:
    /** Loads a wav sound.
     *  @param filename sound's filename.
     */
-   bool loadWav(const char *filename);
+   void loadWav(const char *filename);
 
    /** plays the sound **/
    void play();
@@ -239,7 +239,7 @@ public:
    /** Loads a wav stream.
     *  @param filename stream's filename.
     */
-   bool loadOgg(const char *filename);
+   void loadOgg(const char *filename);
 
    /** Plays the sound.
     *  @return true if it works.

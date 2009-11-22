@@ -19,14 +19,20 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 Manager::~Manager()
 {
    for (std::map<std::string, OSL_IMAGE*>::iterator i = images.begin(); 
-	i != images.end(); ++i)
-      oslDeleteImage(i->second);
+	i != images.end(); ++i) {
+      if (i->second != NULL)
+	 oslDeleteImage(i->second);
+   }
    for (std::map<std::string, OSL_FONT*>::iterator i = fonts.begin(); 
-	i != fonts.end(); ++i)
-      oslDeleteFont(i->second);
+	i != fonts.end(); ++i) {
+      if (i->second != NULL)
+	 oslDeleteFont(i->second);
+   }
    for (std::map<std::string, intraFont*>::iterator i = intra_fonts.begin();
-	i != intra_fonts.end(); ++i)
-      intraFontUnload(i->second);
+	i != intra_fonts.end(); ++i) {
+      if (i->second != NULL)
+	 intraFontUnload(i->second);
+   }
    for (std::map<std::string, ALuint>::iterator i = buffers.begin(); 
 	i != buffers.end(); ++i)
       alDeleteBuffers(1, &i->second);
@@ -65,8 +71,10 @@ ALuint Manager::getBuffer(const char *name)
 void Manager::clearImages()
 {
    for (std::map<std::string, OSL_IMAGE*>::iterator i = images.begin(); 
-	i != images.end(); ++i)
-      oslDeleteImage(i->second); // We'll free the ressources
+	i != images.end(); ++i) {
+      if (i->second != NULL) // Unless they're null,
+	 oslDeleteImage(i->second); // We'll free the ressources
+   }   
    // We don't want to give a null pointer to the user
    images.clear();
 }
@@ -74,11 +82,15 @@ void Manager::clearImages()
 void Manager::clearFonts()
 {
    for (std::map<std::string, OSL_FONT*>::iterator i = fonts.begin(); 
-	i != fonts.end(); ++i)
-      oslDeleteFont(i->second);
+	i != fonts.end(); ++i) {
+      if (i->second != NULL)
+	 oslDeleteFont(i->second);
+   }
    for (std::map<std::string, intraFont*>::iterator i = intra_fonts.begin(); 
-	i != intra_fonts.end(); ++i)
-      intraFontUnload(i->second);
+	i != intra_fonts.end(); ++i) {    
+      if (i->second != NULL)
+	 intraFontUnload(i->second);
+   }
    fonts.clear();
    intra_fonts.clear();
 }
