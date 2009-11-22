@@ -29,7 +29,7 @@ OBJS += console/console2d.o console/console.o console/librairies/framebuffer.o \
 INCDIR += ./intrafont/
 
 CFLAGS += -O2 -G0 -Wall -D_PSP_ -DHAVE_STRUCT_TIMESPEC
-CXXFLAGS = $(CFLAGS) -fno-exceptions -fno-rtti
+CXXFLAGS = $(CFLAGS) -fexceptions -fno-rtti
 ASFLAGS = $(CFLAGS)
 
 ifdef JOYAU_PSPLINK

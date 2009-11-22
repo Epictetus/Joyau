@@ -208,7 +208,7 @@ public:
     *  @param val class name (has to exist).
     */
    void setClass(const std::string &val) { klass = getClass(val.c_str()); }
-      
+
    /** Returns a ruby object, without copying this. **/
    virtual VALUE toRuby()
    {

@@ -20,6 +20,8 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 void IntraText::load(const std::string &name, int options)
 {
    font = Manager::getInstance().getIntraFont(name, options);
+   if (font == NULL)
+      throw RubyException(rb_eRuntimeError, "the font could not be loaded.");
 }
 
 int IntraText::getW() const
@@ -96,7 +98,12 @@ VALUE IntraText_setMaxWidth(VALUE self, VALUE val) {
 VALUE IntraText_load(VALUE self, VALUE name, VALUE options)
 {
    IntraText &ref = getRef<IntraText>(self);
-   ref.load(StringValuePtr(name), FIX2INT(options));
+   try {
+      ref.load(StringValuePtr(name), FIX2INT(options));
+   }
+   catch (const RubyException &e) {
+      e.rbRaise();
+   }
 
    return Qnil;
 }

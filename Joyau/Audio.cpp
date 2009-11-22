@@ -139,9 +139,14 @@ void AudioObject::stopSource()
 template<> VALUE wrap<Sound>(int argc, VALUE *argv, VALUE info)
 {
    Sound *ptr = new Sound;
-   if (argc >= 1)
-      ptr->loadWav(StringValuePtr(argv[0]));
-
+   if (argc >= 1) {
+      try {
+	 ptr->loadWav(StringValuePtr(argv[0]));
+      }
+      catch (const RubyException &e) {
+	 e.rbRaise();
+      }
+   }
    VALUE tdata = Data_Wrap_Struct(info, 0, wrapped_free<Sound>, ptr);
    return tdata;
 }
@@ -149,8 +154,14 @@ template<> VALUE wrap<Sound>(int argc, VALUE *argv, VALUE info)
 template<> VALUE wrap<Stream>(int argc, VALUE *argv, VALUE info)
 {
    Stream *ptr = new Stream;
-   if (argc >= 1)
-      ptr->loadOgg(StringValuePtr(argv[0]));
+   if (argc >= 1) {
+      try {
+	 ptr->loadOgg(StringValuePtr(argv[0]));
+      }
+      catch (const RubyException &e) {
+	 e.rbRaise();
+      }
+   }
 
    VALUE tdata = Data_Wrap_Struct(info, 0, wrapped_free<Stream>, ptr);
    return tdata;

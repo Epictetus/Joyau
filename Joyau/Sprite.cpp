@@ -23,8 +23,14 @@ template<> VALUE wrap<Sprite>(int argc, VALUE *argv, VALUE info)
    Sprite *ptr = new Sprite;
    VALUE tdata;
    
-   if (argc >= 1)
-      ptr->setPicture(StringValuePtr(argv[0]));
+   if (argc >= 1) {
+      try {
+	 ptr->setPicture(StringValuePtr(argv[0]));
+      }
+      catch (const RubyException &e) {
+	 e.rbRaise();
+      }
+   }
    
    tdata = Data_Wrap_Struct(info, 0, wrapped_free<Sprite>, ptr);
    return tdata;
@@ -35,7 +41,7 @@ void Sprite::setPicture(char *pic)
    picName = pic;
    sprite = Manager::getInstance().getPic(pic);
    if (sprite == NULL)
-     throw RubyException(rb_eRuntimeError, "Cannot load the Sprite");
+     throw RubyException(rb_eRuntimeError, "the sprite could not be loaded.");
 
    _w = sprite->sizeX;
    _h = sprite->sizeY;
