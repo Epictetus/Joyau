@@ -269,7 +269,7 @@ inline VALUE runScript(const std::string &filename) {
    rb_gv_set("$file_to_load", rb_str_new2(filename.c_str()));
    VALUE res = rb_protect(safe_load, 0, &error);
    if (error != 0)
-      throw;
+      throw RubyException(0, "");
    return res;
 }
 
