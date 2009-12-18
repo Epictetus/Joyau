@@ -18,17 +18,18 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #define JOYAU_BUFFER
 
 #include "StdInclude.hpp"
-
-class Drawable;
-class Point;
+#include "Sprite.hpp"
 
 class Buffer: public RubyObject {
 public:
    Buffer(int w, int h, int format);
    Buffer(const Buffer &obj);
    Buffer(Drawable &obj);
+   Buffer(Sprite &obj);
    Buffer(OSL_IMAGE *img);
    ~Buffer();
+
+   friend Sprite::Sprite(const Buffer &buf);
 
    void setActual();
 
@@ -137,6 +138,8 @@ VALUE Buffer_unlock(VALUE self);
 
 VALUE Buffer_getPixel(VALUE self, VALUE x, VALUE y);
 VALUE Buffer_setPixel(VALUE self, VALUE x, VALUE y, VALUE col);
+
+VALUE Buffer_to_sprite(VALUE self);
 
 VALUE Buffer_updateScreen(VALUE self);
 VALUE Buffer_getScreen(VALUE self);

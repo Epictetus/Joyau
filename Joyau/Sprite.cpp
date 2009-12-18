@@ -16,6 +16,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include "Sprite.hpp"
 #include "Manager.hpp"
+#include "Buffer.hpp"
 
 // Everyone likes the sprite = Sprite.new "image.png" syntax, right ?
 template<> VALUE wrap<Sprite>(int argc, VALUE *argv, VALUE info)
@@ -34,6 +35,27 @@ template<> VALUE wrap<Sprite>(int argc, VALUE *argv, VALUE info)
    
    tdata = Data_Wrap_Struct(info, 0, wrapped_free<Sprite>, ptr);
    return tdata;
+}
+
+Sprite::Sprite(const Buffer &buf):
+   _alpha(255),
+   _zoom(160),
+   _angle(0),
+   animated(false),
+   _nbrX(1),
+   _nbrY(1),
+   animeState(0),
+   passedTime(0),
+   nbrAnime(6),
+   tiled(false),
+   xTile(0),
+   yTile(0),
+   wTile(0),
+   hTile(0),
+   autoDir(false)
+{
+   sprite = oslCreateImageCopy(buf.img, OSL_IN_RAM);
+   setClass("Sprite");
 }
 
 void Sprite::setPicture(char *pic)
@@ -148,7 +170,8 @@ void Sprite::setTile(int x, int y, int w, int h)
 
 OSL_IMAGE* Sprite::getImage()
 {
-   oslSetAlpha(OSL_FX_ALPHA, _alpha);
+   if (_alpha != 255)
+      oslSetAlpha(OSL_FX_ALPHA, _alpha);
 
    sprite->stretchX = _stretchX;
    sprite->stretchY = _stretchY;
@@ -321,21 +344,14 @@ VALUE Sprite_setAutoDir(VALUE self, VALUE val)
    return val;
 }
 
+VALUE Sprite_to_buf(VALUE self) {
+   Sprite &ref = getRef<Sprite>(self);
+   return Data_Wrap_Struct(getClass("Buffer"), 0, wrapped_free<Buffer>,
+			   new Buffer(ref));
+}
+
 void defineSprite()
 {
-  /* This will be created ibn Ruby for backward compatibility.
-   VALUE dirHash = rb_hash_new();
-   rb_hash_aset(dirHash, rb_str_new2("LEFT"), INT2FIX(Sprite::LEFT));
-   rb_hash_aset(dirHash, rb_str_new2("RIGHT"), INT2FIX(Sprite::RIGHT));
-   rb_hash_aset(dirHash, rb_str_new2("UP"), INT2FIX(Sprite::UP));
-   rb_hash_aset(dirHash, rb_str_new2("DOWN"), INT2FIX(Sprite::DOWN));
-   rb_hash_aset(dirHash, rb_str_new2("UP_LEFT"), INT2FIX(Sprite::UP_LEFT));
-   rb_hash_aset(dirHash, rb_str_new2("UP_RIGHT"), INT2FIX(Sprite::UP_RIGHT));
-   rb_hash_aset(dirHash, rb_str_new2("DOWN_LEFT"), INT2FIX(Sprite::DOWN_LEFT));
-   rb_hash_aset(dirHash, rb_str_new2("DOWN_RIGHT"), INT2FIX(Sprite::DOWN_RIGHT));
-   rb_gv_set("$directions", dirHash);
-  */
-
    VALUE cSprite = defClass<Sprite>("Sprite", "Drawable");
    defMethod(cSprite, "setPicture", Sprite_setPicture, 1);
    defMethod(cSprite, "picture", Sprite_picture, 0);
@@ -353,6 +369,8 @@ void defineSprite()
    defMethod(cSprite, "setTile", Sprite_setTile, 4);
    defMethod(cSprite, "unTile", Sprite_unTile, 0);
    defMethod(cSprite, "autoDir=", Sprite_setAutoDir, 1);
+
+   defMethod(cSprite, "to_buf", Sprite_to_buf, 0);
 
    defAlias(cSprite, "getAngle", "angle");
    defAlias(cSprite, "setAngle", "angle=");

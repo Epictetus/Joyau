@@ -22,10 +22,13 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "Triangle.hpp"
 #include "RubyDrawable.hpp"
 #include "Graphics.hpp"
+#include "Sprite.hpp"
 
 Buffer *Buffer::screen = NULL;
 
 Buffer::Buffer(int w, int h, int format): shouldDelete(true) {
+   setClass("Buffer");
+
    if (w > 512 || h > 512)
       throw RubyException(rb_eRuntimeError, 
 			  "Either width or height is greter than 512.");
@@ -37,19 +40,23 @@ Buffer::Buffer(int w, int h, int format): shouldDelete(true) {
 
 Buffer::Buffer(OSL_IMAGE *arg):
    img(arg), shouldDelete(false)
-{}
+{ setClass("Buffer"); }
 
 Buffer::Buffer(const Buffer &obj): shouldDelete(true) {
+   setClass("Buffer");
+
    img = oslCreateImageCopy(obj.img, OSL_IN_VRAM);
    if (!img)
       throw RubyException(rb_eRuntimeError, "Buffer could not be copied.");
 }
 
 Buffer::Buffer(Drawable &obj): shouldDelete(true) {
+   setClass("Buffer");
+
    if (obj.getW() > 512 || obj.getH() > 512)
       throw RubyException(rb_eRuntimeError, "Drawable too big for a buffer.");
    
-   img = oslCreateImage(obj.getW(), obj.getH(), OSL_IN_VRAM, OSL_PF_5650);
+   img = oslCreateImage(obj.getW(), obj.getH(), OSL_IN_VRAM, OSL_PF_8888);
    if (!img)
       throw RubyException(rb_eRuntimeError, "Buffer could not be created");
    
@@ -62,6 +69,14 @@ Buffer::Buffer(Drawable &obj): shouldDelete(true) {
    obj.cancelMove();
 
    oslSetDrawBuffer(old);
+}
+
+Buffer::Buffer(Sprite &obj): shouldDelete(true) {
+   setClass("Buffer");
+
+   img = oslCreateImageCopy(obj.getImage(), OSL_IN_VRAM);
+   if (!img)
+      throw RubyException(rb_eRuntimeError, "Buffer could not be created");
 }
 
 Buffer::~Buffer() {
@@ -161,13 +176,13 @@ void Buffer::unlock() {
 }
 
 OSL_COLOR Buffer::getPixel(int x, int y) {
-   if (x > img->sizeX || y > img->sizeY)
-      return 0;
-   return ((OSL_COLOR*)img->data)[x + y * img->sysSizeY];
+   return oslConvertColor(OSL_PF_8888, img->pixelFormat, 
+			  oslGetImagePixel(img, x, y));
 }
 
 void Buffer::setPixel(int x, int y, OSL_COLOR col) {
-   oslSetImagePixel(img, x, y, col);
+   oslSetImagePixel(img, x, y, 
+		    oslConvertColor(img->pixelFormat, OSL_PF_8888, col));
 }
 
 Painter::Painter(Buffer &obj): buf(obj) {}
@@ -450,13 +465,19 @@ VALUE Buffer_setPixel(VALUE self, VALUE x, VALUE y, VALUE col) {
    return col;
 }
 
+VALUE Buffer_to_sprite(VALUE self) {
+   Buffer &ref = getRef<Buffer>(self);
+   return Data_Wrap_Struct(getClass("Sprite"), 0, wrapped_free<Sprite>, 
+			   new Sprite(ref));
+}
+
 VALUE Buffer_updateScreen(VALUE self) {
    Buffer::updateScreen();
    return Qnil;
 }
 
 VALUE Buffer_getScreen(VALUE self) {
-   return Buffer::getScreen()->toRuby();
+   return Data_Wrap_Struct(getClass("Buffer"), 0, &no_free, Buffer::getScreen());
 }
 
 VALUE Buffer_destroyScreen(VALUE self) {
@@ -669,6 +690,7 @@ void defineBuffer() {
    defMethod(cBuffer, "unlock", Buffer_unlock, 0);
    defMethod(cBuffer, "[]", Buffer_getPixel, 2);
    defMethod(cBuffer, "[]=", Buffer_setPixel, 3);
+   defMethod(cBuffer, "to_sprite", Buffer_to_sprite, 0);
    
    defModFunc(cBuffer, "updateScreen", Buffer_updateScreen, 0);
    defModFunc(cBuffer, "screen", Buffer_updateScreen, 0);

@@ -19,6 +19,8 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include "Drawable.hpp"
 
+class Buffer;
+
 /** @addtogroup Drawables **/
 /*@{*/
 
@@ -47,6 +49,8 @@ public:
       hTile(0),
       autoDir(false)
    { setClass("Sprite"); }
+
+   Sprite(const Buffer &buf);
 
    /** Loads the picture.
     *  @param pic filename.
@@ -123,14 +127,14 @@ public:
     *  Sprite will guess in which direction it should go.
     */
    void setAutoDir(bool val) { autoDir = val; }
+
+   /** Updates the image, an returns it. **/
+    OSL_IMAGE *getImage();
 protected:
    char *picName;
 
    /** Functions which draws the image.**/
    virtual void defaultDraw();
-
-   /** Updates the image, an returns it. **/
-   OSL_IMAGE *getImage();
 
    int _w, _h;
 private:
@@ -185,6 +189,8 @@ VALUE Sprite_setTile(VALUE self, VALUE x, VALUE y, VALUE w, VALUE h);
 VALUE Sprite_unTile(VALUE self);
 
 VALUE Sprite_setAutoDir(VALUE self, VALUE val);
+
+VALUE Sprite_to_buf(VALUE self);
 
 void defineSprite();
 

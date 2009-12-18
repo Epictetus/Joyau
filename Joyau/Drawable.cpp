@@ -15,6 +15,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.*/
 
 #include "RubyDrawable.hpp"
+#include "Buffer.hpp"
 
 template<> VALUE wrap<Rect>(int argc, VALUE *argv, VALUE info)
 {
@@ -441,6 +442,12 @@ VALUE Drawable_draw(VALUE self)
    return Qnil;
 }
 
+VALUE Drawable_to_buf(VALUE self) {
+   RubyDrawable drawable(self);
+   return Data_Wrap_Struct(getClass("Buffer"), 0, wrapped_free<Buffer>,
+			   new Buffer(drawable));
+}
+
 void defineDrawable()
 {
    VALUE cPoint = defClass<Point>("Point");
@@ -491,6 +498,8 @@ void defineDrawable()
 
    defMethod(cDrawable, "draw", Drawable_draw, 0);
 
+   defMethod(cDrawable, "to_buf", Drawable_to_buf, 0);
+   
    defAlias(cDrawable, "getX", "x");
    defAlias(cDrawable, "getY", "y");
    defAlias(cDrawable, "getW", "w");

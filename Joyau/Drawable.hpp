@@ -237,6 +237,8 @@ VALUE Drawable_clearMove(VALUE self);
 
 VALUE Drawable_draw(VALUE self);
 
+VALUE Drawable_to_buf(VALUE self);
+
 void defineDrawable();
 
 #endif
