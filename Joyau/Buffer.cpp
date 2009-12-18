@@ -216,8 +216,7 @@ void Painter::drawPoint(int x, int y, OSL_COLOR col) {
 
 void Painter::drawFillCircle(int x, int y, int r, OSL_COLOR col) {
    Circle circle;
-   circle.setFilled(true);
-   circle.setPos(x, y);
+   circle.setCenter(x, y);
    circle.setRadius(r);
    circle.setColor(col);
 
@@ -227,7 +226,7 @@ void Painter::drawFillCircle(int x, int y, int r, OSL_COLOR col) {
 void Painter::drawCircle(int x, int y, int r, OSL_COLOR col) {
    Circle circle;
    circle.setFilled(false);
-   circle.setPos(x, y);
+   circle.setCenter(x, y);
    circle.setRadius(r);
    circle.setColor(col);
 
