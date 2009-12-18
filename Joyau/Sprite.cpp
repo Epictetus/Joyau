@@ -203,7 +203,7 @@ OSL_IMAGE* Sprite::getImage()
 
 void Sprite::saveImage(const char *fname)
 {
-   oslWriteImageFile(getImage(), fname, OSL_WRI_ALPHA);
+   oslWriteImageFile(getImage(), fname, 0);
    oslSetAlpha(OSL_FX_RGBA, _alpha);
 }
 

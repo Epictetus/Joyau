@@ -61,6 +61,8 @@ public:
    OSL_COLOR getPixel(int x, int y);
    void setPixel(int x, int y, OSL_COLOR col);
 
+   void save(const std::string &filename);
+
    static void updateScreen() {
       if (screen)
          delete screen;
@@ -138,6 +140,8 @@ VALUE Buffer_unlock(VALUE self);
 
 VALUE Buffer_getPixel(VALUE self, VALUE x, VALUE y);
 VALUE Buffer_setPixel(VALUE self, VALUE x, VALUE y, VALUE col);
+
+VALUE Buffer_save(VALUE self, VALUE filename);
 
 VALUE Buffer_to_sprite(VALUE self);
 

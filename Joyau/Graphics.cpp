@@ -166,7 +166,7 @@ VALUE Graphics_screenshot(VALUE self, VALUE pic)
 {
    char *filename = StringValuePtr(pic);
    
-   oslWriteImageFile(OSL_SECONDARY_BUFFER, filename, OSL_WRI_ALPHA);
+   oslWriteImageFile(OSL_SECONDARY_BUFFER, filename, 0);
    return Qnil;
 }
 

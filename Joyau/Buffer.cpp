@@ -185,6 +185,10 @@ void Buffer::setPixel(int x, int y, OSL_COLOR col) {
 		    oslConvertColor(img->pixelFormat, OSL_PF_8888, col));
 }
 
+void Buffer::save(const std::string &filename) {
+   oslWriteImageFilePNG(img, filename.c_str(), 0);
+}
+
 Painter::Painter(Buffer &obj): buf(obj) {}
 
 void Painter::drawLine(int x1, int y1, int x2, int y2,
@@ -465,6 +469,13 @@ VALUE Buffer_setPixel(VALUE self, VALUE x, VALUE y, VALUE col) {
    return col;
 }
 
+VALUE Buffer_save(VALUE self, VALUE filename) {
+   Buffer &ref = getRef<Buffer>(self);
+   ref.save(StringValuePtr(filename));
+
+   return Qnil;
+}
+
 VALUE Buffer_to_sprite(VALUE self) {
    Buffer &ref = getRef<Buffer>(self);
    return Data_Wrap_Struct(getClass("Sprite"), 0, wrapped_free<Sprite>, 
@@ -690,6 +701,7 @@ void defineBuffer() {
    defMethod(cBuffer, "unlock", Buffer_unlock, 0);
    defMethod(cBuffer, "[]", Buffer_getPixel, 2);
    defMethod(cBuffer, "[]=", Buffer_setPixel, 3);
+   defMethod(cBuffer, "save", Buffer_save, 1);
    defMethod(cBuffer, "to_sprite", Buffer_to_sprite, 0);
    
    defModFunc(cBuffer, "updateScreen", Buffer_updateScreen, 0);
