@@ -1,3 +1,19 @@
+/*Copyright (C) 2009 Verhetsel Kilian
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along
+with this program; if not, write to the Free Software Foundation, Inc.,
+51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.*/
+
 #include "Buffer.hpp"
 #include "Drawable.hpp"
 #include "Line.hpp"
@@ -556,7 +572,7 @@ VALUE Joyau_draw(int argc, VALUE *argv, VALUE self) {
       if (TYPE(hash) != T_HASH)
 	 rb_raise(rb_eTypeError, "Hash expected for Joyau::draw.");
       
-      VALUE rbBuffer = rb_hash_aref(hash, rb_intern("buffer"));
+      VALUE rbBuffer = rb_hash_aref(hash, ID2SYM(rb_intern("buffer")));
       
       if (rb_obj_is_kind_of(rbBuffer, getClass("Buffer")) == Qfalse) {
 	 if (rbBuffer != Qnil)
@@ -567,18 +583,22 @@ VALUE Joyau_draw(int argc, VALUE *argv, VALUE self) {
 	 ruby_buf = true;
       }
 
-      if (rb_hash_aref(hash, rb_intern("painter")) == Qtrue) {
+      if (!buffer)
+	 buffer = new Buffer(oldBuffer);
+
+      if (rb_hash_aref(hash, ID2SYM(rb_intern("painter"))) == Qtrue) {
 	 painter = true;
 	 Painter painter(*buffer);
 	 rbPainter = createObject(getClass("Painter"), painter);
       }
       
-      if (rb_hash_aref(hash, rb_intern("auto_update")) == Qfalse)
+      if (rb_hash_aref(hash, ID2SYM(rb_intern("auto_update"))) == Qfalse)
 	 auto_update = false;
    }
-
-   if (!buffer)
-      buffer = new Buffer(oldBuffer);
+   else {
+      if (!buffer)
+	 buffer = new Buffer(oldBuffer);
+   }
 
    Graphics_startDraw(Qnil);
    if (!NIL_P(block)) {
@@ -644,7 +664,8 @@ void defineBuffer() {
    defMethod(cPainter, "drawCircle", Painter_drawCircle, 4);
    defMethod(cPainter, "drawFillCircle", Painter_drawFillCircle, 4);
    defMethod(cPainter, "drawTriangle", Painter_drawTriangle, -1);
-   
+   defMethod(cPainter, "drawBuffer", Painter_drawBuffer, 3);
+ 
    defMethod(cPainter, "clear", Painter_clear, 1);
    
    defModFunc(JOYAU_MOD, "draw", Joyau_draw, -1);
