@@ -15,6 +15,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.*/
 
 #include "Graphics.hpp"
+#include "Buffer.hpp"
 
 VALUE Graphics_mayPlay(VALUE self)
 {
@@ -35,7 +36,6 @@ VALUE Graphics_endDraw(VALUE self)
 
 VALUE Graphics_sync(VALUE self)
 {
-   
    oslEndFrame();
    if (oslSyncFrame())
        return Qtrue;
@@ -52,6 +52,7 @@ VALUE Graphics_frameskip(VALUE self, VALUE min, VALUE max)
 VALUE Graphics_init(VALUE self)
 {
    oslInitGfx(OSL_PF_8888, 1);
+   Buffer::updateScreen();
    return Qnil;
 }
 

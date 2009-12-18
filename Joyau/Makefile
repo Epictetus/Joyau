@@ -20,7 +20,7 @@ OBJS = main.o Manager.o Graphics.o Keys.o Sprite.o Audio.o Kernel.o \
 	MessageBox.o Scrolling.o Particles.o GameMap.o CircleMenu.o \
 	Timer.o Drawable.o DrawableRect.o Circle.o Line.o Triangle.o \
 	DrawableText.o Shape.o Usb.o RubyDrawable.o MsgSelecter.o \
-	MultiSelecter.o Font.o Console.o
+	MultiSelecter.o Font.o Console.o Buffer.o
 
 OBJS += intrafont/libccc.o intrafont/intraFont.o
 OBJS += console/console2d.o console/console.o console/librairies/framebuffer.o \
@@ -38,11 +38,10 @@ CFLAGS += -g
 CXXFLAGS += -g
 endif
 
-LIBS = -lruby -lpthread-psp
 LIBS +=	-losl -lpng -lz -lpspsdk -lpspvfpu -lpspctrl -lpspumd -lpsprtc \
 	-lpsppower -lpspgu -lpspmpeg -lpspaudiocodec -lpspaudiolib -lalut \
 	-lOpenAL32 -lvorbisfile -lvorbis -lpspaudio -lpspusb -lpspusbstor \
-	-lpsphprm -lpsputility -lruby -lpspgum -lm -logg -lpsprtc -lstdc++
+	-lpsphprm -lpsputility -lpspgum -lruby -lm -logg -lpsprtc -lstdc++
 
 PSP_FW_VERSION = 371
 
@@ -58,4 +57,3 @@ include $(PSPSDK)/lib/build.mak
 
 check-syntax:
 	$(CXX) $(CXXFLAGS) -Wextra -fsyntax-only $(CHK_SOURCES)
-

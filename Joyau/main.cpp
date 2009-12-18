@@ -38,6 +38,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "MultiSelecter.hpp"
 #include "Font.hpp"
 #include "Console.hpp"
+#include "Buffer.hpp"
 
 PSP_MODULE_INFO("Joyau", 0, 1, 1);
 PSP_MAIN_THREAD_ATTR(THREAD_ATTR_USER | THREAD_ATTR_VFPU);
@@ -109,7 +110,7 @@ int main(int argc, char** argv)
    ruby_incpush("./");
    
    VALUE joyau = rb_define_module("Joyau");
-
+   
    defineManager();
    defineDrawable();
    defineShape();
@@ -135,6 +136,7 @@ int main(int argc, char** argv)
    defineMultiSelecter();
    defineIntrafont();
    defineConsole();
+   defineBuffer();
 
    Manager::getInstance().setArg(argc, argv);
    Pad::getInstance();
@@ -147,7 +149,7 @@ int main(int argc, char** argv)
    ruby_script("joyau");
 
    try {
-      runScript("./script.rb");
+       runScript("./script.rb");
    }
    catch (...) { // An error occured from Ruby
       pspDebugScreenInit();
