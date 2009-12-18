@@ -102,6 +102,14 @@ int Buffer::getX() const {
 int Buffer::getY() const {
    return img->y;
 }
+
+int Buffer::getW() const {
+   return img->sizeX;
+}
+
+int Buffer::getH() const {
+   return img->sizeY;
+}
    
 void Buffer::setX(int x) {
    move(x - getX(), 0);
@@ -208,6 +216,7 @@ void Painter::drawPoint(int x, int y, OSL_COLOR col) {
 
 void Painter::drawFillCircle(int x, int y, int r, OSL_COLOR col) {
    Circle circle;
+   circle.setFilled(true);
    circle.setPos(x, y);
    circle.setRadius(r);
    circle.setColor(col);
@@ -331,6 +340,16 @@ VALUE Buffer_getX(VALUE self) {
 VALUE Buffer_getY(VALUE self) {
    Buffer &ref = getRef<Buffer>(self);
    return INT2FIX(ref.getY());
+}
+
+VALUE Buffer_getW(VALUE self) {
+   Buffer &ref = getRef<Buffer>(self);
+   return INT2FIX(ref.getW());
+}
+
+VALUE Buffer_getH(VALUE self) {
+   Buffer &ref = getRef<Buffer>(self);
+   return INT2FIX(ref.getH());
 }
 
 VALUE Buffer_setX(VALUE self, VALUE x) {
@@ -638,6 +657,8 @@ void defineBuffer() {
    defMethod(cBuffer, "clear", Buffer_clear, 1);
    defMethod(cBuffer, "x", Buffer_getX, 0);
    defMethod(cBuffer, "y", Buffer_getY, 0);
+   defMethod(cBuffer, "w", Buffer_getW, 0);
+   defMethod(cBuffer, "h", Buffer_getH, 0);
    defMethod(cBuffer, "x=", Buffer_setX, 1);
    defMethod(cBuffer, "y=", Buffer_setY, 1);
    defMethod(cBuffer, "setPos", Buffer_setPos, -1);

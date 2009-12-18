@@ -41,6 +41,9 @@ public:
    int getX() const;
    int getY() const;
 
+   int getW() const;
+   int getH() const;
+
    void setX(int x);
    void setY(int y);
 
@@ -115,6 +118,9 @@ VALUE Buffer_clear(VALUE self, VALUE color);
 
 VALUE Buffer_getX(VALUE self);
 VALUE Buffer_getY(VALUE self);
+
+VALUE Buffer_getW(VALUE self);
+VALUE Buffer_getH(VALUE self);
 
 VALUE Buffer_setX(VALUE self, VALUE x);
 VALUE Buffer_setY(VALUE self, VALUE y);
