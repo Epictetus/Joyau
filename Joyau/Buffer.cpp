@@ -203,8 +203,8 @@ void Painter::drawLine(int x1, int y1, int x2, int y2,
 }
 
 void Painter::drawFillRect(int x1, int y1, int x2, int y2,
-                       OSL_COLOR col, OSL_COLOR col2,
-                       OSL_COLOR col3, OSL_COLOR col4) {
+			   OSL_COLOR col, OSL_COLOR col2,
+			   OSL_COLOR col3, OSL_COLOR col4) {
    DrawableRect rect;
    rect.setPos(x1, y1);
    rect.setCorner(x2, y2);

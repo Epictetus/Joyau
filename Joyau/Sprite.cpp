@@ -54,7 +54,18 @@ Sprite::Sprite(const Buffer &buf):
    hTile(0),
    autoDir(false)
 {
-   sprite = oslCreateImageCopy(buf.img, OSL_IN_RAM);
+   sprite = oslCreateImageCopy(buf.img, OSL_IN_VRAM);
+   if (!sprite) {
+      throw RubyException(rb_eRuntimeError, 
+			  "Could not create sprite from buffer");
+   }
+
+   _w = sprite->sizeX;
+   _h = sprite->sizeY;
+
+   _stretchX = sprite->stretchX;
+   _stretchY = sprite->stretchY;
+
    setClass("Sprite");
 }
 
@@ -170,8 +181,7 @@ void Sprite::setTile(int x, int y, int w, int h)
 
 OSL_IMAGE* Sprite::getImage()
 {
-   if (_alpha != 255)
-      oslSetAlpha(OSL_FX_ALPHA, _alpha);
+   oslSetAlpha(OSL_FX_ALPHA, _alpha);
 
    sprite->stretchX = _stretchX;
    sprite->stretchY = _stretchY;
