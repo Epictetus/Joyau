@@ -30,12 +30,28 @@ buf.lock do
   end
 end
 
+Joyau::Pad.update
 Joyau.draw do
-  Joyau.clearScreen
   buf.draw
 end
 
-Joyau.screenshot "gray.png"
+sprite = buf.to_sprite
+sprite.setAnim(3, 4)
+sprite.autoDir = true
+
+while Joyau.mayPlay
+  Joyau::Pad.update
+
+  sprite.move(2, 0)  if Joyau::Pad.held? Joyau::Pad::RIGHT
+  sprite.move(-2, 0) if Joyau::Pad.held? Joyau::Pad::LEFT
+  sprite.move(0, -2) if Joyau::Pad.held? Joyau::Pad::UP
+  sprite.move(0, 2)  if Joyau::Pad.held? Joyau::Pad::DOWN
+  
+  Joyau.draw do
+    Joyau.clearScreen
+    sprite.draw
+  end
+end
 
 Joyau.stopGfx
 Joyau.stopLib
