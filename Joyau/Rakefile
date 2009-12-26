@@ -106,7 +106,7 @@ task :release_dir => ['psp:eboot', 'psp:prx', 'rerdoc_site', 'rerdoc',
   FileUtils.rm_r "ruby-1.8.7-p248"
 end
 
-Rake::PackageTask.new("Joyau", "0.24") do |pkg|
+Rake::PackageTask.new("Joyau", "0.25") do |pkg|
   pkg.need_tar_bz2 = true
   pkg.package_files << "./Joyau-release/"
 end
@@ -118,7 +118,7 @@ file "pkg/Joyau-0.24" do
 end
 
 desc "Create the release tarball"
-task :release => [:release_dir, :package]
+task :release => [:release_dir, :repackage]
 
 desc "Create an EBOOT"
 task :default => "psp:eboot"
