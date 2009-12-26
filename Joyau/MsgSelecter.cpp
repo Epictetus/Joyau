@@ -113,7 +113,7 @@ VALUE MsgConfig_setBg(VALUE self, VALUE val)
 */
 VALUE MsgConfig_textColor(VALUE self)
 {
-xs   MsgConfig &ref = getRef<MsgConfig>(self);
+   MsgConfig &ref = getRef<MsgConfig>(self);
    return col2hash(ref.textColor);
 }
 
