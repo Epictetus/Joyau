@@ -17,6 +17,11 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "MultiSelecter.hpp"
 
 template<>
+/*
+  call-seq: new()
+
+  Creates a new selecter.
+*/
 VALUE wrap<MultiHorizontalMsgSelecter>(int argc, VALUE *argv, VALUE info)
 {
    MultiHorizontalMsgSelecter *ptr = new MultiHorizontalMsgSelecter;
@@ -27,6 +32,11 @@ VALUE wrap<MultiHorizontalMsgSelecter>(int argc, VALUE *argv, VALUE info)
 }
 
 template<>
+/*
+  call-seq: new()
+
+  Creates a new selecter.
+*/
 VALUE wrap<MultiVerticalMsgSelecter>(int argc, VALUE *argv, VALUE info)
 {
    MultiVerticalMsgSelecter *ptr = new MultiVerticalMsgSelecter;
@@ -36,9 +46,20 @@ VALUE wrap<MultiVerticalMsgSelecter>(int argc, VALUE *argv, VALUE info)
    return tdata;
 }
 
+/*
+  Document-class: Joyau::MultiVerticalMsgSelecter
+
+  Class which allows to select between some VerticalMsgSelecter.
+*/
+
+/*
+  Document-class: Joyau::MultiHorizontalMsgSelecter
+
+  Class which allows to select between some HorizontalMsgSelecter.
+*/
+
 void defineMultiSelecter()
 {
-   defineGenericSelecter<MultiVerticalMsgSelecter>("MultiVerticalMsgSelecter");
-   defineGenericSelecter<MultiHorizontalMsgSelecter>
-      ("MultiHorizontalMsgSelecter");
+ defineGenericSelecter<MultiVerticalMsgSelecter>("MultiVerticalMsgSelecter");
+ defineGenericSelecter<MultiHorizontalMsgSelecter>("MultiHorizontalMsgSelecter");
 }

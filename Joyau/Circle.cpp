@@ -16,7 +16,20 @@
 
 #include "Circle.hpp"
 
-template<> VALUE wrap<Circle>(int argc, VALUE *argv, VALUE info)
+/*
+  Document-class: Joyau::Circle
+
+  Class used when drawing Circle.
+*/
+
+template<>
+/*
+  call-seq: new(radius, x, y)
+            new(radius, point)
+  
+  Creates a new circle.
+*/
+VALUE wrap<Circle>(int argc, VALUE *argv, VALUE info)
 {
    Circle *ptr = new Circle;
    if (argc >= 2)
@@ -64,6 +77,11 @@ void Circle::draw()
       oslDrawCircle(centerX, centerY, _r, _col[0]);
 }
 
+/*
+  call-seq: setCenter(x, y)
+
+  Sets the circle's center.
+*/
 VALUE Circle_setCenter(VALUE self, VALUE x, VALUE y)
 {
    Circle &ref = getRef<Circle>(self);
@@ -74,6 +92,11 @@ VALUE Circle_setCenter(VALUE self, VALUE x, VALUE y)
    return Qnil;
 }
 
+/*
+  call-seq: center=(point)
+
+  Sets the circle's center.
+*/
 VALUE Circle_setCenterPoint(VALUE self, VALUE point)
 {
    Circle &ref = getRef<Circle>(self);
@@ -83,6 +106,11 @@ VALUE Circle_setCenterPoint(VALUE self, VALUE point)
    return point;
 }
 
+/*
+  call-seq: setRadius(r)
+
+  Sets the circle's radius.
+*/
 VALUE Circle_setRadius(VALUE self, VALUE r)
 {
    Circle &ref = getRef<Circle>(self);
@@ -92,6 +120,7 @@ VALUE Circle_setRadius(VALUE self, VALUE r)
    return r;
 }
 
+/*
 VALUE Circle_setColor(VALUE self, VALUE col)
 {
    Circle &ref = getRef<Circle>(self);
@@ -100,19 +129,29 @@ VALUE Circle_setColor(VALUE self, VALUE col)
    ref.setColor(_col);
    return Qnil;
 }
+*/
 
+/*
+  Returns the center's abscissa.
+*/
 VALUE Circle_getCenterX(VALUE self)
 {
    Circle &ref = getRef<Circle>(self);
    return INT2FIX(ref.getCenterX());
 }
 
+/*
+  Returns the center's ordinate.
+*/
 VALUE Circle_getCenterY(VALUE self)
 {
    Circle &ref = getRef<Circle>(self);
    return INT2FIX(ref.getCenterX());
 }
 
+/*
+  Returns the center as Point
+*/
 VALUE Circle_center(VALUE self)
 {
    Circle &ref = getRef<Circle>(self);
@@ -120,6 +159,9 @@ VALUE Circle_center(VALUE self)
    return createObject(getClass("Point"), p);
 }
 
+/*
+  Returns the radius.
+*/
 VALUE Circle_getRadius(VALUE self)
 {
    Circle &ref = getRef<Circle>(self);

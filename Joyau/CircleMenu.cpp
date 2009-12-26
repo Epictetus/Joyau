@@ -86,6 +86,17 @@ void CircleMenu::setAngle(int angle)
    _menu->AngleVoullue = angle;
 }
 
+/*
+  Document-class: Joyau::CircleMenu
+
+  Displays a menu as a Circle. Its picture has to dispose the icons vertically.
+*/
+
+/*
+  call-seq: load(filename, nb_icons, dist, w, h, x, y, icon_width, icon_height)
+  
+  Loads the menu.
+*/
 VALUE CircleMenu_load(VALUE self, VALUE str, VALUE nbIcons, VALUE dist, VALUE w, 
 		      VALUE h, VALUE x, VALUE y, VALUE iconW, VALUE iconH)
 {
@@ -105,6 +116,11 @@ VALUE CircleMenu_load(VALUE self, VALUE str, VALUE nbIcons, VALUE dist, VALUE w,
    return Qnil;
 }
 
+/*
+  call-seq: changeSelection(dir)
+
+  Changes the selected item. 0 for the right, 1 for the left.
+*/
 VALUE CircleMenu_changeSelection(VALUE self, VALUE dir)
 {
    CircleMenu &ref = getRef<CircleMenu>(self);
@@ -114,6 +130,9 @@ VALUE CircleMenu_changeSelection(VALUE self, VALUE dir)
    return Qnil;
 }
 
+/*
+  Returns the menu's index.
+*/
 VALUE CircleMenu_getIndex(VALUE self)
 {
    CircleMenu &ref = getRef<CircleMenu>(self);
@@ -122,6 +141,11 @@ VALUE CircleMenu_getIndex(VALUE self)
    return INT2FIX(ret);
 }
 
+/*
+  call-seq: alpha=(alpha)
+
+  Sets the menu's alpha value.
+*/
 VALUE CircleMenu_setAlpha(VALUE self, VALUE alpha)
 {
    CircleMenu &ref = getRef<CircleMenu>(self);
@@ -131,6 +155,11 @@ VALUE CircleMenu_setAlpha(VALUE self, VALUE alpha)
    return alpha;
 }
 
+/*
+  call-seq: dist=(dist)
+ 
+  Sets the menu's distance.
+*/
 VALUE CircleMenu_setDist(VALUE self, VALUE dist)
 {
    CircleMenu &ref = getRef<CircleMenu>(self);
@@ -140,6 +169,11 @@ VALUE CircleMenu_setDist(VALUE self, VALUE dist)
    return dist;
 }
 
+/*
+  call-seq: angle=(angle)
+ 
+  Sets the menu's angle.
+*/
 VALUE CircleMenu_setAngle(VALUE self, VALUE angle)
 {
    CircleMenu &ref = getRef<CircleMenu>(self);
@@ -149,18 +183,27 @@ VALUE CircleMenu_setAngle(VALUE self, VALUE angle)
    return angle;
 }
 
+/*
+  Returns the menu's alpha value.
+*/
 VALUE CircleMenu_alpha(VALUE self)
 {
    CircleMenu &ref = getRef<CircleMenu>(self);
    return INT2FIX(ref.getAlpha());
 }
 
+/*
+  Returns the menu's distance
+*/
 VALUE CircleMenu_dist(VALUE self)
 {
    CircleMenu &ref = getRef<CircleMenu>(self);
    return INT2FIX(ref.getDist());
 }
 
+/*
+  Returns the menu's angle.
+ */
 VALUE CircleMenu_angle(VALUE self)
 {
    CircleMenu &ref = getRef<CircleMenu>(self);
@@ -185,4 +228,7 @@ void defineCircleMenu()
    defAlias(cCircleMenu, "setDist", "dist=");
    defAlias(cCircleMenu, "setAngle", "angle=");
    defAlias(cCircleMenu, "changeSelection", "change_selection");
+
+   defConst(cCircleMenu, "RIGHT", INT2FIX(0));
+   defConst(cCircleMenu, "LEFT", INT2FIX(1));
 }

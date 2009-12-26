@@ -18,6 +18,13 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "Manager.hpp"
 #include "Sprite.hpp"
 
+/*
+  Document-class: Joyau::Message
+
+  Class used when drawing message in message boxes. You can set backgrounds,
+  images, fonts, ... on them.
+*/
+
 Message::Message()
 {
    image = NULL;
@@ -131,6 +138,11 @@ void Message::resize(int w, int h)
    _h = h;
 }
 
+/*
+  call-seq: setTitle(txt)
+
+  Sets the message's title.
+*/
 VALUE Message_setTitle(VALUE self, VALUE txt)
 {
    Message &ref = getRef<Message>(self);
@@ -140,6 +152,11 @@ VALUE Message_setTitle(VALUE self, VALUE txt)
    return txt;
 }
 
+/*
+  call-seq: setText(txt)
+
+  Sets the message's text.
+*/
 VALUE Message_setText(VALUE self, VALUE txt)
 {
    Message &ref = getRef<Message>(self);
@@ -149,6 +166,11 @@ VALUE Message_setText(VALUE self, VALUE txt)
    return txt;
 }
 
+/*
+  call-seq: setImage(pic)
+
+  Sets the image drawn beside the message (the argument is a Sprite).
+*/
 VALUE Message_setImage(VALUE self, VALUE pic)
 {
    Message &ref = getRef<Message>(self);
@@ -158,6 +180,11 @@ VALUE Message_setImage(VALUE self, VALUE pic)
    return pic;
 }
 
+/*
+  call-seq: setBackground(pic)
+
+  Sets the image drawn under the message (the argument is a Sprite).
+*/
 VALUE Message_setBackground(VALUE self, VALUE pic)
 {
    Message &ref = getRef<Message>(self);
@@ -167,6 +194,11 @@ VALUE Message_setBackground(VALUE self, VALUE pic)
    return pic;
 }
 
+/*
+  call-seq: setBgColor(col)
+
+  Sets the message's background's color.
+*/
 VALUE Message_setBgColor(VALUE self, VALUE col)
 {
    Message &ref = getRef<Message>(self);
@@ -176,6 +208,11 @@ VALUE Message_setBgColor(VALUE self, VALUE col)
    return col;
 }
 
+/*
+  call-seq: setTitleColor(col)
+
+  Sets the message's title's color.
+*/
 VALUE Message_setTitleColor(VALUE self, VALUE col)
 {
    Message &ref = getRef<Message>(self);
@@ -185,6 +222,11 @@ VALUE Message_setTitleColor(VALUE self, VALUE col)
    return col;
 }
 
+/*
+  call-seq: setTextColor(col)
+
+  Sets the message's text's color.
+*/
 VALUE Message_setTextColor(VALUE self, VALUE col)
 {
    Message &ref = getRef<Message>(self);
@@ -194,6 +236,11 @@ VALUE Message_setTextColor(VALUE self, VALUE col)
    return col;
 }
 
+/*
+  call-seq: setBorderColor(col)
+
+  Sets the message's border's color.
+*/
 VALUE Message_setBorderColor(VALUE self, VALUE col)
 {
    Message &ref = getRef<Message>(self);
@@ -203,6 +250,11 @@ VALUE Message_setBorderColor(VALUE self, VALUE col)
    return col;
 }
 
+/*
+  call-seq: setTextFont(col)
+
+  Sets the message's text's font.
+*/
 VALUE Message_setTextFont(VALUE self, VALUE f)
 {
    Message &ref = getRef<Message>(self);
@@ -212,6 +264,11 @@ VALUE Message_setTextFont(VALUE self, VALUE f)
    return f;
 }
 
+/*
+  call-seq: setTitleFont(col)
+
+  Sets the message's title's font.
+*/
 VALUE Message_setTitleFont(VALUE self, VALUE f)
 {
    Message &ref = getRef<Message>(self);
@@ -221,6 +278,11 @@ VALUE Message_setTitleFont(VALUE self, VALUE f)
    return f;
 }
 
+/*
+  call-seq: setTitlePos(x, y)
+
+  Sets the message's title's position.
+*/
 VALUE Message_setTitlePos(VALUE self, VALUE x, VALUE y)
 {
    Message &ref = getRef<Message>(self);
@@ -231,6 +293,11 @@ VALUE Message_setTitlePos(VALUE self, VALUE x, VALUE y)
    return Qnil;
 }
 
+/*
+  call-seq: titlePos=(point)
+
+  Sets the message's title's position.
+*/
 VALUE Message_setTitlePoint(VALUE self, VALUE p)
 {
    Message &ref = getRef<Message>(self);
@@ -240,67 +307,99 @@ VALUE Message_setTitlePoint(VALUE self, VALUE p)
    return Qnil;
 }
 
-
+/*
+  Returns the message's title.
+*/
 VALUE Message_title(VALUE self)
 {
    Message &ref = getRef<Message>(self);
    return rb_str_new2(ref.getTitle().c_str());
 }
 
+/*
+  Returns the message's text.
+*/
 VALUE Message_text(VALUE self)
 {
    Message &ref = getRef<Message>(self);
    return rb_str_new2(ref.getText().c_str());
 }
 
+/*
+  Returns the message's image as a Sprite.
+*/
 VALUE Message_image(VALUE self)
 {
    Message &ref = getRef<Message>(self);
    return ref.getImage().toRuby();
 }
 
+/*
+  Returns the message's background as a Sprite.
+*/
 VALUE Message_background(VALUE self)
 {
    Message &ref = getRef<Message>(self);
    return ref.getBackground().toRuby();
 }
 
+/*
+  Returns the message's background's color.
+*/
 VALUE Message_bgColor(VALUE self)
 {
    Message &ref = getRef<Message>(self);
    return col2hash(ref.getBgColor());
 }
 
+/*
+  Returns the message's title's color.
+*/
 VALUE Message_titleColor(VALUE self)
 {
    Message &ref = getRef<Message>(self);
    return col2hash(ref.getTitleColor());
 }
 
+/*
+  Returns the message's text's color.
+*/
 VALUE Message_textColor(VALUE self)
 {
    Message &ref = getRef<Message>(self);
    return col2hash(ref.getTextColor());
 }
 
+/*
+  Returns the message's border's color.
+*/
 VALUE Message_borderColor(VALUE self)
 {
    Message &ref = getRef<Message>(self);
    return col2hash(ref.getBorderColor());
 }
 
+/*
+  Returns the message's text's font.
+*/
 VALUE Message_textFont(VALUE self)
 {
    Message &ref = getRef<Message>(self);
    return rb_str_new2(ref.getTextFont().c_str());
 }
 
+/*
+  Returns the message's title's font.
+*/
 VALUE Message_titleFont(VALUE self)
 {
    Message &ref = getRef<Message>(self);
    return rb_str_new2(ref.getTitleFont().c_str());
 }
 
+/*
+  Returns the message's title's position.
+*/
 VALUE Message_titlePos(VALUE self)
 {
    Message &ref = getRef<Message>(self);
@@ -309,6 +408,11 @@ VALUE Message_titlePos(VALUE self)
    return createObject(getClass("Point"), p);
 }
 
+/*
+  call-seq: resize(w, h)
+
+  Resizes the messages.
+*/
 VALUE Message_resize(VALUE self, VALUE w, VALUE h)
 {
    Message &ref = getRef<Message>(self);
@@ -319,6 +423,11 @@ VALUE Message_resize(VALUE self, VALUE w, VALUE h)
    return Qnil;
 }
 
+/*
+  call-seq: w=(val)
+
+  Sets the message's width.
+*/
 VALUE Message_setW(VALUE self, VALUE w)
 {
    Message &ref = getRef<Message>(self);
@@ -327,6 +436,11 @@ VALUE Message_setW(VALUE self, VALUE w)
    return w;
 }
 
+/*
+  call-seq: h=(val)
+
+  Sets the message's height.
+*/
 VALUE Message_setH(VALUE self, VALUE h)
 {
    Message &ref = getRef<Message>(self);

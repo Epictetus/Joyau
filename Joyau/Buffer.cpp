@@ -276,12 +276,44 @@ void Painter::clear(OSL_COLOR col) {
    buf.clear(col);
 }
 
-template<> VALUE wrap<Buffer>(int argc, VALUE *argv, VALUE info)
+/*
+  Document-class: Joyau::Buffer
+
+  Buffers can be displayed on the screen. The screen itself is a Buffer, which
+  can be accessed.
+
+  You can modify a buffer by multiple ways, like drawing drawables on it,
+  or modifying directly its pixels (really fun effects can be created this
+  way!).
+
+  For the first method, consider using +Joyau::draw+ which makes your job
+  much more easier.
+
+  A buffer's width cannot be greater than 512. Same for the width. Also,
+  multiple pixel formats are usable. PF_8888 looks better, but takes much
+  more memory than PF_4444, so be carefull.
+*/
+
+template<>
+/*
+  call-seq: new(drawable)
+            new(buffer)
+            new(w, h)
+            new(w, h, pixel_format)
+
+  A buffer can be created from a drawable or from another buffer. It'll
+  simply contain the Drawable (after the creation, the two objects aren't
+  related at all).
+
+  Another way is to specify the buffer's dimension, and at your option, the
+  pixel format (by default, 16 bits colors are used).
+*/
+VALUE wrap<Buffer>(int argc, VALUE *argv, VALUE info)
 {
    VALUE arg1, arg2, arg3;
    rb_scan_args(argc, argv, "12", &arg1, &arg2, &arg3);
 
-   Buffer *ptr;
+   Buffer *ptr = NULL;
 
    try {
       if (NIL_P(arg2)) {
@@ -312,6 +344,9 @@ template<> VALUE wrap<Buffer>(int argc, VALUE *argv, VALUE info)
    return tdata;
 }
 
+/*
+  Changes the actual drawbuffer (+Joyau::draw+ can do this automatically).
+*/
 VALUE Buffer_setActual(VALUE self) {
    Buffer &ref = getRef<Buffer>(self);
    ref.setActual();
@@ -319,6 +354,13 @@ VALUE Buffer_setActual(VALUE self) {
    return Qnil;
 }
 
+/*
+  call-seq: draw
+            draw(object)
+
+  If no arguments are given, the buffer is drawn. If either a buffer or
+  a drawable is given, then it is drawn on the buffer.
+*/
 VALUE Buffer_draw(int argc, VALUE *argv, VALUE self) {
    Buffer &ref = getRef<Buffer>(self);
 
@@ -343,6 +385,11 @@ VALUE Buffer_draw(int argc, VALUE *argv, VALUE self) {
    return Qnil;
 }
 
+/*
+  call-seq: clear(color)
+
+  Clears the buffer in a given color.
+ */
 VALUE Buffer_clear(VALUE self, VALUE color) {
    Buffer &ref = getRef<Buffer>(self);
    ref.clear(hash2col(color));
@@ -350,26 +397,43 @@ VALUE Buffer_clear(VALUE self, VALUE color) {
    return Qnil;
 }
 
+/*
+  Returns the buffer's abscissa.
+*/
 VALUE Buffer_getX(VALUE self) {
    Buffer &ref = getRef<Buffer>(self);
    return INT2FIX(ref.getX());
 }
 
+/*
+  Returns the buffer's ordinate.
+*/
 VALUE Buffer_getY(VALUE self) {
    Buffer &ref = getRef<Buffer>(self);
    return INT2FIX(ref.getY());
 }
 
+/*
+  Returns the buffer's width.
+*/
 VALUE Buffer_getW(VALUE self) {
    Buffer &ref = getRef<Buffer>(self);
    return INT2FIX(ref.getW());
 }
 
+/*
+  Returns the buffer's width.
+*/
 VALUE Buffer_getH(VALUE self) {
    Buffer &ref = getRef<Buffer>(self);
    return INT2FIX(ref.getH());
 }
 
+/*
+  call-seq: x=(val)
+
+  Sets the buffer's abscissa.
+*/
 VALUE Buffer_setX(VALUE self, VALUE x) {
    Buffer &ref = getRef<Buffer>(self);
    ref.setX(FIX2INT(x));
@@ -377,6 +441,11 @@ VALUE Buffer_setX(VALUE self, VALUE x) {
    return x;
 }
 
+/*
+  call-seq: y=(val)
+
+  Sets the buffer's ordinate.
+*/
 VALUE Buffer_setY(VALUE self, VALUE y) {
    Buffer &ref = getRef<Buffer>(self);
    ref.setY(FIX2INT(y));
@@ -384,6 +453,12 @@ VALUE Buffer_setY(VALUE self, VALUE y) {
    return y;
 }
 
+/*
+  call-seq: setPos(x, y)
+            setPos(point)
+
+  Sets the buffer's position.
+*/
 VALUE Buffer_setPos(int argc, VALUE *argv, VALUE self) {
    Buffer &ref = getRef<Buffer>(self);
    
@@ -402,6 +477,11 @@ VALUE Buffer_setPos(int argc, VALUE *argv, VALUE self) {
    return Qnil;
 }
 
+/*
+  call-seq: move(x, y)
+
+  Moves the buffer.
+*/
 VALUE Buffer_move(VALUE self, VALUE x, VALUE y) {
    Buffer &ref = getRef<Buffer>(self);
    ref.move(FIX2INT(x), FIX2INT(y));
@@ -409,6 +489,12 @@ VALUE Buffer_move(VALUE self, VALUE x, VALUE y) {
    return Qnil;
 }
 
+/*
+  call-seq: resize(w, h)
+
+  Resizes the buffer. Be carefull, this is rather slow: a buffer is
+  created, and the old one is drawn on it before being destroyed.
+*/
 VALUE Buffer_resize(VALUE self, VALUE w, VALUE h) {
    Buffer &ref = getRef<Buffer>(self);
    try {
@@ -421,6 +507,11 @@ VALUE Buffer_resize(VALUE self, VALUE w, VALUE h) {
    return Qnil;
 }
 
+/*
+  call-seq: zoom(level)
+
+  Zooms on the buffer.
+*/
 VALUE Buffer_zoom(VALUE self, VALUE level) {
    Buffer &ref = getRef<Buffer>(self);
    ref.zoom(FIX2INT(level));
@@ -428,6 +519,11 @@ VALUE Buffer_zoom(VALUE self, VALUE level) {
    return Qnil;
 }
 
+/*
+  call-seq: rotate(angle)
+
+  Rotates the buffer.
+*/
 VALUE Buffer_rotate(VALUE self, VALUE angle) {
    Buffer &ref = getRef<Buffer>(self);
    ref.rotate(FIX2INT(angle));
@@ -435,6 +531,23 @@ VALUE Buffer_rotate(VALUE self, VALUE angle) {
    return Qnil;
 }
 
+/*
+  call-seq: lock
+            lock { ... } 
+
+  Locks the buffer. Once the buffer is locked, you can modify its pixels.
+  If a block is given, then it is executed, and the buffer is unlocked after
+  having executed the block.
+
+  Examples:
+    buf.lock
+    buf[0, 0] = 0
+    buf.unlock
+
+    buf.lock do
+      buf[0, 0] = 0
+    end
+*/
 VALUE Buffer_lock(int argc, VALUE *argv, VALUE self) {
    Buffer &ref = getRef<Buffer>(self);
    
@@ -450,6 +563,11 @@ VALUE Buffer_lock(int argc, VALUE *argv, VALUE self) {
    return Qnil;
 }
 
+/*
+  call-seq: unlock
+
+  Unlocks the buffer. Call it when you've finished to modify your image.
+*/
 VALUE Buffer_unlock(VALUE self) {
    Buffer &ref = getRef<Buffer>(self);
    ref.unlock();
@@ -457,11 +575,21 @@ VALUE Buffer_unlock(VALUE self) {
    return Qnil;
 }
 
+/*
+  call-seq: [x, y]
+
+  Returns the color of a pixel.
+*/
 VALUE Buffer_getPixel(VALUE self, VALUE x, VALUE y) {
    Buffer &ref = getRef<Buffer>(self);
    return col2hash(ref.getPixel(FIX2INT(x), FIX2INT(y)));
 }
 
+/*
+  call-seq: [x, y] = col
+    
+  Sets the color of a pixel.
+*/
 VALUE Buffer_setPixel(VALUE self, VALUE x, VALUE y, VALUE col) {
    Buffer &ref = getRef<Buffer>(self);
    ref.setPixel(FIX2INT(x), FIX2INT(y), hash2col(col));
@@ -469,6 +597,11 @@ VALUE Buffer_setPixel(VALUE self, VALUE x, VALUE y, VALUE col) {
    return col;
 }
 
+/*
+  call-seq: save(filename)
+
+  Saves the buffer 
+*/
 VALUE Buffer_save(VALUE self, VALUE filename) {
    Buffer &ref = getRef<Buffer>(self);
    ref.save(StringValuePtr(filename));
@@ -476,10 +609,19 @@ VALUE Buffer_save(VALUE self, VALUE filename) {
    return Qnil;
 }
 
+/*
+  Converts the buffer in a Sprite.
+*/
 VALUE Buffer_to_sprite(VALUE self) {
    Buffer &ref = getRef<Buffer>(self);
-   return Data_Wrap_Struct(getClass("Sprite"), 0, wrapped_free<Sprite>, 
-			   new Sprite(ref));
+   try {
+      return Data_Wrap_Struct(getClass("Sprite"), 0, wrapped_free<Sprite>, 
+			      new Sprite(ref));
+   }
+   catch (const RubyException &e) {
+      e.rbRaise();
+      return Qnil;
+   }
 }
 
 VALUE Buffer_updateScreen(VALUE self) {
@@ -496,7 +638,21 @@ VALUE Buffer_destroyScreen(VALUE self) {
    return Qnil;
 }
 
-template<> VALUE wrap<Painter>(int argc, VALUE *argv, VALUE info)
+/*
+  Document-class: Joyau::Painter
+    
+  This class allows to write easily in a buffer, at anytime.
+  You can specify the buffer it is linked with at construction time,
+  or get a painter through +Joyau::draw+.
+*/
+
+template<>
+/*
+  call-seq: new(buffer)
+
+  Creates a new Painter linked to a buffer.
+*/
+VALUE wrap<Painter>(int argc, VALUE *argv, VALUE info)
 {
    VALUE buffer;
    rb_scan_args(argc, argv, "1", &buffer);
@@ -506,6 +662,11 @@ template<> VALUE wrap<Painter>(int argc, VALUE *argv, VALUE info)
    return tdata;
 }
 
+/*
+  call-seq: drawLine(x1, y1, x2, y2, col1, col2 = nil)
+
+  Draws a line on the buffer.
+*/
 VALUE Painter_drawLine(int argc, VALUE *argv, VALUE self) {
    Painter &ref = getRef<Painter>(self);
    
@@ -520,6 +681,11 @@ VALUE Painter_drawLine(int argc, VALUE *argv, VALUE self) {
    return Qnil;
 }
 
+/*
+  call-seq: drawLine(x1, y1, x2, y2, col1, col2 = nil, col3 = nil, col4 = nil)
+
+  Draws a filled rect on the buffer.
+*/
 VALUE Painter_drawFillRect(int argc, VALUE *argv, VALUE self) {
    Painter &ref = getRef<Painter>(self);
    
@@ -540,6 +706,11 @@ VALUE Painter_drawFillRect(int argc, VALUE *argv, VALUE self) {
    return Qnil;
 }
 
+/*
+  call-seq: drawRect(x1, y1, x2, y2, col1, col2 = nil, col3 = nil, col4 = nil)
+
+  Draws a rect on the buffer.
+*/
 VALUE Painter_drawRect(int argc, VALUE *argv, VALUE self) {
    Painter &ref = getRef<Painter>(self);
    
@@ -551,6 +722,11 @@ VALUE Painter_drawRect(int argc, VALUE *argv, VALUE self) {
    return Qnil;
 }
 
+/*
+  call-seq: drawPoint(x, y, col)
+
+  Draws a point on the buffer.
+*/
 VALUE Painter_drawPoint(VALUE self, VALUE x, VALUE y, VALUE col) {
    Painter &ref = getRef<Painter>(self);
    ref.drawPoint(FIX2INT(x), FIX2INT(y), hash2col(col));
@@ -558,6 +734,11 @@ VALUE Painter_drawPoint(VALUE self, VALUE x, VALUE y, VALUE col) {
    return Qnil;
 }
 
+/*
+  call-seq: drawFillCircle(x, y, radius, col)
+
+  Draws a filled circle on the buffer.
+*/
 VALUE Painter_drawFillCircle(VALUE self, VALUE x, VALUE y, VALUE r, VALUE col) {
    Painter &ref = getRef<Painter>(self);
    
@@ -565,6 +746,11 @@ VALUE Painter_drawFillCircle(VALUE self, VALUE x, VALUE y, VALUE r, VALUE col) {
    return Qnil;
 }
 
+/*
+  call-seq: drawCircle(x, y, radius, col)
+
+  Draws a circle on the buffer.
+*/
 VALUE Painter_drawCircle(VALUE self, VALUE x, VALUE y, VALUE r, VALUE col) {
    Painter &ref = getRef<Painter>(self);
    
@@ -572,6 +758,11 @@ VALUE Painter_drawCircle(VALUE self, VALUE x, VALUE y, VALUE r, VALUE col) {
    return Qnil;
 }
 
+/*
+  call-seq: drawTriangle(x1, y1, x2, y2, x3, y3, col1, col2 = nil, col3 = nil)
+
+  Draws a tiangle on the buffer.
+*/
 VALUE Painter_drawTriangle(int argc, VALUE *argv, VALUE self) {
    Painter &ref = getRef<Painter>(self);
    
@@ -592,6 +783,11 @@ VALUE Painter_drawTriangle(int argc, VALUE *argv, VALUE self) {
    return Qnil;
 }
 
+/*
+  call-seq: drawBuffer(x, y, buffer)
+
+  Draws a buffer on a buffer.
+*/
 VALUE Painter_drawBuffer(VALUE self, VALUE x, VALUE y, VALUE buffer) {
    Painter &ref = getRef<Painter>(self);
    
@@ -599,7 +795,11 @@ VALUE Painter_drawBuffer(VALUE self, VALUE x, VALUE y, VALUE buffer) {
    return Qnil;
 }
 
+/*
+  call-seq: clear(color)
 
+  Clears the buffer in a color.
+*/
 VALUE Painter_clear(VALUE self, VALUE col) {
    Painter &ref = getRef<Painter>(self);
    
@@ -607,6 +807,23 @@ VALUE Painter_clear(VALUE self, VALUE col) {
    return Qnil;
 }
 
+/*
+  call-seq: draw(hash = nil) { ... } -> nil
+
+  Three keys are checked in the given hash : ":buffer" which is the buffer
+  on which manipulation are done (by default, the actual buffer is taken),
+  ":painter", which tell us to yield a +Joyau::Painter+ instead of a
+  +Joyau::Buffer+ when true (false by default), and ":auto_update" which
+  tell us whether we should update the buffer (true by default).
+
+  It is mandatory to give a block to this function.
+
+  Examples:
+    Joyau.draw(:buffer => a_buffer, :painter => true)
+    Joyau.draw(:auto_update => false)
+    Joyau.draw(:painter => true)
+    Joyau.draw(:buffer => a_buffer)
+*/
 VALUE Joyau_draw(int argc, VALUE *argv, VALUE self) {
    VALUE hash, block;
    rb_scan_args(argc, argv, "01&", &hash, &block);
@@ -679,10 +896,25 @@ VALUE Joyau_draw(int argc, VALUE *argv, VALUE self) {
 void defineBuffer() {
    VALUE cBuffer = defClass<Buffer>("Buffer");
    
+   /* 
+      Document-const: PF_4444      
+      PF_4444: Pixel format for 8 bits colors.
+   */
+   
+   /*
+      Document-const: PF_5650   
+      PF_5650: Pixel format for 16 bits colors.
+   */
+   
+   /*
+      Document-const: PF_8888   
+      PF_8888: Pixel format for 32 bits colors.
+   */
+
    defConst(cBuffer, "PF_4444", INT2FIX(OSL_PF_4444));
    defConst(cBuffer, "PF_5650", INT2FIX(OSL_PF_5650));
    defConst(cBuffer, "PF_8888", INT2FIX(OSL_PF_8888));
-
+   
    defMethod(cBuffer, "set_actual", Buffer_setActual, 0);
    defMethod(cBuffer, "draw", Buffer_draw, -1);
    defMethod(cBuffer, "clear", Buffer_clear, 1);
@@ -722,5 +954,6 @@ void defineBuffer() {
  
    defMethod(cPainter, "clear", Painter_clear, 1);
    
-   defModFunc(JOYAU_MOD, "draw", Joyau_draw, -1);
+   VALUE joyau = JOYAU_MOD;
+   defModFunc(joyau, "draw", Joyau_draw, -1);
 }

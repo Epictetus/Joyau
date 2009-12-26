@@ -109,6 +109,11 @@ void Manager::setArg(int argc, char** argv)
    _argv = argv;
 }
 
+/*
+  Frees the pictures.
+  When manipulating the memory by yourself, be carefull: you have to reload
+  the ressource you still want to use (If you don't, a crash will occur).
+*/
 VALUE clearImages(VALUE self)
 {
    Manager &m = Manager::getInstance();
@@ -117,6 +122,9 @@ VALUE clearImages(VALUE self)
    return Qnil;
 }
 
+/*
+  Frees all the fonts.
+*/
 VALUE clearFonts(VALUE self)
 {
    Manager &m = Manager::getInstance();
@@ -125,6 +133,9 @@ VALUE clearFonts(VALUE self)
    return Qnil;
 }
 
+/*
+  Frees the sound buffers.
+*/
 VALUE clearBuffers(VALUE self)
 {
    Manager &m = Manager::getInstance();

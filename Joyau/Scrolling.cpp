@@ -16,7 +16,22 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include "Scrolling.hpp"
 
-template<> VALUE wrap<Scrolling>(int argc, VALUE *argv, VALUE info)
+/*
+  Document-class: Joyau::Scrolling
+
+  Class which displays a Sprite twice, making it scroll in one of the four
+  direction.
+*/
+
+template<>
+/*
+  call-seq: new
+            new(filename)
+
+  Creates a new Scrolling. You can eventually load a picture during this
+  creation.
+*/
+VALUE wrap<Scrolling>(int argc, VALUE *argv, VALUE info)
 {
    Scrolling *ptr = new Scrolling;
 
@@ -134,6 +149,11 @@ void Scrolling::clearMove()
    bg[1].clearMove();
 }
 
+/*
+  call-seq: setSprite(filename)
+
+  Loads a picture for the scrolling.
+*/
 VALUE Scrolling_setSprite(VALUE self, VALUE spr)
 {
    Scrolling &ref = getRef<Scrolling>(self);
@@ -143,6 +163,11 @@ VALUE Scrolling_setSprite(VALUE self, VALUE spr)
    return spr;
 }
 
+/*
+  call-seq: setDir(dir)
+
+  Sets the scrolling direction
+*/
 VALUE Scrolling_setDir(VALUE self, VALUE dir)
 {
    Scrolling &ref = getRef<Scrolling>(self);
@@ -152,6 +177,13 @@ VALUE Scrolling_setDir(VALUE self, VALUE dir)
    return dir;
 }
 
+/*
+  call-seq: setSpeed(s)
+
+  Sets the scrolling speed.
+  The speed is the distance that is done by the scrolling at each call to
+  play.
+*/
 VALUE Scrolling_setSpeed(VALUE self, VALUE s)
 {
    Scrolling &ref = getRef<Scrolling>(self);
@@ -161,18 +193,27 @@ VALUE Scrolling_setSpeed(VALUE self, VALUE s)
    return s;
 }
 
+/*
+  Returns the scrolling's directory.
+*/
 VALUE Scrolling_dir(VALUE self)
 {
    Scrolling &ref = getRef<Scrolling>(self);
    return INT2FIX(ref.getDir());
 }
 
+/*
+  Returns the scrolling's speed.
+*/
 VALUE Scrolling_speed(VALUE self)
 {
    Scrolling &ref = getRef<Scrolling>(self);
    return INT2FIX(ref.getSpeed());
 }
 
+/*
+  Moves the scrolling,a nd wraps it automatically.
+*/
 VALUE Scrolling_play(VALUE self)
 {
    Scrolling &ref = getRef<Scrolling>(self);

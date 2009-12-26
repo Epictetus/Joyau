@@ -51,10 +51,33 @@ void Shape::setGradient(OSL_COLOR *col)
       _col[i] = col[i];
 }
 
+/*
+  Document-class: Joyau::Shape
+
+  Class including functions used when setting a drawable's colors.
+  Notice they don't have all the same numbers of colors. That number is
+  usually specific to the class, yet it might be specifc to an object.
+  You can get it with Shape#colorsNumber
+*/
+
+/*
+  Document-class: Joyau::FillableShape
+
+  This is almost the same class as Shape. The only difference is that you
+  can toggle a filled state, checked when drawing the object.
+*/
+
+/*
+  call-seq: setColor(r, g, b, a = 255)
+            setColor(col)
+
+  Sets the sahpe's color. If it has more than one color, all are set to the
+  same value.
+*/
 VALUE Shape_setColor(int argc, VALUE *argv, VALUE self)
 {
    Shape &ref = getRef<Shape>(self);
-   OSL_COLOR _col;
+   OSL_COLOR _col = 0;
    if (argc >= 3)
    {
       int alpha = 255;
@@ -64,13 +87,16 @@ VALUE Shape_setColor(int argc, VALUE *argv, VALUE self)
    }
    else if (argc == 1)
       _col = hash2col(argv[0]);
-   else
-      return Qfalse; // Not enough arguments.
 
    ref.setColor(_col);
    return Qnil;
 }
 
+/*
+  call-seq: setGraident(colors)
+
+  Take an array as argument.
+*/
 VALUE Shape_setGradient(VALUE self, VALUE col)
 {
    Shape &ref = getRef<Shape>(self);
@@ -84,12 +110,18 @@ VALUE Shape_setGradient(VALUE self, VALUE col)
    return col;
 }
 
+/*
+  Returns how many colors there are in that shape.
+*/
 VALUE Shape_getColorsNumber(VALUE self)
 {
    Shape &ref = getRef<Shape>(self);
    return INT2FIX(ref.getColorsNumber());
 }
 
+/*
+  Returns an array containing all the shape's colors.
+*/
 VALUE Shape_getColors(VALUE self)
 {
    Shape &ref = getRef<Shape>(self);
@@ -103,12 +135,18 @@ VALUE Shape_getColors(VALUE self)
    return ret;
 }
 
+/*
+  Return the shape's first color.
+*/
 VALUE Shape_getColor(VALUE self)
 {
    Shape &ref = getRef<Shape>(self);
    return col2hash(ref.getColor());
 }
 
+/*
+  Toggle the shape's filled state.
+*/
 VALUE FillableShape_toggleFilled(VALUE self)
 {
    FillableShape &ref = getRef<FillableShape>(self);
@@ -117,6 +155,12 @@ VALUE FillableShape_toggleFilled(VALUE self)
    return Qnil;
 }
 
+/*
+  call-seq: setFilled(val)
+            filled=(val)
+
+  Sets the filled state.
+*/
 VALUE FillableShape_setFilled(VALUE self, VALUE val)
 {
    FillableShape &ref = getRef<FillableShape>(self);
@@ -125,6 +169,9 @@ VALUE FillableShape_setFilled(VALUE self, VALUE val)
    return val;
 }
 
+/*
+  Return the shape's filled state.
+*/
 VALUE FillablleShape_filled(VALUE self)
 {
    FillableShape &ref = getRef<FillableShape>(self);

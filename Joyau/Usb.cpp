@@ -22,6 +22,9 @@ bool loadStartModule(const std::string &prx)
    return mod > 0;
 }
 
+/*
+  Inits the module used for the USB connection.
+*/
 VALUE initUsb(VALUE self)
 {
    if (!loadStartModule("flash0:/kd/chkreg.prx") ||   
@@ -43,6 +46,9 @@ VALUE initUsb(VALUE self)
    return Qtrue;
 }
 
+/*
+  Stops the USB connection.
+*/
 VALUE stopUsb(VALUE self)
 {
    sceUsbStop(PSP_USBSTOR_DRIVERNAME, 0, 0);
@@ -50,12 +56,18 @@ VALUE stopUsb(VALUE self)
    return Qnil;
 }
 
+/*
+  Establishes the USB connection.
+*/
 VALUE usbConnect(VALUE self)
 {
    sceUsbActivate(0x1c8);
    return Qnil;
 }
 
+/*
+  Disconnects from the USB connection.
+*/
 VALUE usbDisconnect(VALUE self)
 {
    sceUsbDeactivate(0x1c8);
@@ -63,6 +75,10 @@ VALUE usbDisconnect(VALUE self)
    return Qnil;
 }
 
+/*
+  Returns a hash where the different connections states are saved, at
+  the following keys: "activated", "connected", and "established".
+*/
 VALUE usbState(VALUE self)
 {
    VALUE ret = rb_hash_new();
@@ -77,23 +93,38 @@ VALUE usbState(VALUE self)
    return ret;
 }
 
+/*
+  Returns whether the Usb is activated.
+*/
 VALUE Usb_activated(VALUE self)
 {
    u32 state = sceUsbGetState();
    return state & PSP_USB_ACTIVATED ? Qtrue : Qfalse;
 }
 
+/*
+  Returns whether the connection has been established.
+*/
 VALUE USb_established(VALUE self)
 {
    u32 state = sceUsbGetState();
    return state & PSP_USB_CONNECTION_ESTABLISHED ? Qtrue : Qfalse;
 }
 
+/*
+  Returns whether the cable is connected.
+ */
 VALUE Usb_connected(VALUE self)
 {
    u32 state = sceUsbGetState();
    return state & PSP_USB_CABLE_CONNECTED ? Qtrue : Qfalse;
 }
+
+/*
+  Document-class: Joyau::Usb
+
+  This class allows to start the USB connexion through a Ruby script.
+*/
 
 void defineUsb()
 {

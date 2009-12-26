@@ -132,7 +132,17 @@ void VerticalSelecter<ContentType>::atLoop(content_t &obj, size_t pos)
    obj.resize(this->getW(), this->getH() / this->getSize());
 }
 
-template<typename T> VALUE GenericSelecter_select(VALUE self, VALUE dir)
+
+template<typename T>
+/*
+  call-seq: select(id)
+
+  Changes the selected element, increasing the actual index by the given 
+  argument.
+
+  If index + id > size, nothing will happen.
+*/
+VALUE GenericSelecter_select(VALUE self, VALUE dir)
 {
    T &ref = getRef<T>(self);
    ref.select(FIX2INT(dir));
@@ -140,7 +150,13 @@ template<typename T> VALUE GenericSelecter_select(VALUE self, VALUE dir)
    return Qnil;
 }
 
-template<typename T> VALUE GenericSelecter_addItem(VALUE self, VALUE obj)
+template<typename T> 
+/*
+  call-seq: addItem(obj)
+
+  Adds an object to the selecter.
+*/
+VALUE GenericSelecter_addItem(VALUE self, VALUE obj)
 {
    T &ref = getRef<T>(self);
    typename T::content_t &arg = getRef<typename T::content_t>(obj);
@@ -149,7 +165,14 @@ template<typename T> VALUE GenericSelecter_addItem(VALUE self, VALUE obj)
    return Qnil;
 }
 
-template<typename T> VALUE GenericSelecter_resize(VALUE self, VALUE w, VALUE h)
+template<typename T>
+/*
+  call-seq: resize(w, h)
+
+  Changes the selecter's size. Everything will be drawn in a such rect,
+  either by reducing or increasing the object's size.
+*/
+VALUE GenericSelecter_resize(VALUE self, VALUE w, VALUE h)
 {
    T &ref = getRef<T>(self);
    ref.resize(FIX2INT(w), FIX2INT(h));
@@ -157,31 +180,55 @@ template<typename T> VALUE GenericSelecter_resize(VALUE self, VALUE w, VALUE h)
    return Qnil;
 }
 
-template<typename T> VALUE GenericSelecter_selected(VALUE self)
+template<typename T>
+/*
+  Returns the selected item.
+*/
+VALUE GenericSelecter_selected(VALUE self)
 {
    T &ref = getRef<T>(self);
    return ref.getSelected().toRuby();
 }
 
-template<typename T> VALUE GenericSelecter_item(VALUE self, VALUE index)
+template<typename T>
+/*
+  call-seq: item(index)
+
+  Returns the item at index.
+*/
+VALUE GenericSelecter_item(VALUE self, VALUE index)
 {
    T &ref = getRef<T>(self);
    return ref.getItem(FIX2INT(index)).toRuby();
 }
 
-template<typename T> VALUE GenericSelecter_index(VALUE self)
+template<typename T>
+/*
+  Returns the actual object's index.
+*/
+VALUE GenericSelecter_index(VALUE self)
 {
    T &ref = getRef<T>(self);
    return INT2FIX(ref.getIndex());
 }
 
-template<typename T> VALUE GenericSelecter_size(VALUE self)
+template<typename T>
+/*
+  Returns how many items are present in the selecter.
+*/
+VALUE GenericSelecter_size(VALUE self)
 {
    T &ref = getRef<T>(self);
    return INT2FIX(ref.getSize());
 }
 
-template<typename T> VALUE GenericSelecter_setFocus(VALUE self, VALUE val)
+template<typename T>
+/*
+  call-seq: focus=(val)
+
+  Sets the focus on the selecter. When false, the focus effect is never applied.
+*/
+VALUE GenericSelecter_setFocus(VALUE self, VALUE val)
 {
    T &ref = getRef<T>(self);
    ref.setFocus(val == Qtrue);
@@ -189,7 +236,11 @@ template<typename T> VALUE GenericSelecter_setFocus(VALUE self, VALUE val)
    return Qnil;
 }
 
-template<typename T> VALUE GenericSelecter_focus(VALUE self)
+template<typename T>
+/*
+  Returns whether the object has focus.
+*/
+VALUE GenericSelecter_focus(VALUE self)
 {
    T &ref = getRef<T>(self);
    return ref.getFocus() ? Qtrue : Qfalse;

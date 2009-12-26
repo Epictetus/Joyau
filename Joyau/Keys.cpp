@@ -93,7 +93,21 @@ int Pad::str2key(const std::string &key) const
    return -1;
 }
 
-template<> VALUE wrap<Cursor>(int argc, VALUE *argv, VALUE info)
+/*
+  Document-class: Joyau::Cursor
+
+  This is a kind of Sprite which moves according to the analogic stick's move.
+  If its "sensibility" is greater, it'll move slower.
+*/
+
+template<>
+/*
+  call-seq: new
+            new(filename [, sensibility])
+
+  Creates a new Cursor.
+*/
+VALUE wrap<Cursor>(int argc, VALUE *argv, VALUE info)
 {
    Cursor *ptr = new Cursor;
    VALUE tdata;
@@ -130,6 +144,10 @@ void Cursor::updatePos()
    }
 }
 
+/*
+  This is an old, and deprecated function which checks the pad.
+  Do not use this, use Pad's methods directly.
+*/
 VALUE checkKeys(VALUE self)
 {
    VALUE keys = rb_gv_get("$keys");
@@ -173,6 +191,9 @@ VALUE checkKeys(VALUE self)
    return Qnil;
 }
 
+/*
+  Moves the cursor automatically.
+*/
 VALUE Cursor_updatePos(VALUE self)
 {
    Cursor &ref = getRef<Cursor>(self);
@@ -181,6 +202,11 @@ VALUE Cursor_updatePos(VALUE self)
    return Qnil;
 }
 
+/*
+  call-seq: setSensibility(val)
+
+  Changes the cursor sensibility.
+*/
 VALUE Cursor_setSensibility(VALUE self, VALUE s)
 {
    Cursor &ref = getRef<Cursor>(self);
@@ -190,12 +216,20 @@ VALUE Cursor_setSensibility(VALUE self, VALUE s)
    return Qnil;
 }
 
+/*
+  Returns the cursor's sensibility.
+*/
 VALUE Cursor_sensibility(VALUE self)
 {
    Cursor &ref = getRef<Cursor>(self);
    return INT2FIX(ref.getSensibility());
 }
 
+/*
+  call-seq: setRect(rect)
+
+  Sets the rect in which the cursor can move.
+*/
 VALUE Cursor_setRect(VALUE self, VALUE rect)
 {
    Cursor &ref = getRef<Cursor>(self);
@@ -205,6 +239,9 @@ VALUE Cursor_setRect(VALUE self, VALUE rect)
    return Qnil;
 }
 
+/*
+  Returns the rect in which the cursor can move.
+*/
 VALUE Cursor_rect(VALUE self)
 {
    Cursor &ref = getRef<Cursor>(self);
@@ -213,6 +250,9 @@ VALUE Cursor_rect(VALUE self)
    return createObject(getClass("Rect"), ret);
 }
 
+/*
+  Returns a string typed through the PSP built-in keyboard.
+*/
 VALUE Joyau_gets(VALUE self)
 {
    SceUtilityOskData data;
@@ -285,12 +325,26 @@ VALUE Joyau_gets(VALUE self)
    return rb_str_new2(ret);
 }
 
+/*
+  Document-class: Joyau::Pad
+  
+  Module used in order to check what keys are pressed or released.
+*/
+
+/*
+  Updates the pad.
+*/
 VALUE Pad_update(VALUE self)
 {
    Pad::getInstance().update();
    return Qnil;
 }
 
+/*
+  call-seq: held? key
+
+  Returns whether a key is held.
+*/
 VALUE Pad_held(VALUE self, VALUE key)
 {
    Pad &pad = Pad::getInstance();
@@ -299,6 +353,11 @@ VALUE Pad_held(VALUE self, VALUE key)
    return pad.held(FIX2INT(key)) ? Qtrue : Qfalse;
 }
 
+/*
+  call-seq: released? key
+
+  Returns whether a key has been released right now.
+*/
 VALUE Pad_released(VALUE self, VALUE key)
 {
    Pad &pad = Pad::getInstance();
@@ -307,6 +366,11 @@ VALUE Pad_released(VALUE self, VALUE key)
     return pad.released(FIX2INT(key)) ? Qtrue : Qfalse;
 }
 
+/*
+  call-seq: pressed? key
+
+  Returns whether a key has been pressed right now.
+*/
 VALUE Pad_pressed(VALUE self, VALUE key)
 {
    Pad &pad = Pad::getInstance();
@@ -315,11 +379,17 @@ VALUE Pad_pressed(VALUE self, VALUE key)
    return pad.pressed(FIX2INT(key)) ? Qtrue : Qfalse;
 }
 
+/*
+  Returns the Pad's abscissa. The minimum is -128, and the maximum is 128.
+*/
 VALUE Pad_stickX(VALUE self)
 {
    return INT2FIX(Pad::getInstance().getStickX());
 }
 
+/*
+  Returns the Pad's ordinate. The minimum is -128, and the maximum is 128.
+*/
 VALUE Pad_stickY(VALUE self)
 {
    return INT2FIX(Pad::getInstance().getStickY());

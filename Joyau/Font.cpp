@@ -62,18 +62,29 @@ void IntraText::draw()
       intraFontPrintColumn(font, getX(), getY(), maxWidth, txt.c_str());
 }
 
+/*
+  Inits the intrafont module.
+*/
 VALUE Intrafont_init(VALUE self)
 {
    intraFontInit();
    return Qnil;
 }
 
+/*
+  Stops the intrafont module.
+*/
 VALUE Intrafont_stop(VALUE self)
 {
    intraFontShutdown();
    return Qnil;
 }
 
+/*
+  call-seq: text=(val)
+
+  Sets an intratext's content.
+*/
 VALUE IntraText_setText(VALUE self, VALUE txt)
 {
    IntraText &ref = getRef<IntraText>(self);
@@ -82,12 +93,20 @@ VALUE IntraText_setText(VALUE self, VALUE txt)
    return txt;
 }
 
+/*
+  Returns an intratext's content.
+*/
 VALUE IntraText_text(VALUE self)
 {
    IntraText &ref = getRef<IntraText>(self);
    return rb_str_new2(ref.getText().c_str());
 }
 
+/*
+  call-seq: max_width=(val)
+
+  Sets an intratext's maximum width.
+*/
 VALUE IntraText_setMaxWidth(VALUE self, VALUE val) {
    IntraText &ref = getRef<IntraText>(self);
    ref.setMaxWidth(FIX2INT(val));
@@ -95,6 +114,11 @@ VALUE IntraText_setMaxWidth(VALUE self, VALUE val) {
    return val;
 }
 
+/*
+  call-seq: load(font_name, options)
+
+  Loads a font. You can use flags as option, or give 0.
+*/
 VALUE IntraText_load(VALUE self, VALUE name, VALUE options)
 {
    IntraText &ref = getRef<IntraText>(self);
@@ -108,6 +132,9 @@ VALUE IntraText_load(VALUE self, VALUE name, VALUE options)
    return Qnil;
 }
 
+/*
+  Activates a font.
+*/
 VALUE IntraText_activate(VALUE self)
 {
    IntraText &ref = getRef<IntraText>(self);
@@ -116,6 +143,11 @@ VALUE IntraText_activate(VALUE self)
    return Qnil;
 }
 
+/*
+  call-seq: setStyle(size, color, shadow, options)
+
+  Sets a font style. Flags of options can be given too.
+*/
 VALUE IntraText_setStyle(VALUE self, VALUE size, VALUE color, VALUE shadow, 
 			 VALUE options)
 {
@@ -126,6 +158,11 @@ VALUE IntraText_setStyle(VALUE self, VALUE size, VALUE color, VALUE shadow,
    return Qnil;
 }
 
+/*
+  call-seq: encoding=(options)
+
+  Sets the text's encoding (required for non-ASCII texts).
+*/
 VALUE IntraText_setEncoding(VALUE self, VALUE options)
 {
    IntraText &ref = getRef<IntraText>(self);
@@ -134,6 +171,12 @@ VALUE IntraText_setEncoding(VALUE self, VALUE options)
    return Qnil;
 }
 
+/*
+  call-seq: altFont=(font)
+
+  Sets the font from which characters will be taken 
+  if it is not in this one.
+*/
 VALUE IntraText_setAltFont(VALUE self, VALUE obj)
 {
    IntraText &ref = getRef<IntraText>(self);
@@ -143,6 +186,18 @@ VALUE IntraText_setAltFont(VALUE self, VALUE obj)
    return Qnil;
 }
 
+/*
+  Document-class: Joyau::Intrafont
+  
+  Intrafont is used to load fonts present in the PSP's flash.
+  Constant defined here can be used when loading them.
+*/
+
+/*
+  Document-class: Joyau::Intratext
+
+  Drawable used when drawing text through Intrafont.
+*/
 void defineIntrafont()
 {
    VALUE mIntraFont = defModule("Intrafont");

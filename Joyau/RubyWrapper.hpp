@@ -95,6 +95,8 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 /** Defines a module **/
 #define defModule(name) rb_define_module_under(JOYAU_MOD, name)
 
+#define joyau_define_module rb_define_module // For RDoc
+
 /** Defines a constant **/
 #define defConst rb_define_const
 

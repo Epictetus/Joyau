@@ -81,6 +81,11 @@ void Triangle::move(int x_pos, int y_pos)
    }
 }
 
+/*
+  call-seq: setPoints(x1, y1, x2, y2, x3, y3)
+
+  Sets the triangle's position.
+*/
 VALUE Triangle_setPoints(VALUE self, VALUE x1, VALUE y1, VALUE x2, VALUE y2,
 			 VALUE x3, VALUE y3)
 {
@@ -98,6 +103,9 @@ VALUE Triangle_setPoints(VALUE self, VALUE x1, VALUE y1, VALUE x2, VALUE y2,
    return Qnil;
 }
 
+/*
+  Returns the triangle's position.
+*/
 VALUE Triangle_getPoints(VALUE self)
 {
    Triangle &ref = getRef<Triangle>(self);
@@ -109,6 +117,12 @@ VALUE Triangle_getPoints(VALUE self)
 
    return hash;
 }
+
+/*
+  Document-class: Joyau::Triangle
+
+  Drawable used for triangles.
+*/
 
 void defineTriangle()
 {

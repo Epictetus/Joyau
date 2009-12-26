@@ -16,7 +16,21 @@
 
 #include "DrawableRect.hpp"
 
-template<> VALUE wrap<DrawableRect>(int argc, VALUE *argv, VALUE info)
+
+/*
+  Document-class: Joyau::DrawableRect
+
+  Drawable used when drawing rects.
+*/
+
+template<>
+/*
+  call-seq: new()
+            new(x, y [, w, h])
+
+  Creates a new DrawableRect.
+*/
+VALUE wrap<DrawableRect>(int argc, VALUE *argv, VALUE info)
 {
    DrawableRect *ptr = new DrawableRect;
 
@@ -81,6 +95,11 @@ void DrawableRect::draw()
       oslDrawRect(getX(), getY(), _x2, _y2, _col[0]);
 }
 
+/*
+  call-seq: resize(w, h)
+
+  Resizes the rect.
+*/
 VALUE DrawableRect_resize(VALUE self, VALUE w, VALUE h)
 {
    DrawableRect &ref = getRef<DrawableRect>(self);
@@ -91,6 +110,11 @@ VALUE DrawableRect_resize(VALUE self, VALUE w, VALUE h)
    return Qnil;
 }
 
+/*
+  call-seq: w=(width)
+
+  Sets the rect's width.
+*/
 VALUE DrawableRect_setW(VALUE self, VALUE w)
 {
    DrawableRect &ref = getRef<DrawableRect>(self);
@@ -99,6 +123,11 @@ VALUE DrawableRect_setW(VALUE self, VALUE w)
    return w;
 }
 
+/*
+  call-seq: h=(height)
+
+  Sets the rect's height.
+*/
 VALUE DrawableRect_setH(VALUE self, VALUE h)
 {
    DrawableRect &ref = getRef<DrawableRect>(self);
@@ -107,6 +136,11 @@ VALUE DrawableRect_setH(VALUE self, VALUE h)
    return h;
 }
 
+/*
+  call-seq: setCorner(x, y)
+
+  Sets the rect's corner.
+*/
 VALUE DrawableRect_setCorner(VALUE self, VALUE x, VALUE y)
 {
    DrawableRect &ref = getRef<DrawableRect>(self);
@@ -117,6 +151,11 @@ VALUE DrawableRect_setCorner(VALUE self, VALUE x, VALUE y)
    return Qnil;
 }
 
+/*
+  call-seq: corner=(point)
+
+  Sets the rect's corner.
+*/
 VALUE DrawableRect_cornerOp(VALUE self, VALUE p)
 {
    DrawableRect &ref = getRef<DrawableRect>(self);
@@ -126,6 +165,9 @@ VALUE DrawableRect_cornerOp(VALUE self, VALUE p)
    return p;
 }
 
+/*
+  Returns the rect's second corner.
+ */
 VALUE DrawableRect_getCorner(VALUE self)
 {
    DrawableRect &ref = getRef<DrawableRect>(self);

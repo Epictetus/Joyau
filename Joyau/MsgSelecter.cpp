@@ -17,7 +17,19 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "MsgSelecter.hpp"
 #include "Sprite.hpp"
 
+/*
+  Document-class: Joyau::HorizontalMsgSelecter
+  
+  This drawable allows to select between one or more messages, disposed
+  horizontally.
+*/
+
 template<>
+/*
+  call-seq: new()
+
+  Creates a new message selecter. 
+*/
 VALUE wrap<HorizontalMsgSelecter>(int argc, VALUE *argv, VALUE info)
 {
    HorizontalMsgSelecter *ptr = new HorizontalMsgSelecter;
@@ -28,6 +40,11 @@ VALUE wrap<HorizontalMsgSelecter>(int argc, VALUE *argv, VALUE info)
 }
 
 template<>
+/*
+  call-seq: new()
+
+  Creates a new message selecter. 
+*/
 VALUE wrap<VerticalMsgSelecter>(int argc, VALUE *argv, VALUE info)
 {
    VerticalMsgSelecter *ptr = new VerticalMsgSelecter;
@@ -37,12 +54,28 @@ VALUE wrap<VerticalMsgSelecter>(int argc, VALUE *argv, VALUE info)
    return tdata;
 }
 
+/*
+  Document-class: Joyau::MsgConfig
+
+  MsgConfig is used with MsgSelecter, which use them in order
+ */
+
+/*
+  Returns the image shown beside the text.
+*/
 VALUE MsgConfig_image(VALUE self)
 {
    MsgConfig &ref = getRef<MsgConfig>(self);
-   return ref.image->toRuby();
+   if (ref.image)
+      return ref.image->toRuby();
+   return Qnil;
 }
 
+/*
+  call-seq: image=(sprite)
+
+  Sets the sprite drawn beside the text.
+*/
 VALUE MsgConfig_setImage(VALUE self, VALUE val)
 {
    MsgConfig &ref = getRef<MsgConfig>(self);
@@ -51,12 +84,22 @@ VALUE MsgConfig_setImage(VALUE self, VALUE val)
    return val;
 }
 
+/*
+  Returns the message's background.
+*/
 VALUE MsgConfig_bg(VALUE self)
 {
    MsgConfig &ref = getRef<MsgConfig>(self);
-   return ref.bg->toRuby();
+   if (ref.bg)
+      return ref.bg->toRuby();
+   return Qnil;
 }
 
+/*
+  call-seq: bg=(val)
+
+  Sets the background's picture.
+*/
 VALUE MsgConfig_setBg(VALUE self, VALUE val)
 {
    MsgConfig &ref = getRef<MsgConfig>(self);
@@ -65,12 +108,20 @@ VALUE MsgConfig_setBg(VALUE self, VALUE val)
    return val;
 }
 
+/*
+  Returns the text's color.
+*/
 VALUE MsgConfig_textColor(VALUE self)
 {
-   MsgConfig &ref = getRef<MsgConfig>(self);
+xs   MsgConfig &ref = getRef<MsgConfig>(self);
    return col2hash(ref.textColor);
 }
 
+/*
+  call-seq: text=(val)
+
+  Sets the text's color.
+*/
 VALUE MsgConfig_setTextColor(VALUE self, VALUE val)
 {
    MsgConfig &ref = getRef<MsgConfig>(self);
@@ -79,12 +130,20 @@ VALUE MsgConfig_setTextColor(VALUE self, VALUE val)
    return val;
 }
 
+/*
+  Returns the title's color.
+*/
 VALUE MsgConfig_titleColor(VALUE self)
 {
    MsgConfig &ref = getRef<MsgConfig>(self);
    return col2hash(ref.titleColor);
 }
 
+/*
+  call-seq: titleColor=(val)
+
+  Sets the title's color.
+*/
 VALUE MsgConfig_setTitleColor(VALUE self, VALUE val)
 {
    MsgConfig &ref = getRef<MsgConfig>(self);
@@ -93,12 +152,20 @@ VALUE MsgConfig_setTitleColor(VALUE self, VALUE val)
    return val;
 }
 
+/*
+  Returns the background's color.
+*/
 VALUE MsgConfig_bgColor(VALUE self)
 {
    MsgConfig &ref = getRef<MsgConfig>(self);
    return col2hash(ref.bgColor);
 }
 
+/*
+  call-seq: bgColor=(val)
+
+  Sets the background's color.
+*/
 VALUE MsgConfig_setBgColor(VALUE self, VALUE val)
 {
    MsgConfig &ref = getRef<MsgConfig>(self);
@@ -107,12 +174,20 @@ VALUE MsgConfig_setBgColor(VALUE self, VALUE val)
    return val;
 }
 
+/*
+  Returns the border's color.
+*/
 VALUE MsgConfig_borderColor(VALUE self)
 {
    MsgConfig &ref = getRef<MsgConfig>(self);
    return col2hash(ref.borderColor);
 }
 
+/*
+  call-seq: borderColor=(val)
+
+  Sets the border's color.
+*/
 VALUE MsgConfig_setBorderColor(VALUE self, VALUE val)
 {
    MsgConfig &ref = getRef<MsgConfig>(self);
@@ -121,12 +196,20 @@ VALUE MsgConfig_setBorderColor(VALUE self, VALUE val)
    return val;
 }
 
+/*
+  Returns the text's font.
+*/
 VALUE MsgConfig_textFont(VALUE self)
 {
    MsgConfig &ref = getRef<MsgConfig>(self);
    return rb_str_new2(ref.textFont.c_str());
 }
 
+/*
+  call-seq: textFont=(val)
+
+  Sets the text's font.
+*/
 VALUE MsgConfig_setTextFont(VALUE self, VALUE val)
 {
    MsgConfig &ref = getRef<MsgConfig>(self);
@@ -135,12 +218,20 @@ VALUE MsgConfig_setTextFont(VALUE self, VALUE val)
    return val;
 }
 
+/*
+  Returns the title's font.
+*/
 VALUE MsgConfig_titleFont(VALUE self)
 {
    MsgConfig &ref = getRef<MsgConfig>(self);
    return rb_str_new2(ref.titleFont.c_str());
 }
 
+/*
+  call-seq: titleFont=(val)
+
+  Sets the title's font.
+*/
 VALUE MsgConfig_setTitleFont(VALUE self, VALUE val)
 {
    MsgConfig &ref = getRef<MsgConfig>(self);
@@ -149,6 +240,9 @@ VALUE MsgConfig_setTitleFont(VALUE self, VALUE val)
    return val;
 }
 
+/*
+  Returns the title's position
+*/
 VALUE MsgConfig_titlePos(VALUE self)
 {
    MsgConfig &ref = getRef<MsgConfig>(self);
@@ -157,6 +251,11 @@ VALUE MsgConfig_titlePos(VALUE self)
    return createObject(getClass("Point"), p);
 }
 
+/*
+  call-seq: titlePos=(val)
+
+  Sets the title's position.
+*/
 VALUE MsgConfig_setTitlePos(VALUE self, VALUE val)
 {
    MsgConfig &ref = getRef<MsgConfig>(self);
@@ -202,4 +301,3 @@ void defineMsgSelecter()
    defineMsgSelecterKlass<VerticalMsgSelecter>("VerticalMsgSelecter");
    defineMsgSelecterKlass<HorizontalMsgSelecter>("HorizontalMsgSelecter");
 }
-

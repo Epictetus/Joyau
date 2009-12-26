@@ -17,7 +17,24 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "RubyDrawable.hpp"
 #include "Buffer.hpp"
 
-template<> VALUE wrap<Rect>(int argc, VALUE *argv, VALUE info)
+/*
+  Document-class: Joyau::Rect
+
+  Rects are used in order to represent simple rectangle. They're not here
+  to be drawn, but rather to be used in a basic collision system.
+
+  For instance, you can get one from Joyau::Drawable#boundingRect.
+*/
+
+template<>
+/*
+  call-seq: Joyau::Rect.new
+            Joyau::Rect.new(x, y)
+            Joyau::Rect.new(x, y, w, h)
+
+  Creates a new Rect.
+*/
+VALUE wrap<Rect>(int argc, VALUE *argv, VALUE info)
 {
    Rect *ptr = new Rect;
    if (argc >= 2)
@@ -35,7 +52,21 @@ template<> VALUE wrap<Rect>(int argc, VALUE *argv, VALUE info)
    return tdata;
 }
 
-template<> VALUE wrap<Point>(int argc, VALUE *argv, VALUE info)
+
+/*
+  Document-class: Point
+
+  Represents a point. Can be used to get an object's position, or to set it.
+*/
+
+template<> // I don't like this syntax, yet I didn't find anything else for rdoc.
+/*
+  call-seq: Joyau::Point.new
+            Joyau::Point.new(x, y)
+
+  Creates a new Point.
+*/
+VALUE wrap<Point>(int argc, VALUE *argv, VALUE info)
 {
    Point *ptr = new Point;
    if (argc >= 2)
@@ -47,6 +78,13 @@ template<> VALUE wrap<Point>(int argc, VALUE *argv, VALUE info)
    VALUE tdata = Data_Wrap_Struct(info, 0, wrapped_free<Point>, ptr);
    return tdata;
 }
+
+/*
+  Document-class: Drawable
+
+  Classe from which almost anything that can be drawn on the screen inherits.
+  Instanciating a Drawable directly makes no sens though.
+*/
 
 Point Point::operator+(const Point &op) const
 {
@@ -191,18 +229,29 @@ void Drawable::cancelMove()
    move(-movedX, -movedY);
 }
 
+/*
+  Returns a point's abscissa.
+*/
 VALUE Point_getX(VALUE self)
 {
    Point &ref = getRef<Point>(self);
    return INT2FIX(ref.x);
 }
 
+/*
+  Returns a point's ordinate.
+*/
 VALUE Point_getY(VALUE self)
 {
    Point &ref = getRef<Point>(self);
    return INT2FIX(ref.y);
 }
 
+/*
+  call-seq: x=(x)
+
+  Sets a point's abscissa.
+*/
 VALUE Point_setX(VALUE self, VALUE val)
 {
    Point &ref = getRef<Point>(self);
@@ -212,6 +261,11 @@ VALUE Point_setX(VALUE self, VALUE val)
    return val;
 }
 
+/*
+  call-seq: y=(y)
+
+  Sets a point's ordinate.
+*/
 VALUE Point_setY(VALUE self, VALUE val)
 {
    Point &ref = getRef<Point>(self);
@@ -221,18 +275,32 @@ VALUE Point_setY(VALUE self, VALUE val)
    return val;
 }
 
+/*
+  Returns the difference between the actual abscissa, and the one when
+  clearMove was called.
+*/
 VALUE Drawable_movedX(VALUE self)
 {
    Drawable &ref = getRef<Drawable>(self);
    return INT2FIX(ref.getMovedX());
 }
 
+/*
+  Returns the difference between the actual ordinate, and the one when
+  clearMove was called.
+*/
 VALUE Drawable_movedY(VALUE self)
 {
    Drawable &ref = getRef<Drawable>(self);
    return INT2FIX(ref.getMovedY());
 }
 
+/*
+  call-seq: point1 + point2
+
+  Creates a new point, adding their abscissas and ordinates.
+    Joyau::Point.new(3, 4) + Joyau::Point.new(5, 6) # => Joyau::Point(8, 10)
+*/
 VALUE Point_add(VALUE self, VALUE op)
 {
    Point &first = getRef<Point>(self);
@@ -242,6 +310,12 @@ VALUE Point_add(VALUE self, VALUE op)
    return createObject(getClass("Point"), ret);
 }
 
+/*
+  call-seq: point1 == point2
+
+  Returns whether two points represents the same one (i.e. they have the same
+  coordinates).
+*/
 VALUE Point_eq(VALUE self, VALUE op)
 {
    Point &first = getRef<Point>(self);
@@ -250,6 +324,12 @@ VALUE Point_eq(VALUE self, VALUE op)
    return first == second ? Qtrue : Qfalse;
 }
 
+/*
+  call-seq: point1 - point2
+
+  Creates a new point, substracting their abscissas and ordinates.
+    Joyau::Point.new(3, 4) - Joyau::Point.new(5, 6) # => Joyau::Point(-2, -2)
+*/
 VALUE Point_sub(VALUE self, VALUE op)
 {
    Point &first = getRef<Point>(self);
@@ -259,30 +339,47 @@ VALUE Point_sub(VALUE self, VALUE op)
    return createObject(getClass("Point"), ret);
 }
 
+/*
+  Returns a rect's abscissa.
+*/
 VALUE Rect_getX(VALUE self)
 {
    Rect &ref = getRef<Rect>(self);
    return INT2FIX(ref.x);
 }
 
+/*
+  Returns a rect's ordinate.
+*/
 VALUE Rect_getY(VALUE self)
 {
    Rect &ref = getRef<Rect>(self);
    return INT2FIX(ref.y);
 }
 
+/*
+  Returns a rect's width.
+*/
 VALUE Rect_getW(VALUE self)
 {
    Rect &ref = getRef<Rect>(self);
    return INT2FIX(ref.w);
 }
 
+/*
+  Returns a rect's height.
+*/
 VALUE Rect_getH(VALUE self)
 {
    Rect &ref = getRef<Rect>(self);
    return INT2FIX(ref.h);
 }
 
+/*
+  call-seq: x=(val)
+
+  Sets a rect's abscissa.
+*/
 VALUE Rect_setX(VALUE self, VALUE val)
 {
    Rect &ref = getRef<Rect>(self);
@@ -292,7 +389,11 @@ VALUE Rect_setX(VALUE self, VALUE val)
    return val;
 }
 
+/*
+  call-seq: y=(val)
 
+  Sets a rect's ordinate.
+*/
 VALUE Rect_setY(VALUE self, VALUE val)
 {
    Rect &ref = getRef<Rect>(self);
@@ -302,6 +403,11 @@ VALUE Rect_setY(VALUE self, VALUE val)
    return val;
 }
 
+/*
+  call-seq: w=(val)
+
+  Sets a rect's width.
+*/
 VALUE Rect_setW(VALUE self, VALUE val)
 {
    Rect &ref = getRef<Rect>(self);
@@ -311,6 +417,11 @@ VALUE Rect_setW(VALUE self, VALUE val)
    return val;
 }
 
+/*
+  call-seq: h=(val)
+
+  Sets a rect's height.
+*/
 VALUE Rect_setH(VALUE self, VALUE val)
 {
    Rect &ref = getRef<Rect>(self);
@@ -320,6 +431,9 @@ VALUE Rect_setH(VALUE self, VALUE val)
    return val;
 }
 
+/*
+  Returns a Drawable's bounding rect.
+*/
 VALUE Drawable_boundingRect(VALUE self)
 {
    Drawable &ref = getRef<Drawable>(self);
@@ -328,6 +442,12 @@ VALUE Drawable_boundingRect(VALUE self)
    return createObject(getClass("Rect"), rect);
 }
 
+/*
+  call-seq: collide(item)
+            collide?(item)
+
+  Returns whether two items collide.
+*/
 VALUE Drawable_collide(VALUE self, VALUE item)
 {
    Drawable &ref = getRef<Drawable>(self);
@@ -337,6 +457,12 @@ VALUE Drawable_collide(VALUE self, VALUE item)
    return Qfalse;
 }
 
+/*
+  call-seq: isOn(x, y)
+            is_on?(x, y)
+
+  Returns whether a point is on the drawable.
+*/
 VALUE Drawable_isOn(VALUE self, VALUE x, VALUE y)
 {
    Drawable &ref = getRef<Drawable>(self);
@@ -348,18 +474,29 @@ VALUE Drawable_isOn(VALUE self, VALUE x, VALUE y)
    return Qfalse;
 }
 
+/*
+  Returns a drawable's abscissa.
+*/
 VALUE Drawable_getX(VALUE self)
 {
    Drawable &ref = getRef<Drawable>(self);
    return INT2FIX(ref.getX());
 }
 
+/*
+  Returns a drawable's ordinate.
+*/
 VALUE Drawable_getY(VALUE self)
 {
    Drawable &ref = getRef<Drawable>(self);
    return INT2FIX(ref.getY());
 }
 
+/*
+  call-seq: x=(x)
+
+  Sets the drawable's abscissa.
+*/
 VALUE Drawable_setX(VALUE self, VALUE x)
 {
    Drawable &ref = getRef<Drawable>(self);
@@ -368,6 +505,11 @@ VALUE Drawable_setX(VALUE self, VALUE x)
    return x;
 }
 
+/*
+  call-seq: y=(y)
+
+  Sets the drawable's ordinate.
+*/
 VALUE Drawable_setY(VALUE self, VALUE y)
 {
    Drawable &ref = getRef<Drawable>(self);
@@ -376,18 +518,29 @@ VALUE Drawable_setY(VALUE self, VALUE y)
    return y;
 }
 
+/*
+  Returns a drawable's width.
+*/
 VALUE Drawable_getW(VALUE self)
 {
    Drawable &ref = getRef<Drawable>(self);
    return INT2FIX(ref.getW());
 }
 
+/*
+  Returns a drawable's height.
+*/
 VALUE Drawable_getH(VALUE self)
 {
    Drawable &ref = getRef<Drawable>(self);
    return INT2FIX(ref.getH());
 }
 
+/*
+  call-seq: setPos(x, y)
+
+  Sets a drawable's position.
+*/
 VALUE Drawable_setPos(VALUE self, VALUE x, VALUE y)
 {
    Drawable &ref = getRef<Drawable>(self);
@@ -398,6 +551,11 @@ VALUE Drawable_setPos(VALUE self, VALUE x, VALUE y)
    return Qnil;
 }
 
+/*
+  call-seq: pos=(p)
+
+  Sets a drawable's position.
+*/
 VALUE Drawable_setPoint(VALUE self, VALUE p)
 {
    Drawable &ref = getRef<Drawable>(self);
@@ -407,6 +565,11 @@ VALUE Drawable_setPoint(VALUE self, VALUE p)
    return p;
 }
 
+/*
+  call-seq: move(x, y)
+
+  Moves a drawable.
+*/
 VALUE Drawable_move(VALUE self, VALUE x, VALUE y)
 {
    Drawable &ref = getRef<Drawable>(self);
@@ -417,6 +580,10 @@ VALUE Drawable_move(VALUE self, VALUE x, VALUE y)
    return Qnil;
 }
 
+/*
+  Cancels all the moves done since the last call to clear move.
+  May be called once a collision occur.
+*/
 VALUE Drawable_cancelMove(VALUE self)
 {
    Drawable &ref = getRef<Drawable>(self);
@@ -425,6 +592,10 @@ VALUE Drawable_cancelMove(VALUE self)
    return Qnil;
 }
 
+/*
+  Clears all the moves done since the last call to this function. They can no
+  longer be cancelled.
+*/
 VALUE Drawable_clearMove(VALUE self)
 {
    Drawable &ref = getRef<Drawable>(self);
@@ -433,15 +604,21 @@ VALUE Drawable_clearMove(VALUE self)
    return Qnil;
 }
 
+/*
+  Draws the drawable, and clear its moves.
+*/
 VALUE Drawable_draw(VALUE self)
 {
    Drawable &ref = getRef<Drawable>(self);
-   ref.clearMove(); // So, we don't have to change each draw methods
+   ref.clearMove(); // So, we don't have to change the draw methods
    ref.draw();
    
    return Qnil;
 }
 
+/*
+  Converts the drawable in a Buffer.
+*/
 VALUE Drawable_to_buf(VALUE self) {
    RubyDrawable drawable(self);
    return Data_Wrap_Struct(getClass("Buffer"), 0, wrapped_free<Buffer>,
@@ -510,6 +687,6 @@ void defineDrawable()
    defAlias(cDrawable, "boundingRect", "bounding_rect");
    defAlias(cDrawable, "movedX", "moved_x");
    defAlias(cDrawable, "movedY", "moved_y");
-   defAlias(cDrawable, "cancelMove", "cancel_mvoe");
+   defAlias(cDrawable, "cancelMove", "cancel_move");
    defAlias(cDrawable, "clearMove", "clear_move");
 }

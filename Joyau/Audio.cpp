@@ -136,7 +136,38 @@ void AudioObject::stopSource()
    alSourceStop(source);
 }
 
-template<> VALUE wrap<Sound>(int argc, VALUE *argv, VALUE info)
+/*
+  Document-class: Joyau::AudioObject
+
+  This class is not here to be instancied, but rather for generic method
+  used on +Sound+ as well as on +Stream+.
+*/
+
+/*
+  Document-class: Joyau::Listener
+
+  This is only used when setting the listner's position, just like you can set
+  the others objects position.
+*/
+
+/*
+  Document-class: Joyau::Sound
+
+  Joyau's class used for short sounds. It allows to load WAV files,
+  and to play them at each call of play.
+*/
+
+template<>
+/*
+  call-seq: Joyau::Sound.new
+            Joyau::Sound.new(filename)
+
+    Creates a new Sound. If a filename is given, it is loaded.
+    Examples :
+      sound = Joyau::Sound.new
+      sound = Joyau::Sound.new("music.wav")
+*/
+VALUE wrap<Sound>(int argc, VALUE *argv, VALUE info)
 {
    Sound *ptr = new Sound;
    if (argc >= 1) {
@@ -151,7 +182,29 @@ template<> VALUE wrap<Sound>(int argc, VALUE *argv, VALUE info)
    return tdata;
 }
 
-template<> VALUE wrap<Stream>(int argc, VALUE *argv, VALUE info)
+/*
+  Document-class: Joyau::Stream
+
+  Joyau's class used for rather long music. It loads an OGG file, and plays it
+  as a stream.
+
+  Its play method has to be called as often as possible, just like update.
+  These methods return true while the stream is playing, so:
+    while stream.update and stream.play
+  Will loop while there is something to play.
+*/
+
+template<>
+/*
+  call-seq: Joyau::Stream.new
+            Joyau::Stream.new(filename)
+
+    Creates a new Stream. If a filename is given, it is loaded.
+    Examples :
+      stream = Joyau::Stream.new
+      stream = Joyau::Stream.new("music.ogg")
+*/
+VALUE wrap<Stream>(int argc, VALUE *argv, VALUE info)
 {
    Stream *ptr = new Stream;
    if (argc >= 1) {
@@ -167,7 +220,24 @@ template<> VALUE wrap<Stream>(int argc, VALUE *argv, VALUE info)
    return tdata;
 }
 
-template<> VALUE wrap<Vector3f>(int argc, VALUE *argv, VALUE info)
+/*
+  Document-class: Joyau::Vector3f
+
+  audio objects and listeners are somewhere in the world. This class is mainly
+  used for their positions.
+*/
+
+template<>
+/*
+  call-seq: Joyau::Vector3f.new
+            Joyau::Vector3f.new(x, y, z)
+
+    Creates a new Vector3f. Its position can be set too.
+    Examples :
+      vector = Joyau::Vector3f.new
+      vector = Joyau::Vector3f.new(10, 15, 5)
+*/
+VALUE wrap<Vector3f>(int argc, VALUE *argv, VALUE info)
 {
    Vector3f *ptr = new Vector3f;
    if (argc >= 3)
@@ -375,18 +445,37 @@ void stopOpenAL()
    alutExit();
 }
 
+/*
+  call-seq: initAudio
+
+  Inits the audio module from Joyau, which allows to use classes like
+  +Joyau::Stream+ and +Joyau::Audio+.
+
+  See +Joyau::stopAudio+ in order to stop it.
+*/
 VALUE Audio_init(VALUE self)
 {
    initOpenAl();
    return Qnil;
 }
 
+/*
+  call-seq: stopAudio
+
+  Stops the audio module from Joyau. Should be called at the end of 
+  your program if you use it.
+*/
 VALUE Audio_stop(VALUE self)
 {
    stopOpenAL();
    return Qnil;
 }
 
+/*
+  call-seq: x=(value)
+
+  Sets a vector's x value to a new value.
+*/
 VALUE Vector3f_setX(VALUE self, VALUE val)
 {
    Vector3f &ref = getRef<Vector3f>(self);
@@ -395,6 +484,11 @@ VALUE Vector3f_setX(VALUE self, VALUE val)
    return val;
 }
 
+/*
+  call-seq: y=(value)
+
+  Sets a vector's y value to a new value.
+*/
 VALUE Vector3f_setY(VALUE self, VALUE val)
 {
    Vector3f &ref = getRef<Vector3f>(self);
@@ -403,6 +497,11 @@ VALUE Vector3f_setY(VALUE self, VALUE val)
    return val;
 }
 
+/*
+  call-seq: z=(value)
+
+  Sets a vector's z value to a new value.
+*/
 VALUE Vector3f_setZ(VALUE self, VALUE val)
 {
    Vector3f &ref = getRef<Vector3f>(self);
@@ -411,24 +510,39 @@ VALUE Vector3f_setZ(VALUE self, VALUE val)
    return val;
 }
 
+/*
+  Returns a vector's x value.
+*/
 VALUE Vector3f_x(VALUE self)
 {
    Vector3f &ref = getRef<Vector3f>(self);
    return rb_float_new(ref.x);
 }
 
+/*
+  Returns a vector's y value.
+*/
 VALUE Vector3f_y(VALUE self)
 {
    Vector3f &ref = getRef<Vector3f>(self);
    return rb_float_new(ref.y);
 }
 
+/*
+  Returns a vector's z value.
+*/
 VALUE Vector3f_z(VALUE self)
 {
    Vector3f &ref = getRef<Vector3f>(self);
    return rb_float_new(ref.z);
 }
 
+/*
+  call-seq: vector + vector2
+
+  Returns a new vector:
+    Vector3f.new(10, 15, 5) + Vector3f.new(15, 30, 2.5) #=> Vector3f(25, 45, 7.5)
+*/
 VALUE Vector3f_add(VALUE self, VALUE op)
 {
    Vector3f &first = getRef<Vector3f>(self);
@@ -438,6 +552,12 @@ VALUE Vector3f_add(VALUE self, VALUE op)
    return createObject(getClass("Vector3f"), ret);
 }
 
+/*
+  call-seq: vector - vector2
+
+  Returns a new vector:
+    Vector3f.new(10, 15, 5) - Vector3f.new(15, 30, 2.5) #=>Vector3f(-5, -15, 2.5)
+*/
 VALUE Vector3f_sub(VALUE self, VALUE op)
 {
    Vector3f &first = getRef<Vector3f>(self);
@@ -447,6 +567,11 @@ VALUE Vector3f_sub(VALUE self, VALUE op)
    return createObject(getClass("Vector3f"), ret);
 }
 
+/*
+  call-seq: vector == vector2
+
+  Returns true when the vectors have the same x, y, and z values.
+*/
 VALUE Vector3f_eq(VALUE self, VALUE op)
 {
    Vector3f &first = getRef<Vector3f>(self);
@@ -455,6 +580,11 @@ VALUE Vector3f_eq(VALUE self, VALUE op)
    return first == second ? Qtrue : Qfalse;
 }
 
+/*
+  call-seq: setPos(x, y, z)
+
+  Sets an audio object's position.
+*/
 VALUE AudioObject_setPos(VALUE self, VALUE x, VALUE y, VALUE z)
 {
    AudioObject &ref = getRef<AudioObject>(self);
@@ -467,6 +597,11 @@ VALUE AudioObject_setPos(VALUE self, VALUE x, VALUE y, VALUE z)
    return Qnil;
 }
 
+/*
+  call-seq: setVelocity(x, y, z)
+
+  Sets an audio object's velocity.
+*/
 VALUE AudioObject_setVelocity(VALUE self, VALUE x, VALUE y, VALUE z)
 {
    AudioObject &ref = getRef<AudioObject>(self);
@@ -479,6 +614,12 @@ VALUE AudioObject_setVelocity(VALUE self, VALUE x, VALUE y, VALUE z)
    return Qnil;
 }
 
+/*
+  call-seq:
+    object.setDirection(x, y, z) -> nil
+
+  Sets an audio object's direction.
+*/
 VALUE AudioObject_setDirection(VALUE self, VALUE x, VALUE y, VALUE z)
 {
    AudioObject &ref = getRef<AudioObject>(self);
@@ -491,6 +632,12 @@ VALUE AudioObject_setDirection(VALUE self, VALUE x, VALUE y, VALUE z)
    return Qnil;
 }
 
+/*
+  call-seq:
+    object.direction=(vector) -> Vector3f
+
+  Sets an audio object's position.
+*/
 VALUE AudioObject_setPosVector(VALUE self, VALUE val)
 {
    AudioObject &ref = getRef<AudioObject>(self);
@@ -500,6 +647,11 @@ VALUE AudioObject_setPosVector(VALUE self, VALUE val)
    return val;
 }
 
+/*
+  call-seq: velocity=(vector)
+
+  Sets an audio object's velocity.
+*/
 VALUE AudioObject_setVelocityVector(VALUE self, VALUE val)
 {
    AudioObject &ref = getRef<AudioObject>(self);
@@ -509,6 +661,11 @@ VALUE AudioObject_setVelocityVector(VALUE self, VALUE val)
    return val;
 }
 
+/*
+  call-seq: direction=(vector)
+
+  Sets an audio object's direction.
+*/
 VALUE AudioObject_setDirectionVector(VALUE self, VALUE val)
 {
    AudioObject &ref = getRef<AudioObject>(self);
@@ -518,6 +675,11 @@ VALUE AudioObject_setDirectionVector(VALUE self, VALUE val)
    return val;
 }
 
+/*
+  call-seq: object.playing?
+
+  Returns whether the object is playing.
+*/
 VALUE AudioObject_playing(VALUE self)
 {
    AudioObject &ref = getRef<AudioObject>(self);
@@ -526,6 +688,12 @@ VALUE AudioObject_playing(VALUE self)
    return Qfalse;
 }
 
+/*
+  call-seq: loadWav(file_name)
+
+  Loads a new WAV file.
+  Raises a +RuntimeError+ if something wrong occurs.
+*/
 VALUE Sound_loadWav(VALUE self, VALUE filename)
 {
    Sound &ref = getRef<Sound>(self);
@@ -536,10 +704,14 @@ VALUE Sound_loadWav(VALUE self, VALUE filename)
    }
    catch (const RubyException &e) {
       e.rbRaise();
+      return Qfalse;
    }
    return Qtrue;
 }
 
+/*
+  Plays a sound. Call it whenever you want it to be played.
+*/
 VALUE Sound_play(VALUE self)
 {
    Sound &ref = getRef<Sound>(self);
@@ -547,6 +719,9 @@ VALUE Sound_play(VALUE self)
    return Qnil;
 }
 
+/*
+  Pauses a sound.
+*/
 VALUE Sound_pause(VALUE self)
 {
    Sound &ref = getRef<Sound>(self);
@@ -555,6 +730,9 @@ VALUE Sound_pause(VALUE self)
    return Qnil;
 }
 
+/*
+  Stops a sound.
+*/
 VALUE Sound_stop(VALUE self)
 {
    Sound &ref = getRef<Sound>(self);
@@ -563,6 +741,12 @@ VALUE Sound_stop(VALUE self)
    return Qnil;
 }
 
+/*
+  call-seq: stream.loadOgg(filename)
+
+  Loads a stream.
+  Raises a +RuntimeError+ when something wrong occurs.
+*/
 VALUE Stream_loadOgg(VALUE self, VALUE filename)
 {
    Stream &ref = getRef<Stream>(self);
@@ -573,10 +757,16 @@ VALUE Stream_loadOgg(VALUE self, VALUE filename)
    }
    catch (const RubyException &e) {
       e.rbRaise();
+      return Qfalse;
    }
    return Qtrue;
 }
 
+/*
+  call-seq: stream.play -> true or false
+
+  Plays a stream. Call it as often as possible (i.e. one time per loop).
+*/
 VALUE Stream_play(VALUE self)
 {
    Stream &ref = getRef<Stream>(self);
@@ -585,6 +775,9 @@ VALUE Stream_play(VALUE self)
    return Qfalse;
 }
 
+/*
+  Pauses a stream.
+*/
 VALUE Stream_pause(VALUE self)
 {
    Stream &ref = getRef<Stream>(self);
@@ -593,6 +786,9 @@ VALUE Stream_pause(VALUE self)
    return Qnil;
 }
 
+/*
+  Stops a stream.
+*/
 VALUE Stream_stop(VALUE self)
 {
    Stream &ref = getRef<Stream>(self);
@@ -601,6 +797,11 @@ VALUE Stream_stop(VALUE self)
    return Qnil;
 }
 
+/*
+  call-seq: update -> true or false
+
+  Call it one time per stream.play, just before it.
+*/
 VALUE Stream_update(VALUE self)
 {
    Stream &ref = getRef<Stream>(self);
@@ -609,6 +810,11 @@ VALUE Stream_update(VALUE self)
    return Qfalse;
 }
 
+/*
+  call-seq: setPos(x, y, z)
+
+  Sets the audio listener's position.
+*/
 VALUE Listener_setPos(VALUE self, VALUE x, VALUE y, VALUE z)
 {
    double _x = NUM2DBL(x);
@@ -619,6 +825,11 @@ VALUE Listener_setPos(VALUE self, VALUE x, VALUE y, VALUE z)
    return Qnil;
 }
 
+/*
+  call-seq: setVelocity(x, y, z)
+
+  Sets the audio listener's velocity.
+*/
 VALUE Listener_setVelocity(VALUE self, VALUE x, VALUE y, VALUE z)
 {
    double _x = NUM2DBL(x);
@@ -629,6 +840,11 @@ VALUE Listener_setVelocity(VALUE self, VALUE x, VALUE y, VALUE z)
    return Qnil;
 }
 
+/*
+  call-seq: setDirection(x, y, z)
+
+  Sets the audio listener's direction.
+*/
 VALUE Listener_setDirection(VALUE self, VALUE x, VALUE y, VALUE z)
 {
    double _x = NUM2DBL(x);
@@ -639,6 +855,11 @@ VALUE Listener_setDirection(VALUE self, VALUE x, VALUE y, VALUE z)
    return Qnil;
 }
 
+/*
+  call-seq: setOrientation(atX, atY, at2, upX, upY, upZ) 
+
+  Sets the audio listener's orientation.
+*/
 VALUE Listener_setOrientation(VALUE self, VALUE atX, VALUE atY, VALUE atZ,
                               VALUE upX, VALUE upY, VALUE upZ)
 {
@@ -655,6 +876,12 @@ VALUE Listener_setOrientation(VALUE self, VALUE atX, VALUE atY, VALUE atZ,
    return Qnil;
 }
 
+/*
+  call-seq:
+    Joyau::Listener.pos=(vector) -> Vector3f
+
+  Sets the audio listener's position.
+*/
 VALUE Listener_posOp(VALUE self, VALUE val)
 {
    Vector3f &ref = getRef<Vector3f>(val);
@@ -663,6 +890,12 @@ VALUE Listener_posOp(VALUE self, VALUE val)
    return val;
 }
 
+/*
+  call-seq:
+    Joyau::Listener.velocity=(vector) -> Vector3f
+
+  Sets the audio listener's velocity.
+*/
 VALUE Listener_velocityOp(VALUE self, VALUE val)
 {
    Vector3f &ref = getRef<Vector3f>(val);
@@ -671,6 +904,11 @@ VALUE Listener_velocityOp(VALUE self, VALUE val)
    return val;
 }
 
+/*
+  call-seq: direction=(vector)
+
+  Sets the audio listener's direction.
+*/
 VALUE Listener_directionOp(VALUE self, VALUE val)
 {
    Vector3f &ref = getRef<Vector3f>(val);
@@ -735,3 +973,5 @@ void defineAudio()
    defModFunc(joyau, "initAudio", Audio_init, 0);
    defModFunc(joyau, "stopAudio", Audio_stop, 0);
 }
+
+/* */

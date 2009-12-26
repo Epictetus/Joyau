@@ -102,6 +102,17 @@ void Line::draw()
 			_col[0], _col[1]);
 }
 
+/*
+  Document-class: Joyau::Line
+
+  Class used in order to draw lines.
+*/
+
+/*
+  call-seq: setPoint(x, y)
+
+  Sets the line's second point (the first one is set with Drawable#setPos).
+*/
 VALUE Line_setPoint(VALUE self, VALUE x, VALUE y)
 {
    Line &ref = getRef<Line>(self);
@@ -112,6 +123,11 @@ VALUE Line_setPoint(VALUE self, VALUE x, VALUE y)
    return Qnil;
 }
 
+/*
+  call-seq: point=(p)
+
+  Sets the line's second point (the first one is set with Drawable#setPos).
+*/
 VALUE Line_setPointPoint(VALUE self, VALUE p)
  {
    Line &ref = getRef<Line>(self);
@@ -121,6 +137,9 @@ VALUE Line_setPointPoint(VALUE self, VALUE p)
    return p;
 }
 
+/*
+  Returns the line's second point.
+*/
 VALUE Line_getPoint(VALUE self)
 {
    Line &ref = getRef<Line>(self);

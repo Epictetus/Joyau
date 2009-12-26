@@ -16,6 +16,13 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include "Timer.hpp"
 
+/*
+  Document-class: Joyau::Timer
+
+  This class allows to count the ellapsed seconds between two moments.
+  You can pause that timer, but notice that, since it is based on timestamps,
+  it's still running while the PSP is not.
+*/
 Timer::Timer()
 {
    reset();
@@ -57,6 +64,9 @@ void Timer::resume()
    paused = false;
 }
 
+/*
+  Restarts the timer from zero.
+*/
 VALUE Timer_reset(VALUE self)
 {
    Timer &ref = getRef<Timer>(self);
@@ -65,14 +75,20 @@ VALUE Timer_reset(VALUE self)
    return Qnil;
 }
 
+/*
+  Returns the ellapsed time since the timer's creation.
+*/
 VALUE Timer_getTime(VALUE self)
 {
    Timer &ref = getRef<Timer>(self);
-   int ret = static_cast<int>(ref.getTime());
+   int ret = ref.getTime();
 
    return INT2FIX(ret);
 }
 
+/*
+  Pauses the timer.
+*/
 VALUE Timer_pause(VALUE self)
 {
    Timer &ref = getRef<Timer>(self);
@@ -81,6 +97,9 @@ VALUE Timer_pause(VALUE self)
    return Qnil;
 }
 
+/*
+  Resumes the timer.
+*/
 VALUE Timer_resume(VALUE self)
 {
    Timer &ref = getRef<Timer>(self);
@@ -89,6 +108,9 @@ VALUE Timer_resume(VALUE self)
    return Qnil;
 }
 
+/*
+  Returns whether the timer is paused.
+*/
 VALUE Timer_paused(VALUE self)
 {
    Timer &ref = getRef<Timer>(self);
@@ -105,4 +127,5 @@ void defineTimer()
    defMethod(cTimer, "paused", Timer_paused, 0);
 
    defAlias(cTimer, "getTime", "time");
+   defAlias(cTimer, "paused", "paused?");
 }

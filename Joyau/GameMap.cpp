@@ -18,7 +18,21 @@
 #include "DrawableRect.hpp"
 #include "Line.hpp"
 
-template<> VALUE wrap<CollisionType>(int argc, VALUE *argv, VALUE info)
+/*
+  Document-class: Joyau::CollisionType
+
+  Allows to tell where collisions should be checked for an object (e.g. tiles).
+*/
+
+template<> 
+/*
+  call-seq: new()
+            new(content [, left, right, up, down])
+
+  Creates a new collision type. The arguments are either true or false,
+  indicating where the collision should be checked.
+*/
+VALUE wrap<CollisionType>(int argc, VALUE *argv, VALUE info)
 {
    CollisionType *ptr = new CollisionType;
    if (argc >= 1)
@@ -37,7 +51,25 @@ template<> VALUE wrap<CollisionType>(int argc, VALUE *argv, VALUE info)
    return tdata;
 }
 
-template<> VALUE wrap<GameMap>(int argc, VALUE *argv, VALUE info)
+/* 
+   Document-class: Joyau::GameMap
+
+   This class allows to draw a map, created from some tilesets, and to check
+   collisions between an object and these tiles.
+
+   A tileset is a picture, from which tiles are taken.
+*/
+
+template<>
+/*
+  call-seq: new
+            new(tilesets)
+	    new(tile, tile2, tile3, tileset, ...)
+
+  Creates a new map, either from an array containing tilesets' name,
+  or from arguments being either a tileset's name or tiles.
+*/
+VALUE wrap<GameMap>(int argc, VALUE *argv, VALUE info)
 {
    GameMap *ptr = new GameMap;
    if (argc >= 1)
@@ -57,12 +89,27 @@ template<> VALUE wrap<GameMap>(int argc, VALUE *argv, VALUE info)
 	    ptr->addTileset(StringValuePtr(argv[i]));
       }
    }
-
+   
    VALUE tdata = Data_Wrap_Struct(info, 0, wrapped_free<GameMap>, ptr);
    return tdata;
 }
 
-template<> VALUE wrap<GameMap::Tile>(int argc, VALUE *argv, VALUE info)
+/*
+  Document-class: Joyau::Tile
+
+  This class is mainly used in GameMap, where it is a part of a tileset,
+  drawn on the screen.
+*/
+
+template<>
+/*
+  call-seq: new
+            new(tileset_id, tile_x, tile_y, x, y [, colllision_type])
+
+  Creates a new Tile. (tile_x;tile_y) is the position on the tileset, while
+  (x;y) is the position on the map.
+*/
+VALUE wrap<GameMap::Tile>(int argc, VALUE *argv, VALUE info)
 {
    GameMap::Tile *ptr = new GameMap::Tile;
    
@@ -334,6 +381,12 @@ void GameMap::addBetween(Drawable *obj) {
    std::sort(tiles.begin(), tiles.end(), SortTile());
 }
 
+/*
+  call-seq: addTileset(tileset)
+            add_tileset(tileset)
+
+  Adds a tileset to the map.
+*/
 VALUE GameMap_addTileset(VALUE self, VALUE name)
 {
    GameMap &ref = getRef<GameMap>(self);
@@ -342,6 +395,12 @@ VALUE GameMap_addTileset(VALUE self, VALUE name)
    return Qnil;
 }
 
+/*
+  call-seq: setTileSize(w, h)
+            set_tile_size(w, h)
+
+  Sets the size of each tile in the map.
+*/
 VALUE GameMap_setTileSize(VALUE self, VALUE w, VALUE h)
 {
    GameMap &ref = getRef<GameMap>(self);
@@ -352,18 +411,30 @@ VALUE GameMap_setTileSize(VALUE self, VALUE w, VALUE h)
    return Qnil;
 }
 
+/*
+  Returns the width of a tile.
+*/
 VALUE GameMap_tileWidth(VALUE self)
 {
    GameMap &ref = getRef<GameMap>(self);
    return INT2FIX(ref.getTileW());
 }
 
+/*
+  Returns the height of a tile.
+*/
 VALUE GameMap_tileHeight(VALUE self)
 {
    GameMap &ref = getRef<GameMap>(self);
    return INT2FIX(ref.getTileH());
 }
 
+/*
+  call-seq: collisionH=(val)
+
+  Sets the height where collisions are checked. Pixels which have a greater
+  height are ignored.
+*/
 VALUE GameMap_setCollisionH(VALUE self, VALUE val)
 {
    GameMap &ref = getRef<GameMap>(self);
@@ -372,12 +443,21 @@ VALUE GameMap_setCollisionH(VALUE self, VALUE val)
    return val;
 }
 
+/*
+  Returns the map's collisionH.
+*/
 VALUE GameMap_collisionH(VALUE self)
 {
    GameMap &ref = getRef<GameMap>(self);
    return INT2FIX(ref.getCollisionH());
 }
 
+/*
+  call-seq: absToRel(x, y)
+            abs2rel(x, y)
+
+  Converts absolute coordinates into relative ones.
+*/
 VALUE GameMap_absToRel(VALUE self, VALUE x, VALUE y)
 {
    GameMap &ref = getRef<GameMap>(self);
@@ -386,6 +466,12 @@ VALUE GameMap_absToRel(VALUE self, VALUE x, VALUE y)
    return createObject(getClass("Point"), ret);
 }
 
+/*
+  call-seq: relToAbs(x, y)
+            rel2abs(x, y)
+
+  Converts relative coordinates into absolute ones.
+*/
 VALUE GameMap_relToAbs(VALUE self, VALUE x, VALUE y)
 {
    GameMap &ref = getRef<GameMap>(self);
@@ -394,6 +480,11 @@ VALUE GameMap_relToAbs(VALUE self, VALUE x, VALUE y)
    return createObject(getClass("Point"), ret);
 }
 
+/*
+  call-seq: centerOn(x, y)
+
+  Centers the map on a point.
+*/
 VALUE GameMap_centerOn(VALUE self, VALUE x, VALUE y)
 {
    GameMap &ref = getRef<GameMap>(self);
@@ -402,6 +493,12 @@ VALUE GameMap_centerOn(VALUE self, VALUE x, VALUE y)
    return Qnil;
 }
 
+/*
+  call-seq: addElem(tileset_id, tile_x, tile_y, x, y)
+            addElem(tiles)
+
+  Adds one or more tiles to the map.
+*/
 VALUE GameMap_addElem(int argc, VALUE *argv, VALUE self)
 {
    if (argc == 5)
@@ -420,6 +517,12 @@ VALUE GameMap_addElem(int argc, VALUE *argv, VALUE self)
    return self;
 }
 
+/*
+  call-seq: map << tile
+
+  Adds a tile to the map. If an array is given, all the tiles present inside
+  that array are added.
+*/
 VALUE GameMap_push(VALUE self, VALUE tile)
 {
    GameMap &ref = getRef<GameMap>(self);
@@ -441,6 +544,9 @@ VALUE GameMap_push(VALUE self, VALUE tile)
    return self;
 }
 
+/*
+  Clears the map.
+*/
 VALUE GameMap_clear(VALUE self)
 {
    GameMap &ref = getRef<GameMap>(self);
@@ -449,6 +555,9 @@ VALUE GameMap_clear(VALUE self)
    return Qnil;
 }
 
+/*
+  Clears the map's tiles.
+*/
 VALUE GameMap_clearTiles(VALUE self)
 {
    GameMap &ref = getRef<GameMap>(self);
@@ -457,6 +566,9 @@ VALUE GameMap_clearTiles(VALUE self)
    return Qnil;
 }
 
+/*
+  Clears the list of drawables drawn when drawing the map.
+*/
 VALUE GameMap_clearBetween(VALUE self)
 {
    GameMap &ref = getRef<GameMap>(self);
@@ -465,18 +577,27 @@ VALUE GameMap_clearBetween(VALUE self)
    return Qnil;
 }
 
+/*
+  Returns an array containing the map's tiles.
+*/
 VALUE GameMap_tiles(VALUE self)
 {
    GameMap &ref = getRef<GameMap>(self);
    return ref.rbTiles();
 }
 
+/*
+  Returns an array containing all the map's tilesets (as Sprite).
+*/
 VALUE GameMap_tilesets(VALUE self)
 {
    GameMap &ref = getRef<GameMap>(self);
    return ref.rbTilesets();
 }
 
+/*
+  Yields each tile.
+*/
 VALUE GameMap_each_tile(VALUE self)
 {
    GameMap &ref = getRef<GameMap>(self);
@@ -485,6 +606,9 @@ VALUE GameMap_each_tile(VALUE self)
    return Qnil;
 }
 
+/*
+  Yields each tileset.
+*/
 VALUE GameMap_each_tileset(VALUE self)
 {
    GameMap &ref = getRef<GameMap>(self);
@@ -493,6 +617,9 @@ VALUE GameMap_each_tileset(VALUE self)
    return Qnil;
 }
 
+/*
+  Removes some tiles from the map if they fit to a condition.
+*/
 VALUE GameMap_reject_tiles(VALUE self)
 {
    GameMap &ref = getRef<GameMap>(self);
@@ -501,6 +628,11 @@ VALUE GameMap_reject_tiles(VALUE self)
    return Qnil;
 }
 
+/*
+  call-seq: addBetween(obj)
+
+  Adds a drawable drawn between the map's tiles.
+*/
 VALUE GameMap_addBetween(VALUE self, VALUE obj) {
    GameMap &ref = getRef<GameMap>(self);
    Drawable *draw = getPtr<Drawable>(obj);
@@ -509,36 +641,56 @@ VALUE GameMap_addBetween(VALUE self, VALUE obj) {
    return obj;
 }
 
+/*
+  Returns whether collisions are checked for the right side.
+*/
 VALUE CollisionType_right(VALUE self)
 {
    CollisionType &ref = getRef<CollisionType>(self);
    return ref.right ? Qtrue : Qfalse;
 }
 
+/*
+  Returns whether collisions are checked for the left side.
+*/
 VALUE CollisionType_left(VALUE self)
 {
    CollisionType &ref = getRef<CollisionType>(self);
    return ref.left ? Qtrue : Qfalse;
 }
 
+/*
+  Returns whether collisions are checked for the upper side.
+*/
 VALUE CollisionType_up(VALUE self)
 {
    CollisionType &ref = getRef<CollisionType>(self);
    return ref.up ? Qtrue : Qfalse;
 }
 
+/*
+  Returns whether collisions are checked for the downer side.
+*/
 VALUE CollisionType_down(VALUE self)
 {
    CollisionType &ref = getRef<CollisionType>(self);
    return ref.down ? Qtrue : Qfalse;
 }
 
+/*
+  Returns whether collisions are checked for the item's content.
+*/
 VALUE CollisionType_content(VALUE self)
 {
    CollisionType &ref = getRef<CollisionType>(self);
    return ref.content ? Qtrue : Qfalse;
 }
 
+/*
+  call-seq: right=(val)
+
+  Sets whether collision should be checked for the right side.
+*/
 VALUE CollisionType_setRight(VALUE self, VALUE val)
 {
    CollisionType &ref = getRef<CollisionType>(self);
@@ -547,6 +699,11 @@ VALUE CollisionType_setRight(VALUE self, VALUE val)
    return val;
 }
 
+/*
+  cal0l-seq: left=(val)
+
+  Sets whether collision should be checked for the left side.
+*/
 VALUE CollisionType_setLeft(VALUE self, VALUE val)
 {
    CollisionType &ref = getRef<CollisionType>(self);
@@ -555,6 +712,11 @@ VALUE CollisionType_setLeft(VALUE self, VALUE val)
    return val;
 }
 
+/*
+  call-seq: up=(val)
+
+  Sets whether collision should be checked for the upper side.
+*/
 VALUE CollisionType_setUp(VALUE self, VALUE val)
 {
    CollisionType &ref = getRef<CollisionType>(self);
@@ -563,6 +725,11 @@ VALUE CollisionType_setUp(VALUE self, VALUE val)
    return val;
 }
 
+/*
+  call-seq: down=(val)
+
+  Sets whether collision should be checked for the downer side.
+*/
 VALUE CollisionType_setDown(VALUE self, VALUE val)
 {
    CollisionType &ref = getRef<CollisionType>(self);
@@ -571,6 +738,11 @@ VALUE CollisionType_setDown(VALUE self, VALUE val)
    return val;
 }
 
+/*
+  call-seq: content=(val)
+
+  Sets whether collision should be checked for the item's content.
+*/
 VALUE CollisionType_setContent(VALUE self, VALUE val)
 {
    CollisionType &ref = getRef<CollisionType>(self);
@@ -579,37 +751,60 @@ VALUE CollisionType_setContent(VALUE self, VALUE val)
    return val;
 }
 
+/*
+  Returns the tile's abscissa on the tileset.
+*/
 VALUE Tile_tileX(VALUE self)
 {
    return INT2FIX(getRef<GameMap::Tile>(self).tileX);
 }
 
+/*
+  Returns the tile's ordinate on the tileset.
+*/
 VALUE Tile_tileY(VALUE self)
 {
    return INT2FIX(getRef<GameMap::Tile>(self).tileY);
 }
 
+/*
+  Returns the tile's abscissa.
+*/
 VALUE Tile_x(VALUE self)
 {
    return INT2FIX(getRef<GameMap::Tile>(self).x);
 }
 
+/*
+  Returns the tile's ordinate.
+*/
 VALUE Tile_y(VALUE self)
 {
    return INT2FIX(getRef<GameMap::Tile>(self).y);
 }
 
+/*
+  Returns the tile's tileset id.
+*/
 VALUE Tile_tileset(VALUE self)
 {
    return INT2FIX(getRef<GameMap::Tile>(self).tileset);
 }
 
+/*
+  Returns the tile's collision type.
+*/
 VALUE Tile_type(VALUE self)
 {
    GameMap::Tile &ref = getRef<GameMap::Tile>(self);
    return ref.type.toRuby();
 }
 
+/*
+  call-seq: tileX=(val)
+
+  Sets the tile's abscissa on the tileset.
+*/
 VALUE Tile_setTileX(VALUE self, VALUE val)
 {
    GameMap::Tile &ref = getRef<GameMap::Tile>(self);
@@ -618,6 +813,11 @@ VALUE Tile_setTileX(VALUE self, VALUE val)
    return val;
 }
 
+/*
+  call-seq: tileY=(val)
+
+  Sets the tile's ordinate on the tileset.
+*/
 VALUE Tile_setTileY(VALUE self, VALUE val)
 {
    GameMap::Tile &ref = getRef<GameMap::Tile>(self);
@@ -626,6 +826,11 @@ VALUE Tile_setTileY(VALUE self, VALUE val)
    return val;
 }
 
+/*
+  call-seq: x=(val)
+
+  Sets the tile's abscissa.
+*/
 VALUE Tile_setX(VALUE self, VALUE val)
 {
    GameMap::Tile &ref = getRef<GameMap::Tile>(self);
@@ -634,6 +839,11 @@ VALUE Tile_setX(VALUE self, VALUE val)
    return val;
 }
 
+/*
+  call-seq: y=(val)
+
+  Sets the tile's ordinate.
+*/
 VALUE Tile_setY(VALUE self, VALUE val)
 {
    GameMap::Tile &ref = getRef<GameMap::Tile>(self);
@@ -642,6 +852,11 @@ VALUE Tile_setY(VALUE self, VALUE val)
    return val;
 }
 
+/*
+  call-seq: tileset=(val)
+
+  Sets the tile's tileset id.
+*/
 VALUE Tile_setTileset(VALUE self, VALUE val)
 {
    GameMap::Tile &ref = getRef<GameMap::Tile>(self);
@@ -650,6 +865,11 @@ VALUE Tile_setTileset(VALUE self, VALUE val)
    return val;
 }
 
+/*
+  call-seq: type=(val)
+
+  Sets the tile's collision type.
+*/
 VALUE Tile_setType(VALUE self, VALUE val)
 {
    GameMap::Tile &ref = getRef<GameMap::Tile>(self);
@@ -735,6 +955,79 @@ void defineGameMap()
    CollisionType right_up(false, false, true, true, false);
    CollisionType right_down(false, false, true, false, true);
    CollisionType up_down(false, false, false, true, true);
+
+   /*
+     Document-const: COL_FULL
+     Joyau::CollisionType.new(true, false, false, false, false): Collision with
+     everything.
+   */
+
+   /*
+     Document-const: COL_LEFT
+     Joyau::CollisionType.new(false, true, false, false, false): Collision with
+     the left side.
+   */
+
+   /*
+     Document-const: COL_RIGHT
+     Joyau::CollisionType.new(false, false, true, false, false): Collision with
+     the right side.
+   */
+
+   /*
+     Document-const: COL_UP
+     Joyau::CollisionType.new(false, false, false, true, false): Collision with
+     the upper side.
+   */
+
+   /*
+     Document-const: COL_DOWN
+     Joyau::CollisionType.new(false, false, false, false, true): Collision with
+     the downer side.
+   */
+
+   /*
+     Document-const: COL_NO
+     Joyau::CollisionType.new(false, false, false, false, false): Collision 
+     with nothing.
+   */
+
+   /*
+     Document-const: COL_LEFT_RIGHT
+     Joyau::CollisionType.new(false, true, true, false, false): Collision with
+     the left and right sides.
+   */
+
+   /*
+     Document-const: COL_LEFT_UP
+     Joyau::CollisionType.new(false, true, false, true, false): Collision with
+     the left and the upper sides.
+   */
+
+   /*
+     Document-const: COL_LEFT_DOWN
+     Joyau::CollisionType.new(false, true, false, false, true): Collision with
+     the left and the downer sides.
+   */
+
+   /*
+     Document-const: COL_RIGHT_UP
+     Joyau::CollisionType.new(false, false, true, true, false): Collision with
+     the right and the upper sides.
+   */
+
+   /*
+     Document-const: COL_RIGHT_DOWN
+     Joyau::CollisionType.new(false, false, true, false, true): Collision with
+     the right and the downer sides.
+   */
+
+   /*
+     Document-const: COL_UP_DOWN
+     Joyau::CollisionType.new(false, false, false, true, true): Collision with
+     the upper and the downer sides.
+   */
+
 
    defConst(cMap, "COL_FULL", createObject(cCollisionType, full));
    defConst(cMap, "COL_LEFT", createObject(cCollisionType, left));

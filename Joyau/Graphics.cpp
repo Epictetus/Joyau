@@ -17,23 +17,36 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "Graphics.hpp"
 #include "Buffer.hpp"
 
+/*
+  Returns true untill the user has exited through the home button.
+*/
 VALUE Graphics_mayPlay(VALUE self)
 {
    return osl_quit ? Qfalse : Qtrue;
 }
 
+/*
+  Allows to draw something on the screen.
+*/
 VALUE Graphics_startDraw(VALUE self)
 {
    oslStartDrawing();
    return Qnil;
 }
 
+/*
+  Call this when you've finished to draw on the screen.
+*/
 VALUE Graphics_endDraw(VALUE self)
 {
    oslEndDrawing();
    return Qnil;
 }
 
+/*
+  Updates the screen. If false is returned, you shouldn't draw anything during
+  the next loop.
+*/
 VALUE Graphics_sync(VALUE self)
 {
    oslEndFrame();
@@ -42,6 +55,12 @@ VALUE Graphics_sync(VALUE self)
    return Qfalse;
 }
 
+/*
+  call-seq: frameskip(min, max)
+
+  Sets how many frames can be skipped. By default, your program is running
+  at 60 FPS.
+*/
 VALUE Graphics_frameskip(VALUE self, VALUE min, VALUE max)
 {
    oslSetFrameskip(FIX2INT(min));
@@ -49,6 +68,9 @@ VALUE Graphics_frameskip(VALUE self, VALUE min, VALUE max)
    return Qnil;
 }
 
+/*
+  Inits the graphics module.
+*/
 VALUE Graphics_init(VALUE self)
 {
    oslInitGfx(OSL_PF_8888, 1);
@@ -56,24 +78,38 @@ VALUE Graphics_init(VALUE self)
    return Qnil;
 }
 
+/*
+  Stops the Graphics module.
+ */
 VALUE Graphics_stop(VALUE self)
 {
    oslEndGfx();
    return Qnil;
 }
 
+/* 
+   Inits Joyau's library. Use this before graphics module.
+*/
 VALUE lib_start(VALUE self)
 {
    oslInit(OSL_IF_USEOWNCALLBACKS);
    return Qnil;
 }
 
+/*
+  Stops Joyau's library.
+*/
 VALUE lib_stop(VALUE self)
 {
    oslQuit();
    return Qnil;
 }
 
+/*
+  call-seq: color(r, g, b, a = 255)
+
+  Creates a new color hash.
+*/
 VALUE Graphics_color(int argc, VALUE *argv, VALUE self)
 {
    if (argc >= 3)
@@ -92,6 +128,11 @@ VALUE Graphics_color(int argc, VALUE *argv, VALUE self)
       return Qfalse; // not enough arguments.
 }
 
+/*
+  call-seq: drawLine(x1, y1, x2, y2, color)
+
+  Draws a line on the screen.
+*/
 VALUE Graphics_drawLine(VALUE self, VALUE x1, VALUE y1, VALUE x2, 
 			VALUE y2, VALUE color)
 {
@@ -100,6 +141,11 @@ VALUE Graphics_drawLine(VALUE self, VALUE x1, VALUE y1, VALUE x2,
    return Qnil;
 }
 
+/*
+  call-seq: drawRect(x1, y1, x2, y2, color)
+
+  Draws a rect on the screen.
+*/
 VALUE Graphics_drawRect(VALUE self, VALUE x1, VALUE y1, VALUE x2, 
 			VALUE y2, VALUE color)
 {
@@ -109,6 +155,11 @@ VALUE Graphics_drawRect(VALUE self, VALUE x1, VALUE y1, VALUE x2,
    return Qnil;
 }
 
+/*
+  call-seq: drawTriangle(x1, y1, x2, y2, x3, y3, col1, col2, col3)
+
+  Draws a triangle on the screen.
+*/
 VALUE Graphics_drawTriangle(VALUE self, VALUE x1, VALUE y1, VALUE x2, VALUE y2, 
 			    VALUE x3, VALUE y3, VALUE col1, VALUE col2, 
 			    VALUE col3)
@@ -129,6 +180,11 @@ VALUE Graphics_drawTriangle(VALUE self, VALUE x1, VALUE y1, VALUE x2, VALUE y2,
    return Qnil;
 }
 
+/*
+  call-seq: drawFillRect(x1, y1, x2, y2, color)
+
+  Draws a filled rect on the screen.
+*/
 VALUE Graphics_drawFillRect(VALUE self, VALUE x1, VALUE y1, VALUE x2, 
 			    VALUE y2, VALUE color)
 {
@@ -138,6 +194,11 @@ VALUE Graphics_drawFillRect(VALUE self, VALUE x1, VALUE y1, VALUE x2,
    return Qnil;
 }
 
+/*
+  call-seq: drawCircle(x, y, radius, color)
+  
+  Draws a circle on the screen.
+*/
 VALUE Graphics_drawCircle(VALUE self, VALUE x, VALUE y, VALUE radius, 
 			  VALUE col)
 {
@@ -150,6 +211,11 @@ VALUE Graphics_drawCircle(VALUE self, VALUE x, VALUE y, VALUE radius,
    return Qnil;
 }
 
+/*
+  call-seq: drawFillCircle(x, y, radius, color)
+  
+  Draws a filled circle on the screen.
+*/
 VALUE Graphics_drawFillCircle(VALUE self, VALUE x, VALUE y, VALUE radius, 
 			  VALUE col)
 {
@@ -162,6 +228,11 @@ VALUE Graphics_drawFillCircle(VALUE self, VALUE x, VALUE y, VALUE radius,
    return Qnil;
 }
 
+/*
+  call-seq: screenshot(pic)
+
+  Takes a screenshot.
+*/
 VALUE Graphics_screenshot(VALUE self, VALUE pic)
 {
    char *filename = StringValuePtr(pic);
@@ -170,12 +241,20 @@ VALUE Graphics_screenshot(VALUE self, VALUE pic)
    return Qnil;
 }
 
+/*
+  Fades the screen.
+*/
 VALUE Graphics_fade(VALUE self)
 {
    oslFadeInEffect();
    return Qnil;
 }
 
+/*
+  call-seq: setFont(fontname)
+
+  Changes the actual font.
+ */
 VALUE setTextFont(VALUE self, VALUE fontname)
 {
    Manager &manager = Manager::getInstance();
@@ -183,12 +262,22 @@ VALUE setTextFont(VALUE self, VALUE fontname)
    return Qnil;
 }
 
+/*
+  call-seq: getLength
+  Returns the width of a text if it were drawn on the screen with the actual
+  fonts.
+ */
 VALUE getTextSize(VALUE self, VALUE text)
 {
    int val = oslGetStringWidth(StringValuePtr(text));
    return INT2FIX(val);
 }
 
+/*
+  call-seq: setTextBackground(color)
+
+  Sets the color in which the text's background is drawn.
+ */
 VALUE setTextBackground(VALUE self, VALUE color)
 {
    OSL_COLOR c = hash2col(color);
@@ -197,6 +286,11 @@ VALUE setTextBackground(VALUE self, VALUE color)
    return Qnil;
 }
 
+/*
+  call-seq: setTextColor(color)
+
+  Sets the color in which the text's color.
+*/
 VALUE setTextColor(VALUE self, VALUE color)
 {
    OSL_COLOR c = hash2col(color);
@@ -204,30 +298,51 @@ VALUE setTextColor(VALUE self, VALUE color)
    return Qnil;
 }
 
+/*
+  Clears the screen.
+*/
 VALUE Graphics_clear(VALUE self)
 {
    oslCls();
    return Qnil;
 }
 
+/*
+  call-seq: drawText(x, y, text)
+
+  Draws a text on the screen.
+*/
 VALUE drawText(VALUE self, VALUE x, VALUE y, VALUE text)
 {
    oslDrawString(FIX2INT(x), FIX2INT(y), StringValuePtr(text));
    return Qnil;
 }
 
+/*
+  call-seq: drawScripted(x, y, txt)
+
+  Draws a scripted (i.e. which may use \n, ...) text on the screen.
+*/
 VALUE drawScripted(VALUE self, VALUE x, VALUE y, VALUE text)
 {
    oslScriptText(FIX2INT(x), FIX2INT(y), StringValuePtr(text));
    return Qnil;
 }
 
+/*
+  call-seq: drawStirringText(x, y, text)
+
+  Draws a stirring text on the screen.
+*/
 VALUE drawStirringText(VALUE self, VALUE x, VALUE y, VALUE text)
 {
    oslPrintStirringString(FIX2INT(x), FIX2INT(y), StringValuePtr(text));
    return Qnil;
 }
 
+/*
+  Enables auto swizzling for pictures.
+*/
 VALUE setAutoSwizzle(VALUE self)
 {
    oslSetImageAutoSwizzle(1);

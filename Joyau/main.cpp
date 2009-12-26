@@ -67,12 +67,24 @@ int SetupCallbacks(void)
    return thid;
 }
 
+/*
+  call-seq: debug(string) -> nil
+  
+  Prints something on a nice debugging screen.
+  +Joyau.initGfx+ should have been called before.
+*/
 VALUE debug(VALUE self, VALUE text)
 {
    oslDebug(StringValuePtr(text));
    return Qnil;
 }
 
+/*
+  call-seq: puts(str1, str2, str3, ...)
+
+  Prints all the given strings on the debug screen, on per line.
+  They're printed in +$stdout+ too.
+*/
 VALUE Joyau_puts(int argc, VALUE *argv, VALUE self)
 {
    for (int i = 0; i < argc; ++i)
@@ -83,11 +95,41 @@ VALUE Joyau_puts(int argc, VALUE *argv, VALUE self)
    return Qnil;
 }
 
+/*
+  call-seq: exit
+
+  Exits from the game.
+*/
 VALUE Joyau_exit(VALUE self)
 {
    sceKernelExitGame();
    return Qnil;
 }
+
+/*
+  Document-class: Joyau
+
+  Joyau is a Ruby interpreter for the PSP. This module contains
+  almost all its classes (some aren't here, like +Console+ ).
+
+  When an exception is not caught, Joyau handles it, by showing it on the
+  debugging screen (you didn't think that it could fix it, right?).
+
+  Joyau allows you to require (with +require+) in the following directories:
+    * .
+    * ./ruby/1.8/
+    * ./ruby/site_ruby/
+    * ./ruby/site_ruby/1.8/
+    * ms0:/ruby/1.8/
+    * ms0:/ruby/site_ruby/
+    * ms0:/ruby/site_ruby/1.8/
+  ("ms0:/" is the memory stick's root, "." is the EBOOT's directory)
+    
+  Joyau's site_ruby should rather be put in ./ruby/site_ruby/, because updates
+  might break the retro-compatibility, while Ruby's library should be in
+  ms0:/ruby/1.8/, because it takes a lot of place in the memory stick.
+  (And it is better to provide only the needed files!)
+*/
 
 int main(int argc, char** argv)
 {
@@ -109,7 +151,7 @@ int main(int argc, char** argv)
 
    ruby_incpush("./");
    
-   VALUE joyau = rb_define_module("Joyau");
+   VALUE joyau = joyau_define_module("Joyau");
    
    defineManager();
    defineDrawable();
@@ -149,7 +191,7 @@ int main(int argc, char** argv)
    ruby_script("joyau");
 
    try {
-       runScript("./script.rb");
+      runScript("./script.rb");
    }
    catch (...) { // An error occured from Ruby
       pspDebugScreenInit();

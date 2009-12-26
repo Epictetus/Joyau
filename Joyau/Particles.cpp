@@ -16,7 +16,21 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include "Particles.hpp"
 
-template<> VALUE wrap<Particles>(int argc, VALUE *argv, VALUE info)
+/*
+  Document-class: Joyau::Particles
+  
+  Class representing a particles generator. The steps of a particle's life are
+  saved in a picture.
+*/
+
+template<>
+/*
+  call-seq: new
+            new(filename)
+
+  Creates a new particles generator.
+ */
+VALUE wrap<Particles>(int argc, VALUE *argv, VALUE info)
 {
    Particles *ptr = new Particles;
    VALUE tdata;
@@ -77,6 +91,11 @@ void Particles::draw()
    oslRenderParticles(part);
 }
 
+/*
+  call-seq: setFile(filename)
+
+  Sets the particle's file (from which particles are loaded)
+*/
 VALUE Particles_setFile(VALUE self, VALUE str)
 {
    Particles &ref = getRef<Particles>(self);
@@ -86,6 +105,11 @@ VALUE Particles_setFile(VALUE self, VALUE str)
    return Qnil;
 }
 
+/*
+  call-seq: setParam(time, speed, gravity, minimum_speed)
+
+  Sets the particles generator's parameters. Can only be called once. 
+*/
 VALUE Particles_setParam(VALUE self, VALUE time, VALUE speed, VALUE gravity,
 			 VALUE mspeed)
 {
@@ -99,6 +123,11 @@ VALUE Particles_setParam(VALUE self, VALUE time, VALUE speed, VALUE gravity,
    return Qnil;
 }
 
+/*
+  call-seq: addParticles(x, y)
+
+  Adds a particle at the specified position.
+*/
 VALUE Particles_addParticles(VALUE self, VALUE x, VALUE y)
 {
    Particles &ref = getRef<Particles>(self);
@@ -109,24 +138,36 @@ VALUE Particles_addParticles(VALUE self, VALUE x, VALUE y)
    return Qnil;
 }
 
+/*
+  Returns a particle's lifetime.
+*/
 VALUE Particles_getTime(VALUE self)
 {
    Particles &ref = getRef<Particles>(self);
    return FIX2INT(ref.getTime());
 }
 
+/*
+  Returns a particle's speed.
+*/
 VALUE Particles_getSpeed(VALUE self)
 {
    Particles &ref = getRef<Particles>(self);
    return FIX2INT(ref.getSpeed());
 }
 
+/*
+  Returns the particles generator's gravity.
+*/
 VALUE Particles_getGravity(VALUE self)
 {
    Particles &ref = getRef<Particles>(self);
    return FIX2INT(ref.getGravity());
 }
 
+/*
+  Returns a particle's minimum speed.
+*/
 VALUE Particles_getMinSpeed(VALUE self)
 {
    Particles &ref = getRef<Particles>(self);

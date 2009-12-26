@@ -49,7 +49,13 @@ void MsgSelecter<Father>::applyConf(content_t &obj, MsgConfig &arg)
    obj.setTitlePos(arg.titleX, arg.titleY);
 }
 
-template<typename T> VALUE MsgSelecter_setConf(VALUE self, VALUE val)
+template<typename T>
+/*
+  call-seq: conf=(val)
+
+  Sets the MsgConfig object used when drawing any object.
+*/
+VALUE MsgSelecter_setConf(VALUE self, VALUE val)
 {
    T &ref = getRef<T>(self);
    MsgConfig &arg = getRef<MsgConfig>(self);
@@ -58,7 +64,13 @@ template<typename T> VALUE MsgSelecter_setConf(VALUE self, VALUE val)
    return val;
 }
 
-template<typename T> VALUE MsgSelecter_setFocusConf(VALUE self, VALUE val)
+template<typename T>
+/*
+  call-seq: focusConf=(conf)
+
+  Sets the MsgConfig object used when drawing the focused object.
+*/
+VALUE MsgSelecter_setFocusConf(VALUE self, VALUE val)
 {
    T &ref = getRef<T>(self);
    MsgConfig &arg = getRef<MsgConfig>(self);
@@ -67,7 +79,11 @@ template<typename T> VALUE MsgSelecter_setFocusConf(VALUE self, VALUE val)
    return Qnil;
 }
 
-template<typename T> VALUE MsgSelecter_conf(VALUE self)
+template<typename T>
+/*
+  Returns the message's config.
+*/
+VALUE MsgSelecter_conf(VALUE self)
 {
    T &ref = getRef<T>(self);
    MsgConfig &conf = ref.getConf();
@@ -75,7 +91,11 @@ template<typename T> VALUE MsgSelecter_conf(VALUE self)
    return conf.toRuby();
 }
 
-template<typename T> VALUE MsgSelecter_focusConf(VALUE self)
+template<typename T>
+/*
+  Returns the MsgConfig object used on the focused item.
+*/
+VALUE MsgSelecter_focusConf(VALUE self)
 {
    T &ref = getRef<T>(self);
    MsgConfig &conf = ref.getFocusConf();

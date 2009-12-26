@@ -70,6 +70,18 @@ void DrawableText::draw()
       oslDrawString(getX(), getY(), _text.c_str());
 }
 
+/*
+  Document-class: Joyau::DrawableText
+
+  Class used when drawing text, using either a built-in or an OFT font.
+*/
+
+/*
+  call-seq: setText(str)
+            text=(str)
+
+  Sets a drawable's text.
+*/
 VALUE DrawableText_setText(VALUE self, VALUE text)
 {
    DrawableText &ref = getRef<DrawableText>(self);
@@ -79,6 +91,9 @@ VALUE DrawableText_setText(VALUE self, VALUE text)
    return text;
 }
 
+/*
+  Toggle the stirring mode.
+*/
 VALUE DrawableText_toggleStirring(VALUE self)
 {
    DrawableText &ref = getRef<DrawableText>(self);
@@ -86,6 +101,9 @@ VALUE DrawableText_toggleStirring(VALUE self)
    return Qnil;
 }
 
+/*
+  Toggle the scripted mode. When set to true, characters like \n can be used.
+*/
 VALUE DrawableText_toggleScripted(VALUE self)
 {
    DrawableText &ref = getRef<DrawableText>(self);
@@ -93,6 +111,13 @@ VALUE DrawableText_toggleScripted(VALUE self)
    return Qnil;
 }
 
+
+/*
+  call-seq: setBackground(color)
+            background=(color)
+
+  Sets the text's background.
+*/
 VALUE DrawableText_setBackground(VALUE self, VALUE color)
 {
    DrawableText &ref = getRef<DrawableText>(self);
@@ -102,6 +127,12 @@ VALUE DrawableText_setBackground(VALUE self, VALUE color)
    return color;
 }
 
+/*
+  call-seq: setFont(font)
+            font=(font)
+
+  Loads an OFT. "" can be given to remove the actual font. 
+*/
 VALUE DrawableText_setFont(VALUE self, VALUE font)
 {
    DrawableText &ref = getRef<DrawableText>(self);
@@ -111,18 +142,30 @@ VALUE DrawableText_setFont(VALUE self, VALUE font)
    return font;
 }
 
+/*
+  Returns the scripted state.
+*/
 VALUE DrawableText_scripted(VALUE self)
 {
    DrawableText &ref = getRef<DrawableText>(self);
    return ref.isScripted() ? Qtrue : Qfalse;
 }
 
+/*
+  Returns the stirring state.
+*/
 VALUE DrawableText_stirring(VALUE self)
 {
    DrawableText &ref = getRef<DrawableText>(self);
    return ref.isStirring() ? Qtrue : Qfalse;
 }
 
+/*
+  call-seq: setStirring(val)
+            stirring=(val)
+  
+  Sets the stirring state.
+*/
 VALUE DrawableText_setStirring(VALUE self, VALUE val)
 {
    DrawableText &ref = getRef<DrawableText>(self);
@@ -131,18 +174,27 @@ VALUE DrawableText_setStirring(VALUE self, VALUE val)
    return val;
 }
 
+/*
+  Returns the text's background.
+*/
 VALUE DrawableText_background(VALUE self)
 {
    DrawableText &ref = getRef<DrawableText>(self);
    return col2hash(ref.getBackground());
 }
 
+/*
+  Returns the text's font name.
+*/
 VALUE DrawableText_font(VALUE self)
 {
    DrawableText &ref = getRef<DrawableText>(self);
    return rb_str_new2(ref.getFont().c_str());
 }
 
+/*
+  Returns the text's text.
+*/
 VALUE DrawableText_text(VALUE self)
 {
    DrawableText &ref = getRef<DrawableText>(self);

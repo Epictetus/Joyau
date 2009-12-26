@@ -16,6 +16,11 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include "Kernel.hpp"
 
+/*
+  call-seq: cd(dirname)
+
+  Changes the current directory.
+*/
 VALUE Kernel_cd(VALUE self, VALUE dir)
 {
    sceIoChdir(StringValuePtr(dir));
@@ -23,6 +28,9 @@ VALUE Kernel_cd(VALUE self, VALUE dir)
    return Qnil;
 }
 
+/*
+  Returns whether a UMD is inside the PSP.
+*/
 VALUE Kernel_UmdCheck(VALUE self)
 {
    if (sceUmdCheckMedium() == 0)
@@ -30,12 +38,20 @@ VALUE Kernel_UmdCheck(VALUE self)
    return Qtrue;
 }
 
+/*
+  call-seq: waitState(state)
+
+  Wait for a state of the UMD drive.
+*/
 VALUE Kernel_UmdWaitState(VALUE self, VALUE state)
 {
    sceUmdWaitDriveStat(FIX2INT(state));
    return Qnil;
 }
 
+/*
+  Mounts the UMD.
+*/
 VALUE Kernel_UmdMount(VALUE self)
 {
    sceUmdActivate(1, "disc0:");
@@ -44,24 +60,36 @@ VALUE Kernel_UmdMount(VALUE self)
    return Qnil;
 }
 
+/*
+  Unmount the UMD.
+*/
 VALUE Kernel_UmdUmount(VALUE self)
 {
    sceUmdDeactivate(1, "discO:");
    return Qnil;
 }
 
+/*
+  Allows to change the actual UMD.
+*/
 VALUE Kernel_UmdPermitReplace(VALUE self)
 {
    sceUmdReplacePermit();
    return Qnil;
 }
 
+/*
+  Prohibits to change the actual UMD.
+*/
 VALUE Kernel_UmdProhibitReplace(VALUE self)
 {
    sceUmdReplaceProhibit();
    return Qnil;
 }
 
+/*
+  Returns the actual timestamp.
+*/
 VALUE Kernel_Timestamp(VALUE self)
 {
    time_t time;
@@ -70,12 +98,23 @@ VALUE Kernel_Timestamp(VALUE self)
    return rb_uint2big(time);
 }
 
+/*
+  call-seq: rm(file)
+
+  Removes a file.
+*/
 VALUE File_remove(VALUE self, VALUE file)
 {
    sceIoRemove(StringValuePtr(file));
    return Qnil;
 }
 
+
+/*
+  call-seq: mkdir(dir)
+
+  Creates a directory.
+*/
 VALUE File_mkdir(VALUE self, VALUE dir)
 {
    sceIoMkdir(StringValuePtr(dir), 0777);
@@ -83,23 +122,39 @@ VALUE File_mkdir(VALUE self, VALUE dir)
    return Qnil;
 }
 
+/*
+  call-seq: rmdir(dir)
+
+  Removes a directory.
+*/
 VALUE File_rmdir(VALUE self, VALUE dir)
 {
    sceIoRmdir(StringValuePtr(dir));
    return Qnil;
 }
 
+/*
+  call-seq: rename(old, new)
+
+  Renames a file.
+*/
 VALUE File_rename(VALUE self, VALUE old, VALUE newName)
 {
    sceIoRename(StringValuePtr(old), StringValuePtr(newName));
    return Qnil;
 }
 
+/*
+  Returns the battery lifetime.
+*/
 VALUE Kernel_getPowerTime(VALUE self)
 {
    return INT2FIX(scePowerGetBatteryLifeTime());
 }
 
+/*
+  Returns the battery life percentage.
+*/
 VALUE Kernel_getPowerPercent(VALUE self)
 {
    return INT2FIX(scePowerGetBatteryLifePercent());
@@ -119,6 +174,36 @@ void defineKernel()
 
    defModFunc(mUmd, "permitReplace", Kernel_UmdPermitReplace, 0);
    defModFunc(mUmd, "prohibitReplace", Kernel_UmdProhibitReplace, 0);
+
+   /*
+     Document-const: NOT_PRESENT
+     PSP_UMD_NOT_PRESENT: No UMD inside the drive.
+   */
+
+   /*
+     Document-const: PRESENT
+     PSP_UMD_PRESENT: A UMD is inside the drive.
+   */
+
+   /*
+     Document-const: CHANGED
+     PSP_UMD_CHANGED: Changed the UMD present in the driver.
+   */
+
+   /*
+     Document-const: INITING
+     PSP_UMD_INITING: UMD initing.
+   */
+
+   /*
+     Document-const: INITED
+     PSP_UMD_INITED: UMD inited.
+   */
+   
+   /*
+     Document-const: READY
+     PSP_UMD_READY: UMD ready.
+   */
 
    defConst(mUmd, "NOT_PRESENT", INT2FIX(PSP_UMD_NOT_PRESENT));
    defConst(mUmd, "PRESENT", INT2FIX(PSP_UMD_PRESENT));
