@@ -1,0 +1,106 @@
+require 'joyau_rake'
+require 'joyau_rdoc'
+require 'rake/rdoctask'
+require 'rake/packagetask'
+
+require 'fileutils'
+
+JoyauTask.new do |conf|
+  conf.srcs = Dir['*.cpp']
+  libs = %w(intrafont/libccc.c intrafont/intraFont.c console/console2d.c 
+            console/console.c console/librairies/framebuffer.c
+	    console/librairies/danzeff.c console/librairies/graphics.c)
+  conf.srcs = conf.srcs | libs
+
+  static_libs = %w(-losl -lpng -lz -lpspsdk -lpspvfpu -lpspctrl -lpspumd 
+                   -lpsppower -lpspgu -lpspmpeg -lpspaudiocodec -lpspaudiolib 
+                   -lalut -lOpenAL32 -lpsprtc -lvorbisfile  -lvorbis
+                   -lpspaudio -lpspusb -lpspusbstor -lpsphprm -lpsputility 
+                   -lpspgum -lruby -lm -logg -lpsprtc -lstdc++)
+
+  conf.libs = static_libs | conf.libs
+
+  conf.target = 'Joyau'
+  conf.icon = 'eboot/ICON0.png'
+  conf.pic1 = 'eboot/PIC1.png'
+
+  conf.incdir << "-I./intrafont/"
+  conf.cflags = conf.cflags | %w(-G0 -Wall -D_PSP_ -DHAVE_STRUCT_TIMESPEC)
+end
+
+Rake::RDocTask.new(:rdoc_site) do |rd|
+  srcs = Dir['ruby/site_ruby/joyau/*.rb']
+
+  rd.rdoc_files.include(*srcs)
+  rd.rdoc_dir = "./doc/site/"
+end
+
+Rake::RDocTask.new do |rd|
+  srcs = ["main.cpp",
+          "Drawable.cpp",
+          "Shape.cpp",
+          "Line.cpp", 
+          "Audio.cpp", 
+          "Kernel.cpp", 
+          "DrawableText.cpp", 
+          "Manager.cpp", 
+          "GameMap.cpp", 
+          "MessageBox.cpp", 
+          "Timer.cpp", 
+          "Particles.cpp", 
+          "CircleMenu.cpp", 
+          "Scrolling.cpp", 
+          "Font.cpp", 
+          "Console.cpp", 
+          "Keys.cpp", 
+          "Circle.cpp", 
+          "Graphics.cpp", 
+          "MsgSelecter.cpp", 
+          "Usb.cpp", 
+          "MultiSelecter.cpp", 
+          "Buffer.cpp", 
+          "DrawableRect.cpp", 
+          "Triangle.cpp"]
+  rd.rdoc_files.include(*srcs)
+  rd.rdoc_dir = "./doc/embedded"
+end
+
+desc "Create a release directory"
+task :release_dir => ['psp:eboot', 'psp:prx', 'rerdoc_site', 'rerdoc'] do
+  FileUtils.rm_r 'Joyau-release' if File.exist? 'Joyau-release'
+  
+  Dir.mkdir 'Joyau-release'
+  Dir.mkdir 'Joyau-release/src'
+  
+  FileUtils.cp_r 'doc', 'Joyau-release'
+  FileUtils.cp_r 'samples', 'Joyau-release'
+  FileUtils.cp_r 'ruby', 'Joyau-release'
+
+  FileUtils.cp Dir['*.[hc]pp'] |  Dir['*.rb'] | ['Rakefile'], 'Joyau-release/src'
+  FileUtils.cp_r 'console', 'Joyau-release/src'
+  FileUtils.cp_r 'intrafont', 'Joyau-release/src'
+  FileUtils.cp_r 'eboot', 'Joyau-release/src'
+
+  FileUtils.cp 'EBOOT.PBP', 'Joyau-release'
+  FileUtils.cp 'README', 'Joyau-release' if File.exist? 'README'
+end
+
+Rake::PackageTask.new("Joyau", "0.24") do |pkg|
+  pkg.need_tar_bz2 = true
+  pkg.package_files << "Joyau-release"
+end
+
+desc "Create the release tarball"
+task :release => [:release_dir, :package]
+
+desc "Create an EBOOT"
+task :default => "psp:eboot"
+
+desc "Create a PRX"
+task :debug   => "psp:prx"
+
+desc "Clean the directory"
+task :clean => ['psp:clean', 'clobber_rdoc', 'clobber_rdoc_site', 
+                'clobber_package'] do
+  FileUtils.rm_r 'Joyau-release' if File.exist? 'Joyau-release'
+end
