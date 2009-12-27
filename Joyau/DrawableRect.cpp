@@ -34,11 +34,14 @@ VALUE wrap<DrawableRect>(int argc, VALUE *argv, VALUE info)
 {
    DrawableRect *ptr = new DrawableRect;
 
-   if (argc >= 2)
+   VALUE x1, y1, x2, y2;
+   rb_scan_args(argc, argv, "04", &x1, &y1, &x2, &y2);
+
+   if (!NIL_P(x1)  && !NIL_P(y1))
    {
-      ptr->setPos(FIX2INT(argv[0]), FIX2INT(argv[1]));
+      ptr->setPos(FIX2INT(x1), FIX2INT(y1));
       if (argc >= 4)
-	 ptr->setCorner(FIX2INT(argv[2]), FIX2INT(argv[3]));
+	 ptr->setCorner(FIX2INT(x2), FIX2INT(y2));
    }
 
    VALUE tdata = Data_Wrap_Struct(info, 0, wrapped_free<DrawableRect>, ptr);
