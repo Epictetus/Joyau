@@ -7,6 +7,8 @@ require 'fileutils'
 
 require 'net/ftp'
 
+JOYAU_VERSION = "0.25"
+
 JoyauTask.new do |conf|
   conf.srcs = Dir['*.cpp']
   libs = %w(intrafont/libccc.c intrafont/intraFont.c console/console2d.c 
@@ -40,6 +42,7 @@ end
 Rake::RDocTask.new do |rd|
   srcs = ["main.cpp",
           "Drawable.cpp",
+          "Sprite.cpp",
           "Shape.cpp",
           "Line.cpp", 
           "Audio.cpp", 
@@ -81,7 +84,7 @@ task "ruby-1.8.7-p248.tar.bz2" do
 end
 
 desc "Create a release directory"
-task :release_dir => ['psp:eboot', 'psp:prx', 'rerdoc_site', 'rerdoc', 
+task :release_dir => ['psp:eboot', 'psp:prx', 'rdoc_site', 'rdoc', 
                       'ruby-1.8.7-p248.tar.bz2'] do
   FileUtils.rm_r 'Joyau-release' if File.exist? 'Joyau-release'
   
@@ -102,19 +105,20 @@ task :release_dir => ['psp:eboot', 'psp:prx', 'rerdoc_site', 'rerdoc',
   FileUtils.cp 'README', 'Joyau-release' if File.exist? 'README'
 
   system "tar -xvf ruby-1.8.7-p248.tar.bz2"
-  FileUtils.cp_r "ruby-1.8.7-p248/lib", "Joyau-release/ruby/"
+  FileUtils.cp_r "ruby-1.8.7-p248/lib", "Joyau-release/ruby/1.8/"
   FileUtils.rm_r "ruby-1.8.7-p248"
 end
 
-Rake::PackageTask.new("Joyau", "0.25") do |pkg|
+Rake::PackageTask.new("Joyau", JOYAU_VERSION) do |pkg|
   pkg.need_tar_bz2 = true
-  pkg.package_files << "./Joyau-release/"
+  pkg.package_files << "Joyau-release"
 end
 
-# May seem weird, but I didn't see any other way to save
-file "pkg/Joyau-0.24" do
-  mkdir_p "pkg/Joyau-0.24" rescue nil
-  FileUtils.cp_r "./Joyau-release/", "pkg/Joyau-0.24"
+# May seem weird, but I didn't see any other way to copy
+# the whole directory.
+
+file "pkg/Joyau-#{JOYAU_VERSION}" do
+  FileUtils.cp_r "Joyau-release", "pkg/Joyau-#{JOYAU_VERSION}/"
 end
 
 desc "Create the release tarball"
