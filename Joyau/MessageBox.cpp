@@ -331,7 +331,11 @@ VALUE Message_text(VALUE self)
 VALUE Message_image(VALUE self)
 {
    Message &ref = getRef<Message>(self);
-   return ref.getImage().toRuby();
+
+   Sprite *img = ref.getImage();
+   if (img)
+      return img->toRuby();
+   return Qnil;
 }
 
 /*
@@ -340,7 +344,11 @@ VALUE Message_image(VALUE self)
 VALUE Message_background(VALUE self)
 {
    Message &ref = getRef<Message>(self);
-   return ref.getBackground().toRuby();
+   
+   Sprite *img = ref.getBackground();
+   if (img)
+      return img->toRuby();
+   return Qnil;
 }
 
 /*

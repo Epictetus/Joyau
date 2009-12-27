@@ -104,10 +104,10 @@ public:
    std::string getText() const { return text; }
 
    /** Returns a reference to the image draw on the Message **/
-   Sprite& getImage() const { return *image; }
+   Sprite *getImage() const { return image; }
 
    /** Returns a reference to the Message's background **/
-   Sprite& getBackground() const { return *bg; }
+   Sprite *getBackground() const { return bg; }
 
    /** Returns the background's color **/
    OSL_COLOR getBgColor() const { return bgColor; }
