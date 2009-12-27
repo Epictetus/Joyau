@@ -67,22 +67,22 @@ Rake::RDocTask.new do |rd|
   rd.rdoc_dir = "./doc/embedded"
 end
 
-task "ruby-1.8.7-p248.tar.gz" do
+task "ruby-1.8.7-p248.tar.bz2" do
   ftp = Net::FTP.new
   ftp.connect("ftp.ruby-lang.org", 21)
 
   ftp.login("anonymous", "")
   
-  puts "Downloading ruby-1.8.7-p248.tar.gz..."
+  puts "Downloading ruby-1.8.7-p248.tar.bz2..."
   ftp.getbinaryfile("pub/ruby/1.8/ruby-1.8.7-p248.tar.bz2", 
-                      "ruby-1.8.7-p248.tar.gz")
+                    "ruby-1.8.7-p248.tar.bz2")
 
   ftp.close
 end
 
 desc "Create a release directory"
 task :release_dir => ['psp:eboot', 'psp:prx', 'rerdoc_site', 'rerdoc', 
-                      'ruby-1.8.7-p248.tar.gz'] do
+                      'ruby-1.8.7-p248.tar.bz2'] do
   FileUtils.rm_r 'Joyau-release' if File.exist? 'Joyau-release'
   
   Dir.mkdir 'Joyau-release'
@@ -101,7 +101,7 @@ task :release_dir => ['psp:eboot', 'psp:prx', 'rerdoc_site', 'rerdoc',
   FileUtils.cp 'Joyau.prx', 'Joyau-release'
   FileUtils.cp 'README', 'Joyau-release' if File.exist? 'README'
 
-  system "tar -xvf ruby-1.8.7-p248.tar.gz"
+  system "tar -xvf ruby-1.8.7-p248.tar.bz2"
   FileUtils.cp_r "ruby-1.8.7-p248/lib", "Joyau-release/ruby/"
   FileUtils.rm_r "ruby-1.8.7-p248"
 end
