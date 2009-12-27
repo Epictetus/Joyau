@@ -118,7 +118,7 @@ end
 # the whole directory.
 
 file "pkg/Joyau-#{JOYAU_VERSION}" do
-  FileUtils.cp_r "Joyau-release", "pkg/Joyau-#{JOYAU_VERSION}/"
+  FileUtils.cp_r "Joyau-release", "pkg/Joyau-#{JOYAU_VERSION}"
 end
 
 desc "Create the release tarball"
