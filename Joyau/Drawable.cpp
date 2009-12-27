@@ -37,14 +37,18 @@ template<>
 VALUE wrap<Rect>(int argc, VALUE *argv, VALUE info)
 {
    Rect *ptr = new Rect;
-   if (argc >= 2)
+
+   VALUE x, y, w, h;
+   rb_scan_args(argc, argv, "04", &x, &y, &w, &h);
+
+   if (!NIL_P(x) && !NIL_P(y))
    {
-      ptr->x = FIX2INT(argv[0]);
-      ptr->y = FIX2INT(argv[1]);
-      if (argc >= 4)
+      ptr->x = FIX2INT(x);
+      ptr->y = FIX2INT(y);
+      if (!NIL_P(w) && !NIL_P(h))
       {
-	 ptr->w = FIX2INT(argv[2]);
-	 ptr->h = FIX2INT(argv[3]);
+	 ptr->w = FIX2INT(w);
+	 ptr->h = FIX2INT(h);
       }
    }
 
@@ -69,10 +73,14 @@ template<> // I don't like this syntax, yet I didn't find anything else for rdoc
 VALUE wrap<Point>(int argc, VALUE *argv, VALUE info)
 {
    Point *ptr = new Point;
-   if (argc >= 2)
+
+   VALUE x, y;
+   rb_scan_args(argc, argv, "02", &x, &y);
+
+   if (!NIL_P(x) && !NIL_P(y))
    {
-      ptr->x = FIX2INT(argv[0]);
-      ptr->y = FIX2INT(argv[1]);
+      ptr->x = FIX2INT(x);
+      ptr->y = FIX2INT(y);
    }
 
    VALUE tdata = Data_Wrap_Struct(info, 0, wrapped_free<Point>, ptr);
