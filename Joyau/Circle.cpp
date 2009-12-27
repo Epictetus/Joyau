@@ -32,14 +32,20 @@ template<>
 VALUE wrap<Circle>(int argc, VALUE *argv, VALUE info)
 {
    Circle *ptr = new Circle;
-   if (argc >= 2)
+
+   VALUE radius, arg2, arg3;
+   rb_scan_args(argc, argv, "03", &radius, &arg2, &arg3);
+
+   if (!NIL_P(radius))
    {
-      ptr->setRadius(FIX2INT(argv[0]));
+      ptr->setRadius(FIX2INT(radius));
       
-      if (argc == 2)
-      	 ptr->setPos(getRef<Point>(argv[1]));
-      else if (argc == 3)
-	 ptr->setPos(FIX2INT(argv[1]), FIX2INT(argv[2]));
+      if (NIL_P(arg3) && !NIL_P(arg2))
+      	 ptr->setPos(getRef<Point>(arg2));
+      else if (!NIL_P(arg2))
+	 ptr->setPos(FIX2INT(arg2), FIX2INT(arg3));
+      else
+	 rb_raise(rb_eArgError, "Center's position not given.");
    }
 
    VALUE tdata = Data_Wrap_Struct(info, 0, wrapped_free<Circle>, ptr);
