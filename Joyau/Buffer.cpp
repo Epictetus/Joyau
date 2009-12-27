@@ -630,15 +630,20 @@ VALUE Buffer_to_sprite(VALUE self) {
   Use it only for reading.
 */
 VALUE Buffer_getScreen(VALUE self) {
-   return Data_Wrap_Struct(getClass("Buffer"), 0, &no_free, Buffer::getScreen());
+   Buffer *buf = Buffer::getScreen();
+   if (buf)
+      return buf->toRuby();
+   return Qnil;
 }
 
 /*
   Returns the default buffer.
 */
 VALUE Buffer_getDefault(VALUE self) {
-   return Data_Wrap_Struct(getClass("Buffer"), 0, &no_free, 
-			   Buffer::getDefault());
+   Buffer *buf = Buffer::getDefault();
+   if (buf)
+      return buf->toRuby();
+   return Qnil;
 }
 
 /*
