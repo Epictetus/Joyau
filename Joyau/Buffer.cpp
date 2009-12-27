@@ -25,6 +25,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "Sprite.hpp"
 
 Buffer *Buffer::screen = NULL;
+Buffer *Buffer::default_buf = NULL;
 
 Buffer::Buffer(int w, int h, int format): shouldDelete(true) {
    setClass("Buffer");
@@ -624,18 +625,28 @@ VALUE Buffer_to_sprite(VALUE self) {
    }
 }
 
-VALUE Buffer_updateScreen(VALUE self) {
-   Buffer::updateScreen();
-   return Qnil;
-}
-
+/*
+  Returns the buffer representing the screen.
+  Use it only for reading.
+*/
 VALUE Buffer_getScreen(VALUE self) {
    return Data_Wrap_Struct(getClass("Buffer"), 0, &no_free, Buffer::getScreen());
 }
 
-VALUE Buffer_destroyScreen(VALUE self) {
-   Buffer::destroyScreen();
-   return Qnil;
+/*
+  Returns the default buffer.
+*/
+VALUE Buffer_getDefault(VALUE self) {
+   return Data_Wrap_Struct(getClass("Buffer"), 0, &no_free, 
+			   Buffer::getDefault());
+}
+
+/*
+  Returns the actual buffer.
+*/
+VALUE Buffer_getActual(VALUE self) {
+   Buffer buf(oslGetDrawBuffer());
+   return createObject(getClass("Buffer"), buf);
 }
 
 /*
@@ -936,10 +947,10 @@ void defineBuffer() {
    defMethod(cBuffer, "save", Buffer_save, 1);
    defMethod(cBuffer, "to_sprite", Buffer_to_sprite, 0);
    
-   defModFunc(cBuffer, "updateScreen", Buffer_updateScreen, 0);
-   defModFunc(cBuffer, "screen", Buffer_updateScreen, 0);
-   defModFunc(cBuffer, "destroyScreen", Buffer_destroyScreen, 0);
-
+   defClassMethod(cBuffer, "screen", Buffer_getScreen, 0);
+   defClassMethod(cBuffer, "default", Buffer_getDefault, 0);
+   defClassMethod(cBuffer, "actual", Buffer_getActual, 0);
+   
    defAlias(cBuffer, "setPos", "pos=");
 
    VALUE cPainter = defClass<Painter>("Painter");

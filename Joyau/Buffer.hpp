@@ -66,22 +66,36 @@ public:
    static void updateScreen() {
       if (screen)
          delete screen;
-      screen = new Buffer(OSL_DEFAULT_BUFFER);
+      if (default_buf)
+	 delete default_buf;
+      
+      screen = new Buffer(OSL_SECONDARY_BUFFER);
+      default_buf = new Buffer(OSL_DEFAULT_BUFFER);
    }
 
    static Buffer *getScreen() {
       return screen;
    }
 
+   static Buffer *getDefault() {
+      return default_buf;
+   }
+
    static void destroyScreen() {
-      delete screen;
+      if (screen)
+	 delete screen;
+      if (default_buf)
+	 delete default_buf;
+      
       screen = NULL;
+      default_buf = NULL;
    }
 private:
    OSL_IMAGE *img;
    bool shouldDelete;
 
    static Buffer *screen;
+   static Buffer *default_buf;
 };
 
 class Painter {
@@ -145,9 +159,9 @@ VALUE Buffer_save(VALUE self, VALUE filename);
 
 VALUE Buffer_to_sprite(VALUE self);
 
-VALUE Buffer_updateScreen(VALUE self);
 VALUE Buffer_getScreen(VALUE self);
-VALUE Buffer_destroyScreen(VALUE self);
+VALUE Buffer_getDefault(VALUE self);
+VALUE Buffer_getActual(VALUE self);
 
 VALUE Painter_drawLine(int argc, VALUE *argv, VALUE self);
 VALUE Painter_drawFillRect(int argc, VALUE *argv, VALUE self);
