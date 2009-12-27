@@ -170,14 +170,19 @@ template<>
 VALUE wrap<Sound>(int argc, VALUE *argv, VALUE info)
 {
    Sound *ptr = new Sound;
-   if (argc >= 1) {
+
+   VALUE filename;
+   rb_scan_args(argc, argv, "01", &filename);
+
+   if (!NIL_P(filename)) {
       try {
-	 ptr->loadWav(StringValuePtr(argv[0]));
+	 ptr->loadWav(StringValuePtr(filename));
       }
       catch (const RubyException &e) {
 	 e.rbRaise();
       }
    }
+   
    VALUE tdata = Data_Wrap_Struct(info, 0, wrapped_free<Sound>, ptr);
    return tdata;
 }
@@ -207,9 +212,13 @@ template<>
 VALUE wrap<Stream>(int argc, VALUE *argv, VALUE info)
 {
    Stream *ptr = new Stream;
-   if (argc >= 1) {
+
+   VALUE filename;
+   rb_scan_args(argc, argv, "01", &filename);
+
+   if (!NIL_P(filename)) {
       try {
-	 ptr->loadOgg(StringValuePtr(argv[0]));
+	 ptr->loadOgg(StringValuePtr(filename));
       }
       catch (const RubyException &e) {
 	 e.rbRaise();
@@ -240,11 +249,17 @@ template<>
 VALUE wrap<Vector3f>(int argc, VALUE *argv, VALUE info)
 {
    Vector3f *ptr = new Vector3f;
-   if (argc >= 3)
-   {
-      ptr->x = NUM2DBL(argv[0]);
-      ptr->y = NUM2DBL(argv[1]);
-      ptr->z = NUM2DBL(argv[2]);
+
+   VALUE x, y, z;
+   rb_scan_args(argc, argv, "03", &x, &y, &z);
+   
+   if (!NIL_P(x)) {
+      if (NIL_P(y) || NIL_P(z))
+	 rb_raise(rb_eArgError, "3 arguments expected if at least on is given.");
+      
+      ptr->x = NUM2DBL(x);
+      ptr->y = NUM2DBL(y);
+      ptr->z = NUM2DBL(z);
    }
 
    VALUE tdata = Data_Wrap_Struct(info, 0, wrapped_free<Vector3f>, ptr);
