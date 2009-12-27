@@ -356,8 +356,15 @@ VALUE Sprite_setAutoDir(VALUE self, VALUE val)
 
 VALUE Sprite_to_buf(VALUE self) {
    Sprite &ref = getRef<Sprite>(self);
-   return Data_Wrap_Struct(getClass("Buffer"), 0, wrapped_free<Buffer>,
-			   new Buffer(ref));
+   
+   try {
+      return Data_Wrap_Struct(getClass("Buffer"), 0, wrapped_free<Buffer>,
+			      new Buffer(ref));
+   }
+   catch (const RubyException &e) {
+      e.rbRaise();
+      return Qnil;
+   }
 }
 
 void defineSprite()

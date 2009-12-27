@@ -988,5 +988,3 @@ void defineAudio()
    defModFunc(joyau, "initAudio", Audio_init, 0);
    defModFunc(joyau, "stopAudio", Audio_stop, 0);
 }
-
-/* */

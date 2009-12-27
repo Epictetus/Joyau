@@ -629,8 +629,14 @@ VALUE Drawable_draw(VALUE self)
 */
 VALUE Drawable_to_buf(VALUE self) {
    RubyDrawable drawable(self);
-   return Data_Wrap_Struct(getClass("Buffer"), 0, wrapped_free<Buffer>,
-			   new Buffer(drawable));
+   try {
+      return Data_Wrap_Struct(getClass("Buffer"), 0, wrapped_free<Buffer>,
+			      new Buffer(drawable));
+   }
+   catch (const RubyException &e) {
+      e.rbRaise();
+      return Qnil;
+   }
 }
 
 void defineDrawable()
