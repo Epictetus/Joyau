@@ -153,5 +153,12 @@ class RDoc::Parser::Joyau < RDoc::Parser::C
       handle_method("module_function", var_name, meth_name,
                     meth_body, param_count)
     end
+
+    @content.scan(/defClassMethod\((\w+), \"([\[\]\?!\=\w]+)\", (\w+), ([\-0-9]+)\)/) do 
+      |var_name, meth_name, meth_body, param_count|
+      
+      handle_method("singleton_method", var_name, meth_name,
+                    meth_body, param_count)
+    end
   end 
 end
