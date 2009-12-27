@@ -18,8 +18,21 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "Manager.hpp"
 #include "Buffer.hpp"
 
-// Everyone likes the sprite = Sprite.new "image.png" syntax, right ?
-template<> VALUE wrap<Sprite>(int argc, VALUE *argv, VALUE info)
+/*
+  Document-class: Joyau::Sprite
+  
+  This drawable represents an image. You can do lots of manipulations, like
+  showing an animated sprite.
+*/
+
+template<>
+/*
+  call-seq: new()
+            new(filename)
+
+  Creates a Sprite.
+*/
+VALUE wrap<Sprite>(int argc, VALUE *argv, VALUE info)
 {
    Sprite *ptr = new Sprite;
    VALUE tdata;
@@ -217,6 +230,11 @@ void Sprite::saveImage(const char *fname)
    oslSetAlpha(OSL_FX_RGBA, _alpha);
 }
 
+/*
+  call-seq: rotate(angle)
+
+  Rotates the sprite.
+*/
 VALUE Sprite_rotate(VALUE self, VALUE angle) 
 {
    Sprite &item = getRef<Sprite>(self);
@@ -225,6 +243,9 @@ VALUE Sprite_rotate(VALUE self, VALUE angle)
    return Qnil;
 }
 
+/*
+  Returns the sprite's angle.
+*/
 VALUE Sprite_getAngle(VALUE self) 
 {
    Sprite &item = getRef<Sprite>(self);
@@ -232,6 +253,11 @@ VALUE Sprite_getAngle(VALUE self)
    return INT2FIX(item.getAngle()); 
 }
 
+/*
+  call-seq: setAngle(val)
+
+  Sets the sprite's angle.
+*/
 VALUE Sprite_setAngle(VALUE self, VALUE angle) 
 {
    Sprite &item = getRef<Sprite>(self);
@@ -241,6 +267,9 @@ VALUE Sprite_setAngle(VALUE self, VALUE angle)
    return angle;
 }
 
+/*
+  Returns the sprite's zoom.
+*/
 VALUE Sprite_getZoom(VALUE self)
 {
    Sprite &item = getRef<Sprite>(self);
@@ -248,6 +277,9 @@ VALUE Sprite_getZoom(VALUE self)
    return INT2FIX(item.getZoom());
 }
 
+/*
+  Returns the sprite's direction.
+*/
 VALUE Sprite_getDirection(VALUE self) 
 { 
    Sprite &item = getRef<Sprite>(self);
@@ -255,6 +287,12 @@ VALUE Sprite_getDirection(VALUE self)
    return INT2FIX(item.getDirection()); 
 }
 
+/*
+  call-seq: setAnimation(x, y)
+
+  Sets how many animation steps there are in the sprite.
+  This considers that each step has the same size.
+*/
 VALUE Sprite_setAnimation(VALUE self, VALUE nbrX, VALUE nbrY)
 {
    Sprite &item = getRef<Sprite>(self);
@@ -263,6 +301,11 @@ VALUE Sprite_setAnimation(VALUE self, VALUE nbrX, VALUE nbrY)
    return Qnil;
 }
 
+/*
+  call-seq: setAnimTime(frames)
+
+  Sets how many frame the sprite should stay on the same animation.
+*/
 VALUE Sprite_setAnimationTime(VALUE self, VALUE t)
 {
    Sprite &item = getRef<Sprite>(self);
@@ -271,6 +314,12 @@ VALUE Sprite_setAnimationTime(VALUE self, VALUE t)
    return t;
 }
 
+/*
+  call-seq: setPicture(pic)
+
+  Sets the sprite's file. Notice that the same picture won't be loaded
+  twice: all the sprites will share that ressource.
+*/
 VALUE Sprite_setPicture(VALUE self, VALUE pic)
 {
    Sprite &item = getRef<Sprite>(self);
@@ -284,12 +333,20 @@ VALUE Sprite_setPicture(VALUE self, VALUE pic)
    return pic;
 }
 
+/*
+  Returns the sprite's picture name.
+*/
 VALUE Sprite_picture(VALUE self)
 {
    Sprite &ref = getRef<Sprite>(self);
    return rb_str_new2(ref.getPicName().c_str());
 }
 
+/*
+  call-seq: setAlpga(val)
+
+  Sets the sprite's transparency.
+*/
 VALUE Sprite_setAlpha(VALUE self, VALUE alpha)
 {
    Sprite &item = getRef<Sprite>(self);
@@ -298,6 +355,9 @@ VALUE Sprite_setAlpha(VALUE self, VALUE alpha)
    return alpha;
 }
 
+/*
+  Returns the sprite's transparency.
+*/
 VALUE Sprite_getAlpha(VALUE self)
 {
    Sprite &item = getRef<Sprite>(self);
@@ -305,6 +365,11 @@ VALUE Sprite_getAlpha(VALUE self)
    return INT2FIX(item.getAlpha());
 }
 
+/*
+  call-seq: setDirection(dir)
+
+  Sets the sprite's direction.
+*/
 VALUE Sprite_setDirection(VALUE self, VALUE dir)
 {
    Sprite &item = getRef<Sprite>(self);
@@ -313,6 +378,11 @@ VALUE Sprite_setDirection(VALUE self, VALUE dir)
    return dir;
 }
 
+/*
+  call-seq: zoom(val)
+
+  Increase or decrease the zooming level.
+*/
 VALUE Sprite_zoom(VALUE self, VALUE val)
 {
    Sprite &item = getRef<Sprite>(self);
@@ -321,6 +391,11 @@ VALUE Sprite_zoom(VALUE self, VALUE val)
    return Qnil; 
 }
 
+/*
+  call-seq: setTile(x, y, w, h)
+
+  Sets the rect which is shown.
+*/
 VALUE Sprite_setTile(VALUE self, VALUE x, VALUE y, VALUE w, VALUE h)
 {
    Sprite &item = getRef<Sprite>(self);
@@ -329,6 +404,9 @@ VALUE Sprite_setTile(VALUE self, VALUE x, VALUE y, VALUE w, VALUE h)
    return Qnil;
 }
 
+/*
+  Disable the tilling effect.
+ */
 VALUE Sprite_unTile(VALUE self)
 {
    Sprite &ref = getRef<Sprite>(self);
@@ -337,6 +415,11 @@ VALUE Sprite_unTile(VALUE self)
    return Qnil;
 }
 
+/*
+  call-seq: saveFile(filename)
+
+  Saves the sprite in a file.
+*/
 VALUE Sprite_saveFile(VALUE self, VALUE pic)
 {
    Sprite &item = getRef<Sprite>(self);
@@ -346,6 +429,10 @@ VALUE Sprite_saveFile(VALUE self, VALUE pic)
    return Qnil;
 }
 
+/*
+  Sets the autoDir value. When true, the sprite's direction changes
+  according to its moves.
+*/
 VALUE Sprite_setAutoDir(VALUE self, VALUE val)
 {
    Sprite &ref = getRef<Sprite>(self);
@@ -354,6 +441,9 @@ VALUE Sprite_setAutoDir(VALUE self, VALUE val)
    return val;
 }
 
+/*
+  Converts the sprite in a buffer.
+*/
 VALUE Sprite_to_buf(VALUE self) {
    Sprite &ref = getRef<Sprite>(self);
    
