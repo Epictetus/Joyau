@@ -67,7 +67,8 @@ Rake::RDocTask.new do |rd|
           "MultiSelecter.cpp", 
           "Buffer.cpp", 
           "DrawableRect.cpp", 
-          "Triangle.cpp"]
+          "Triangle.cpp",
+          "Wlan.hpp"]
   rd.rdoc_files.include(*srcs)
   rd.rdoc_dir = "./doc/embedded"
 end
