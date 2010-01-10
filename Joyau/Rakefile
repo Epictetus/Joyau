@@ -22,8 +22,7 @@ JoyauTask.new do |conf|
                    -lpsppower -lpspgu -lpspmpeg -lpspaudiocodec -lpspaudiolib 
                    -lalut -lOpenAL32 -lpsprtc -lvorbisfile  -lvorbis
                    -lpspaudio -lpspusb -lpspusbstor -lpsphprm -lpsputility
-                   -lpspwlan -lpspssl -lpsphttp 
-                   -lpspgum -lruby -lm -logg -lpsprtc -lstdc++)
+                   -lpspwlan -lpspgum -lruby -lm -logg -lpsprtc -lstdc++)
 
   conf.libs = static_libs | conf.libs
 

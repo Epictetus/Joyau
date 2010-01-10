@@ -25,9 +25,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include <psputility.h>
 
-#include <psphttp.h>
-#include <pspssl.h>
-
 /*
   Inits the wlan connection. You have to call this before calling the socket
   function.
@@ -41,19 +38,6 @@ VALUE Wlan_init(VALUE self) {
     err = sceUtilityLoadNetModule(PSP_NET_MODULE_INET);
     if (err < 0)
        rb_raise(rb_eRuntimeError, "Failled to load inet module");
-
-    err = sceUtilityLoadNetModule(PSP_NET_MODULE_PARSEURI);
-    if (err < 0)
-       rb_raise(rb_eRuntimeError, "Failled to load parse URI module");
-    err = sceUtilityLoadNetModule(PSP_NET_MODULE_PARSEHTTP);
-    if (err < 0)
-       rb_raise(rb_eRuntimeError, "Failled to load parse HTPP module");
-    err = sceUtilityLoadNetModule(PSP_NET_MODULE_HTTP);
-    if (err < 0)
-       rb_raise(rb_eRuntimeError, "Failled to load HTPP module");
-    err = sceUtilityLoadNetModule(PSP_NET_MODULE_SSL);
-    if (err < 0)
-       rb_raise(rb_eRuntimeError, "Failled to load SSL module");
 
     err = sceNetInit(0x20000, 0x20, 0x1000, 0x20, 0x1000);
     if (err < 0)
@@ -70,27 +54,7 @@ VALUE Wlan_init(VALUE self) {
     err = sceNetApctlInit(0x1400, 0x42);
     if (err < 0)
         rb_raise(rb_eRuntimeError, "Failled to init apctl");
-
-    err = sceSslInit(0x28000);
-    if (err < 0)
-       rb_raise(rb_eRuntimeError, "Failled to init SSL module");
-    
-    err = sceHttpInit(0x25800);
-    if (err < 0)
-       rb_raise(rb_eRuntimeError, "Failled to init HTTP module");
-    
-    err = sceHttpsInit(0, 0, 0, 0);
-    if (err < 0)
-       rb_raise(rb_eRuntimeError, "Failled to init HTTPS module");
-    
-    err = sceHttpsLoadDefaultCert(0, 0);
-    if (err < 0)
-       rb_raise(rb_eRuntimeError, "Failled to load default certificates");
-    
-    err = sceHttpLoadSystemCookie();
-    if (err < 0)
-       rb_raise(rb_eRuntimeError, "Failled to load cookies");
-    
+ 
     return Qnil;
 }
 
@@ -145,10 +109,6 @@ VALUE Wlan_stop(VALUE self) {
    sceNetApctlDisconnect();
    sceNetApctlTerm();
 
-   sceUtilityUnloadNetModule(PSP_NET_MODULE_SSL);
-   sceUtilityUnloadNetModule(PSP_NET_MODULE_HTTP);
-   sceUtilityUnloadNetModule(PSP_NET_MODULE_PARSEHTTP);
-   sceUtilityUnloadNetModule(PSP_NET_MODULE_PARSEURI);
    sceUtilityUnloadNetModule(PSP_NET_MODULE_INET);
    sceUtilityUnloadNetModule(PSP_NET_MODULE_COMMON);
 
