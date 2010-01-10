@@ -109,8 +109,14 @@ VALUE Wlan_connect(VALUE self, VALUE config, VALUE timeout) {
 /*
   Ends a Wlan connection.
 */
-VALUE Wlan_stop(VALUE self) {
+VALUE Wlan_disconnect(VALUE self) {
    sceNetApctlDisconnect();
+}
+
+/*
+  Unlods net modules.
+*/
+VALUE Wlan_stop(VALUE self) {
    sceNetApctlTerm();
 
    sceUtilityUnloadNetModule(PSP_NET_MODULE_INET);
@@ -185,6 +191,7 @@ void defineWlan() {
    defModFunc(mWlan, "init", Wlan_init, 0);
    defModFunc(mWlan, "stop", Wlan_stop, 0);
    defModFunc(mWlan, "connect", Wlan_connect, 2);
+   defModFunc(mWlan, "disconnect", Wlan_disconnect, 0);
    defModFunc(mWlan, "button_enabled?", Wlan_button_enabled, 0);
    defModFunc(mWlan, "configs", Wlan_configs, 0);
    defModFunc(mWlan, "connected?", Wlan_is_connected, 0);
