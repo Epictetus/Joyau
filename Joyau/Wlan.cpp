@@ -64,7 +64,8 @@ VALUE Wlan_init(VALUE self) {
   call-seq: connect(access_point, timeout)
 
   Connects to a given acces point. You can specify a timeout in seconds.
-  If the connection isn't established after
+  If the connection isn't established after the specified timeout,
+  a TimeoutError is raised.
 */
 VALUE Wlan_connect(VALUE self, VALUE config, VALUE timeout) {
    if (sceNetApctlConnect(FIX2INT(config)))
