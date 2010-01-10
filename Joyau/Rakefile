@@ -13,13 +13,16 @@ JoyauTask.new do |conf|
   conf.srcs = Dir['*.cpp']
   libs = %w(intrafont/libccc.c intrafont/intraFont.c console/console2d.c 
             console/console.c console/librairies/framebuffer.c
-	    console/librairies/danzeff.c console/librairies/graphics.c)
+	    console/librairies/danzeff.c console/librairies/graphics.c
+            socket/socket.c socket/getnameinfo.c socket/getaddrinfo.c
+            socket/pspsocket.c)
   conf.srcs = conf.srcs | libs
 
   static_libs = %w(-losl -lpng -lz -lpspsdk -lpspvfpu -lpspctrl -lpspumd 
                    -lpsppower -lpspgu -lpspmpeg -lpspaudiocodec -lpspaudiolib 
                    -lalut -lOpenAL32 -lpsprtc -lvorbisfile  -lvorbis
-                   -lpspaudio -lpspusb -lpspusbstor -lpsphprm -lpsputility 
+                   -lpspaudio -lpspusb -lpspusbstor -lpsphprm -lpsputility
+                   -lpspwlan -lpspssl -lpsphttp 
                    -lpspgum -lruby -lm -logg -lpsprtc -lstdc++)
 
   conf.libs = static_libs | conf.libs

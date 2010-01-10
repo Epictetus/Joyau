@@ -277,7 +277,7 @@ VALUE getTextSize(VALUE self, VALUE text)
   call-seq: setTextBackground(color)
 
   Sets the color in which the text's background is drawn.
- */
+*/
 VALUE setTextBackground(VALUE self, VALUE color)
 {
    OSL_COLOR c = hash2col(color);

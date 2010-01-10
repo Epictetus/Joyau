@@ -39,10 +39,15 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "Font.hpp"
 #include "Console.hpp"
 #include "Buffer.hpp"
+#include "Wlan.hpp"
 
 PSP_MODULE_INFO("Joyau", 0, 1, 1);
 PSP_MAIN_THREAD_ATTR(THREAD_ATTR_USER | THREAD_ATTR_VFPU);
-PSP_HEAP_SIZE_KB(-256);
+PSP_HEAP_SIZE_KB(-1024 * 2);
+
+extern "C" {
+   void Init_socket();
+}
 
 int exit_callback(int arg1, int arg2, void* commons)
 {
@@ -152,6 +157,9 @@ int main(int argc, char** argv)
    ruby_incpush("./");
    
    VALUE joyau = joyau_define_module("Joyau");
+   
+   Init_socket();
+   defineWlan();
    
    defineManager();
    defineDrawable();

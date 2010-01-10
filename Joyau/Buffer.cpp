@@ -901,7 +901,7 @@ VALUE Joyau_draw(int argc, VALUE *argv, VALUE self) {
    else
       rb_raise(rb_eArgError, "Block expected.");
 
-   if (!ruby_buf) // We do not delete the buffer if it come from Ruby.
+   if (!ruby_buf) // We do not delete the buffer if it comes from Ruby.
       delete buffer;
 
    oslSetDrawBuffer(oldBuffer);
