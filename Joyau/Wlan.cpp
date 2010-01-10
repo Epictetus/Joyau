@@ -25,6 +25,8 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include <psputility.h>
 
+static VALUE rb_eTimeoutError;
+
 /*
   Inits the wlan connection. You have to call this before calling the socket
   function.
@@ -62,14 +64,14 @@ VALUE Wlan_init(VALUE self) {
   call-seq: connect(access_point, timeout)
 
   Connects to a given acces point. You can specify a timeout in seconds.
+  If the connection isn't established after
 */
 VALUE Wlan_connect(VALUE self, VALUE config, VALUE timeout) {
    if (sceNetApctlConnect(FIX2INT(config)))
       rb_raise(rb_eRuntimeError, "Failled to connect to acces point %d",
 	       FIX2INT(config));
    
-   time_t startTime;
-   time_t currTime;
+   time_t startTime, currTime;
    time(&startTime);
 
    int last_state = -1;
@@ -78,7 +80,8 @@ VALUE Wlan_connect(VALUE self, VALUE config, VALUE timeout) {
       time(&currTime);
       if (currTime - startTime >= FIX2INT(timeout)) {
 	 sceNetApctlDisconnect();
-	 rb_raise(rb_eRuntimeError, "Connection timeouted");
+	 rb_raise(rb_eTimeoutError, "Connection timeouted after %d seconds",
+		  FIX2INT(timeout));
 	 break;
       }
 
@@ -175,6 +178,8 @@ VALUE Wlan_ip(VALUE self) {
 }
 
 void defineWlan() {
+   rb_eTimeoutError = rb_define_class("TimeoutError", rb_eStandardError);
+
    VALUE mWlan = defModule("Wlan");
    defModFunc(mWlan, "init", Wlan_init, 0);
    defModFunc(mWlan, "stop", Wlan_stop, 0);
