@@ -184,6 +184,23 @@ VALUE Wlan_ip(VALUE self) {
    return rb_str_new2(apctlInfo.ip);
 }
 
+/*
+  Document-class: Joyau::Wlan
+
+  Ruby's stdlib includes a Sock class, as well as classes easying
+  the use of HTTP and FTP protocols. These classes can be used,
+  but the PSP requires some initialisation before being able to use them.
+
+  This module contains the basic methods which can allow you to use
+  theme. This means :
+  
+  * Loading net modules
+  * Connecting to one of the access points
+  * Checking the access points
+  
+  Once you're connected, everything is transparent: you can use sockets as
+  usual.
+*/
 void defineWlan() {
    rb_eTimeoutError = rb_define_class("TimeoutError", rb_eStandardError);
 
