@@ -110,6 +110,12 @@ task :release_dir => ['psp:eboot', 'psp:prx', 'rdoc_site', 'rdoc',
   system "tar -xvf ruby-1.8.7-p248.tar.bz2"
   FileUtils.cp_r "ruby-1.8.7-p248/lib", "Joyau-release/ruby/1.8/"
   FileUtils.rm_r "ruby-1.8.7-p248"
+
+  File.open("Joyau-rleease/ruby/1.8/socket.rb", 'w') do |file|
+    file.puts "# This module is built-in."
+    file.puts "# This file is only used for compatiblity with some"
+    file.puts "# libraries which require socket."
+  end
 end
 
 Rake::PackageTask.new("Joyau", JOYAU_VERSION) do |pkg|
