@@ -100,7 +100,7 @@ module Joyau
       def stop(*args)
         begin
           if args.size == 0
-            @modules.each { |mod| mod.stop }
+            @modules.each { |key, mod| mod.stop }
           else
             args.each { |mod| @modules[mod].stop }
           end
