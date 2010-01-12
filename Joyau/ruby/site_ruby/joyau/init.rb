@@ -3,7 +3,7 @@ class UndefinedModule < StandardError; end
 
 module Joyau
   #
-  # == Usage ==
+  # == Usage
   #
   # This module allows to inits some services, and to stop them easily :
   #
@@ -16,12 +16,13 @@ module Joyau
   # as well as Joyau.initGfx are run, because Intrafont depends on them.
   #
   # The default modules are:
-  #  1. :lib, the main library.
-  #  2. :gfx, the graphic module. Depends on :lib.
-  #  3. :wlan, the net-related modules.
-  #  4. :intrafont, the Intrafont module. Depends on :gfx
-  #  5. :audio, the audio module.
-  #  6. :usb, the USB module.
+  #
+  # 1. :lib, the main library.
+  # 2. :gfx, the graphic module. Depends on :lib.
+  # 3. :wlan, the net-related modules.
+  # 4. :intrafont, the Intrafont module. Depends on :gfx
+  # 5. :audio, the audio module.
+  # 6. :usb, the USB module.
   #
   # Every module you load through Joyau.init is stopped when Joyau.stop. You
   # can stop module during your program's execution as well:
@@ -29,7 +30,7 @@ module Joyau
   #  Joyau.stop(:something, :another_mod) # Stops :something and :another_mod
   #  Joyau.stop # Stops everything
   #
-  # == Module creation ==
+  # == Module creation
   #
   # If you created a module, you can make it loadable through this interface:
   #  class MyModule
