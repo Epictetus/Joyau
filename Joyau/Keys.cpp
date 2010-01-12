@@ -326,6 +326,104 @@ VALUE Joyau_gets(VALUE self)
 }
 
 /*
+  call-seq: run(input_type, language, text, desc, output_size) { ... }
+
+  Shows the OSK (Sony's default keyboard), and returns the input text.
+  Example:
+    Joyau::OSK.run(Joyau::OSK::ALL, Joyau::OSK::DEFAULT,
+                   "Anonymous", "Enter your nickame", 16) do
+      Joyau.clearScreen # this is suffisant to avoid glitches,
+                        # Although you might copy the old screen buffer,
+			# and draw it here.
+ */
+VALUE Osk_run(VALUE self, VALUE type, VALUE lang, VALUE rb_input, 
+	      VALUE rb_desc, VALUE output_size)
+{
+   SceUtilityOskData data;
+   SceUtilityOskParams params;
+
+   char *char_input = StringValuePtr(rb_input);
+   int char_size = strlen(char_input);
+   
+   unsigned short *input = new unsigned short[char_size + 1];
+   for (int i = 0; i < char_size + 1; ++i)
+      input[i] = char_input[i];
+   
+   char *char_desc = StringValuePtr(rb_desc);
+   char_size = strlen(char_desc);
+   
+   unsigned short *desc = new unsigned short[char_size + 1];
+   for (int i = 0; i < char_size + 1; ++i)
+      desc[i] = char_desc[i];
+
+   unsigned short *output = new unsigned short[FIX2INT(output_size)];
+
+   memset(&data, 0, sizeof(data));
+   data.lines = 1;
+   data.unk_24 = 1;
+   data.inputtype = INT2FIX(type);
+   data.desc = desc;
+   data.intext = input;
+   data.outtextlength = FIX2INT(output_size);
+   data.outtextlimit = FIX2INT(output_size);
+   data.outtext = output;
+
+   memset(&params, 0, sizeof(params));
+   params.base.size = sizeof(params);
+   params.base.language = FIX2INT(lang);
+   sceUtilityGetSystemParamInt(PSP_SYSTEMPARAM_ID_INT_UNKNOWN,
+                               &params.base.buttonSwap);
+   params.base.soundThread = 16;
+   params.base.graphicsThread = 17;
+   params.base.accessThread = 19;
+   params.base.fontThread = 18;
+   params.datacount = 1;
+   params.data = &data;
+
+   sceUtilityOskInitStart(&params);
+
+   bool done = false;
+   while (!done)
+   {
+      oslStartDrawing();
+      rb_yield(Qnil);
+      oslEndDrawing();
+      
+      switch(sceUtilityOskGetStatus())
+      {
+         case PSP_UTILITY_DIALOG_INIT:
+            break;
+         case PSP_UTILITY_DIALOG_VISIBLE:
+            sceUtilityOskUpdate(1);
+            break;
+         case PSP_UTILITY_DIALOG_QUIT:
+            sceUtilityOskShutdownStart();
+            break;
+         case PSP_UTILITY_DIALOG_FINISHED:
+            break;
+         case PSP_UTILITY_DIALOG_NONE:
+            done = true;
+         default :
+            break;
+      }
+
+      oslEndDrawing();
+      oslEndFrame();
+      oslSyncFrame();
+   }
+
+   char *ret = new char[FIX2INT(output_size)];
+   for (int i = 0; i < FIX2INT(output_size); ++i)
+      ret[i] = (char)data.outtext[i];
+
+   delete[] input;
+   delete[] desc;
+   delete[] output;
+
+   return rb_str_new2(ret);
+}
+
+/*
   Document-class: Joyau::Pad
   
   Module used in order to check what keys are pressed or released.
@@ -429,6 +527,96 @@ void defineKeys()
    defConst(mPad, "RIGHT", INT2FIX(PSP_CTRL_RIGHT));
 
    defConst(mPad, "HOLD", INT2FIX(PSP_CTRL_HOLD));
+
+   /*
+     Document-class: Joyau::OSK
+
+     There is a built-in keyboard in your firmware, which can be used by your
+     program easily through this class. Notice Joyau.gets is a simpliefied
+     version of this module, which can handle more advanced settings.
+
+     You can, by using its constants, specify what has to be input.
+     you can indicated the used language:
+
+     1. DEFAULT
+     2. JAPANESE
+     3. ENGLISH
+     4. FRENCH
+     5. SPANISH
+     6. GERMAN
+     7. ITALIAN
+     8. DUTCH
+     9. PORTUGESE
+     10. RUSSIAN
+     11. KOREAN
+
+     As well as the caracters to input:
+     
+     1. ALL
+     2. LATIN_SYMBOL
+     3. LATIN_LOWERCASE
+     4. LATIN_UPPERCASE
+     5. LATIN_DIGIT
+     6. JAPANESE_DIGIT
+     7. JAPANESE_SYMBOL
+     8. JAPANESE_LOWERCASE
+     9. JAPANESE_UPPERCASE
+     10. JAPANESE_HIRAGANA
+     11. JAPANASE_HALF_KATAKANA
+     12. JAPANESE_KATAKANA
+     13. JAPANESE_LOWERCASE
+     14. RUSSIAN_LOWERCASE
+     15. RUSSIAN_UPPERCASE
+     16. IT_KOREAN
+     17. URL
+
+     You can also set the default text and the description, and give a block
+     telling what to draw under the keyboard (if nothing were drawn, there'd
+     be graphical glitches).
+   */
+   VALUE mOSK = defModule("OSK");
+   defModFunc(mOSK, "run", Osk_run, 5);
+   
+   defConst(mOSK, "DEFAULT", INT2FIX(PSP_UTILITY_OSK_LANGUAGE_DEFAULT));
+   defConst(mOSK, "JAPANESE", INT2FIX(PSP_UTILITY_OSK_LANGUAGE_JAPANESE));
+   defConst(mOSK, "ENGLISH", INT2FIX(PSP_UTILITY_OSK_LANGUAGE_ENGLISH));
+   defConst(mOSK, "FRENCH", INT2FIX(PSP_UTILITY_OSK_LANGUAGE_SPANISH));
+   defConst(mOSK, "SPANISH", INT2FIX(PSP_UTILITY_OSK_LANGUAGE_SPANISH));
+   defConst(mOSK, "GERMAN", INT2FIX(PSP_UTILITY_OSK_LANGUAGE_GERMAN));
+   defConst(mOSK, "ITALIAN", INT2FIX(PSP_UTILITY_OSK_LANGUAGE_ITALIAN));
+   defConst(mOSK, "PORTUGESE", INT2FIX(PSP_UTILITY_OSK_LANGUAGE_PORTUGESE));
+   defConst(mOSK, "RUSSIAN", INT2FIX(PSP_UTILITY_OSK_LANGUAGE_RUSSIAN));
+   defConst(mOSK, "KOREAN", INT2FIX(PSP_UTILITY_OSK_LANGUAGE_KOREAN));
+   
+   defConst(mOSK, "ALL", INT2FIX(PSP_UTILITY_OSK_INPUTTYPE_ALL));
+   defConst(mOSK, "LATIN_DIGIT", 
+	    INT2FIX(PSP_UTILITY_OSK_INPUTTYPE_LATIN_DIGIT));
+   defConst(mOSK, "LATIN_SYMBOL", 
+	    INT2FIX(PSP_UTILITY_OSK_INPUTTYPE_LATIN_SYMBOL));
+   defConst(mOSK, "LATIN_LOWERCASE", 
+	    INT2FIX(PSP_UTILITY_OSK_INPUTTYPE_LATIN_LOWERCASE));
+   defConst(mOSK, "LATIN_UPPERCASE", 
+	    INT2FIX(PSP_UTILITY_OSK_INPUTTYPE_LATIN_UPPERCASE));
+   defConst(mOSK, "JAPANESE_DIGIT", 
+	    INT2FIX(PSP_UTILITY_OSK_INPUTTYPE_JAPANESE_DIGIT));
+   defConst(mOSK, "JAPANESE_SYMBOL", 
+	    INT2FIX(PSP_UTILITY_OSK_INPUTTYPE_JAPANESE_SYMBOL));
+   defConst(mOSK, "JAPANESE_LOWERCASE", 
+	    INT2FIX(PSP_UTILITY_OSK_INPUTTYPE_JAPANESE_LOWERCASE));
+   defConst(mOSK, "JAPANESE_UPPERCASE", 
+	    INT2FIX(PSP_UTILITY_OSK_INPUTTYPE_JAPANESE_UPPERCASE));
+   defConst(mOSK, "JAPANESE_HIRAGANA", 
+	    INT2FIX(PSP_UTILITY_OSK_INPUTTYPE_JAPANESE_HIRAGANA));
+   defConst(mOSK, "JAPANASE_HALF_KATAKANA", 
+	    INT2FIX(PSP_UTILITY_OSK_INPUTTYPE_JAPANESE_HALF_KATAKANA));
+   defConst(mOSK, "JAPANESE_KATAKANA", 
+	    INT2FIX(PSP_UTILITY_OSK_INPUTTYPE_JAPANESE_KATAKANA));
+   defConst(mOSK, "RUSSIAN_LOWERCASE", 
+	    INT2FIX(PSP_UTILITY_OSK_INPUTTYPE_JAPANESE_LOWERCASE));
+   defConst(mOSK, "RUSSIAN_UPPERCASE", 
+	    INT2FIX(PSP_UTILITY_OSK_INPUTTYPE_RUSSIAN_UPPERCASE));
+   defConst(mOSK, "IT_KOREAN", INT2FIX(PSP_UTILITY_OSK_INPUTTYPE_KOREAN));
+   defConst(mOSK, "URL", INT2FIX(PSP_UTILITY_OSK_INPUTTYPE_URL));
 
    VALUE cCursor = defClass<Cursor>("Cursor", "Sprite");
    defMethod(cCursor, "updatePos", Cursor_updatePos, 0);

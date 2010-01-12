@@ -111,6 +111,7 @@ VALUE Wlan_connect(VALUE self, VALUE config, VALUE timeout) {
 */
 VALUE Wlan_disconnect(VALUE self) {
    sceNetApctlDisconnect();
+   return Qnil;
 }
 
 /*
