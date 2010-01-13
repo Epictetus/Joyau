@@ -16,6 +16,8 @@ setTextBackground color(0, 0, 0, 0)
 skip = false
 
 while mayPlay
+  Pad.update
+
   cursor.updatePos
   if obstacle.collide(cursor)
     cursor.cancelMove

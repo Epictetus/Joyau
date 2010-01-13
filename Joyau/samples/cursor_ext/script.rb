@@ -19,6 +19,7 @@ setTextBackground color(0, 0, 0, 0)
 skip = false
 
 while mayPlay
+  Pad.update
   cursor.update_pos
 
   if !skip
