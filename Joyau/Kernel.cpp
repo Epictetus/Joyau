@@ -99,6 +99,18 @@ VALUE Kernel_Timestamp(VALUE self)
 }
 
 /*
+  Returns the system's language. Can be given to the OSK, or
+  used in a translation system.
+*/
+VALUE Kernel_language(VALUE self) {
+   int ret;
+   sceUtilityGetSystemParamInt(PSP_SYSTEMPARAM_ID_INT_LANGUAGE,
+                               &ret);
+
+   return INT2FIX(ret);
+}
+
+/*
   call-seq: rm(file)
 
   Removes a file.
@@ -164,6 +176,7 @@ void defineKernel()
 {
    VALUE joyau = JOYAU_MOD;
    defModFunc(joyau, "cd", Kernel_cd, 1);
+   defModFunc(joyau, "language", Kernel_language, 0);
 
    VALUE mUmd = defModule("Umd");
    defModFunc(mUmd, "present?", Kernel_UmdCheck, 0);
