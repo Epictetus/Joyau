@@ -126,9 +126,7 @@ VALUE wrap<Cursor>(int argc, VALUE *argv, VALUE info)
 void Cursor::updatePos()
 {
    Pad &pad = Pad::getInstance();
-   // since the user can directly check the Pad, it's no longer
-   // needed to fill the $keys variable.
-   pad.update();
+
    if (sensibility != 0)
    {
       int analogX = pad.getStickX();

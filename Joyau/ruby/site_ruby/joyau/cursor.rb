@@ -18,6 +18,8 @@ module Joyau
   # any drawable. Therefore, StickFollower allows to do that, and works
   # pretty much the same way.
   #
+  #  
+  #
   module StickFollower
     #
     # If the sensibility is higher, the object moves harder.
@@ -33,8 +35,6 @@ module Joyau
     # Updates the object's position, according to the analogic stick's position.
     #
     def update_pos
-      Pad.update
-
       unless @sensibility == 0
         move(Pad.stickX / @sensibility, Pad.stickY / @sensibility);
 
