@@ -102,6 +102,7 @@ task :release_dir => ['psp:eboot', 'psp:prx', 'rdoc_site', 'rdoc',
   FileUtils.cp_r 'console', 'Joyau-release/src'
   FileUtils.cp_r 'intrafont', 'Joyau-release/src'
   FileUtils.cp_r 'eboot', 'Joyau-release/src'
+  FileUtils.cp_r 'socket', 'Joayu-release/src'
 
   FileUtils.cp 'EBOOT.PBP', 'Joyau-release'
   FileUtils.cp 'Joyau.prx', 'Joyau-release'
