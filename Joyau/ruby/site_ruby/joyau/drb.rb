@@ -4,7 +4,7 @@
 require 'drb/drb'
 
 module DRb
-  module DRbProtocol
+  class DRbTCPSocket
     def self.getservername
       'localhost'
     end
