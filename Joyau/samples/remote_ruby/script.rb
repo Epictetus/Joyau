@@ -16,6 +16,11 @@ unless Joyau::Wlan.button_enabled?
   sleep 0.1 until Joyau::Wlan.button_enabled?
 end
 
+if Joyau::Wlan.configs.size == 0
+  show_message "You need an acces point to run this program."
+  Joyau.exitGame
+end
+
 selecter = Joyau::VerticalMsgSelecter.new
 
 sel_conf = selecter.focusConf
@@ -60,11 +65,19 @@ end
 
 show_message "Connecting to access point..."
 
+tested = 0
 begin
   Joyau::Wlan.connect(selecter.index + 1, 60)
   show_message "Connecting to access point... done !"
 rescue TimeoutError
-  show_message "Connecting to access point... timeouted !\n Trying again."
+  tested += 1
+  if tested < 3
+    show_message "Connecting to access point... timeouted !\n Trying again."
+    retry
+  else
+    show_message "Connecting to access point... failled !"
+    Joyau.exitGame
+  end
 end
 
 DRb.start_service
