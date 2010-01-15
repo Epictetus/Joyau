@@ -47,6 +47,7 @@ PSP_HEAP_SIZE_KB(-512);
 
 extern "C" {
    void Init_socket();
+   void Init_bigdecimal();
 }
 
 int exit_callback(int arg1, int arg2, void* commons)
@@ -158,9 +159,12 @@ int main(int argc, char** argv)
    
    VALUE joyau = joyau_define_module("Joyau");
    
+   // stdlib
    Init_socket();
-   defineWlan();
-   
+   Init_bigdecimal();
+
+   // Joyau
+   defineWlan();   
    defineManager();
    defineDrawable();
    defineShape();

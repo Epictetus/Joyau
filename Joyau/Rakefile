@@ -15,7 +15,8 @@ JoyauTask.new do |conf|
             console/console.c console/librairies/framebuffer.c
 	    console/librairies/danzeff.c console/librairies/graphics.c
             socket/socket.c socket/getnameinfo.c socket/getaddrinfo.c
-            socket/pspsocket.c)
+            socket/pspsocket.c
+            bigdecimal/bigdecimal.c)
   conf.srcs = conf.srcs | libs
 
   static_libs = %w(-losl -lpng -lz -lpspsdk -lpspvfpu -lpspctrl -lpspumd 
@@ -102,7 +103,8 @@ task :release_dir => ['psp:eboot', 'psp:prx', 'rdoc_site', 'rdoc',
   FileUtils.cp_r 'console', 'Joyau-release/src'
   FileUtils.cp_r 'intrafont', 'Joyau-release/src'
   FileUtils.cp_r 'eboot', 'Joyau-release/src'
-  FileUtils.cp_r 'socket', 'Joayu-release/src'
+  FileUtils.cp_r 'socket', 'Joyau-release/src'
+  FileUtils.cp_r 'bigdecimal', 'Joyau-release/src'
 
   FileUtils.cp 'EBOOT.PBP', 'Joyau-release'
   FileUtils.cp 'Joyau.prx', 'Joyau-release'
@@ -112,10 +114,14 @@ task :release_dir => ['psp:eboot', 'psp:prx', 'rdoc_site', 'rdoc',
   FileUtils.cp_r "ruby-1.8.7-p248/lib", "Joyau-release/ruby/1.8/"
   FileUtils.rm_r "ruby-1.8.7-p248"
 
-  File.open("Joyau-release/ruby/1.8/socket.rb", 'w') do |file|
-    file.puts "# This module is built-in."
-    file.puts "# This file is only used for compatiblity with some"
-    file.puts "# libraries which require socket."
+  FileUtils.cp_r 'bigdecimal/lib/bigdecimal', 'Joyau-release/ruby/1.8'
+
+  ["socket.rb", "bigdecimal.rb"].each do |file|
+    File.open("Joyau-release/ruby/1.8/socket.rb", 'w') do |file|
+      file.puts "# This module is built-in."
+      file.puts "# This file is only used for compatiblity with some"
+      file.puts "# libraries that require it."
+    end
   end
 end
 
