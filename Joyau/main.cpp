@@ -53,6 +53,8 @@ extern "C" {
    void Init_md5();
    void Init_sha1();
    void Init_sha2();
+   void Init_enumerator();
+   void Init_fcntl();
 }
 
 int exit_callback(int arg1, int arg2, void* commons)
@@ -172,7 +174,9 @@ int main(int argc, char** argv)
    Init_md5();
    Init_sha1();
    Init_sha2();
-   
+   Init_enumerator();
+   Init_fcntl();
+
    // Joyau
    defineWlan();   
    defineManager();
