@@ -56,6 +56,7 @@ extern "C" {
    void Init_enumerator();
    void Init_fcntl();
    void Init_stringio();
+   void Init_strscan();
 }
 
 int exit_callback(int arg1, int arg2, void* commons)
@@ -178,6 +179,7 @@ int main(int argc, char** argv)
    Init_enumerator();
    Init_fcntl();
    Init_stringio();
+   Init_strscan();
 
    // Joyau
    defineWlan();   

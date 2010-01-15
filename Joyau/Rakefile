@@ -25,7 +25,8 @@ JoyauTask.new do |conf|
             digest/digest.c
             enumerator/enumerator.c
             fcntl/fcntl.c
-            stringio/stringio.c)
+            stringio/stringio.c
+            strscan/strscan.c)
   conf.srcs = conf.srcs | libs
 
   static_libs = %w(-losl -lpng -lz -lpspsdk -lpspvfpu -lpspctrl -lpspumd 
@@ -118,6 +119,7 @@ task :release_dir => ['psp:eboot', 'psp:prx', 'rdoc_site', 'rdoc',
   FileUtils.cp_r 'enumerator', 'Joyau-release/src'
   FileUtils.cp_r 'fcntl', 'Joyau-release/src'
   FileUtils.cp_r 'stringio', 'Joyau-release/src'
+  FileUtils.cp_r 'strscan', 'Joyau-release/strscan'
 
   FileUtils.cp 'EBOOT.PBP', 'Joyau-release'
   FileUtils.cp 'Joyau.prx', 'Joyau-release'
