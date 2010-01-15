@@ -16,7 +16,13 @@ JoyauTask.new do |conf|
 	    console/librairies/danzeff.c console/librairies/graphics.c
             socket/socket.c socket/getnameinfo.c socket/getaddrinfo.c
             socket/pspsocket.c
-            bigdecimal/bigdecimal.c)
+            bigdecimal/bigdecimal.c
+            digest/sha2/sha2init.c digest/sha2/sha2.c 
+            digest/rmd160/rmd160.c digest/rmd160/rmd160init.c
+            digest/bubblebabble/bubblebabble.c
+            digest/sha1/sha1.c digest/sha1/sha1init.c
+            digest/md5/md5.c digest/md5/md5init.c
+            digest/digest.c)
   conf.srcs = conf.srcs | libs
 
   static_libs = %w(-losl -lpng -lz -lpspsdk -lpspvfpu -lpspctrl -lpspumd 
@@ -116,8 +122,14 @@ task :release_dir => ['psp:eboot', 'psp:prx', 'rdoc_site', 'rdoc',
 
   FileUtils.cp_r 'bigdecimal/lib/bigdecimal', 'Joyau-release/ruby/1.8'
 
-  ["socket.rb", "bigdecimal.rb"].each do |file|
-    File.open("Joyau-release/ruby/1.8/socket.rb", 'w') do |file|
+  FileUtils.mkdir 'Joyau-release/ruby/1.8/digest'
+  FileUtils.cp 'digest/lib/digest.rb', 'Joyau-release/ruby/1.8/'
+  FileUtils.cp 'digest/lib/sha1.rb', 'Joyau-release/ruby/1.8/digest/'
+  FileUtils.cp 'digest/lib/md5.rb', 'Joyau-release/ruby/1.8/digest/'
+  FileUtils.cp 'digest/sha2/lib/sha2.rb', 'Joyau-release/ruby/1.8/digest/'
+
+  ["socket.rb", "bigdecimal.rb", "digest/bubblebabble.rb"].each do |file|
+    File.open("Joyau-release/ruby/1.8/#{file}", 'w') do |file|
       file.puts "# This module is built-in."
       file.puts "# This file is only used for compatiblity with some"
       file.puts "# libraries that require it."

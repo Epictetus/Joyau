@@ -48,6 +48,11 @@ PSP_HEAP_SIZE_KB(-512);
 extern "C" {
    void Init_socket();
    void Init_bigdecimal();
+   void Init_digest();
+   void Init_bubblebabble();
+   void Init_md5();
+   void Init_sha1();
+   void Init_sha2();
 }
 
 int exit_callback(int arg1, int arg2, void* commons)
@@ -162,7 +167,12 @@ int main(int argc, char** argv)
    // stdlib
    Init_socket();
    Init_bigdecimal();
-
+   Init_digest();
+   Init_bubblebabble();
+   Init_md5();
+   Init_sha1();
+   Init_sha2();
+   
    // Joyau
    defineWlan();   
    defineManager();
