@@ -69,7 +69,7 @@ tested = 0
 begin
   Joyau::Wlan.connect(selecter.index + 1, 60)
   show_message "Connecting to access point... done !"
-rescue TimeoutError
+rescue Joyau::TimeoutError
   tested += 1
   if tested < 3
     show_message "Connecting to access point... timeouted !\n Trying again."
