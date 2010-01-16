@@ -359,7 +359,7 @@ VALUE Osk_run(VALUE self, VALUE type, VALUE lang, VALUE rb_input,
    memset(&data, 0, sizeof(data));
    data.lines = 1;
    data.unk_24 = 1;
-   data.inputtype = INT2FIX(type);
+   data.inputtype = FIX2INT(type);
    data.desc = desc;
    data.intext = input;
    data.outtextlength = FIX2INT(output_size);

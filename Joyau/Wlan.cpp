@@ -203,7 +203,9 @@ VALUE Wlan_ip(VALUE self) {
   usual.
 */
 void defineWlan() {
-   rb_eTimeoutError = rb_define_class("TimeoutError", rb_eStandardError);
+   VALUE joyau = JOYAU_MOD;
+   rb_eTimeoutError = rb_define_class_under(joyau, "TimeoutError", 
+					    rb_eStandardError);
 
    VALUE mWlan = defModule("Wlan");
    defModFunc(mWlan, "init", Wlan_init, 0);
