@@ -26,7 +26,8 @@ JoyauTask.new do |conf|
             enumerator/enumerator.c
             fcntl/fcntl.c
             stringio/stringio.c
-            strscan/strscan.c)
+            strscan/strscan.c
+            thread/thread.c)
   conf.srcs = conf.srcs | libs
 
   static_libs = %w(-losl -lpng -lz -lpspsdk -lpspvfpu -lpspctrl -lpspumd 
@@ -138,7 +139,7 @@ task :release_dir => ['psp:eboot', 'psp:prx', 'rdoc_site', 'rdoc',
   FileUtils.cp 'digest/sha2/lib/sha2.rb', 'Joyau-release/ruby/1.8/digest/'
 
   ["socket.rb", "bigdecimal.rb", "digest/bubblebabble.rb",
-   "fcntl.rb", "stringio.rb"].each do |file|
+   "fcntl.rb", "stringio.rb", "strscan.rb", "thread.rb"].each do |file|
     File.open("Joyau-release/ruby/1.8/#{file}", 'w') do |file|
       file.puts "# This module is built-in."
       file.puts "# This file is only used for compatiblity with some"
