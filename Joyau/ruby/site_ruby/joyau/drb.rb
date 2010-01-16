@@ -8,5 +8,9 @@ module DRb
     def self.getservername
       'localhost'
     end
+
+    def set_sockopt(soc) # :nodoc:
+      soc.setsockopt(Socket::IPPROTO_TCP, Socket::TCP_NODELAY, 1)
+    end
   end
 end
