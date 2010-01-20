@@ -1,9 +1,11 @@
-require 'joyau/color'
+require 'joyau/enumerable'
 
 Joyau.initLib
 Joyau.initGfx
 
 sprite = Joyau::Sprite.new("angel.png")
+sprite.setAnim(3, 4)
+sprite.autoDir = true
 
 until Joyau::Pad.pressed? Joyau::Pad::CROSS
   Joyau::Pad.update
@@ -12,32 +14,15 @@ until Joyau::Pad.pressed? Joyau::Pad::CROSS
   end
 end
 
-buf = sprite.to_buf
-
-buf.lock do
-  (0..(buf.w-1)).each do |x|
-    (0..(buf.h-1)).each do |y|
-      col = buf[x, y].to_col
-            
-      gray = (0.299 * col.r + 0.587 * col.g + 0.114 * col.b).to_i
-      
-      col.r = gray
-      col.g = gray
-      col.b = gray
-    
-      buf[x, y] = col
-    end
+buf = sprite.to_buf! # /!\ We are going to modify the buffer
+                     # that Joyau has stored in its database.
+                     # It is not recommanded in real, complex, programs.
+buf.lock do          # And we should really lock the buffer in such cases.
+  buf.each_with_pos do |x, y, col|
+    gray = (0.299 * col.r + 0.587 * col.g + 0.114 * col.b).to_i
+    buf[x, y] = Joyau::Color.new(gray, gray, gray, col.a)
   end
 end
-
-Joyau::Pad.update
-Joyau.draw do
-  buf.draw
-end
-
-sprite = buf.to_sprite
-sprite.setAnim(3, 4)
-sprite.autoDir = true
 
 while Joyau.mayPlay
   Joyau::Pad.update
