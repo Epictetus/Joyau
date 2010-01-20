@@ -10,6 +10,8 @@
 
 # :startdoc:
 
+require 'joyau/color'
+
 module Joyau
   class Buffer
     include Enumerable
@@ -38,7 +40,7 @@ module Joyau
 
     def each
       # A map is a collection of tiles, rather than a collection of tilesets.
-      each_tiles do |tile|
+      each_tile do |tile|
         yield tile
       end
     end
