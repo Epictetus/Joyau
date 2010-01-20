@@ -50,6 +50,9 @@ public:
       autoDir(false)
    { setClass("Sprite"); }
 
+   /*
+     Creates a Sprite using the given Buffer as its.
+    */
    Sprite(const Buffer &buf);
 
    /** Loads the picture.
@@ -57,8 +60,14 @@ public:
     */
    void setPicture(char *pic);
 
+   /*
+     Sets the ressource's name. May be useful if a Sprite is used along
+     Buffer.
+   */
+   void setResName(const std::string &resname);
+
    /** Returns the picture's name **/
-   std::string getPicName() const { return std::string(picName); }
+   std::string getPicName() const { return picName; }
 
    /** increase the angle of angle. **/
    void rotate(int angle) { _angle += angle; }
@@ -131,7 +140,7 @@ public:
    /** Updates the image, an returns it. **/
     OSL_IMAGE *getImage();
 protected:
-   char *picName;
+   std::string picName;
 
    /** Functions which draws the image.**/
    virtual void defaultDraw();
@@ -165,6 +174,7 @@ private:
 /*@}*/
 
 VALUE Sprite_setPicture(VALUE self, VALUE pic);
+VALUE Sprite_setResName(VALUE self, VALUE pic);
 VALUE Sprite_picture(VALUE self);
 
 VALUE Sprite_rotate(VALUE self, VALUE angle);
@@ -191,6 +201,7 @@ VALUE Sprite_unTile(VALUE self);
 VALUE Sprite_setAutoDir(VALUE self, VALUE val);
 
 VALUE Sprite_to_buf(VALUE self);
+VALUE Sprite_to_buf2(VALUE self);
 
 void defineSprite();
 

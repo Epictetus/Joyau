@@ -67,10 +67,10 @@ Sprite::Sprite(const Buffer &buf):
    hTile(0),
    autoDir(false)
 {
-   sprite = oslCreateImageCopy(buf.img, OSL_IN_VRAM);
+   sprite = buf.img;
    if (!sprite) {
       throw RubyException(rb_eRuntimeError, 
-			  "Could not create sprite from buffer");
+			  "The given buffer is not valid.");
    }
 
    _w = sprite->sizeX;
@@ -80,6 +80,10 @@ Sprite::Sprite(const Buffer &buf):
    _stretchY = sprite->stretchY;
 
    setClass("Sprite");
+}
+
+void Sprite::setResName(const std::string &name) {
+   picName = name;
 }
 
 void Sprite::setPicture(char *pic)
@@ -334,6 +338,21 @@ VALUE Sprite_setPicture(VALUE self, VALUE pic)
 }
 
 /*
+  call-seq: res_name=(val)
+
+  Sets the sprite's ressource name. This might be useful when used along
+  with Buffers.
+*/
+VALUE Sprite_setResName(VALUE self, VALUE pic) {
+   Sprite &ref = getRef<Sprite>(self);
+   
+   pic = rb_obj_as_string(pic);
+   ref.setResName(StringValuePtr(pic));
+
+   return pic;
+}
+
+/*
   Returns the sprite's picture name.
 */
 VALUE Sprite_picture(VALUE self)
@@ -457,10 +476,23 @@ VALUE Sprite_to_buf(VALUE self) {
    }
 }
 
+/*
+  This function has got a bang in its name, because it is a very dangerous
+  variant of to_buf: It returns the buffer used by the Sprite. Which means
+  you might be modifying a ressource which is used at multiple places in your
+  program. Use it with care.
+*/
+VALUE Sprite_to_buf2(VALUE self) {
+   Sprite &ref = getRef<Sprite>(self);
+   Data_Wrap_Struct(getClass("Buffer"), 0, wrapped_free<Buffer>,
+			   new Buffer(ref.getImage()));
+}
+
 void defineSprite()
 {
    VALUE cSprite = defClass<Sprite>("Sprite", "Drawable");
    defMethod(cSprite, "setPicture", Sprite_setPicture, 1);
+   defMethod(cSprite, "res_name=", Sprite_setResName, 1);
    defMethod(cSprite, "picture", Sprite_picture, 0);
    defMethod(cSprite, "getAngle", Sprite_getAngle, 0);
    defMethod(cSprite, "setAngle", Sprite_setAngle, 1);
@@ -478,6 +510,7 @@ void defineSprite()
    defMethod(cSprite, "autoDir=", Sprite_setAutoDir, 1);
 
    defMethod(cSprite, "to_buf", Sprite_to_buf, 0);
+   defMethod(cSprite, "to_buf!", Sprite_to_buf2, 0);
 
    defAlias(cSprite, "getAngle", "angle");
    defAlias(cSprite, "setAngle", "angle=");
