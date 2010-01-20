@@ -123,7 +123,7 @@ Init_bubblebabble(void)
 {
     VALUE mDigest, mDigest_Instance, cDigest_Class;
 
-    rb_require("digest");
+    // rb_require("digest"); (Commenting this avoids strange errors)
 
     mDigest = rb_path2class("Digest");
     mDigest_Instance = rb_path2class("Digest::Instance");

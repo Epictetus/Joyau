@@ -28,7 +28,7 @@ Init_md5()
 {
     VALUE mDigest, cDigest_Base, cDigest_MD5;
 
-    rb_require("digest");
+    // rb_require("digest"); (Commenting this avoids strange errors)
 
     mDigest = rb_path2class("Digest");
     cDigest_Base = rb_path2class("Digest::Base");

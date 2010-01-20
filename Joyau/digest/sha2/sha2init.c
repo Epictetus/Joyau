@@ -35,7 +35,7 @@ Init_sha2()
 
     FOREACH_BITLEN(DECLARE_ALGO_CLASS)
 
-    rb_require("digest");
+    // rb_require("digest"); (Commenting this avoids strange errors)
 
     id_metadata = rb_intern("metadata");
 
