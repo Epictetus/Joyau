@@ -1,3 +1,7 @@
+if defined? Joyau and not defined? Digest
+  Joyau.init_internal("digest")
+end
+
 module Digest
   def self.const_missing(name)
     case name

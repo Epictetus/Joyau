@@ -124,6 +124,47 @@ VALUE Joyau_exit(VALUE self)
 }
 
 /*
+  call-seq: init_internal(module_name)
+
+  Inits a builtin module. You should never call it by yourself.
+  This avoids to load unneeded module from the stdlib (Joyau's are all loaded 
+  anyway). For instance, the zlib library needs to be enabled by this function.
+*/
+VALUE Joyau_init_internal(VALUE self, VALUE module_name) {
+   VALUE rb_str = rb_obj_as_string(module_name);
+   std::string str(StringValuePtr(rb_str));
+   
+   if (str == "socket")
+      Init_socket();
+   else if (str == "bigdecimal")
+      Init_bigdecimal();
+   else if (str == "digest")
+      Init_digest();
+   else if (str == "bubblebabble")
+      Init_bubblebabble();
+   else if (str == "md5")
+      Init_md5();
+   else if (str == "sha1")
+      Init_sha1();
+   else if (str == "sha2")
+      Init_sha2();
+   else if (str == "enumerator")
+      Init_enumerator();
+   else if (str == "fcntl")
+      Init_fcntl();
+   else if (str == "stringio")
+      Init_stringio();
+   else if (str == "strscan")
+      Init_strscan();
+   else if (str == "thread")
+      Init_thread();
+   else if (str == "zlib")
+      Init_zlib();
+   
+   return Qnil;
+}
+
+/*
   Document-class: Joyau
 
   Joyau is a Ruby interpreter for the PSP. This module contains
@@ -133,13 +174,15 @@ VALUE Joyau_exit(VALUE self)
   debugging screen (you didn't think that it could fix it, right?).
 
   Joyau allows you to require (with +require+) in the following directories:
-    * .
-    * ./ruby/1.8/
-    * ./ruby/site_ruby/
-    * ./ruby/site_ruby/1.8/
-    * ms0:/ruby/1.8/
-    * ms0:/ruby/site_ruby/
-    * ms0:/ruby/site_ruby/1.8/
+  
+  * .
+  * ./ruby/1.8/
+  * ./ruby/site_ruby/
+  * ./ruby/site_ruby/1.8/
+  * ms0:/ruby/1.8/
+  * ms0:/ruby/site_ruby/
+  * ms0:/ruby/site_ruby/1.8/
+  
   ("ms0:/" is the memory stick's root, "." is the EBOOT's directory)
     
   Joyau's site_ruby should rather be put in ./ruby/site_ruby/, because updates
@@ -170,21 +213,6 @@ int main(int argc, char** argv)
    
    VALUE joyau = joyau_define_module("Joyau");
    
-   // stdlib
-   Init_socket();
-   Init_bigdecimal();
-   Init_digest();
-   Init_bubblebabble();
-   Init_md5();
-   Init_sha1();
-   Init_sha2();
-   Init_enumerator();
-   Init_fcntl();
-   Init_stringio();
-   Init_strscan();
-   Init_thread();
-   Init_zlib();
-
    // Joyau
    defineWlan();   
    defineManager();
@@ -218,8 +246,9 @@ int main(int argc, char** argv)
    Pad::getInstance();
 
    defModFunc(joyau, "debug", debug, 1);
-   defModFunc(joyau, "puts", Joyau_puts, -1); // puts redefined for the psp
+   defModFunc(joyau, "puts", Joyau_puts, -1);
    defModFunc(joyau, "exitGame", Joyau_exit, 0);
+   defModFunc(joyau, "init_internal", Joyau_init_internal, 1);
    
    ruby_init_loadpath();
    ruby_script("joyau");

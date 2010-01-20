@@ -135,7 +135,6 @@ task :release_dir => ['psp:eboot', 'psp:prx', 'rdoc_site', 'rdoc',
 
   FileUtils.cp_r 'bigdecimal/lib/bigdecimal', 'Joyau-release/ruby/1.8'
 
-  FileUtils.mkdir 'Joyau-release/ruby/1.8/digest'
   FileUtils.cp 'digest/lib/digest.rb', 'Joyau-release/ruby/1.8/'
   FileUtils.cp 'digest/lib/sha1.rb', 'Joyau-release/ruby/1.8/digest/'
   FileUtils.cp 'digest/lib/md5.rb', 'Joyau-release/ruby/1.8/digest/'
@@ -143,11 +142,18 @@ task :release_dir => ['psp:eboot', 'psp:prx', 'rdoc_site', 'rdoc',
 
   ["socket.rb", "bigdecimal.rb", "digest/bubblebabble.rb",
    "fcntl.rb", "stringio.rb", "strscan.rb", "thread.rb",
-   "zlib.rb"].each do |file|
-    File.open("Joyau-release/ruby/1.8/#{file}", 'w') do |file|
-      file.puts "# This module is built-in."
-      file.puts "# This file is only used for compatiblity with some"
-      file.puts "# libraries that require it."
+   "zlib.rb"].each do |filename|
+    ext_name = case filename
+               when /(\w+)\.rb/
+                 $1
+               when /\w+\/(\w+)\.rb/
+                 $1
+               else
+                 filename
+               end
+
+    File.open("Joyau-release/ruby/1.8/#{filename}", 'w') do |file|
+      file.puts "Joyau.init_internal(\"#{ext_name}\")"
     end
   end
 end

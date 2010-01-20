@@ -1,3 +1,5 @@
+require 'zlib'
+
 data = File.read('pic.png')
 puts data.size
 
