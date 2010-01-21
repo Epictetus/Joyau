@@ -36,8 +36,11 @@ Buffer::Buffer(int w, int h, int format): shouldDelete(true) {
 			  "Either width or height is greter than 512.");
 
    img = oslCreateImage(w, h, OSL_IN_VRAM, format);
-   if (!img)
-      throw RubyException(rb_eRuntimeError, "Buffer could not be created.");
+   if (!img) {
+      img = oslCreateImageCopy(arg, OSL_IN_RAM);
+      if (!img)
+	 throw RubyException(rb_eRuntimeError, "Buffer could not be created.");
+   }
 }
 
 Buffer::Buffer(OSL_IMAGE *arg, bool copy):
@@ -46,8 +49,11 @@ Buffer::Buffer(OSL_IMAGE *arg, bool copy):
   
    if (copy) {
       img = oslCreateImageCopy(arg, OSL_IN_VRAM);
-      if (!img)
-	 throw RubyException(rb_eRuntimeError, "Buffer could not be copied.");
+      if (!img) {
+	 img = oslCreateImageCopy(arg, OSL_IN_RAM);
+	 if (!img)
+	    throw RubyException(rb_eRuntimeError, "Buffer could not be copied.");
+      }
    }
    else
       img = arg;
@@ -59,8 +65,11 @@ Buffer::Buffer(const Buffer &obj): shouldDelete(true) {
    setClass("Buffer");
 
    img = oslCreateImageCopy(obj.img, OSL_IN_VRAM);
-   if (!img)
-      throw RubyException(rb_eRuntimeError, "Buffer could not be copied.");
+   if (!img) {
+      img = oslCreateImageCopy(obj.img, OSL_IN_RAM);
+      if (!img)
+	 throw RubyException(rb_eRuntimeError, "Buffer could not be copied.");
+   }
 }
 
 Buffer::Buffer(Drawable &obj): shouldDelete(true) {
@@ -68,11 +77,16 @@ Buffer::Buffer(Drawable &obj): shouldDelete(true) {
 
    if (obj.getW() > 512 || obj.getH() > 512)
       throw RubyException(rb_eRuntimeError, "Drawable too big for a buffer.");
-   
-   img = oslCreateImage(obj.getW(), obj.getH(), OSL_IN_VRAM, OSL_PF_8888);
-   if (!img)
-      throw RubyException(rb_eRuntimeError, "Buffer could not be created");
-   
+
+   int width = obj.getW();
+   int height = obj.getH();
+   img = oslCreateImage(width, height, OSL_IN_VRAM, OSL_PF_8888);
+   if (!img) {
+      img = oslCreateImage(width, height, OSL_IN_RAM, OSL_PF_8888);
+      if (!img)
+	 throw RubyException(rb_eRuntimeError, "Buffer could not be created");
+   }
+
    OSL_IMAGE *old = oslGetDrawBuffer();
    setActual();
 
@@ -88,8 +102,11 @@ Buffer::Buffer(Sprite &obj): shouldDelete(true) {
    setClass("Buffer");
 
    img = oslCreateImageCopy(obj.getImage(), OSL_IN_VRAM);
-   if (!img)
-      throw RubyException(rb_eRuntimeError, "Buffer could not be created");
+   if (!img) {
+      img = oslCreateImageCopy(obj.getImage(), OSL_IN_RAM);
+      if (!img)
+	 throw RubyException(rb_eRuntimeError, "Buffer could not be created");
+   }
 }
 
 Buffer::~Buffer() {
