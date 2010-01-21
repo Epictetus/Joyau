@@ -34,15 +34,23 @@ template<>
 */
 VALUE wrap<Sprite>(int argc, VALUE *argv, VALUE info)
 {
-   Sprite *ptr = new Sprite;
+   Sprite *ptr = NULL;
    VALUE tdata;
    
    if (argc >= 1) {
-      try {
-	 ptr->setPicture(StringValuePtr(argv[0]));
+      if (rb_obj_is_kind_of(argv[0], getClass("Buffer"))) {
+	 ptr = new Sprite(getRef<Buffer>(argv[0]));
       }
-      catch (const RubyException &e) {
-	 e.rbRaise();
+      else {
+	 argv[0] = rb_obj_as_string(argv[0]);
+
+	 try {
+	    ptr = new Sprite;
+	    ptr->setPicture(StringValuePtr(argv[0]));
+	 }
+	 catch (const RubyException &e) {
+	    e.rbRaise();
+	 }
       }
    }
    
