@@ -484,7 +484,7 @@ VALUE Sprite_to_buf(VALUE self) {
 */
 VALUE Sprite_to_buf2(VALUE self) {
    Sprite &ref = getRef<Sprite>(self);
-   Data_Wrap_Struct(getClass("Buffer"), 0, wrapped_free<Buffer>,
+   return Data_Wrap_Struct(getClass("Buffer"), 0, wrapped_free<Buffer>,
 			   new Buffer(ref.getImage()));
 }
 

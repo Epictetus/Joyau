@@ -23,6 +23,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "RubyDrawable.hpp"
 #include "Graphics.hpp"
 #include "Sprite.hpp"
+#include "Manager.hpp"
 
 Buffer *Buffer::screen = NULL;
 Buffer *Buffer::default_buf = NULL;
@@ -39,9 +40,20 @@ Buffer::Buffer(int w, int h, int format): shouldDelete(true) {
       throw RubyException(rb_eRuntimeError, "Buffer could not be created.");
 }
 
-Buffer::Buffer(OSL_IMAGE *arg):
-   img(arg), shouldDelete(false)
-{ setClass("Buffer"); }
+Buffer::Buffer(OSL_IMAGE *arg, bool copy):
+   img(arg), shouldDelete(false) {
+   shouldDelete = copy;
+  
+   if (copy) {
+      img = oslCreateImageCopy(arg, OSL_IN_VRAM);
+      if (!img)
+	 throw RubyException(rb_eRuntimeError, "Buffer could not be copied.");
+   }
+   else
+      img = arg;
+
+   setClass("Buffer"); 
+}
 
 Buffer::Buffer(const Buffer &obj): shouldDelete(true) {
    setClass("Buffer");
@@ -655,6 +667,25 @@ VALUE Buffer_getActual(VALUE self) {
 }
 
 /*
+  call-seq: [filename, copy = true]
+
+  Returns a Buffer loaded from a file. If you want to return the loaded
+  ressource, and not its copy, set copy to false.
+*/
+VALUE Buffer_find(int argc, VALUE *argv, VALUE self) {
+   VALUE filename, copy;
+   rb_scan_args(argc, argv, "11", &filename, &copy);
+   filename = rb_obj_as_string(filename);
+
+   if (NIL_P(copy))
+      copy = Qtrue;
+
+   OSL_IMAGE *buf = Manager::getInstance().getPic(StringValuePtr(filename));
+   return Data_Wrap_Struct(getClass("Buffer"), 0, wrapped_free<Buffer>,
+			   new Buffer(buf, copy == Qtrue));
+}
+
+/*
   Document-class: Joyau::Painter
     
   This class allows to write easily in a buffer, at anytime.
@@ -955,6 +986,8 @@ void defineBuffer() {
    defClassMethod(cBuffer, "screen", Buffer_getScreen, 0);
    defClassMethod(cBuffer, "default", Buffer_getDefault, 0);
    defClassMethod(cBuffer, "actual", Buffer_getActual, 0);
+
+   defClassMethod(cBuffer, "[]", Buffer_find, -1);
    
    defAlias(cBuffer, "setPos", "pos=");
 

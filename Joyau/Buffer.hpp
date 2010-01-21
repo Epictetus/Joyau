@@ -26,7 +26,7 @@ public:
    Buffer(const Buffer &obj);
    Buffer(Drawable &obj);
    Buffer(Sprite &obj);
-   Buffer(OSL_IMAGE *img);
+   Buffer(OSL_IMAGE *img, bool copy = false);
    ~Buffer();
 
    friend Sprite::Sprite(const Buffer &buf);
