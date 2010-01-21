@@ -29,6 +29,7 @@ template<>
 /*
   call-seq: new()
             new(filename)
+	    new(buffer)
 
   Creates a Sprite.
 */
