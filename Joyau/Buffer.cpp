@@ -250,6 +250,10 @@ void Buffer::save(const std::string &filename) {
    oslWriteImageFilePNG(img, filename.c_str(), 0);
 }
 
+bool Buffer::isScreen() const {
+   return img == OSL_DEFAULT_BUFFER;
+}
+
 Painter::Painter(Buffer &obj): buf(obj) {}
 
 void Painter::drawLine(int x1, int y1, int x2, int y2,
@@ -926,6 +930,8 @@ VALUE Painter_clear(VALUE self, VALUE col) {
     Joyau.draw(:buffer => a_buffer)
 */
 VALUE Joyau_draw(int argc, VALUE *argv, VALUE self) {
+   static bool can_draw = false;
+
    VALUE hash, block;
    rb_scan_args(argc, argv, "01&", &hash, &block);
 
@@ -935,6 +941,8 @@ VALUE Joyau_draw(int argc, VALUE *argv, VALUE self) {
    bool painter = false;
    bool auto_update = true;
    bool ruby_buf = false;
+
+   bool could_draw = can_draw;
 
    if (!NIL_P(hash)) {
       if (TYPE(hash) != T_HASH)
@@ -968,7 +976,10 @@ VALUE Joyau_draw(int argc, VALUE *argv, VALUE self) {
 	 buffer = new Buffer(oldBuffer);
    }
 
-   Graphics_startDraw(Qnil);
+   if (buffer->isScreen() && !can_draw) {
+      can_draw = true;
+      Graphics_startDraw(Qnil);
+   }
    if (!NIL_P(block)) {
       buffer->setActual();
       
@@ -979,8 +990,11 @@ VALUE Joyau_draw(int argc, VALUE *argv, VALUE self) {
 	 rb_yield(rbBuffer);
       }
 
-      Graphics_endDraw(Qnil);
-      if (auto_update)
+      if (buffer->isScreen() && !could_draw) {
+	 can_draw = false;
+	 Graphics_endDraw(Qnil);
+      }
+      if (auto_update && buffer->isScreen())
 	 Graphics_sync(Qnil);
    }
    else
