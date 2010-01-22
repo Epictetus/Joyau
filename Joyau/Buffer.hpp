@@ -90,12 +90,33 @@ public:
       screen = NULL;
       default_buf = NULL;
    }
+
+protected:
+   static void registerInVram(OSL_IMAGE *pic) {
+      enabledImages[pic] = true;
+      vramStack.push(pic);
+   }
+   
+   static void removeFromVram(OSL_IMAGE *pic) {
+      enabledImages[pic] = false;
+      while (true) {
+	 if (!enabledImages[vramStack.top()]) {
+	    oslDeleteImage(vramStack.top());
+	    vramStack.pop();
+	 }
+	 else // The first image is still being used, we cannot delete it.
+	    break;
+      }
+   }
 private:
    OSL_IMAGE *img;
    bool shouldDelete;
 
    static Buffer *screen;
    static Buffer *default_buf;
+
+   static std::map<OSL_IMAGE*, bool> enabledImages;
+   static std::stack<OSL_IMAGE*> vramStack;
 };
 
 class Painter {

@@ -28,6 +28,9 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 Buffer *Buffer::screen = NULL;
 Buffer *Buffer::default_buf = NULL;
 
+std::map<OSL_IMAGE*, bool> Buffer::enabledImages = std::map<OSL_IMAGE*, bool>();
+std::stack<OSL_IMAGE*> Buffer::vramStack = std::stack<OSL_IMAGE*>();
+
 Buffer::Buffer(int w, int h, int format): shouldDelete(true) {
    setClass("Buffer");
 
@@ -37,9 +40,12 @@ Buffer::Buffer(int w, int h, int format): shouldDelete(true) {
 
    img = oslCreateImage(w, h, OSL_IN_VRAM, format);
    if (!img) {
-      img = oslCreateImageCopy(arg, OSL_IN_RAM);
+      img = oslCreateImage(w, h, OSL_IN_RAM, format);
       if (!img)
 	 throw RubyException(rb_eRuntimeError, "Buffer could not be created.");
+   }
+   else {
+      Buffer::registerInVram(img);
    }
 }
 
@@ -53,6 +59,9 @@ Buffer::Buffer(OSL_IMAGE *arg, bool copy):
 	 img = oslCreateImageCopy(arg, OSL_IN_RAM);
 	 if (!img)
 	    throw RubyException(rb_eRuntimeError, "Buffer could not be copied.");
+      }
+      else {
+	 Buffer::registerInVram(img);
       }
    }
    else
@@ -86,6 +95,9 @@ Buffer::Buffer(Drawable &obj): shouldDelete(true) {
       if (!img)
 	 throw RubyException(rb_eRuntimeError, "Buffer could not be created");
    }
+   else {
+      Buffer::registerInVram(img);
+   }
 
    OSL_IMAGE *old = oslGetDrawBuffer();
    setActual();
@@ -107,11 +119,18 @@ Buffer::Buffer(Sprite &obj): shouldDelete(true) {
       if (!img)
 	 throw RubyException(rb_eRuntimeError, "Buffer could not be created");
    }
+   else {
+      Buffer::registerInVram(img);
+   }
 }
 
 Buffer::~Buffer() {
-   if (img && shouldDelete)
-      oslDeleteImage(img);
+   if (img && shouldDelete) {
+      if (img->location == OSL_IN_RAM)
+	 oslDeleteImage(img);
+      else
+	 Buffer::removeFromVram(img);
+   }
 }
 
 void Buffer::setActual() {
@@ -174,18 +193,30 @@ void Buffer::move(int x, int y) {
 }
 
 void Buffer::resize(int w, int h) {
+   if (!shouldDelete)
+      throw RubyException(rb_eRuntimeError, "Not allowed to resize this Buffer");
+
    OSL_IMAGE *old_image = img;
    OSL_IMAGE *old_buffer = oslGetDrawBuffer();
    
    img = oslCreateImage(w, h, OSL_IN_VRAM, img->pixelFormat);
-   if (!img)
-      throw RubyException(rb_eRuntimeError, "Could not recreate the buffer.");
-   
+   if (!img) {
+      img = oslCreateImage(w, h, OSL_IN_RAM, img->pixelFormat);
+      if (!img)
+	 throw RubyException(rb_eRuntimeError, "Could not recreate the buffer.");
+   }
+   else {
+      Buffer::registerInVram(img);
+   }
+
    setActual();
    oslDrawImageXY(old_image, 0, 0);
    oslSetDrawBuffer(old_buffer);
 
-   oslDeleteImage(old_image);
+   if (old_image->location == OSL_IN_RAM)
+      oslDeleteImage(old_image);
+   else
+      Buffer::removeFromVram(old_image);
 }
 
 void Buffer::zoom(int level) {
@@ -633,6 +664,8 @@ VALUE Buffer_setPixel(VALUE self, VALUE x, VALUE y, VALUE col) {
   Saves the buffer 
 */
 VALUE Buffer_save(VALUE self, VALUE filename) {
+   filename = rb_obj_as_string(filename);
+
    Buffer &ref = getRef<Buffer>(self);
    ref.save(StringValuePtr(filename));
 
@@ -679,8 +712,8 @@ VALUE Buffer_getDefault(VALUE self) {
   Returns the actual buffer.
 */
 VALUE Buffer_getActual(VALUE self) {
-   Buffer buf(oslGetDrawBuffer());
-   return createObject(getClass("Buffer"), buf);
+   return Data_Wrap_Struct(getClass("Buffer"), 0, wrapped_free<Buffer>, 
+			   new Buffer(oslGetDrawBuffer()));
 }
 
 /*
@@ -720,6 +753,10 @@ VALUE wrap<Painter>(int argc, VALUE *argv, VALUE info)
 {
    VALUE buffer;
    rb_scan_args(argc, argv, "1", &buffer);
+
+   if (!rb_obj_is_kind_of(buffer, getClass("Buffer")))
+      rb_raise(rb_eTypeError, "Can't convert %s into Joyau::Buffer",
+	       rb_obj_classname(buffer));
 
    Painter *ptr = new Painter(getRef<Buffer>(buffer));
    VALUE tdata = Data_Wrap_Struct(info, 0, wrapped_free<Painter>, ptr);
