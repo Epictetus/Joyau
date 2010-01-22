@@ -145,6 +145,8 @@ void Message::resize(int w, int h)
 */
 VALUE Message_setTitle(VALUE self, VALUE txt)
 {
+   txt = rb_obj_as_string(txt);
+   
    Message &ref = getRef<Message>(self);
    std::string str = StringValuePtr(txt);
 
@@ -159,6 +161,8 @@ VALUE Message_setTitle(VALUE self, VALUE txt)
 */
 VALUE Message_setText(VALUE self, VALUE txt)
 {
+   txt = rb_obj_as_string(txt);
+
    Message &ref = getRef<Message>(self);
    std::string str = StringValuePtr(txt);
 
@@ -173,6 +177,10 @@ VALUE Message_setText(VALUE self, VALUE txt)
 */
 VALUE Message_setImage(VALUE self, VALUE pic)
 {
+   if (!rb_obj_is_kind_of(pic, getClass("Sprite")))
+      rb_raise(rb_eTypeError, "Can't convert %s into Joyau::Sprite",
+	       rb_obj_classname(pic));
+
    Message &ref = getRef<Message>(self);
    Sprite *spr = getPtr<Sprite>(pic);
    
@@ -187,6 +195,10 @@ VALUE Message_setImage(VALUE self, VALUE pic)
 */
 VALUE Message_setBackground(VALUE self, VALUE pic)
 {
+   if (!rb_obj_is_kind_of(pic, getClass("Sprite")))
+      rb_raise(rb_eTypeError, "Can't convert %s into Joyau::Sprite",
+	       rb_obj_classname(pic));
+
    Message &ref = getRef<Message>(self);
    Sprite *spr = getPtr<Sprite>(pic);
  

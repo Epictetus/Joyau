@@ -65,6 +65,7 @@ VALUE rubyConsoleSwitchSFX(VALUE self) {
   Writes a line on the console.
 */
 VALUE rubyConsolePuts(VALUE self, VALUE str) {
+   str = rb_obj_as_string(str);
    consolePrintText(ADD, StringValuePtr(str));
    return Qnil;
 }
@@ -75,6 +76,7 @@ VALUE rubyConsolePuts(VALUE self, VALUE str) {
   Adds text to the actual line.
 */
 VALUE rubyConsolePrint(VALUE self, VALUE str) {
+   str = rb_obj_as_string(str);
    consolePrintText(CAT, StringValuePtr(str));
    return Qnil;
 }
@@ -85,6 +87,7 @@ VALUE rubyConsolePrint(VALUE self, VALUE str) {
   Replaces the actual line.
 */
 VALUE rubyConsoleReplace(VALUE self, VALUE str) {
+   str = rb_obj_as_string(str);
    consolePrintText(REPLACE, StringValuePtr(str));
    return Qnil;
 }
@@ -129,6 +132,7 @@ VALUE rubyConsoleIsButton(VALUE self, VALUE button, VALUE state) {
   Waits that the user presses button, and then prints something on the screen.
 */
 VALUE rubyConsoleWaitKey(VALUE self, VALUE button, VALUE str) {
+   str = rb_obj_as_string(str);
    consoleWaitButton(FIX2INT(button), StringValuePtr(str));
    return Qnil;
 }
@@ -175,6 +179,7 @@ VALUE rubyConsole2dExit(VALUE self) {
 */
 VALUE rubyConsole2dPrint(VALUE self, VALUE x, VALUE y, VALUE mode, 
 			 VALUE txt) {
+   txt = rb_obj_as_string(txt);
    console2dPrint(FIX2INT(x), FIX2INT(y), FIX2INT(mode), 
 		  StringValuePtr(txt));
    return Qnil;
@@ -188,6 +193,7 @@ VALUE rubyConsole2dPrint(VALUE self, VALUE x, VALUE y, VALUE mode,
 */
 VALUE rubyConsole2dFillLine(VALUE self, VALUE mode, VALUE pos, VALUE adv, 
 			    VALUE txt) {
+   txt = rb_obj_as_string(txt);
    console2dFillLine(FIX2INT(mode), FIX2INT(pos), FIX2INT(adv), 
 		     StringValuePtr(txt));
    return Qnil;

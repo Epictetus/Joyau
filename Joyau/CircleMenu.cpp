@@ -102,6 +102,7 @@ VALUE CircleMenu_load(VALUE self, VALUE str, VALUE nbIcons, VALUE dist, VALUE w,
 {
    CircleMenu &ref = getRef<CircleMenu>(self);
    
+   str = rb_obj_as_string(str);
    char *_str = StringValuePtr(str);
    int _nbIcons = FIX2INT(nbIcons);
    int _dist = FIX2INT(dist);

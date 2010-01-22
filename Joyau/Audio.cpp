@@ -177,6 +177,7 @@ VALUE wrap<Sound>(int argc, VALUE *argv, VALUE info)
 
    if (!NIL_P(filename)) {
       try {
+	 filename = rb_obj_as_string(filename);
 	 ptr->loadWav(StringValuePtr(filename));
       }
       catch (const RubyException &e) {
@@ -219,6 +220,7 @@ VALUE wrap<Stream>(int argc, VALUE *argv, VALUE info)
 
    if (!NIL_P(filename)) {
       try {
+	 filename = rb_obj_as_string(filename);
 	 ptr->loadOgg(StringValuePtr(filename));
       }
       catch (const RubyException &e) {
@@ -561,6 +563,10 @@ VALUE Vector3f_z(VALUE self)
 */
 VALUE Vector3f_add(VALUE self, VALUE op)
 {
+   if (!rb_obj_is_kind_of(op, getClass("Vector3f")))
+      rb_raise(rb_eTypeError, "Can't convert %s into Joyau::Vector3f",
+	       rb_obj_classname(op));
+
    Vector3f &first = getRef<Vector3f>(self);
    Vector3f &second = getRef<Vector3f>(op);
 
@@ -576,6 +582,10 @@ VALUE Vector3f_add(VALUE self, VALUE op)
 */
 VALUE Vector3f_sub(VALUE self, VALUE op)
 {
+   if (!rb_obj_is_kind_of(op, getClass("Vector3f")))
+      rb_raise(rb_eTypeError, "Can't convert %s into Joyau::Vector3f",
+	       rb_obj_classname(op));
+
    Vector3f &first = getRef<Vector3f>(self);
    Vector3f &second = getRef<Vector3f>(op);
 
@@ -590,6 +600,10 @@ VALUE Vector3f_sub(VALUE self, VALUE op)
 */
 VALUE Vector3f_eq(VALUE self, VALUE op)
 {
+   if (!rb_obj_is_kind_of(op, getClass("Vector3f")))
+      rb_raise(rb_eTypeError, "Can't convert %s into Joyau::Vector3f",
+	       rb_obj_classname(op));
+   
    Vector3f &first = getRef<Vector3f>(self);
    Vector3f &second = getRef<Vector3f>(op);
 
@@ -656,6 +670,10 @@ VALUE AudioObject_setDirection(VALUE self, VALUE x, VALUE y, VALUE z)
 */
 VALUE AudioObject_setPosVector(VALUE self, VALUE val)
 {
+   if (!rb_obj_is_kind_of(val, getClass("Vector3f")))
+      rb_raise(rb_eTypeError, "Can't convert %s into Joyau::Vector3f",
+	       rb_obj_classname(val));
+
    AudioObject &ref = getRef<AudioObject>(self);
    Vector3f &vector = getRef<Vector3f>(val);
 
@@ -670,6 +688,10 @@ VALUE AudioObject_setPosVector(VALUE self, VALUE val)
 */
 VALUE AudioObject_setVelocityVector(VALUE self, VALUE val)
 {
+   if (!rb_obj_is_kind_of(val, getClass("Vector3f")))
+      rb_raise(rb_eTypeError, "Can't convert %s into Joyau::Vector3f",
+	       rb_obj_classname(val));
+
    AudioObject &ref = getRef<AudioObject>(self);
    Vector3f &vector = getRef<Vector3f>(val);
 
@@ -684,6 +706,10 @@ VALUE AudioObject_setVelocityVector(VALUE self, VALUE val)
 */
 VALUE AudioObject_setDirectionVector(VALUE self, VALUE val)
 {
+   if (!rb_obj_is_kind_of(val, getClass("Vector3f")))
+      rb_raise(rb_eTypeError, "Can't convert %s into Joyau::Vector3f",
+	       rb_obj_classname(val));
+
    AudioObject &ref = getRef<AudioObject>(self);
    Vector3f &vector = getRef<Vector3f>(val);
 
@@ -712,6 +738,8 @@ VALUE AudioObject_playing(VALUE self)
 */
 VALUE Sound_loadWav(VALUE self, VALUE filename)
 {
+   filename = rb_obj_as_string(filename);
+
    Sound &ref = getRef<Sound>(self);
    char *str = StringValuePtr(filename);
 
@@ -765,6 +793,8 @@ VALUE Sound_stop(VALUE self)
 */
 VALUE Stream_loadOgg(VALUE self, VALUE filename)
 {
+   filename = rb_obj_as_string(filename);
+   
    Stream &ref = getRef<Stream>(self);
    char *str = StringValuePtr(filename);
 
@@ -900,6 +930,10 @@ VALUE Listener_setOrientation(VALUE self, VALUE atX, VALUE atY, VALUE atZ,
 */
 VALUE Listener_posOp(VALUE self, VALUE val)
 {
+   if (!rb_obj_is_kind_of(val, getClass("Vector3f")))
+      rb_raise(rb_eTypeError, "Can't convert %s into Joyau::Vector3f",
+	       rb_obj_classname(val));
+
    Vector3f &ref = getRef<Vector3f>(val);
    alListener3f(AL_POSITION, ref.x,ref.y, ref.z);
 
@@ -914,6 +948,10 @@ VALUE Listener_posOp(VALUE self, VALUE val)
 */
 VALUE Listener_velocityOp(VALUE self, VALUE val)
 {
+   if (!rb_obj_is_kind_of(val, getClass("Vector3f")))
+      rb_raise(rb_eTypeError, "Can't convert %s into Joyau::Vector3f",
+	       rb_obj_classname(val));
+
    Vector3f &ref = getRef<Vector3f>(val);
    alListener3f(AL_VELOCITY, ref.x,ref.y, ref.z);
 
@@ -927,8 +965,12 @@ VALUE Listener_velocityOp(VALUE self, VALUE val)
 */
 VALUE Listener_directionOp(VALUE self, VALUE val)
 {
+   if (!rb_obj_is_kind_of(val, getClass("Vector3f")))
+      rb_raise(rb_eTypeError, "Can't convert %s into Joyau::Vector3f",
+	       rb_obj_classname(val));
+   
    Vector3f &ref = getRef<Vector3f>(val);
-   alListener3f(AL_DIRECTION, ref.x,ref.y, ref.z);
+   alListener3f(AL_DIRECTION, ref.x, ref.y, ref.z);
 
    return val;
 }

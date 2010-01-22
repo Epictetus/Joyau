@@ -85,8 +85,10 @@ VALUE wrap<GameMap>(int argc, VALUE *argv, VALUE info)
       }
       else
       {
-      	 for (int i = 0; i < argc; ++i)
+      	 for (int i = 0; i < argc; ++i) {
+	    argv[i] = rb_obj_as_string(argv[i]);
 	    ptr->addTileset(StringValuePtr(argv[i]));
+	 }
       }
    }
    
@@ -120,8 +122,14 @@ VALUE wrap<GameMap::Tile>(int argc, VALUE *argv, VALUE info)
       ptr->tileY = FIX2INT(argv[2]);
       ptr->x = FIX2INT(argv[3]);
       ptr->y = FIX2INT(argv[4]);
-      if (argc == 6)
+      if (argc == 6) {
+	 if (!rb_obj_is_kind_of(argv[5], getClass("CollisionType"))
+	     rb_raise(rb_eTypeError, 
+		      "Can't convert %s into Joyau::CollisionType",
+		      rb_obj_classname(argv[5]));
+
 	 ptr->type = getRef<CollisionType>(argv[5]);
+      }
    }
    
    VALUE tdata = Data_Wrap_Struct(info, 0, wrapped_free<GameMap::Tile>, ptr);
@@ -391,6 +399,7 @@ VALUE GameMap_addTileset(VALUE self, VALUE name)
 {
    GameMap &ref = getRef<GameMap>(self);
 
+   name = rb_obj_as_string(name);
    ref.addTileset(StringValuePtr(name));
    return Qnil;
 }
@@ -537,6 +546,10 @@ VALUE GameMap_push(VALUE self, VALUE tile)
    }
    else
    {
+      if (!rb_obj_is_kind_of(tile, getClass("Tile"))
+       rb_raise(rb_eTypeError, "Can't convert %s into Joyau::Tile",
+		rb_obj_classname(tile));
+
       GameMap::Tile &tRef = getRef<GameMap::Tile>(tile);
       ref.addElem(tRef);
    }
@@ -634,6 +647,10 @@ VALUE GameMap_reject_tiles(VALUE self)
   Adds a drawable drawn between the map's tiles.
 */
 VALUE GameMap_addBetween(VALUE self, VALUE obj) {
+   if (!rb_obj_is_kind_of(obj, getClass("Drawable"))
+       rb_raise(rb_eTypeError, "Can't convert %s into Joyau::Drawable",
+		rb_obj_classname(obj));
+
    GameMap &ref = getRef<GameMap>(self);
    Drawable *draw = getPtr<Drawable>(obj);
 					     
@@ -872,6 +889,10 @@ VALUE Tile_setTileset(VALUE self, VALUE val)
 */
 VALUE Tile_setType(VALUE self, VALUE val)
 {
+   if (!rb_obj_is_kind_of(val, getClass("CollisionType"))
+       rb_raise(rb_eTypeError, "Can't convert %s into Joyau::CollisionType",
+		rb_obj_classname(val));
+
    GameMap::Tile &ref = getRef<GameMap::Tile>(self);
    CollisionType &type = getRef<CollisionType>(val);
    

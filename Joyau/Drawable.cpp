@@ -311,6 +311,10 @@ VALUE Drawable_movedY(VALUE self)
 */
 VALUE Point_add(VALUE self, VALUE op)
 {
+   if (!rb_obj_is_kind_of(op, getClass("Point")))
+      rb_raise(rb_eTypeError, "Can't convert %s into Joyau::Point",
+	       rb_obj_classname(op));
+
    Point &first = getRef<Point>(self);
    Point &second = getRef<Point>(op);
    
@@ -326,6 +330,10 @@ VALUE Point_add(VALUE self, VALUE op)
 */
 VALUE Point_eq(VALUE self, VALUE op)
 {
+   if (!rb_obj_is_kind_of(op, getClass("Point")))
+      rb_raise(rb_eTypeError, "Can't convert %s into Joyau::Point",
+	       rb_obj_classname(op));
+
    Point &first = getRef<Point>(self);
    Point &second = getRef<Point>(op);
 
@@ -340,6 +348,10 @@ VALUE Point_eq(VALUE self, VALUE op)
 */
 VALUE Point_sub(VALUE self, VALUE op)
 {
+   if (!rb_obj_is_kind_of(op, getClass("Point")))
+      rb_raise(rb_eTypeError, "Can't convert %s into Joyau::Point",
+	       rb_obj_classname(op));
+
    Point &first = getRef<Point>(self);
    Point &second = getRef<Point>(op);
    
@@ -458,6 +470,10 @@ VALUE Drawable_boundingRect(VALUE self)
 */
 VALUE Drawable_collide(VALUE self, VALUE item)
 {
+   if (!rb_obj_is_kind_of(item, getClass("Point")))
+      rb_raise(rb_eTypeError, "Can't convert %s into Joyau::Drawable",
+	       rb_obj_classname(item));
+
    Drawable &ref = getRef<Drawable>(self);
    RubyDrawable val(item);
    if (ref.collide(val))
@@ -566,6 +582,10 @@ VALUE Drawable_setPos(VALUE self, VALUE x, VALUE y)
 */
 VALUE Drawable_setPoint(VALUE self, VALUE p)
 {
+   if (!rb_obj_is_kind_of(p, getClass("Point")))
+      rb_raise(rb_eTypeError, "Can't convert %s into Joyau::Point",
+	       rb_obj_classname(p));
+
    Drawable &ref = getRef<Drawable>(self);
    Point &pRef = getRef<Point>(p);
    ref.setPos(pRef);

@@ -25,6 +25,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include <list>
 #include <vector>
 #include <map>
+#include <stack>
 
 #include <pspkernel.h>
 #include <pspumd.h>

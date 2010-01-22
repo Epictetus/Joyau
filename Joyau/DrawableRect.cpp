@@ -16,7 +16,6 @@
 
 #include "DrawableRect.hpp"
 
-
 /*
   Document-class: Joyau::DrawableRect
 
@@ -170,7 +169,7 @@ VALUE DrawableRect_cornerOp(VALUE self, VALUE p)
 
 /*
   Returns the rect's second corner.
- */
+*/
 VALUE DrawableRect_getCorner(VALUE self)
 {
    DrawableRect &ref = getRef<DrawableRect>(self);

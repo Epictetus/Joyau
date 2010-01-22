@@ -129,7 +129,11 @@ VALUE Line_setPoint(VALUE self, VALUE x, VALUE y)
   Sets the line's second point (the first one is set with Drawable#setPos).
 */
 VALUE Line_setPointPoint(VALUE self, VALUE p)
- {
+{
+   if (!rb_obj_is_kind_of(p, getClass("Point")))
+      rb_raise(rb_eTypeError, "Can't convert %s into Joyau::Point",
+	       rb_obj_classname(p));
+   
    Line &ref = getRef<Line>(self);
    Point &point = getRef<Point>(p);
    

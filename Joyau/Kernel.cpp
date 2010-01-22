@@ -23,6 +23,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 */
 VALUE Kernel_cd(VALUE self, VALUE dir)
 {
+   dir = rb_obj_as_string(dir);
    sceIoChdir(StringValuePtr(dir));
 
    return Qnil;
@@ -117,6 +118,7 @@ VALUE Kernel_language(VALUE self) {
 */
 VALUE File_remove(VALUE self, VALUE file)
 {
+   file = rb_obj_as_string(file);
    sceIoRemove(StringValuePtr(file));
    return Qnil;
 }
@@ -129,6 +131,7 @@ VALUE File_remove(VALUE self, VALUE file)
 */
 VALUE File_mkdir(VALUE self, VALUE dir)
 {
+   dir = rb_obj_as_string(dir);
    sceIoMkdir(StringValuePtr(dir), 0777);
 
    return Qnil;
@@ -141,6 +144,7 @@ VALUE File_mkdir(VALUE self, VALUE dir)
 */
 VALUE File_rmdir(VALUE self, VALUE dir)
 {
+   dir = rb_obj_as_string(dir);
    sceIoRmdir(StringValuePtr(dir));
    return Qnil;
 }
@@ -152,6 +156,9 @@ VALUE File_rmdir(VALUE self, VALUE dir)
 */
 VALUE File_rename(VALUE self, VALUE old, VALUE newName)
 {
+   old = rb_obj_as_string(old);
+   newName = rb_obj_as_string(newName);
+
    sceIoRename(StringValuePtr(old), StringValuePtr(newName));
    return Qnil;
 }

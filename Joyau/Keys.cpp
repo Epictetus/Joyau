@@ -337,6 +337,9 @@ VALUE Joyau_gets(VALUE self)
 VALUE Osk_run(VALUE self, VALUE type, VALUE lang, VALUE rb_input, 
 	      VALUE rb_desc, VALUE output_size)
 {
+   rb_input = rb_obj_as_string(rb_input);
+   rb_desc = rb_obj_as_string(rb_desc);
+
    SceUtilityOskData data;
    SceUtilityOskParams params;
 

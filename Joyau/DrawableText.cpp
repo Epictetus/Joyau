@@ -84,6 +84,7 @@ void DrawableText::draw()
 */
 VALUE DrawableText_setText(VALUE self, VALUE text)
 {
+   text = rb_obj_as_string(text);
    DrawableText &ref = getRef<DrawableText>(self);
    std::string txt = StringValuePtr(text);
 

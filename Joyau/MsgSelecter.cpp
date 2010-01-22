@@ -58,7 +58,7 @@ VALUE wrap<VerticalMsgSelecter>(int argc, VALUE *argv, VALUE info)
   Document-class: Joyau::MsgConfig
 
   MsgConfig is used with MsgSelecter, which use them in order
- */
+*/
 
 /*
   Returns the image shown beside the text.

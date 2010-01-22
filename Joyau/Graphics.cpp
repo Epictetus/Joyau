@@ -80,7 +80,7 @@ VALUE Graphics_init(VALUE self)
 
 /*
   Stops the Graphics module.
- */
+*/
 VALUE Graphics_stop(VALUE self)
 {
    oslEndGfx();
@@ -314,6 +314,7 @@ VALUE Graphics_clear(VALUE self)
 */
 VALUE drawText(VALUE self, VALUE x, VALUE y, VALUE text)
 {
+   text = rb_obj_as_string(text);
    oslDrawString(FIX2INT(x), FIX2INT(y), StringValuePtr(text));
    return Qnil;
 }
@@ -325,6 +326,7 @@ VALUE drawText(VALUE self, VALUE x, VALUE y, VALUE text)
 */
 VALUE drawScripted(VALUE self, VALUE x, VALUE y, VALUE text)
 {
+   text = rb_obj_as_string(text);
    oslScriptText(FIX2INT(x), FIX2INT(y), StringValuePtr(text));
    return Qnil;
 }
@@ -336,6 +338,7 @@ VALUE drawScripted(VALUE self, VALUE x, VALUE y, VALUE text)
 */
 VALUE drawStirringText(VALUE self, VALUE x, VALUE y, VALUE text)
 {
+   text = rb_obj_as_string(text);
    oslPrintStirringString(FIX2INT(x), FIX2INT(y), StringValuePtr(text));
    return Qnil;
 }

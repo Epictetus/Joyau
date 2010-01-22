@@ -87,6 +87,7 @@ VALUE Intrafont_stop(VALUE self)
 */
 VALUE IntraText_setText(VALUE self, VALUE txt)
 {
+   txt = rb_obj_as_string(txt);
    IntraText &ref = getRef<IntraText>(self);
    ref.setText(StringValuePtr(txt));
 
@@ -121,6 +122,8 @@ VALUE IntraText_setMaxWidth(VALUE self, VALUE val) {
 */
 VALUE IntraText_load(VALUE self, VALUE name, VALUE options)
 {
+   name = rb_obj_as_string(name);
+
    IntraText &ref = getRef<IntraText>(self);
    try {
       ref.load(StringValuePtr(name), FIX2INT(options));
@@ -179,6 +182,10 @@ VALUE IntraText_setEncoding(VALUE self, VALUE options)
 */
 VALUE IntraText_setAltFont(VALUE self, VALUE obj)
 {
+   if (!rb_obj_is_kind_of(obj, getClass("IntraText"))
+       rb_raise(rb_eTypeError, "Can't convert %s into Joyau::IntraText",
+		rb_obj_classname(obj));
+
    IntraText &ref = getRef<IntraText>(self);
    IntraText &val = getRef<IntraText>(obj);
    
