@@ -123,7 +123,7 @@ VALUE wrap<GameMap::Tile>(int argc, VALUE *argv, VALUE info)
       ptr->x = FIX2INT(argv[3]);
       ptr->y = FIX2INT(argv[4]);
       if (argc == 6) {
-	 if (!rb_obj_is_kind_of(argv[5], getClass("CollisionType"))
+	 if (!rb_obj_is_kind_of(argv[5], getClass("CollisionType")))
 	     rb_raise(rb_eTypeError, 
 		      "Can't convert %s into Joyau::CollisionType",
 		      rb_obj_classname(argv[5]));
@@ -546,10 +546,10 @@ VALUE GameMap_push(VALUE self, VALUE tile)
    }
    else
    {
-      if (!rb_obj_is_kind_of(tile, getClass("Tile"))
-       rb_raise(rb_eTypeError, "Can't convert %s into Joyau::Tile",
-		rb_obj_classname(tile));
-
+      if (!rb_obj_is_kind_of(tile, getClass("Tile")))
+	 rb_raise(rb_eTypeError, "Can't convert %s into Joyau::Tile",
+		  rb_obj_classname(tile));
+      
       GameMap::Tile &tRef = getRef<GameMap::Tile>(tile);
       ref.addElem(tRef);
    }
@@ -647,9 +647,9 @@ VALUE GameMap_reject_tiles(VALUE self)
   Adds a drawable drawn between the map's tiles.
 */
 VALUE GameMap_addBetween(VALUE self, VALUE obj) {
-   if (!rb_obj_is_kind_of(obj, getClass("Drawable"))
-       rb_raise(rb_eTypeError, "Can't convert %s into Joyau::Drawable",
-		rb_obj_classname(obj));
+   if (!rb_obj_is_kind_of(obj, getClass("Drawable")))
+      rb_raise(rb_eTypeError, "Can't convert %s into Joyau::Drawable",
+	       rb_obj_classname(obj));
 
    GameMap &ref = getRef<GameMap>(self);
    Drawable *draw = getPtr<Drawable>(obj);
@@ -889,9 +889,9 @@ VALUE Tile_setTileset(VALUE self, VALUE val)
 */
 VALUE Tile_setType(VALUE self, VALUE val)
 {
-   if (!rb_obj_is_kind_of(val, getClass("CollisionType"))
-       rb_raise(rb_eTypeError, "Can't convert %s into Joyau::CollisionType",
-		rb_obj_classname(val));
+   if (!rb_obj_is_kind_of(val, getClass("CollisionType")))
+      rb_raise(rb_eTypeError, "Can't convert %s into Joyau::CollisionType",
+	       rb_obj_classname(val));
 
    GameMap::Tile &ref = getRef<GameMap::Tile>(self);
    CollisionType &type = getRef<CollisionType>(val);

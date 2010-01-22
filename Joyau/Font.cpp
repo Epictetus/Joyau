@@ -182,7 +182,7 @@ VALUE IntraText_setEncoding(VALUE self, VALUE options)
 */
 VALUE IntraText_setAltFont(VALUE self, VALUE obj)
 {
-   if (!rb_obj_is_kind_of(obj, getClass("IntraText"))
+   if (!rb_obj_is_kind_of(obj, getClass("IntraText")))
        rb_raise(rb_eTypeError, "Can't convert %s into Joyau::IntraText",
 		rb_obj_classname(obj));
 

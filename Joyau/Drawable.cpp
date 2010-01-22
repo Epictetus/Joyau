@@ -470,7 +470,7 @@ VALUE Drawable_boundingRect(VALUE self)
 */
 VALUE Drawable_collide(VALUE self, VALUE item)
 {
-   if (!rb_obj_is_kind_of(item, getClass("Point")))
+   if (!rb_obj_is_kind_of(item, getClass("Drawable")))
       rb_raise(rb_eTypeError, "Can't convert %s into Joyau::Drawable",
 	       rb_obj_classname(item));
 
