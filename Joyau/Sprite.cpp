@@ -109,6 +109,14 @@ void Sprite::setPicture(char *pic)
    _stretchY = sprite->stretchY;
 }
 
+void Sprite::setBuffer(const Buffer &buffer) {
+   sprite = buffer.img;
+   if (!sprite) {
+      throw RubyException(rb_eRuntimeError, 
+			  "The given buffer is not valid.");
+   }
+}
+
 void Sprite::setAlpha(int alpha)
 {
    _alpha = alpha;
@@ -347,6 +355,26 @@ VALUE Sprite_setPicture(VALUE self, VALUE pic)
 }
 
 /*
+  call-seq: buffer=(buf)
+
+  Changes the sprite's buffer directly.
+*/
+VALUE Sprite_setBuffer(VALUE self, VALUE buf) {
+   if (!rb_obj_is_kind_of(buf, getClass("Buffer")))
+      rb_raise(rb_eTypeError, "Can't convert %s into Joyau::Buffer",
+	       rb_obj_classname(buf));
+   Sprite &ref = getRef<Sprite>(self);
+   try {
+      ref.setBuffer(getRef<Buffer>(buf));
+   }
+   catch (const RubyException &e) {
+      e.rbRaise();
+   }
+
+   return buf;
+}
+
+/*
   call-seq: res_name=(val)
 
   Sets the sprite's ressource name. This might be useful when used along
@@ -501,6 +529,7 @@ void defineSprite()
 {
    VALUE cSprite = defClass<Sprite>("Sprite", "Drawable");
    defMethod(cSprite, "setPicture", Sprite_setPicture, 1);
+   defMethod(cSprite, "buffer=", Sprite_setBuffer, 1);
    defMethod(cSprite, "res_name=", Sprite_setResName, 1);
    defMethod(cSprite, "picture", Sprite_picture, 0);
    defMethod(cSprite, "getAngle", Sprite_getAngle, 0);

@@ -61,6 +61,10 @@ public:
    void setPicture(char *pic);
 
    /*
+     Changes the Sprite's buffer.
+   */
+   void setBuffer(const Buffer &buffer);
+   /*
      Sets the ressource's name. May be useful if a Sprite is used along
      Buffer.
    */
@@ -174,6 +178,7 @@ private:
 /*@}*/
 
 VALUE Sprite_setPicture(VALUE self, VALUE pic);
+VALUE Sprite_setBuffer(VALUE self, VALUE buf);
 VALUE Sprite_setResName(VALUE self, VALUE pic);
 VALUE Sprite_picture(VALUE self);
 

@@ -30,6 +30,7 @@ public:
    ~Buffer();
 
    friend Sprite::Sprite(const Buffer &buf);
+   friend void Sprite::setBuffer(const Buffer &buf);
 
    void setActual();
 
@@ -62,6 +63,8 @@ public:
    void setPixel(int x, int y, OSL_COLOR col);
 
    void save(const std::string &filename);
+
+   bool isScreen() const;
 
    static void updateScreen() {
       if (screen)
