@@ -102,13 +102,14 @@ protected:
    
    static void removeFromVram(OSL_IMAGE *pic) {
       enabledImages[pic] = false;
-      while (true) {
-	 if (!enabledImages[vramStack.top()]) {
-	    oslDeleteImage(vramStack.top());
+      while (!vramStack.empty()) {
+	 OSL_IMAGE *top = vramStack.top();
+	 if (enabledImages[top])
+	    break;
+	 else {
+	    oslDeleteImage(top);
 	    vramStack.pop();
 	 }
-	 else // The first image is still being used, we cannot delete it.
-	    break;
       }
    }
 private:
