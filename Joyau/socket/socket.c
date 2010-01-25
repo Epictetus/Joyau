@@ -201,8 +201,9 @@ init_sock(sock, fd)
     OpenFile *fp;
 
     MakeOpenFile(sock, fp);
-    fp->f = rb_fdopen(fd, "rw");
-    fp->f2 = fp->f; // rb_fdopen(fd, "w");
+    fp->f  = fdopen(fd, "rw");
+    fp->f2 = fdopen(fd, "rw");
+    
     fp->mode = FMODE_READWRITE;
     rb_io_synchronized(fp);
 
@@ -2379,7 +2380,7 @@ unix_s_socketpair(argc, argv, klass)
  *   the address family of the specified +socket+
  * * Errno::EALREADY - a connection is already in progress for the specified
  *   socket
- * * Errno::EBADF - the +socket+ is not a valid file descriptor
+ * * Errno::EBAD F - the +socket+ is not a valid file descriptor
  * * Errno::ECONNREFUSED - the target _sockaddr_ was not listening for connections
  *   refused the connection request
  * * Errno::ECONNRESET - the remote host reset the connection request
