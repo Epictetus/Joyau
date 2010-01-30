@@ -1,3 +1,5 @@
+#!/usr/bin/ruby
+
 # This script must be run on your computer,
 # not on your PSP.
 #
@@ -6,8 +8,6 @@
 
 require 'drb/drb'
 require 'readline'
-
-$SAFE = 1
 
 class CommandGiver
   def get_instruction
@@ -35,7 +35,8 @@ class CommandGiver
   end
 end
 
-SERVER_URI = "druby://192.168.1.4:8787"
+SERVER_URI = "druby://#{ARGV[0] || "0.0.0.0" }:8787"
+puts "Server started at #{SERVER_URI}"
 
 DRb.start_service(SERVER_URI, CommandGiver.new)
 DRb.thread.join

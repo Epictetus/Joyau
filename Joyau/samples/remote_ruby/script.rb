@@ -82,7 +82,11 @@ end
 
 DRb.start_service
 
-SERVER_URI = "druby://192.168.1.4:8787"
+SERVER_URI = Joyau::OSK.run(Joyau::OSK::URL, Joyau.language,
+                            "druby://192.168.1.4:8787", "Server", 
+                            255) do
+  Joyau.clearScreen
+end
 
 show_message "Press X if the server (#{SERVER_URI}) is running."
 
