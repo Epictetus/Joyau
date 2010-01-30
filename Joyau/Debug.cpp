@@ -162,10 +162,22 @@ VALUE Debug_setBgColor(VALUE self, VALUE col) {
    return col;
 }
 
+/*
+  call-seq: text_color=(col)
+  
+  Sets the text's color.
+*/
 VALUE Debug_setTextColor(VALUE self, VALUE col) {
    pspDebugScreenSetTextColor(hash2col(col));
    return col;
 }
+
+/*
+  Document-class: Joyau::Debug
+
+  The PSP's debugging sceen might be useful, if you want to trace
+  the evolution of your program as you would do it with $stdout.
+*/
 
 void defineDebug() {
    VALUE mDebug = defModule("Debug");
