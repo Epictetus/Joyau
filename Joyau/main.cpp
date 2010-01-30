@@ -100,17 +100,11 @@ VALUE debug(VALUE self, VALUE text)
 /*
   call-seq: puts(str1, str2, str3, ...)
 
-  Prints all the given strings on the debug screen, on per line.
-  They're printed in +$stdout+ too.
+  Redirects all the given objects to Joyau::Debug.puts
 */
 VALUE Joyau_puts(int argc, VALUE *argv, VALUE self)
 {
-   for (int i = 0; i < argc; ++i)
-   {
-      pspDebugScreenPrintf("%s\n", StringValuePtr(argv[i]));
-      std::cout << StringValuePtr(argv[i]) << std::endl;
-   }
-   return Qnil;
+   return Debug_puts(argc, argv, self);
 }
 
 /*
