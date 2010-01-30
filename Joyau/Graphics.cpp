@@ -160,7 +160,7 @@ VALUE Graphics_drawRect(VALUE self, VALUE x1, VALUE y1, VALUE x2,
 
   Draws a triangle on the screen.
 */
-VALUE Graphics_drawTriangle(VALUE self, VALUE x1, VALUE y1, VALUE x2, VALUE y2, 
+VALUE Graphics_drawTriangle(VALUE self, VALUE x1, VALUE y1, VALUE x2, VALUE y2,
 			    VALUE x3, VALUE y3, VALUE col1, VALUE col2, 
 			    VALUE col3)
 {

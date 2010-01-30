@@ -40,6 +40,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "Console.hpp"
 #include "Buffer.hpp"
 #include "Wlan.hpp"
+#include "Debug.hpp"
 
 PSP_MODULE_INFO("Joyau", 0, 1, 1);
 PSP_MAIN_THREAD_ATTR(THREAD_ATTR_USER | THREAD_ATTR_VFPU);
@@ -214,6 +215,7 @@ int main(int argc, char** argv)
    VALUE joyau = joyau_define_module("Joyau");
    
    // Joyau
+   defineDebug();
    defineWlan();   
    defineManager();
    defineDrawable();
@@ -258,6 +260,9 @@ int main(int argc, char** argv)
    }
    catch (...) { // An error occured from Ruby
       pspDebugScreenInit();
+      
+      pspDebugScreenSetBackColor(RGB(0, 0, 0));
+
       pspDebugScreenSetTextColor(RGB(255, 0, 0));
       pspDebugScreenPrintf("Joyau - error manager\n\n\n");
       pspDebugScreenSetTextColor(RGB(255, 255, 255));
