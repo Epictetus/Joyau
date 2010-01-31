@@ -14,7 +14,7 @@ class RDoc::Parser::Joyau < RDoc::Parser::C
   def do_aliases
     super
 
-    @content.scan(/defAlias\((\w+), \"([\[\]\?!\=\w]+)\", \"([\[\]\?!\=\w]+)\"\)/) do
+    @content.scan(/defAlias\((\w+),\s*\"([\[\]\?!\=\w]+)\",\s*\"([\[\]\?!\=\w]+)\"\)/) do
       |var_name, old_name, new_name|
       
       class_name = @known_classes[var_name] || var_name
@@ -29,12 +29,12 @@ class RDoc::Parser::Joyau < RDoc::Parser::C
   def do_classes
     super
 
-    @content.scan(/(\w+) = defModule\(\"(\w+)\"\)/) do |var_name, class_name|
+    @content.scan(/(\w+)\s*=\s*defModule\(\"(\w+)\"\)/) do |var_name, class_name|
       in_module = "joyau"
       handle_class_module(var_name, "module", class_name, nil, in_module)
     end
 
-    @content.scan(/(\w+) = defClass<([:\w]+)>\(\"(\w+)\"\)/) do 
+    @content.scan(/(\w+)\s*=\s*defClass<([:\w]+)>\(\"(\w+)\"\)/) do 
       |var_name, cpp_class, class_name|
       next if class_name.include? '"'
 
@@ -47,7 +47,7 @@ class RDoc::Parser::Joyau < RDoc::Parser::C
         @content.include? "wrap<#{cpp_class}>"
     end
 
-    @content.scan(/(\w+) = defClass<([:\w]+)>\(\"(\w+)\", \"(\w+)\"\)/) do
+    @content.scan(/(\w+)\s*=\s*defClass<([:\w]+)>\(\"(\w+)\",\s*\"(\w+)\"\)/) do
       |var_name, cpp_class, class_name, parent|
       
       in_module = "joyau"
@@ -122,7 +122,7 @@ class RDoc::Parser::Joyau < RDoc::Parser::C
   def do_constants
     super
 
-    @content.scan(/defConst\((\w+), \"(\w+)\", (.+)\)/) do 
+    @content.scan(/defConst\((\w+),\s*\"(\w+)\",\s*(.+)\)/) do 
       |var_name, const_name, definition|
       
       type = "const"
@@ -135,26 +135,26 @@ class RDoc::Parser::Joyau < RDoc::Parser::C
   def do_methods
     super
     
-    @content.scan(/defFunc\(\"([\[\]\?!\=\w]+)\", (\w+), ([\-0-9]+)\)/) do
+    @content.scan(/defFunc\(\"([\[\]\?!\=\w]+)\",\s*(\w+),\s*([\-0-9]+)\)/) do
       |meth_name, meth_body, param_count|
       handle_method("method", "rb_mKernel", meth_name,
                     meth_body, param_count)
     end
 
-    @content.scan(/defMethod\((\w+), \"([\[\]\?!\=\w]+)\", (\w+), ([\-0-9]+)\)/) do
+    @content.scan(/defMethod\((\w+),\s*\"([\[\]\?!\=\w]+)\",\s*(\w+),\s*([\-0-9]+)\)/) do
       |var_name, meth_name, meth_body, param_count|
       handle_method("method", var_name, meth_name,
                     meth_body, param_count)
     end
 
-    @content.scan(/defModFunc\((\w+), \"([\[\]\?!\=\w]+)\", (\w+), ([\-0-9]+)\)/) do 
+    @content.scan(/defModFunc\((\w+),\s*\"([\[\]\?!\=\w]+)\",\s*(\w+),\s*([\-0-9]+)\)/) do 
       |var_name, meth_name, meth_body, param_count|
       
       handle_method("module_function", var_name, meth_name,
                     meth_body, param_count)
     end
 
-    @content.scan(/defClassMethod\((\w+), \"([\[\]\?!\=\w]+)\", (\w+), ([\-0-9]+)\)/) do 
+    @content.scan(/defClassMethod\((\w+),\s*\"([\[\]\?!\=\w]+)\",\s*(\w+),\s*([\-0-9]+)\)/) do 
       |var_name, meth_name, meth_body, param_count|
       
       handle_method("singleton_method", var_name, meth_name,
