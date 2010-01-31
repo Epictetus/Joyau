@@ -262,7 +262,7 @@ int main(int argc, char** argv)
       pspDebugScreenEnableBackColor(1);
 
       pspDebugScreenClear();
-      pspDebugScreenSetXY(0, 0)
+      pspDebugScreenSetXY(0, 0);
 
       pspDebugScreenSetTextColor(RGB(255, 0, 0));
       pspDebugScreenPrintf("Joyau - error manager\n\n\n");
