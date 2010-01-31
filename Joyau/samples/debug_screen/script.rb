@@ -16,7 +16,7 @@ Joyau::Debug.print 1, 2, 3, 4, 5, "\n"
 Joyau::Debug.disable_background
 Joyau::Debug.puts "\nThis is my world !"
 
-sleep 3[A]
+sleep 3
 Joyau::Debug.clear
 Joyau::Debug.puts "How strange !"
 
