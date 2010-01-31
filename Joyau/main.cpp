@@ -60,6 +60,7 @@ extern "C" {
    void Init_strscan();
    void Init_thread();
    void Init_zlib();
+   void Init_nkf();
 }
 
 int exit_callback(int arg1, int arg2, void* commons)
@@ -155,6 +156,8 @@ VALUE Joyau_init_internal(VALUE self, VALUE module_name) {
       Init_thread();
    else if (str == "zlib")
       Init_zlib();
+   else if (str == "nkf")
+      Init_nkf();
    
    return Qnil;
 }

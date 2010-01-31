@@ -28,7 +28,8 @@ JoyauTask.new do |conf|
             stringio/stringio.c
             strscan/strscan.c
             thread/thread.c
-            zlib/zlib.c)
+            zlib/zlib.c
+            nkf/nkf.c)
   conf.srcs = conf.srcs | libs
 
   static_libs = %w(-losl -lpng -lz -lpspsdk -lpspvfpu -lpspctrl -lpspumd 
@@ -125,6 +126,7 @@ task :release_dir => ['psp:eboot', 'psp:prx', 'rdoc_site', 'rdoc',
   FileUtils.cp_r 'strscan', 'Joyau-release/src'
   FileUtils.cp_r 'thread', 'Joyau-release/src'
   FileUtils.cp_r 'zlib', 'Joyau-release/src'
+  FileUtils.cp_r 'nkf', 'Joyau-release/src'
 
   FileUtils.cp 'EBOOT.PBP', 'Joyau-release'
   FileUtils.cp 'Joyau.prx', 'Joyau-release'
@@ -142,10 +144,12 @@ task :release_dir => ['psp:eboot', 'psp:prx', 'rdoc_site', 'rdoc',
   FileUtils.cp 'digest/lib/sha1.rb', 'Joyau-release/ruby/1.8/digest/'
   FileUtils.cp 'digest/lib/md5.rb', 'Joyau-release/ruby/1.8/digest/'
   FileUtils.cp 'digest/sha2/lib/sha2.rb', 'Joyau-release/ruby/1.8/digest/'
+  
+  FileUtils.cp 'nkf/lib/kconv.rb', 'Joyau-release/ruby/1.8/'
 
   ["socket.rb", "bigdecimal.rb", "digest/bubblebabble.rb",
    "fcntl.rb", "stringio.rb", "strscan.rb", "thread.rb",
-   "zlib.rb"].each do |filename|
+   "zlib.rb", "nkf.rb"].each do |filename|
     ext_name = case filename
                when /(\w+)\.rb/
                  $1
