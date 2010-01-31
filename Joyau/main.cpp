@@ -255,10 +255,14 @@ int main(int argc, char** argv)
    try {
       runScript("./script.rb");
    }
-   catch (...) { // An error occured from Ruby
+   catch (const RubyException &e) { // An error occured from Ruby
       pspDebugScreenInit();
       
       pspDebugScreenSetBackColor(RGB(0, 0, 0));
+      pspDebugScreenEnableBackColor(1);
+
+      pspDebugScreenClear();
+      pspDebugScreenSetXY(0, 0)
 
       pspDebugScreenSetTextColor(RGB(255, 0, 0));
       pspDebugScreenPrintf("Joyau - error manager\n\n\n");
