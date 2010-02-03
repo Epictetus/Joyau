@@ -19,6 +19,22 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include "Drawable.hpp"
 
+typedef struct {
+   int AlphaMenu;
+   int AngleVoullue;
+   int nbIcones;
+   int SelectionEncour;
+   OSL_IMAGE *Image;
+   int TailleIconeX;
+   int TailleIconeY;
+   int Eloignement;
+   int test_angle;
+   int PossitionX;
+   int PossitionY;
+   int LargeurAnimX;
+   int LargeurAnimY;
+} _OSL_CIRCLE_MENU;
+
 /** @addtogroup Drawables **/
 /*@{*/
 
@@ -82,7 +98,7 @@ public:
    /** Returns the menu angle **/
    int getAngle() const { return _menu->AngleVoullue; }
 private:
-   OSL_CIRCLE_MENU *_menu;
+   _OSL_CIRCLE_MENU *_menu;
 };
 
 /*@}*/
