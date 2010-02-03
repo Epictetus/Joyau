@@ -19,6 +19,29 @@
 
 #include "Drawable.hpp"
 
+#define cGfxParticleSet	4
+#define MaxParticules  600
+#define cGfxParticleState 4
+
+typedef struct PARTICULE {
+   PARTICLE particle[MaxParticules];
+   OSL_IMAGE *Images[cGfxParticleState];
+   int vie;
+   int Vitesse;
+   int Vitesse_Mini;
+   int Graviter;
+} PARTICULE;
+
+inline void _oslDeleteParticles(PARTICULE * Part)
+{
+   oslDeleteImage(Part->Images[0]);
+   oslDeleteImage(Part->Images[1]);
+   oslDeleteImage(Part->Images[2]);
+   oslDeleteImage(Part->Images[3]);
+
+   free(Part);
+}
+
 /** @addtogroup Drawables **/
 /*@{*/
 
@@ -31,7 +54,7 @@ class Particles: public Drawable
 public:
    Particles() { setClass("Particles"); }
    Particles(const Particles &obj);
-   ~Particles() { oslDeleteParticles(part); }
+   ~Particles() { _oslDeleteParticles(part); }
 
    /** Loads a particle file.
     *  @param str filename
@@ -67,14 +90,13 @@ public:
    /** Returns the minimum speed **/
    int getMinSpeed() const { return _mspeed; }
 private:
-   OSL_PARTICLES *part;
+   PARTICULE *part;
 
    int _time, _speed, _gravity, _mspeed;
    std::string filename;
 };
 
 /*@}*/
-
 
 VALUE Particles_setFile(VALUE self, VALUE str);
 VALUE Particles_setParam(VALUE self, VALUE time, VALUE speed, VALUE gravity,
