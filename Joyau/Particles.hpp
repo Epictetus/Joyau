@@ -49,12 +49,17 @@ inline void _oslDeleteParticles(PARTICULE * Part)
  * @class Particles
  * A particles generator.
  */
-class Particles: public Drawable
-{
-public:
-   Particles() { setClass("Particles"); }
-   Particles(const Particles &obj);
-   ~Particles() { _oslDeleteParticles(part); }
+class Particles:public Drawable {
+ public:
+   Particles() {
+      setClass("Particles");
+   }
+   
+   Particles(const Particles & obj);
+   
+   ~Particles() {
+      _oslDeleteParticles(part);
+   }
 
    /** Loads a particle file.
     *  @param str filename
@@ -79,19 +84,25 @@ public:
    void draw();
 
    /** Returns a particle's lifetime **/
-   int getTime() const { return _time; }
+   int getTime() const {
+      return _time;
+   }
 
    /** Returns a particle's speed **/
-   int getSpeed() const { return _speed; }
-
+   int getSpeed() const {
+      return _speed;
+   }
    /** Returns the gravity **/
-   int getGravity() const { return _gravity; }
-
+   int getGravity() const {
+      return _gravity;
+   }
    /** Returns the minimum speed **/
-   int getMinSpeed() const { return _mspeed; }
+   int getMinSpeed() const {
+      return _mspeed;
+ }
 private:
-   PARTICULE *part;
-
+   PARTICULE * part;
+   
    int _time, _speed, _gravity, _mspeed;
    std::string filename;
 };

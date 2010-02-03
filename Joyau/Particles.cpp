@@ -18,8 +18,9 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 /* Another bit of devslib code */
 
-int DevssysRand(int max) {
-   return (int) rand() % max;
+int DevssysRand(int max)
+{
+   return (int)rand() % max;
 }
 
 PARTICULE *_oslLoadParticles(char *Fichier)
@@ -27,36 +28,45 @@ PARTICULE *_oslLoadParticles(char *Fichier)
    PARTICULE *Part;
    OSL_IMAGE *Image;
 
-   Part = (PARTICULE*)malloc(sizeof(PARTICULE));
-   if (!Part){
-      if (Part) free(Part);
+   Part = (PARTICULE *) malloc(sizeof(PARTICULE));
+   if (!Part) {
+      if (Part)
+	 free(Part);
       return NULL;
    }
    memset(Part, 0, sizeof(PARTICULE));
 
    Image = oslLoadImageFile(Fichier, OSL_IN_RAM, OSL_PF_5551);
 
-   Part->Images[ 0 ] = oslLoadImageFile(Fichier, OSL_IN_RAM, OSL_PF_5551);
-   oslSetImageTileSize(Part->Images[ 0 ],0 * (Part->Images[ 0 ]->stretchX/4),0,(Part->Images[ 0 ]->stretchX/4),Part->Images[ 0 ]->stretchY);
-   Part->Images[ 1 ] = oslLoadImageFile(Fichier, OSL_IN_RAM, OSL_PF_5551);
-   oslSetImageTileSize(Part->Images[ 1 ],1 * (Part->Images[ 1 ]->stretchX/4),0,(Part->Images[ 1 ]->stretchX/4),Part->Images[ 1 ]->stretchY);
-   Part->Images[ 2 ] = oslLoadImageFile(Fichier, OSL_IN_RAM, OSL_PF_5551);
-   oslSetImageTileSize(Part->Images[ 2 ],2 * (Part->Images[ 2 ]->stretchX/4),0,(Part->Images[ 2 ]->stretchX/4),Part->Images[ 2 ]->stretchY);
-   Part->Images[ 3 ] = oslLoadImageFile(Fichier, OSL_IN_RAM, OSL_PF_5551);
-   oslSetImageTileSize(Part->Images[ 3 ],3 * (Part->Images[ 3 ]->stretchX/4),0,(Part->Images[ 3 ]->stretchX/4),Part->Images[ 3 ]->stretchY);
+   Part->Images[0] = oslLoadImageFile(Fichier, OSL_IN_RAM, OSL_PF_5551);
+   oslSetImageTileSize(Part->Images[0], 0 * (Part->Images[0]->stretchX / 4), 0,
+		       (Part->Images[0]->stretchX / 4),
+		       Part->Images[0]->stretchY);
+   Part->Images[1] = oslLoadImageFile(Fichier, OSL_IN_RAM, OSL_PF_5551);
+   oslSetImageTileSize(Part->Images[1], 1 * (Part->Images[1]->stretchX / 4), 0,
+		       (Part->Images[1]->stretchX / 4),
+		       Part->Images[1]->stretchY);
+   Part->Images[2] = oslLoadImageFile(Fichier, OSL_IN_RAM, OSL_PF_5551);
+   oslSetImageTileSize(Part->Images[2], 2 * (Part->Images[2]->stretchX / 4), 0,
+		       (Part->Images[2]->stretchX / 4),
+		       Part->Images[2]->stretchY);
+   Part->Images[3] = oslLoadImageFile(Fichier, OSL_IN_RAM, OSL_PF_5551);
+   oslSetImageTileSize(Part->Images[3], 3 * (Part->Images[3]->stretchX / 4), 0,
+		       (Part->Images[3]->stretchX / 4),
+		       Part->Images[3]->stretchY);
 
    oslDeleteImage(Image);
 
    return Part;
 }
 
-void _oslInitParticles(PARTICULE *Part,int duree,int vitesse,
-			  int Graviter,int vitessemini) {
+void _oslInitParticles(PARTICULE * Part, int duree, int vitesse,
+		       int Graviter, int vitessemini)
+{
    int j;
 
-   for ( j = 0; j < MaxParticules; ++j )
-   {
-      Part->particle[ j ].status = 0;
+   for (j = 0; j < MaxParticules; ++j) {
+      Part->particle[j].status = 0;
    }
    Part->Graviter = Graviter;
    Part->vie = duree;
@@ -64,100 +74,94 @@ void _oslInitParticles(PARTICULE *Part,int duree,int vitesse,
    Part->Vitesse = vitesse;
 }
 
-void _oslNewParticles( PARTICULE *Part,int x, int y )
+void _oslNewParticles(PARTICULE * Part, int x, int y)
 {
    int i;
    int j;
 
-   for ( j = 0; j < MaxParticules; ++j )
-   {
-      if ( Part->particle[ j ].status <= 0 )
-      {
-         break;
+   for (j = 0; j < MaxParticules; ++j) {
+      if (Part->particle[j].status <= 0) {
+	 break;
       }
    }
    j %= MaxParticules;
-   Part->particle[ j ].status = Part->vie;
-   for ( i = 0; i < cGfxParticleSet; ++i )
-   {
-      Part->particle[ j ].x[ i ]        = x;
-      Part->particle[ j ].y[ i ]        = y;
+   Part->particle[j].status = Part->vie;
+   for (i = 0; i < cGfxParticleSet; ++i) {
+      Part->particle[j].x[i] = x;
+      Part->particle[j].y[i] = y;
 
-      Part->particle[ j ].dx[ i ]        = ( DevssysRand( Part->Vitesse_Mini ) - Part->Vitesse_Mini/2 );
-      Part->particle[ j ].dy[ i ]       = DevssysRand( Part->Vitesse>>1 ) - Part->Vitesse;
+      Part->particle[j].dx[i] =
+	  (DevssysRand(Part->Vitesse_Mini) - Part->Vitesse_Mini / 2);
+      Part->particle[j].dy[i] = DevssysRand(Part->Vitesse >> 1) - Part->Vitesse;
    }
 }
 
-void _oslMoveXParticles( PARTICULE *Part,int x)
+void _oslMoveXParticles(PARTICULE * Part, int x)
 {
    int j;
    int i;
-   for ( j = 0; j < MaxParticules; ++j )
-   {
-      for ( i = 0; i < cGfxParticleSet; ++i )
-      {
-         if ((x > 0 && Part->particle[j].sx[ i ] < 25) || (x< 0 && Part->particle[j].sx[ i ] > -25))
-            Part->particle[j].sx[ i ] += x;
+   for (j = 0; j < MaxParticules; ++j) {
+      for (i = 0; i < cGfxParticleSet; ++i) {
+	 if ((x > 0 && Part->particle[j].sx[i] < 25)
+	     || (x < 0 && Part->particle[j].sx[i] > -25))
+	    Part->particle[j].sx[i] += x;
       }
    }
 
 }
 
-void _oslMoveYParticles( PARTICULE *Part,int y )
+void _oslMoveYParticles(PARTICULE * Part, int y)
 {
 
    int j;
    int i;
-   for ( j = 0; j < MaxParticules; ++j )
-   {
-      for ( i = 0; i < cGfxParticleSet; ++i )
-      {
-         if ((y > 0 && Part->particle[j].sy[ i ] < 25) || (y< 0 && Part->particle[j].sy[ i ] > -25))
-            Part->particle[j].sy[ i ] += y;
+   for (j = 0; j < MaxParticules; ++j) {
+      for (i = 0; i < cGfxParticleSet; ++i) {
+	 if ((y > 0 && Part->particle[j].sy[i] < 25)
+	     || (y < 0 && Part->particle[j].sy[i] > -25))
+	    Part->particle[j].sy[i] += y;
       }
    }
 
 }
 
-void _oslUpdateParticles(PARTICULE *Part)
+void _oslUpdateParticles(PARTICULE * Part)
 {
    int i;
    int j;
 
-   for ( j = 0; j < MaxParticules; ++j )
-   {
-      if ( Part->particle[ j ].status > 0 )
-      {
-         Part->particle[ j ].status --;
-         for ( i = 0; i < cGfxParticleSet; ++i )
-         {
-            Part->particle[ j ].x[ i ]  += Part->particle[ j ].dx[ i ]+ Part->particle[j].sx[ i ];
-            Part->particle[ j ].y[ i ]  += Part->particle[ j ].dy[ i ]+ Part->particle[j].sy[ i ];
-            Part->particle[ j ].dy[ i ] += Part->Graviter;
-         }
+   for (j = 0; j < MaxParticules; ++j) {
+      if (Part->particle[j].status > 0) {
+	 Part->particle[j].status--;
+	 for (i = 0; i < cGfxParticleSet; ++i) {
+	    Part->particle[j].x[i] +=
+		Part->particle[j].dx[i] + Part->particle[j].sx[i];
+	    Part->particle[j].y[i] +=
+		Part->particle[j].dy[i] + Part->particle[j].sy[i];
+	    Part->particle[j].dy[i] += Part->Graviter;
+	 }
       }
    }
 }
 
-void _oslRenderParticles(PARTICULE *Part)
+void _oslRenderParticles(PARTICULE * Part)
 {
-   int  i;
-   int  j;
-   int  index;
+   int i;
+   int j;
+   int index;
 
-   for ( j = 0; j < MaxParticules; ++j )
-   {
-      if ( Part->particle[ j ].status > 0 )
-      {
-         for ( i = 0; i < cGfxParticleSet; ++i )
-         {
-            index = DevssysRand( cGfxParticleState );
+   for (j = 0; j < MaxParticules; ++j) {
+      if (Part->particle[j].status > 0) {
+	 for (i = 0; i < cGfxParticleSet; ++i) {
+	    index = DevssysRand(cGfxParticleState);
 
-            Part->Images[ index ]->x = Part->particle[ j ].x[ i ] - (Part->Images[ index ]->stretchX >> 1);
-            Part->Images[ index ]->y = Part->particle[ j ].y[ i ] - (Part->Images[ index ]->stretchY >> 1);
+	    Part->Images[index]->x =
+		Part->particle[j].x[i] - (Part->Images[index]->stretchX >> 1);
+	    Part->Images[index]->y =
+		Part->particle[j].y[i] - (Part->Images[index]->stretchY >> 1);
 
-            oslDrawImage(Part->Images[ index ]);
-         }
+	    oslDrawImage(Part->Images[index]);
+	 }
       }
    }
 
@@ -170,26 +174,25 @@ void _oslRenderParticles(PARTICULE *Part)
   saved in a picture.
 */
 
-template<>
+template <>
 /*
   call-seq: new
             new(filename)
 
   Creates a new particles generator.
  */
-VALUE wrap<Particles>(int argc, VALUE *argv, VALUE info)
-{
+    VALUE wrap < Particles > (int argc, VALUE * argv, VALUE info) {
    Particles *ptr = new Particles;
    VALUE tdata;
-   
+
    if (argc >= 1)
       ptr->setFile(StringValuePtr(argv[0]));
-   
-   tdata = Data_Wrap_Struct(info, 0, wrapped_free<Particles>, ptr);
+
+   tdata = Data_Wrap_Struct(info, 0, wrapped_free < Particles >, ptr);
    return tdata;
 }
 
-Particles::Particles(const Particles &obj)
+Particles::Particles(const Particles & obj)
 {
    setClass("Particles");
 
@@ -204,8 +207,8 @@ Particles::Particles(const Particles &obj)
 
    setFile(txt);
 }
- 
-void Particles::setFile(char *file) // We can't use manager for that.
+
+void Particles::setFile(char *file)	// We can't use manager for that.
 {
    filename = file;
    part = _oslLoadParticles(file);
@@ -245,7 +248,7 @@ void Particles::draw()
 */
 VALUE Particles_setFile(VALUE self, VALUE str)
 {
-   Particles &ref = getRef<Particles>(self);
+   Particles & ref = getRef < Particles > (self);
    char *val = StringValuePtr(str);
 
    ref.setFile(val);
@@ -260,7 +263,7 @@ VALUE Particles_setFile(VALUE self, VALUE str)
 VALUE Particles_setParam(VALUE self, VALUE time, VALUE speed, VALUE gravity,
 			 VALUE mspeed)
 {
-   Particles &ref = getRef<Particles>(self);
+   Particles & ref = getRef < Particles > (self);
    int _time = FIX2INT(time);
    int _speed = FIX2INT(speed);
    int _gravity = FIX2INT(gravity);
@@ -277,7 +280,7 @@ VALUE Particles_setParam(VALUE self, VALUE time, VALUE speed, VALUE gravity,
 */
 VALUE Particles_addParticles(VALUE self, VALUE x, VALUE y)
 {
-   Particles &ref = getRef<Particles>(self);
+   Particles & ref = getRef < Particles > (self);
    int _x = FIX2INT(x);
    int _y = FIX2INT(y);
 
@@ -290,7 +293,7 @@ VALUE Particles_addParticles(VALUE self, VALUE x, VALUE y)
 */
 VALUE Particles_getTime(VALUE self)
 {
-   Particles &ref = getRef<Particles>(self);
+   Particles & ref = getRef < Particles > (self);
    return FIX2INT(ref.getTime());
 }
 
@@ -299,7 +302,7 @@ VALUE Particles_getTime(VALUE self)
 */
 VALUE Particles_getSpeed(VALUE self)
 {
-   Particles &ref = getRef<Particles>(self);
+   Particles & ref = getRef < Particles > (self);
    return FIX2INT(ref.getSpeed());
 }
 
@@ -308,7 +311,7 @@ VALUE Particles_getSpeed(VALUE self)
 */
 VALUE Particles_getGravity(VALUE self)
 {
-   Particles &ref = getRef<Particles>(self);
+   Particles & ref = getRef < Particles > (self);
    return FIX2INT(ref.getGravity());
 }
 
@@ -317,13 +320,13 @@ VALUE Particles_getGravity(VALUE self)
 */
 VALUE Particles_getMinSpeed(VALUE self)
 {
-   Particles &ref = getRef<Particles>(self);
+   Particles & ref = getRef < Particles > (self);
    return FIX2INT(ref.getMinSpeed());
 }
 
 void defineParticles()
 {
-   VALUE cPart = defClass<Particles>("Particles", "Drawable");
+   VALUE cPart = defClass < Particles > ("Particles", "Drawable");
    defMethod(cPart, "setFile", Particles_setFile, 1);
    defMethod(cPart, "setParam", Particles_setParam, 4);
    defMethod(cPart, "addParticles", Particles_addParticles, 2);
