@@ -26,12 +26,14 @@ void IntraText::load(const std::string &name, int options)
 
 int IntraText::getW() const
 {
-   return maxWidth == -1 ? intraFontMeasureText(font, txt.c_str()) : maxWidth;
+   return maxWidth == -1 ? 
+      intraFontMeasureText(font->intra, txt.c_str()) : 
+      maxWidth;
 }
 
 void IntraText::activate()
 {
-   intraFontActivate(font);
+   intraFontActivate(font->intra);
 }
 
 void IntraText::setStyle(float size, int color, int shadowColor, int option)
@@ -49,17 +51,27 @@ void IntraText::setEncoding(int options)
 
 void IntraText::setAltFont(IntraText &val)
 {
-   intraFontSetAltFont(font, val.font);
+   intraFontSetAltFont(font->intra, val.font->intra);
 }
 
 void IntraText::draw()
 {
-   intraFontSetEncoding(font, _encoding);
-   intraFontSetStyle(font, scale, _col, _shadow, _style);
+   intraFontSetEncoding(font->intra, _encoding);
+   intraFontSetStyle(font->intra, scale, _col, _shadow, _style);
+   
+   OSL_FONT *old_font = osl_curFont;
+   oslSetFont(font);
+
    if (maxWidth == -1)
-      intraFontPrint(font, getX(), getY(), txt.c_str());
+      oslDrawString(getX(), getY(), txt.c_str());
    else
-      intraFontPrintColumn(font, getX(), getY(), maxWidth, txt.c_str());
+      oslIntraFontPrintColumn(font,
+			      getX(), getY(),
+			      maxWidth,
+			      1,
+			      txt.c_str());
+   
+   oslSetFont(old_font);
 }
 
 /*
@@ -67,7 +79,7 @@ void IntraText::draw()
 */
 VALUE Intrafont_init(VALUE self)
 {
-   intraFontInit();
+   oslIntraFontInit(0);
    return Qnil;
 }
 
@@ -76,7 +88,7 @@ VALUE Intrafont_init(VALUE self)
 */
 VALUE Intrafont_stop(VALUE self)
 {
-   intraFontShutdown();
+   oslIntraFontShutdown();
    return Qnil;
 }
 

@@ -28,10 +28,10 @@ Manager::~Manager()
       if (i->second != NULL)
 	 oslDeleteFont(i->second);
    }
-   for (std::map<std::string, intraFont*>::iterator i = intra_fonts.begin();
+   for (std::map<std::string, OSL_FONT*>::iterator i = intra_fonts.begin();
 	i != intra_fonts.end(); ++i) {
       if (i->second != NULL)
-	 intraFontUnload(i->second);
+	 oslDeleteFont(i->second);
    }
    for (std::map<std::string, ALuint>::iterator i = buffers.begin(); 
 	i != buffers.end(); ++i)
@@ -52,9 +52,9 @@ OSL_FONT* Manager::getFont(const char *name)
    return fonts[name];
 }
 
-intraFont* Manager::getIntraFont(const std::string &name, int opt) {
+OSL_FONT* Manager::getIntraFont(const std::string &name, int opt) {
    if (intra_fonts.find(name) == intra_fonts.end())
-      intra_fonts[name] = intraFontLoad(name.c_str(), opt);
+      intra_fonts[name] = oslLoadIntraFontFile(name.c_str(), opt);
    return intra_fonts[name];
 }
 
@@ -86,10 +86,10 @@ void Manager::clearFonts()
       if (i->second != NULL)
 	 oslDeleteFont(i->second);
    }
-   for (std::map<std::string, intraFont*>::iterator i = intra_fonts.begin(); 
+   for (std::map<std::string, OSL_FONT*>::iterator i = intra_fonts.begin(); 
 	i != intra_fonts.end(); ++i) {    
       if (i->second != NULL)
-	 intraFontUnload(i->second);
+	 oslDeleteFont(i->second);
    }
    fonts.clear();
    intra_fonts.clear();

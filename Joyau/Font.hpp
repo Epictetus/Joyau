@@ -76,7 +76,7 @@ public:
 
    void draw();
 private:
-   intraFont *font;
+   OSL_FONT *font;
 
    std::string txt;
 
