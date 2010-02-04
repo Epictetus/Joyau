@@ -23,6 +23,16 @@
 #define MaxParticules  600
 #define cGfxParticleState 4
 
+typedef struct PARTICLE {
+   int x[cGfxParticleSet];
+   int y[cGfxParticleSet];
+   int dx[cGfxParticleSet];
+   int dy[cGfxParticleSet];
+   int sx[cGfxParticleSet];
+   int sy[cGfxParticleSet];
+   int status;
+} PARTICLE;
+
 typedef struct PARTICULE {
    PARTICLE particle[MaxParticules];
    OSL_IMAGE *Images[cGfxParticleState];
