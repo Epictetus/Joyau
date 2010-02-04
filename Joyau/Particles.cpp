@@ -326,7 +326,7 @@ VALUE Particles_getMinSpeed(VALUE self)
 
 void defineParticles()
 {
-   VALUE cPart = defClass < Particles > ("Particles", "Drawable");
+   VALUE cPart = defClass<Particles>("Particles", "Drawable");
    defMethod(cPart, "setFile", Particles_setFile, 1);
    defMethod(cPart, "setParam", Particles_setParam, 4);
    defMethod(cPart, "addParticles", Particles_addParticles, 2);
