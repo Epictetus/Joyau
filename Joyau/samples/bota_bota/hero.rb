@@ -1,70 +1,55 @@
-class Hero < Sprite
+require 'joyau/inherited'
+
+class Hero < Joyau::Sprite
+  joyau_inherited
+
+  def initialize(pic = nil)
+    setPicture("pic.png".dup)
+    @projectils = []
+  end
 
   def draw
     super()
-    for pro in @projectils
-      pro.draw
-    end
+    @projectils.each { |pro| pro.draw }
   end
     
   def play(advs)
-    if @projectils == nil
-      @projectils = Array.new
-    end
-
-    @projectils.each { |pro|
-      pro.hasCollided = false
+    @projectils.each do |pro|
+      pro.has_collided = false
       pro.play
 
-      advs.each { |adv|
+      advs.each do |adv|
         if adv.collide(pro)
           $score += 1
-          pro.hasCollided = true
+          pro.has_collided = true
         end
-      }
-    }
+      end
+    end
 
-    @projectils.reject! { |pro| pro.count <= 0 || pro.hasCollided }
+    @projectils.reject! { |pro| pro.count <= 0 || pro.has_collided }
 
-    Pad.update # Ahem, without that we don't need the folowing conditions...
+    Joyau::Pad.update
     
-    if Pad.held? Pad::UP
-      move(0, -2) # We move it, of course, ...
-      # But no direction = !
-      # autodir = true ;)
+    move(0, -2) if Joyau::Pad.held? Joyau::Pad::UP
+    move(0, 2)  if Joyau::Pad.held? Joyau::Pad::DOWN
+    move(2, 0)  if Joyau::Pad.held? Joyau::Pad::RIGHT
+    move(-2, 0) if Joyau::Pad.held? Joyau::Pad::LEFT
+    
+    if Joyau::Pad.held? Joyau::Pad::CROSS
+      self.alpha -= 2 if self.alpha - 2 > 20
+    elsif Joyau::Pad.held? Joyau::Pad::TRIANGLE
+      self.alpha += 2 if self.alpha + 2 < 256
     end
-    if Pad.held? Pad::DOWN
-      move(0, 2)
-    end
-    if Pad.held? Pad::RIGHT
-      move(2, 0)
-    end
-    if Pad.held? Pad::LEFT
-      move(-2, 0)
-    end
-
-    if Pad.held? Pad::CROSS
-      if self.alpha - 2 > 20 # Hey, I want to see Bota !
-        self.alpha -= 2
-      end
-    end
-    if Pad.held? Pad::TRIANGLE
-      if self.alpha + 2 < 256 # What would happen with alpha = 500 ?
-        self.alpha += 2
-      end
-    end
-
-    if Pad.pressed? Pad::SQUARE
+    
+    if Joyau::Pad.pressed? Joyau::Pad::SQUARE
       if @projectils.length < 2
         pro = Projectil.new("proj.png")
-        if self.alpha <= 127
-          pro.alpha = 127
-        end
-        pro.pos = Point.new(x, y)
+        pro.alpha = 127 if self.alpha <= 127
+        pro.pos = Joyau::Point.new(x, y)
         pro.direction = direction
+        
         @projectils << pro
       end
     end
-
   end
 end

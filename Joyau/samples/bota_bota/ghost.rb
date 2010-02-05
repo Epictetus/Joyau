@@ -1,4 +1,14 @@
-class Ghost < Sprite
+require 'joyau/inherited'
+
+class Ghost < Joyau::Sprite
+  joyau_inherited
+
+  def initialize(pic = nil)
+    setPicture(pic) if pic
+    
+    @projectils = []
+  end
+
   def draw(hero)
     if (hero.alpha <= 127 and alpha <= 127) or
         (hero.alpha > 127 and alpha > 127) # if we have both the same opacity
@@ -8,20 +18,17 @@ class Ghost < Sprite
   end
   
   def play(hero)
-    if @projectils == nil
-      @projectils = []
-    end
-
-    @projectils.each { |pro|
-      pro.hasCollided = false
+    @projectils.each do |pro|
+      pro.has_collided = false
       pro.play
 
-      if hero.collide(pro)
+      if hero.collide? pro
         $life -= 1
-        pro.hasCollided = true
+        pro.has_collided = true
       end
-    }
-    @projectils.reject! { |pro| pro.count <= 0 || pro.hasCollided }
+    end
+
+    @projectils.reject! { |pro| pro.count <= 0 || pro.has_collided }
     
     axe = rand(2) # Wow, what a great pathfinding algorithm, isn't it ?
     if axe == 1
@@ -39,19 +46,16 @@ class Ghost < Sprite
     end
 
     if @projectils.length < 2 # We'll set a maximum number of projectils : 2.
-      # If we're closs of bota on the x axis
+      # If we're close of bota on the x axis
       if x >= hero.x - 10 and x <= hero.x + 10
-        # Anyway, we'll create a projectil. So, we'll avoid pressing 
-        #C-y too much times...
         pro = Projectil.new("proj.png")
-        if alpha <= 127
-          pro.alpha = 127
-        end
-        pro.pos = Point.new(x, y)
+        pro.alpha = 127 if alpha <= 127
+        
+        pro.pos = Joyau::Point.new(x, y)
         if y > hero.y
-          pro.direction = Sprite::UP
+          pro.direction = Joyau::Sprite::UP
         else
-          pro.direction = Sprite::DOWN
+          pro.direction = Joyau::Sprite::DOWN
         end
         @projectils << pro
       elsif y >= hero.y - 10 and y <= hero.y + 10
@@ -59,14 +63,13 @@ class Ghost < Sprite
         # We have to know if we're close of botamon. Before theses conditions,
         # we don't.
         pro = Projectil.new("proj.png")
-        if alpha <= 127
-          pro.alpha = 127
-        end
-        pro.pos = Point.new(x, y)
+        pro.alpha = 127 if alpha <= 127
+        
+        pro.pos = Joyau::Point.new(x, y)
         if x > hero.x
-          pro.direction = Sprite::LEFT
+          pro.direction = Joyau::Sprite::LEFT
         else
-          pro.direction = Sprite::RIGHT
+          pro.direction = Joyau::Sprite::RIGHT
         end
         @projectils << pro
       end
