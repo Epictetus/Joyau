@@ -54,6 +54,8 @@ VALUE wrap<Sprite>(int argc, VALUE *argv, VALUE info)
 	 }
       }
    }
+   else
+      ptr = new Sprite;
    
    tdata = Data_Wrap_Struct(info, 0, wrapped_free<Sprite>, ptr);
    return tdata;
@@ -97,7 +99,8 @@ void Sprite::setResName(const std::string &name) {
 
 void Sprite::setPicture(char *pic)
 {
-   picName = pic;
+   setResName(pic);
+
    sprite = Manager::getInstance().getPic(pic);
    if (sprite == NULL)
      throw RubyException(rb_eRuntimeError, "the sprite could not be loaded.");
