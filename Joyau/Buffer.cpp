@@ -913,7 +913,7 @@ VALUE Painter_clear(VALUE self, VALUE col) {
 }
 
 /*
-  call-seq: draw(hash = nil) { ... } -> nil
+  call-seq: draw(hash = nil) { ... }
 
   Three keys are checked in the given hash : ":buffer" which is the buffer
   on which manipulation are done (by default, the actual buffer is taken),

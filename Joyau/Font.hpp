@@ -88,6 +88,56 @@ private:
 
 /*@}*/
 
+class Font {
+public:
+   Font();
+   Font(const std::string &filename);
+   Font(const std::string &filename, int option); // Intrafont
+   Font(OSL_FONT *font);
+
+   void load(const std::string &filename);
+   void load(const std::string &filename, int options);
+   
+   void setFont(OSL_FONT *font);
+
+   void print(int x, int y, const std::string &text);
+   void printInRect(Rect rect, const std::string &text);
+
+   void setColors(OSL_COLOR bg, OSL_COLOR fg);
+   void setStyle(float size, OSL_COLOR color, OSL_COLOR shadowColor, int option);
+   void setEncoding(int encoding);
+
+   int charHeight();
+   int stringWidth(const std::string &str);
+
+   OSL_COLOR getBackground() const { return background; }
+   OSL_COLOR getForeground() const { return foreground; }
+
+   int getColor() const { return _col; }
+   int getShadowColor() const { return _shadow; }
+   int getOptions() const { return _style; }
+   int getEncoding() const { return _encoding; }
+   float getScale() const { return scale; }
+   
+   static Font defaultFont() {
+      return Font(osl_sceFont);
+   }
+
+   static Font actualFont() {
+      return Font(osl_curFont);
+   }
+private:
+   OSL_FONT *font;
+
+   // Configuration for intrafont :
+   OSL_COLOR _col, _shadow;
+   int _style, _encoding;
+   float scale;
+
+   // And for normal fonts :
+   OSL_COLOR background, foreground;
+};
+
 VALUE Intrafont_init(VALUE self);
 VALUE Intrafont_stop(VALUE self);
 
@@ -105,6 +155,27 @@ VALUE IntraText_setStyle(VALUE self, VALUE size, VALUE color, VALUE shadow,
 VALUE IntraText_setEncoding(VALUE self, VALUE options);
 
 VALUE IntraText_setAltFont(VALUE self, VALUE obj);
+
+VALUE Font_load(int argc, VALUE *argv, VALUE self);
+
+VALUE Font_print(int argc, VALUE *argv, VALUE self);
+
+VALUE Font_setColors(VALUE self, VALUE bg, VALUE fg);
+VALUE Font_setStyle(VALUE self, 
+		    VALUE size, VALUE color, VALUE shadowColor, VALUE option);
+VALUE Font_setEncoding(VALUE self, VALUE encoding);
+
+VALUE Font_charHeight(VALUE self);
+VALUE Font_stringWidth(VALUE self, VALUE str);
+
+VALUE Font_getBackground(VALUE self);
+VALUE Font_getForeground(VALUE self);
+
+VALUE Font_getColor(VALUE self);
+VALUE Font_getShadowColor(VALUE self);
+VALUE Font_getOptions(VALUE self);
+VALUE Font_getEncoding(VALUE self);
+VALUE Font_getScale(VALUE self);
 
 void defineIntrafont();
 
