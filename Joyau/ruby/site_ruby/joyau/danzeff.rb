@@ -93,6 +93,8 @@ module Joyau
         :right     => Pad::CIRCLE
       }
 
+      @font = Joyau::Font.default
+
       @w, @h = 480, 272
       @page_id = 0
 
@@ -167,8 +169,13 @@ module Joyau
         height = @h / 3
 
         symbol = id == focused_id ? :focus : :normal
-        Joyau.setTextColor(@txt_colors[symbol])
-        
+        unless @font.is_intra?
+          @font.set_colors(@txt_colors[symbol], @font.background)
+        else
+          @font.set_style(@font.scale, @txt_colors[symbol], 
+                          @font.shadowColor, @font.options)
+        end
+                        
         rect = DrawableRect.new(point.x, point.y, 
                                 point.x + width, point.y + height)
 
@@ -192,37 +199,37 @@ module Joyau
         str = "Del" if str == -1
         str = "Spc" if str == ' '
 
-        str_x = point.x + (width / 2) - (Joyau.getLength(str) / 2)
-        str_y = point.y + height - 9
+        str_x = point.x + (width / 2) - (@font.width_of(str) / 2)
+        str_y = point.y + height - @font.char_height - 1
 
-        Joyau.drawText(str_x, str_y, str)
+        @font.print(str_x, str_y, str)
         
         str = @pages[@page_id][id][1]
         str = "Del" if str == -1
         str = "Spc" if str == ' '
 
-        str_x = point.x + (width / 2) - (Joyau.getLength(str) / 2)
+        str_x = point.x + (width / 2) - (@font.width_of(str) / 2)
         str_y = point.y + 1
 
-        Joyau.drawText(str_x, str_y, str)
+        @font.print(str_x, str_y, str)
 
         str = @pages[@page_id][id][2]
         str = "Del" if str == -1
         str = "Spc" if str == ' '
 
         str_x = point.x + 1
-        str_y = point.y + (height / 2) - 5
+        str_y = point.y + (height / 2) - @font.char_height / 2
 
-        Joyau.drawText(str_x, str_y, str)
+        @font.print(str_x, str_y, str)
 
         str = @pages[@page_id][id][3]
         str = "Del" if str == -1
         str = "Spc" if str == ' '
 
-        str_x = point.x + width - Joyau.getLength(str)
-        str_y = point.y + (height / 2) - 5
+        str_x = point.x + width - (@font.width_of(str) + 1)
+        str_y = point.y + (height / 2) - @font.char_height / 2
 
-        Joyau.drawText(str_x, str_y, str)
+        @font.print(str_x, str_y, str)
       end
     end
 
@@ -252,7 +259,10 @@ module Joyau
     # Contains the message entered by the user.
     attr_accessor :str
 
-    # Retuns the selected page's id.
+    # Returns the selected page's id.
     attr_reader :page_id
+  
+    # Sets a font (Joyau::Font object) 
+    attr_accessor :font
   end
 end
