@@ -118,6 +118,8 @@ public:
    int getOptions() const { return _style; }
    int getEncoding() const { return _encoding; }
    float getScale() const { return scale; }
+
+   bool isIntrafont() const { return font->fontType == OSL_FONT_INTRA; }
    
    static Font defaultFont() {
       return Font(osl_sceFont);
@@ -176,6 +178,8 @@ VALUE Font_getShadowColor(VALUE self);
 VALUE Font_getOptions(VALUE self);
 VALUE Font_getEncoding(VALUE self);
 VALUE Font_getScale(VALUE self);
+
+VALUE Font_is_intra(VALUE self);
 
 void defineIntrafont();
 

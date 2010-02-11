@@ -523,6 +523,14 @@ VALUE Font_getScale(VALUE self) {
 }
 
 /*
+  Returns whether or not this font uses intrafont.
+*/
+VALUE Font_is_intra(VALUE self) {
+   Font &ref = getRef<Font>(self);
+   return ref.isIntrafont() ? Qtrue : Qfalse;
+}
+
+/*
   Document-class: Joyau::Intrafont
   
   Intrafont is used to load fonts present in the PSP's flash.
@@ -607,6 +615,7 @@ void defineIntrafont()
    defMethod(cFont, "options", Font_getOptions, 0);
    defMethod(cFont, "encoding", Font_getEncoding, 0);
    defMethod(cFont, "scale", Font_getScale, 0);
+   defMethod(cFont, "is_intra?", Font_is_intra, 0);
 
    defAlias(cFont, "set_style", "setStyle");
 }
