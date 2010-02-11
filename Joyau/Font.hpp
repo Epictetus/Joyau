@@ -181,6 +181,9 @@ VALUE Font_getScale(VALUE self);
 
 VALUE Font_is_intra(VALUE self);
 
+VALUE Font_default(VALUE self);
+VALUE Font_actual(VALUE self);
+
 void defineIntrafont();
 
 #endif

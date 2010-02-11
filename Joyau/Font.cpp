@@ -530,6 +530,16 @@ VALUE Font_is_intra(VALUE self) {
    return ref.isIntrafont() ? Qtrue : Qfalse;
 }
 
+VALUE Font_default(VALUE self) {
+   Font obj = Font::defaultFont();
+   return createObject(getClass("Font"), obj);
+}
+
+VALUE Font_actual(VALUE self) {
+   Font obj = Font::actualFont();
+   return createObject(getClass("Font"), obj);
+}
+
 /*
   Document-class: Joyau::Intrafont
   
@@ -616,6 +626,9 @@ void defineIntrafont()
    defMethod(cFont, "encoding", Font_getEncoding, 0);
    defMethod(cFont, "scale", Font_getScale, 0);
    defMethod(cFont, "is_intra?", Font_is_intra, 0);
+
+   defClassMethod(cFont, "default", Font_default, 0);
+   defClassMethod(cFont, "actual", Font_actual, 0);
 
    defAlias(cFont, "set_style", "setStyle");
 }
