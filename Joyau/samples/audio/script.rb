@@ -1,23 +1,23 @@
 Joyau.initLib
 Joyau.initGfx
-Joyau.initAudio
+Joyau::OslMusic.init
 
-music = Joyau::Stream.new("music.ogg")
-sound = Joyau::Sound.new("injury.wav")
+music = Joyau::OslMusic.new("music.mp3", Joyau::OslMusic::FMT_STREAM)
+sound = Joyau::OslMusic.new("injury.wav")
 
-while Joyau.mayPlay and music.update and music.play
+music.play(0)
+
+while Joyau.mayPlay
   Joyau::Pad.update
 
-  sound.play if Joyau::Pad.held? Joyau::Pad::CROSS
+  sound.play(1) if Joyau::Pad.held? Joyau::Pad::CROSS
   
-  Joyau.startDraw
-  Joyau.drawText(0, 0, "This is an audio sample. It should play a music.")
-  Joyau.drawText(0, 10, "Press cross if you want to hear a sound.")
-  Joyau.endDraw
-
-  Joyau.sync
+  Joyau.draw do
+    Joyau.drawText(0, 0, "This is an audio sample. It should play a music.")
+    Joyau.drawText(0, 10, "Press cross if you want to hear a sound.")
+  end
 end
 
-Joyau.stopAudio
+Joyau::OslMusic.stop
 Joyau.stopGfx
 Joyau.stopLib
