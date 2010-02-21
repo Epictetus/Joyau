@@ -530,11 +530,17 @@ VALUE Font_is_intra(VALUE self) {
    return ref.isIntrafont() ? Qtrue : Qfalse;
 }
 
+/*
+  Returns the default font.
+*/
 VALUE Font_default(VALUE self) {
    Font obj = Font::defaultFont();
    return createObject(getClass("Font"), obj);
 }
 
+/*
+  Returns the actual font.
+*/
 VALUE Font_actual(VALUE self) {
    Font obj = Font::actualFont();
    return createObject(getClass("Font"), obj);
