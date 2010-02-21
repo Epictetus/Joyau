@@ -16,6 +16,20 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include "Manager.hpp"
 
+OSL_SOUND *loadSoundFile(const char *filename, int stream) {
+   if (!strcmp(filename + strlen(filename) - 4, ".bgm"))
+      return oslLoadSoundFileBGM(filename, stream);
+   else if (!strcmp(filename + strlen(filename) - 4, ".wav"))
+      return oslLoadSoundFileWAV(filename, stream);
+   else if (!strcmp(filename + strlen(filename) - 4, ".mp3"))
+      return oslLoadSoundFileMP3(filename, stream);
+   else if (!strcmp(filename + strlen(filename) - 4, ".at3"))
+      return oslLoadSoundFileAT3(filename, stream);
+   // else if (!strcmp(filename + strlen(filename) - 4, ".mod"))
+   //   return oslLoadSoundFileMOD(filename, stream);
+   return NULL;
+}
+
 Manager::~Manager()
 {
    for (std::map<std::string, OSL_IMAGE*>::iterator i = images.begin(); 
@@ -36,6 +50,9 @@ Manager::~Manager()
    for (std::map<std::string, ALuint>::iterator i = buffers.begin(); 
 	i != buffers.end(); ++i)
       alDeleteBuffers(1, &i->second);
+   for (std::map<std::string, OSL_SOUND*>::iterator i = musics.begin(); 
+	i != musics.end(); ++i)
+      oslDeleteSound(i->second);
 }
 
 OSL_IMAGE* Manager::getPic(char *name)
@@ -63,6 +80,12 @@ ALuint Manager::getBuffer(const char *name)
    if (buffers.find(name) == buffers.end())
       buffers[name] = alutCreateBufferFromFile(name);
    return buffers[name];
+}
+
+OSL_SOUND* Manager::getOslMusic(const std::string &filename, int stream) {
+   if (musics.find(filename) == musics.end())
+      musics[filename] = loadSoundFile(filename.c_str(), stream);
+   return musics[filename];
 }
 
 // Hey, perhaps there won't be enough memory. We'll let the user choice if he
@@ -101,6 +124,11 @@ void Manager::clearBuffers()
 	i != buffers.end(); ++i)
       alDeleteBuffers(1, &i->second);
    buffers.clear();
+
+   for (std::map<std::string, OSL_SOUND*>::iterator i = musics.begin(); 
+	i != musics.end(); ++i)
+      oslDeleteSound(i->second);
+   musics.clear();
 }
 
 void Manager::setArg(int argc, char** argv)

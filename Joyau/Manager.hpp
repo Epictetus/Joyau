@@ -95,6 +95,8 @@ public:
     */
    ALuint getBuffer(const char *name);
 
+   OSL_SOUND* getOslMusic(const std::string &filename, int stream);
+
    /** Clears loaded images. **/
    void clearImages();
 
@@ -117,6 +119,7 @@ private:
    std::map<std::string, OSL_FONT*> fonts;
    std::map<std::string, OSL_FONT*> intra_fonts;
    std::map<std::string, ALuint> buffers;
+   std::map<std::string, OSL_SOUND*> musics;
 
    int _argc;
    char **_argv;
