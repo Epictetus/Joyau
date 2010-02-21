@@ -22,6 +22,7 @@ module Joyau
   # 3. :wlan, the net-related modules.
   # 4. :intrafont, the Intrafont module. Depends on :gfx
   # 5. :audio, the audio module.
+  # 5. :osl_audio, the oslib's audio module. Depends on :lib.
   # 6. :usb, the USB module.
   #
   # Every module you load through Joyau.init is stopped when Joyau.stop. You
@@ -122,6 +123,9 @@ module Joyau
                          Joyau::Intrafont.method(:stop),
                          :gfx
     register :audio, Joyau.method(:initAudio), Joyau.method(:stopAudio)
+    register :osl_audio, Joyau::OslMusic.method(:init),
+                         Joyau::OslMusic.method(:stop),
+                         :lib
     register :usb, Joyau::Usb.method(:init), Joyau::Usb.method(:stop)
   end
 

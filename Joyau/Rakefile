@@ -35,7 +35,7 @@ JoyauTask.new do |conf|
 
   static_libs = %w(-losl -ljpeg -lpng -lz -lpspsdk -lpspvfpu -lpspctrl -lpspumd
                    -lpsppower -lpspgu -lpspmpeg -lpspaudiocodec -lpspaudiolib 
-                   -lalut -lOpenAL32 -lpsprtc -lvorbisfile  -lvorbis
+                   -lalut -lOpenAL32 -lpsprtc -lvorbisfile  -lvorbis -lmikmod
                    -lpspaudio -lpspusb -lpspusbstor -lpsphprm -lpsputility
                    -lpspwlan -lpspgum -lruby -lm -logg -lpsprtc -lstdc++)
 
@@ -84,7 +84,8 @@ Rake::RDocTask.new do |rd|
           "DrawableRect.cpp", 
           "Triangle.cpp",
           "Wlan.cpp",
-          "Debug.cpp"]
+          "Debug.cpp",	
+	  "OslSound.cpp"]
   rd.rdoc_files.include(*srcs)
   rd.rdoc_dir = "./doc/embedded"
 end
