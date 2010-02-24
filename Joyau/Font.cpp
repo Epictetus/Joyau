@@ -26,6 +26,9 @@ void IntraText::load(const std::string &name, int options)
 
 int IntraText::getW() const
 {
+   if (!font)
+      return 0;
+
    return maxWidth == -1 ? 
       intraFontMeasureText(font->intra, txt.c_str()) : 
       maxWidth;
@@ -33,6 +36,8 @@ int IntraText::getW() const
 
 void IntraText::activate()
 {
+   if (!font)
+      return;
    intraFontActivate(font->intra);
 }
 
@@ -51,11 +56,15 @@ void IntraText::setEncoding(int options)
 
 void IntraText::setAltFont(IntraText &val)
 {
+   if (!font)
+      return;
    intraFontSetAltFont(font->intra, val.font->intra);
 }
 
 void IntraText::draw()
 {
+   if (!font)
+      return;
    intraFontSetEncoding(font->intra, _encoding);
    intraFontSetStyle(font->intra, scale, _col, _shadow, _style);
    
@@ -106,6 +115,8 @@ Font::Font(const std::string &filename, int option):
    foreground(RGBA(0, 0, 0, 0))
 {
    font = Manager::getInstance().getIntraFont(filename.c_str(), option);
+   if (font == NULL)
+      throw RubyException(rb_eRuntimeError, "the font could not be loaded.");
 }
 
 Font::Font(OSL_FONT *argFont): font(argFont),
@@ -120,10 +131,14 @@ Font::Font(OSL_FONT *argFont): font(argFont),
 
 void Font::load(const std::string &filename) {
    font = Manager::getInstance().getFont(filename.c_str());
+   if (font == NULL)
+      throw RubyException(rb_eRuntimeError, "the font could not be loaded.");
 }
 
 void Font::load(const std::string &filename, int options) {
    font = Manager::getInstance().getIntraFont(filename.c_str(), options);
+   if (font == NULL)
+      throw RubyException(rb_eRuntimeError, "the font could not be loaded.");
 }
 
 void Font::setFont(OSL_FONT *argFont) {
@@ -131,6 +146,9 @@ void Font::setFont(OSL_FONT *argFont) {
 }
 
 void Font::print(int x, int y, const std::string &text) {
+   if (!font)
+      return;
+
    OSL_FONT *old_font = osl_curFont;
    oslSetFont(font);
 
@@ -149,6 +167,9 @@ void Font::print(int x, int y, const std::string &text) {
 }
 
 void Font::printInRect(Rect rect, const std::string &text) {
+   if (!font)
+      return;
+
    OSL_FONT *old_font = osl_curFont;
    oslSetFont(font);
 
@@ -185,10 +206,15 @@ void Font::setEncoding(int encoding) {
 }
 
 int Font::charHeight() {
+   if (!font)
+      return 0;
    return font->charHeight * scale;
 }
 
 int Font::stringWidth(const std::string &str) {
+   if (!font)
+      return 0;
+
    OSL_FONT *old_font = osl_curFont;
    oslSetFont(font);
    
@@ -354,12 +380,17 @@ VALUE wrap<Font>(int argc, VALUE *argv, VALUE info) {
       ptr = new Font;
    }
    else {
-      filename = rb_obj_as_string(filename);
-      if (NIL_P(options))
-	 ptr = new Font(StringValuePtr(filename));
-      else 
-	 ptr = new Font(StringValuePtr(filename), 
-			FIX2INT(options));
+      try {
+	 filename = rb_obj_as_string(filename);
+	 if (NIL_P(options))
+	    ptr = new Font(StringValuePtr(filename));
+	 else 
+	    ptr = new Font(StringValuePtr(filename), 
+			   FIX2INT(options));
+      }
+      catch (const RubyException &e) {
+	 e.rbRaise();
+      }
    }
 
    VALUE tdata = Data_Wrap_Struct(info, 0, wrapped_free<Font>, ptr);
@@ -378,11 +409,15 @@ VALUE Font_load(int argc, VALUE *argv, VALUE self) {
    rb_scan_args(argc, argv, "11", &filename, &options);
    
    filename = rb_obj_as_string(filename);
-   if (NIL_P(options))
-      ref.load(StringValuePtr(filename));
-   else 
-      ref.load(StringValuePtr(filename), FIX2INT(options));
-
+   try {
+      if (NIL_P(options))
+	 ref.load(StringValuePtr(filename));
+      else 
+	 ref.load(StringValuePtr(filename), FIX2INT(options));
+   }
+   catch (const RubyException &e) {
+      e.rbRaise();
+   }
    return Qnil;
 }
 

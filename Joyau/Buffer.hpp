@@ -98,9 +98,11 @@ protected:
    static void registerInVram(OSL_IMAGE *pic) {
       enabledImages[pic] = true;
       vramStack.push(pic);
+      std::cout << pic << std::endl;
    }
    
    static void removeFromVram(OSL_IMAGE *pic) {
+      std::cout << pic << std::endl;
       enabledImages[pic] = false;
       while (!vramStack.empty()) {
 	 OSL_IMAGE *top = vramStack.top();

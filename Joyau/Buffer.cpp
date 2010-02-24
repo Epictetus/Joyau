@@ -35,7 +35,7 @@ Buffer::Buffer(int w, int h, int format): shouldDelete(true) {
    setClass("Buffer");
 
    if (w > 512 || h > 512)
-      throw RubyException(rb_eRuntimeError, 
+      throw RubyException(rb_eRuntimeError,
 			  "Either width or height is greter than 512.");
 
    img = oslCreateImage(w, h, OSL_IN_VRAM, format);

@@ -119,7 +119,9 @@ public:
    int getEncoding() const { return _encoding; }
    float getScale() const { return scale; }
 
-   bool isIntrafont() const { return font->fontType == OSL_FONT_INTRA; }
+   bool isIntrafont() const {
+      return font ? font->fontType == OSL_FONT_INTRA : false;
+   }
    
    static Font defaultFont() {
       return Font(osl_sceFont);

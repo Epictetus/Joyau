@@ -41,6 +41,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "Buffer.hpp"
 #include "Wlan.hpp"
 #include "Debug.hpp"
+#include "OslSound.hpp"
 
 PSP_MODULE_INFO("Joyau", 0, 1, 1);
 PSP_MAIN_THREAD_ATTR(THREAD_ATTR_USER | THREAD_ATTR_VFPU);
@@ -213,13 +214,14 @@ int main(int argc, char** argv)
    
    // Joyau
    defineDebug();
-   defineWlan();   
+   defineWlan();
    defineManager();
    defineDrawable();
    defineShape();
    defineManager();
    defineSprite();
    defineAudio();
+   defineOslMusic();
    defineGraphics();
    defineKeys();
    defineKernel();
