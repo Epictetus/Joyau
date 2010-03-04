@@ -56,8 +56,7 @@ Rake::RDocTask.new(:rdoc_site) do |rd|
   rd.rdoc_dir = "./doc/site/"
 end
 
-Rake::RDocTask.new do |rd|
-  srcs = ["main.cpp",
+srcs = ["main.cpp",
           "Drawable.cpp",
           "Sprite.cpp",
           "Shape.cpp",
@@ -86,9 +85,17 @@ Rake::RDocTask.new do |rd|
           "Wlan.cpp",
           "Debug.cpp",	
 	  "OslSound.cpp"]
+
+Rake::RDocTask.new do |rd|
   rd.rdoc_files.include(*srcs)
   rd.rdoc_dir = "./doc/embedded"
 end
+
+Rake::RDocTask.new(:ri) do |rd|
+  rd.rdoc_files.include(*(Dir['ruby/site_ruby/joyau/*.rb'] | srcs))
+  rd.options << "-r"
+end
+
 
 task "ruby-1.8.7-p248.tar.bz2" do
   ftp = Net::FTP.new
