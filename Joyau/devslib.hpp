@@ -27,66 +27,7 @@ inline void oslDrawGradientLine(int x0, int y0, int x1, int y1,
 		  2, 0, vertices);
 }
 
-inline void oslScriptText(int x, int y, const char *str) {
-   int color = RGBA(255, 255, 255, 255);
-
-   int i = 0;
-   while (str[i] != 0) {
-      switch (str[i]) {
-         case '#':
-            i++;
-            switch (str[i]) {
-               case 'r':
-                  color = RGBA(255, 0, 0, 255);
-                  break;
-               case 'b':
-                  color = RGBA(0, 0, 255, 255);
-                  break;
-               case 'p':
-                  color = RGBA(0, 0, 0, 255);
-                  break;
-               case 'w':
-                  color = RGBA(255, 255, 255, 255);
-                  break;
-               case 'j':
-                  color = RGBA(255, 255, 0, 255);
-                  break;
-               case 'v':
-                  color = RGBA(0, 255, 0, 255);
-                  break;
-            }
-
-            break;
-         case '\n':
-            y += osl_curFont->charHeight + 2;
-            break;
-         default:
-            char txt[2];
-            sprintf(txt, "%c", str[i]);
-
-            oslSetBkColor(RGBA(0, 0, 0, 0));
-
-            oslSetTextColor(RGBA(0, 0, 0, 128));
-            oslPrintf_xy((x+3), (y+1), txt);
-            oslPrintf_xy((x+2), (y),   txt);
-            oslPrintf_xy((x+2), (y+2), txt);
-
-            oslSetTextColor(RGBA(0, 0, 0, 255));
-            oslPrintf_xy(x,     y,     txt);
-            oslPrintf_xy((x+2), y,     txt);
-            oslPrintf_xy((x+1), (y-1), txt);
-            oslPrintf_xy((x+1), (y+1), txt);
-
-            oslSetTextColor(RGBA(255, 255, 255, 255));
-            oslPrintf_xy((x+1), y, txt);
-
-            oslSetTextColor(color);
-            oslPrintf_xy((x+1), y, txt);
-            break;
-      }
-      i++;
-   }
-}
+#define oslScriptText oslDrawString
 
 inline void oslPrintStirringString(int x, int y, const char *txt) {
    oslScriptText(x, y, txt);
