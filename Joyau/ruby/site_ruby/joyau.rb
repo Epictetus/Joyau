@@ -1,0 +1,13 @@
+require 'joyau/buffer_library'
+require 'joyau/color'
+require 'joyau/cursor'
+require 'joyau/danzeff'
+require 'joyau/drb'
+require 'joyau/enumerable'
+require 'joyau/inherited'
+require 'joyau/init'
+require 'joyau/inspect'
+require 'joyau/pad'
+require 'joyau/typed_collision'
+require 'joyau/viewport'
+
