@@ -327,7 +327,7 @@ VALUE drawText(VALUE self, VALUE x, VALUE y, VALUE text)
 VALUE drawScripted(VALUE self, VALUE x, VALUE y, VALUE text)
 {
    text = rb_obj_as_string(text);
-   oslScriptText(FIX2INT(x), FIX2INT(y), StringValuePtr(text));
+   oslDrawString(FIX2INT(x), FIX2INT(y), StringValuePtr(text));
    return Qnil;
 }
 
