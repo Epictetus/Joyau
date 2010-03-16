@@ -5,8 +5,7 @@
 
 class HelloTest < JoyauTest
   def test_hello_world
-    puts "Running hello world test"
-    
+    Joyau::Pad.update
     Joyau.draw do
       Joyau::Pad.update
       Joyau.drawText(0, 0, "Hello world!")
