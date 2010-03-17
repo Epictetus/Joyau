@@ -1,0 +1,12 @@
+*.o
+*.PBP
+*.prx
+*.elf
+*.SFO
+*.tar.bz2
+Joyau/eboot/PIC2.PNG
+Joyau/doc/
+Joyau/Joyau-release/
+Joyau/ruby/1.8/
+Joyau/html/
+Joyau/pkg/
