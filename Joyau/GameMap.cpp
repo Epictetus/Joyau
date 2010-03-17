@@ -308,10 +308,11 @@ void GameMap::draw() {
    }
    for (unsigned int i = 0; i < tiles.size(); ++i) {
       /*
-        Don't waste time, don't draw not visible tiles.
+        Don't waste time, don't draw unvisible tiles.
         ( It's also possible that the size of the map is inferior
 	to the screen size )
       */
+
       if (visible(tiles[i])) {
 	 for (unsigned int j = start; j < between.size(); ++j) {
 	    if (!drawn[j]) {
@@ -327,6 +328,7 @@ void GameMap::draw() {
 	       }
 	    }
 	 }
+
 	 Sprite &tile = tilesets[tiles[i].tileset];
          tile.setTile(tiles[i].tileX, tiles[i].tileY, tileWidth, tileHeight);
          tile.setPos(getX() + tiles[i].x, getY() + tiles[i].y);
