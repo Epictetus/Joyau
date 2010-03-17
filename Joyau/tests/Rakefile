@@ -9,10 +9,7 @@ file "Joyau.prx" do
 end
 
 task :tests => ["ruby", "Joyau.prx"] do
-  trap('INT') do
-    pipe = IO.popen("pspsh -e reset")
-    pipe.close
-  end
+  trap('INT') { IO.popen("pspsh -e reset").close }
 
   IO.popen("pspsh", 'w+') do |pipe|
     pipe.puts "./Joyau.prx"
