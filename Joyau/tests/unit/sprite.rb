@@ -26,7 +26,7 @@ class SpriteTest < JoyauTest
 
     Joyau.draw { Joyau.clearScreen }
   end
-
+  
   def test_auto_tile
     sprite = Joyau::Sprite.new("res/bg.png")
     old_width, old_height = sprite.w, sprite.h
@@ -57,7 +57,7 @@ class SpriteTest < JoyauTest
       Joyau::Pad.update
       sprite.draw
     end until Joyau::Pad.pressed? Joyau::Pad::START
-
+    
     Joyau.draw { Joyau.clearScreen }
   end
 end

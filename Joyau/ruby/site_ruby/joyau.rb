@@ -10,4 +10,3 @@ require 'joyau/inspect'
 require 'joyau/pad'
 require 'joyau/typed_collision'
 require 'joyau/viewport'
-
