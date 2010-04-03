@@ -32,6 +32,8 @@ JoyauTask.new do |conf|
             zlib/zlib.c
             nkf/nkf.c)
   
+  conf.srcs = Dir['*.cpp'] | libs
+  
   static_libs = %w(-losl -ljpeg -lpng -lz -lpspsdk -lpspvfpu -lpspctrl -lpspumd
                    -lpsppower -lpspgu -lpspmpeg -lpspaudiocodec -lpspaudiolib 
                    -lalut -lOpenAL32 -lpsprtc -lvorbisfile  -lvorbis -lmikmod
