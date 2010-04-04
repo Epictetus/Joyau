@@ -37,7 +37,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "RubyDrawable.hpp"
 #include "MultiSelecter.hpp"
 #include "Font.hpp"
-#include "Console.hpp"
 #include "Buffer.hpp"
 #include "Wlan.hpp"
 #include "Debug.hpp"
@@ -240,7 +239,6 @@ int main(int argc, char** argv)
    defineMsgSelecter();
    defineMultiSelecter();
    defineIntrafont();
-   defineConsole();
    defineBuffer();
 
    Manager::getInstance().setArg(argc, argv);
