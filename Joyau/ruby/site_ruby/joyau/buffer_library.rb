@@ -33,11 +33,11 @@ module Joyau
   #     @buffers = {}
   #     @regex = /my_loader:(.+)/
   #
-  #     def [](res_name)
+  #     def self.[](res_name)
   #       @buffers[res_name] || create_buffer(res_name)
   #     end
   #
-  #     def create_buffer(res_name)
+  #     def self.create_buffer(res_name)
   #       filename = nil
   #       if res_name =~ regex
   #         filename = $1
