@@ -27,7 +27,11 @@ JoyauTask.new do |conf|
             strscan/strscan.c
             thread/thread.c
             zlib/zlib.c
-            nkf/nkf.c)
+            nkf/nkf.c
+            etc/etc.c
+            syck/bytecode.c syck/gram.c syck/implicit.c syck/rubyext.c
+            syck/token.c syck/emitter.c syck/handler.c syck/node.c syck/syck.c
+            syck/yaml2byte.c )
   
   conf.srcs = Dir['*.cpp'] | libs
   
@@ -155,7 +159,7 @@ task :release_dir => ['psp:eboot', 'psp:prx', 'rdoc_site', 'rdoc',
 
   ["socket.rb", "bigdecimal.rb", "digest/bubblebabble.rb",
    "fcntl.rb", "stringio.rb", "strscan.rb", "thread.rb",
-   "zlib.rb", "nkf.rb"].each do |filename|
+   "zlib.rb", "nkf.rb", "etc.rb", "syck.rb"].each do |filename|
     ext_name = case filename
                when /(\w+)\.rb/
                  $1
