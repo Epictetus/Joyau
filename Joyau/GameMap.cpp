@@ -24,7 +24,6 @@
   Allows to tell where collisions should be checked for an object (e.g. tiles).
 */
 
-template<> 
 /*
   call-seq: new()
             new(content [, left, right, up, down])
@@ -32,23 +31,23 @@ template<>
   Creates a new collision type. The arguments are either true or false,
   indicating where the collision should be checked.
 */
-VALUE wrap<CollisionType>(int argc, VALUE *argv, VALUE info)
+VALUE CollisionType_initialize(int argc, VALUE *argv, VALUE self)
 {
-   CollisionType *ptr = new CollisionType;
+   CollisionType &ref = getRef<CollisionType>(self);
+
    if (argc >= 1)
    {
-      ptr->content = argv[0] == Qtrue;
+      ref.content = argv[0] == Qtrue;
       if (argc >= 5)
       {
-	 ptr->left = argv[1] == Qtrue;
-	 ptr->right = argv[2] == Qtrue;
-	 ptr->up = argv[3] == Qtrue;
-	 ptr->down = argv[4] == Qtrue;
+	 ref.left = argv[1] == Qtrue;
+	 ref.right = argv[2] == Qtrue;
+	 ref.up = argv[3] == Qtrue;
+	 ref.down = argv[4] == Qtrue;
       }
    }
 
-   VALUE tdata = Data_Wrap_Struct(info, 0, wrapped_free<CollisionType>, ptr);
-   return tdata;
+   return Qnil;
 }
 
 /* 
@@ -60,7 +59,6 @@ VALUE wrap<CollisionType>(int argc, VALUE *argv, VALUE info)
    A tileset is a picture, from which tiles are taken.
 */
 
-template<>
 /*
   call-seq: new
             new(tilesets)
@@ -69,9 +67,10 @@ template<>
   Creates a new map, either from an array containing tilesets' name,
   or from arguments being either a tileset's name or tiles.
 */
-VALUE wrap<GameMap>(int argc, VALUE *argv, VALUE info)
+VALUE GameMap_initialize(int argc, VALUE *argv, VALUE self)
 {
-   GameMap *ptr = new GameMap;
+   GameMap *ptr = getPtr<GameMap>(self);
+
    if (argc >= 1)
    {
       if (TYPE(argv[0]) == T_ARRAY)
@@ -92,8 +91,7 @@ VALUE wrap<GameMap>(int argc, VALUE *argv, VALUE info)
       }
    }
    
-   VALUE tdata = Data_Wrap_Struct(info, 0, wrapped_free<GameMap>, ptr);
-   return tdata;
+   return Qnil;
 }
 
 /*
@@ -103,7 +101,6 @@ VALUE wrap<GameMap>(int argc, VALUE *argv, VALUE info)
   drawn on the screen.
 */
 
-template<>
 /*
   call-seq: new
             new(tileset_id, tile_x, tile_y, x, y [, colllision_type])
@@ -111,9 +108,9 @@ template<>
   Creates a new Tile. (tile_x;tile_y) is the position on the tileset, while
   (x;y) is the position on the map.
 */
-VALUE wrap<GameMap::Tile>(int argc, VALUE *argv, VALUE info)
+VALUE GameMap_Tile_initialize(int argc, VALUE *argv, VALUE self)
 {
-   GameMap::Tile *ptr = new GameMap::Tile;
+   GameMap::Tile *ptr = getPtr<GameMap::Tile>(self);
    
    if (argc >= 5)
    {
@@ -132,8 +129,7 @@ VALUE wrap<GameMap::Tile>(int argc, VALUE *argv, VALUE info)
       }
    }
    
-   VALUE tdata = Data_Wrap_Struct(info, 0, wrapped_free<GameMap::Tile>, ptr);
-   return tdata;
+   return Qnil;
 }
 
 GameMap::GameMap():
@@ -905,6 +901,8 @@ VALUE Tile_setType(VALUE self, VALUE val)
 void defineGameMap()
 {
    VALUE cCollisionType = defClass<CollisionType>("CollisionType");
+   defMethod(cCollisionType, "initialize", CollisionType_initialize, -1);
+
    defMethod(cCollisionType, "left", CollisionType_left, 0);
    defMethod(cCollisionType, "right", CollisionType_right, 0);
    defMethod(cCollisionType, "up", CollisionType_up, 0);
@@ -918,6 +916,8 @@ void defineGameMap()
    defMethod(cCollisionType, "content=", CollisionType_setContent, 1);
    
    VALUE cTile = defClass<GameMap::Tile>("Tile");
+   defMethod(cTile, "initialize", GameMap_Tile_initialize, -1);
+
    defMethod(cTile, "x", Tile_x, 0);
    defMethod(cTile, "y", Tile_y, 0);
    defMethod(cTile, "tileset", Tile_tileset, 0);
@@ -933,6 +933,8 @@ void defineGameMap()
    defMethod(cTile, "type=", Tile_setType, 1);
  
    VALUE cMap = defClass<GameMap>("GameMap", "Drawable");
+   defMethod(cMap, "initialize", GameMap_initialize, -1);
+
    defMethod(cMap, "addTileset", GameMap_addTileset, 1);
    defMethod(cMap, "setTileSize", GameMap_setTileSize, 2);
    defMethod(cMap, "tileWidth", GameMap_tileWidth, 0);

@@ -364,37 +364,36 @@ VALUE IntraText_setAltFont(VALUE self, VALUE obj)
    return Qnil;
 }
 
-template<>
 /*
   Creates a new font. You can load an OFT font if you give a fontname, e.g.
     Joyau::Font.new("my_font.oft")
   and an intrafont if you give also the loading options :
     Joyau::Font.new("flash0:/font/ltn10.pgf", 0)
 */
-VALUE wrap<Font>(int argc, VALUE *argv, VALUE info) {
+VALUE Font_initialize(int argc, VALUE *argv, VALUE self) {
+   
    VALUE filename, options;
    rb_scan_args(argc, argv, "02", &filename, &options);
 
-   Font *ptr = NULL;
+   Font &ref = getRef<Font>(self);
+
    if (NIL_P(filename)) {
-      ptr = new Font;
+      return Qnil;
    }
    else {
       try {
 	 filename = rb_obj_as_string(filename);
 	 if (NIL_P(options))
-	    ptr = new Font(StringValuePtr(filename));
+	    ref.load(StringValuePtr(filename));
 	 else 
-	    ptr = new Font(StringValuePtr(filename), 
-			   FIX2INT(options));
+	    ref.load(StringValuePtr(filename), FIX2INT(options));
       }
       catch (const RubyException &e) {
 	 e.rbRaise();
       }
    }
 
-   VALUE tdata = Data_Wrap_Struct(info, 0, wrapped_free<Font>, ptr);
-   return tdata;
+   return Qnil;
 }
 
 /*
@@ -652,6 +651,8 @@ void defineIntrafont()
    defMethod(cIntraText, "altFont=", IntraText_setAltFont, 1);
 
    VALUE cFont = defClass<Font>("Font");
+   defMethod(cFont, "initialize", Font_initialize, -1);
+
    defMethod(cFont, "load", Font_load, -1);
    defMethod(cFont, "print", Font_print, -1);
    defMethod(cFont, "set_colors", Font_setColors, 2);

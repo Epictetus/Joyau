@@ -33,6 +33,11 @@ std::stack<OSL_IMAGE*> Buffer::vramStack = std::stack<OSL_IMAGE*>();
 
 Buffer::Buffer(int w, int h, int format): shouldDelete(true) {
    setClass("Buffer");
+   createFromGeom(w, h, format);
+}
+
+void Buffer::createFromGeom(int w, int h, int format) {
+   shouldDelete = true;
 
    if (w > 512 || h > 512)
       throw RubyException(rb_eRuntimeError,
@@ -49,8 +54,7 @@ Buffer::Buffer(int w, int h, int format): shouldDelete(true) {
    }
 }
 
-Buffer::Buffer(OSL_IMAGE *arg, bool copy):
-   img(arg), shouldDelete(false) {
+Buffer::Buffer(OSL_IMAGE *arg, bool copy): img(arg) {
    shouldDelete = copy;
   
    if (copy) {
@@ -72,6 +76,11 @@ Buffer::Buffer(OSL_IMAGE *arg, bool copy):
 
 Buffer::Buffer(const Buffer &obj): shouldDelete(true) {
    setClass("Buffer");
+   createFromBuffer(obj);
+}
+
+void Buffer::createFromBuffer(const Buffer &obj) {
+   shouldDelete = true;
 
    img = oslCreateImageCopy(obj.img, OSL_IN_VRAM);
    if (!img) {
@@ -83,6 +92,11 @@ Buffer::Buffer(const Buffer &obj): shouldDelete(true) {
 
 Buffer::Buffer(Drawable &obj): shouldDelete(true) {
    setClass("Buffer");
+   createFromDrawable(obj);
+}
+
+void Buffer::createFromDrawable(Drawable &obj) {
+   shouldDelete = true;
 
    if (obj.getW() > 512 || obj.getH() > 512)
       throw RubyException(rb_eRuntimeError, "Drawable too big for a buffer.");
@@ -254,8 +268,6 @@ bool Buffer::isScreen() const {
    return img == OSL_DEFAULT_BUFFER;
 }
 
-Painter::Painter(Buffer &obj): buf(obj) {}
-
 void Painter::drawLine(int x1, int y1, int x2, int y2,
                        OSL_COLOR col, OSL_COLOR col2) {
    Line line;
@@ -264,7 +276,7 @@ void Painter::drawLine(int x1, int y1, int x2, int y2,
    OSL_COLOR grad[2] = { col, col2 };
    line.setGradient(grad);
 
-   buf.draw(line);
+   buf->draw(line);
 }
 
 void Painter::drawFillRect(int x1, int y1, int x2, int y2,
@@ -276,7 +288,7 @@ void Painter::drawFillRect(int x1, int y1, int x2, int y2,
    OSL_COLOR grad[4] = { col, col2, col3, col4 };
    rect.setGradient(grad);
 
-   buf.draw(rect);
+   buf->draw(rect);
 }
 
 void Painter::drawRect(int x1, int y1, int x2, int y2, OSL_COLOR col) {
@@ -286,7 +298,7 @@ void Painter::drawRect(int x1, int y1, int x2, int y2, OSL_COLOR col) {
    rect.setCorner(x2, y2);
    rect.setColor(col);
 
-   buf.draw(rect);
+   buf->draw(rect);
 }
 
 void Painter::drawPoint(int x, int y, OSL_COLOR col) {
@@ -295,7 +307,7 @@ void Painter::drawPoint(int x, int y, OSL_COLOR col) {
    rect.resize(1, 1);
    rect.setColor(col);
 
-   buf.draw(rect);
+   buf->draw(rect);
 }
 
 void Painter::drawFillCircle(int x, int y, int r, OSL_COLOR col) {
@@ -304,7 +316,7 @@ void Painter::drawFillCircle(int x, int y, int r, OSL_COLOR col) {
    circle.setRadius(r);
    circle.setColor(col);
 
-   buf.draw(circle);
+   buf->draw(circle);
 }
 
 void Painter::drawCircle(int x, int y, int r, OSL_COLOR col) {
@@ -314,7 +326,7 @@ void Painter::drawCircle(int x, int y, int r, OSL_COLOR col) {
    circle.setRadius(r);
    circle.setColor(col);
 
-   buf.draw(circle);
+   buf->draw(circle);
 }
 
 void Painter::drawTriangle(int x1, int y1, int x2, int y2, int x3, int y3,
@@ -324,7 +336,7 @@ void Painter::drawTriangle(int x1, int y1, int x2, int y2, int x3, int y3,
    OSL_COLOR grad[3] = { col, col2, col3 };
    triangle.setGradient(grad);
 
-   buf.draw(triangle);
+   buf->draw(triangle);
 }
 
 void Painter::drawBuffer(int x, int y, Buffer &obj) {
@@ -332,13 +344,13 @@ void Painter::drawBuffer(int x, int y, Buffer &obj) {
    int oldY = obj.getY();
 
    obj.setPos(x, y);
-   buf.draw(obj);
+   buf->draw(obj);
 
    obj.setPos(oldX, oldY);
 }
 
 void Painter::clear(OSL_COLOR col) {
-   buf.clear(col);
+   buf->clear(col);
 }
 
 /*
@@ -359,7 +371,6 @@ void Painter::clear(OSL_COLOR col) {
   more memory than PF_4444, so be carefull.
 */
 
-template<>
 /*
   call-seq: new(drawable)
             new(buffer)
@@ -373,21 +384,21 @@ template<>
   Another way is to specify the buffer's dimension, and at your option, the
   pixel format (by default, 16 bits colors are used).
 */
-VALUE wrap<Buffer>(int argc, VALUE *argv, VALUE info)
+VALUE Buffer_initialize(int argc, VALUE *argv, VALUE self)
 {
    VALUE arg1, arg2, arg3;
    rb_scan_args(argc, argv, "12", &arg1, &arg2, &arg3);
 
-   Buffer *ptr = NULL;
+   Buffer &ref = getRef<Buffer>(self);
 
    try {
       if (NIL_P(arg2)) {
 	 if (rb_obj_is_kind_of(arg1, getClass("Drawable")) == Qtrue) {
 	    RubyDrawable drawable(arg1);
-	    ptr = new Buffer(drawable);
+	    ref.createFromDrawable(drawable);
 	 }
 	 else if (rb_obj_is_kind_of(arg1, getClass("Buffer")) == Qtrue) {
-	    ptr = new Buffer(getRef<Buffer>(arg1));
+	    ref.createFromBuffer(getRef<Buffer>(arg1));
 	 }
 	 else {
 	    rb_raise(rb_eTypeError, "Buffer or Drawable expected.");
@@ -398,15 +409,15 @@ VALUE wrap<Buffer>(int argc, VALUE *argv, VALUE info)
 	    rb_raise(rb_eArgError, "Another argument was expected.");
 	 if (NIL_P(arg3))
 	    arg3 = INT2FIX(OSL_PF_5650);
-	 ptr = new Buffer(FIX2INT(arg1), FIX2INT(arg2), FIX2INT(arg3));
+      
+	 ref.createFromGeom(FIX2INT(arg1), FIX2INT(arg2), FIX2INT(arg3));
       }
    }
    catch (const RubyException &e) {
       e.rbRaise();
    }
    
-   VALUE tdata = Data_Wrap_Struct(info, 0, wrapped_free<Buffer>, ptr);
-   return tdata;
+   return Qnil;
 }
 
 /*
@@ -747,24 +758,21 @@ VALUE Buffer_find(int argc, VALUE *argv, VALUE self) {
   or get a painter through +Joyau::draw+.
 */
 
-template<>
 /*
   call-seq: new(buffer)
 
   Creates a new Painter linked to a buffer.
 */
-VALUE wrap<Painter>(int argc, VALUE *argv, VALUE info)
+VALUE Painter_initialize(VALUE self, VALUE buffer)
 {
-   VALUE buffer;
-   rb_scan_args(argc, argv, "1", &buffer);
+   Painter &ref = getRef<Painter>(self);
 
    if (!rb_obj_is_kind_of(buffer, getClass("Buffer")))
       rb_raise(rb_eTypeError, "Can't convert %s into Joyau::Buffer",
 	       rb_obj_classname(buffer));
 
-   Painter *ptr = new Painter(getRef<Buffer>(buffer));
-   VALUE tdata = Data_Wrap_Struct(info, 0, wrapped_free<Painter>, ptr);
-   return tdata;
+   ref.setBuffer(getPtr<Buffer>(buffer));
+   return Qnil;
 }
 
 /*
@@ -964,7 +972,7 @@ VALUE Joyau_draw(int argc, VALUE *argv, VALUE self) {
 
       if (rb_hash_aref(hash, ID2SYM(rb_intern("painter"))) == Qtrue) {
 	 painter = true;
-	 Painter painter(*buffer);
+	 Painter painter(buffer);
 	 rbPainter = createObject(getClass("Painter"), painter);
       }
       
@@ -1030,6 +1038,8 @@ void defineBuffer() {
    defConst(cBuffer, "PF_5650", INT2FIX(OSL_PF_5650));
    defConst(cBuffer, "PF_8888", INT2FIX(OSL_PF_8888));
    
+   defMethod(cBuffer, "initialize", Buffer_initialize, -1);
+
    defMethod(cBuffer, "set_actual", Buffer_setActual, 0);
    defMethod(cBuffer, "draw", Buffer_draw, -1);
    defMethod(cBuffer, "clear", Buffer_clear, 1);
@@ -1060,6 +1070,8 @@ void defineBuffer() {
    defAlias(cBuffer, "setPos", "pos=");
 
    VALUE cPainter = defClass<Painter>("Painter");
+   defMethod(cPainter, "initialize", Painter_initialize, 1);
+
    defMethod(cPainter, "drawLine", Painter_drawLine, -1);
    defMethod(cPainter, "drawFillRect", Painter_drawFillRect, -1);
    defMethod(cPainter, "drawRect", Painter_drawRect, -1);

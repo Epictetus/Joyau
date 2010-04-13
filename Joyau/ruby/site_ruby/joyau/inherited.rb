@@ -13,11 +13,11 @@
 # :startdoc:
 
 module Joyau
-  # There can be problem with classes which inherits Joyau's classes.
-  # This module fixes their new method, in order to call initialize.
+  # This module is still here for compatibility. The bug it was trying to fix
+  # has really been fixed.
   module Inherited
     def new(*args) # :nodoc:
-      ret = super()
+      ret = allocate
       ret.send(:initialize, *args)
       return ret
     end
@@ -25,7 +25,6 @@ module Joyau
 end
 
 class Module
-  # Fix for clases which inherits Joyau's classes.
   def joyau_inherited
     class << self
       include Joyau::Inherited

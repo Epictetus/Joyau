@@ -27,9 +27,14 @@ public:
    Buffer(Drawable &obj);
    Buffer(Sprite &obj);
    Buffer(OSL_IMAGE *img, bool copy = false);
+   Buffer(): img(NULL) { setClass("Buffer"); }
    ~Buffer();
 
-   friend Sprite::Sprite(const Buffer &buf);
+   void createFromGeom(int w, int h, int format);
+   void createFromDrawable(Drawable &obj);
+   void createFromBuffer(const Buffer &obj);
+
+   friend void Sprite::createFromBuffer(const Buffer &buf);
    friend void Sprite::setBuffer(const Buffer &buf);
 
    void setActual();
@@ -125,7 +130,10 @@ private:
 
 class Painter {
 public:
-   Painter(Buffer &obj);
+   Painter(): buf(NULL) {}
+   Painter(Buffer *obj): buf(obj) {}
+
+   void setBuffer(Buffer *buffer) { buf = buffer; }
 
    void drawLine(int x1, int y1, int x2, int y2,
                  OSL_COLOR col, OSL_COLOR col2);
@@ -149,7 +157,7 @@ public:
 
    void clear(OSL_COLOR col);
 private:
-   Buffer &buf;
+   Buffer *buf;
 };
 
 VALUE Buffer_setActual(VALUE self);

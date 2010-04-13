@@ -1,10 +1,6 @@
-require 'joyau/inherited'
-
 class Projectil < Joyau::Sprite
-  joyau_inherited
-
   def initialize(pic = nil)
-    setPicture("proj.png")
+    super("proj.png")
     @count = 100
   end
 

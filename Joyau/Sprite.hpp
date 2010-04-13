@@ -55,6 +55,8 @@ public:
     */
    Sprite(const Buffer &buf);
 
+   void createFromBuffer(const Buffer &buf);
+
    /** Loads the picture.
     *  @param pic filename.
     */

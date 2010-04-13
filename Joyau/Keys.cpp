@@ -100,27 +100,24 @@ int Pad::str2key(const std::string &key) const
   If its "sensibility" is greater, it'll move slower.
 */
 
-template<>
 /*
   call-seq: new
             new(filename [, sensibility])
 
   Creates a new Cursor.
 */
-VALUE wrap<Cursor>(int argc, VALUE *argv, VALUE info)
+VALUE Cursor_initialize(int argc, VALUE *argv, VALUE self)
 {
-   Cursor *ptr = new Cursor;
-   VALUE tdata;
+   Cursor &ref = getRef<Cursor>(self);
    
    if (argc >= 1)
    {
-      ptr->setPicture(StringValuePtr(argv[0]));
+      ref.setPicture(StringValuePtr(argv[0]));
       if (argc >= 2)
-	 ptr->setSensibility(FIX2INT(argv[1]));
+	 ref.setSensibility(FIX2INT(argv[1]));
    }
    
-   tdata = Data_Wrap_Struct(info, 0, wrapped_free<Cursor>, ptr);
-   return tdata;
+   return Qnil;
 }
 
 void Cursor::updatePos()
@@ -620,6 +617,8 @@ void defineKeys()
    defConst(mOSK, "URL", INT2FIX(PSP_UTILITY_OSK_INPUTTYPE_URL));
 
    VALUE cCursor = defClass<Cursor>("Cursor", "Sprite");
+   defMethod(cCursor, "initialize", Cursor_initialize, -1);
+
    defMethod(cCursor, "updatePos", Cursor_updatePos, 0);
 
    defMethod(cCursor, "setSensibility", Cursor_setSensibility, 1);

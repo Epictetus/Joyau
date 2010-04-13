@@ -4,6 +4,7 @@ require 'joyau/danzeff'
 class JoyauInputMethod < IRB::InputMethod
   def initialize
     super
+    
     @line_no = 0
     @line = []
 

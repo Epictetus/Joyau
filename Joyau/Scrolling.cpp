@@ -23,7 +23,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
   direction.
 */
 
-template<>
 /*
   call-seq: new
             new(filename)
@@ -31,15 +30,14 @@ template<>
   Creates a new Scrolling. You can eventually load a picture during this
   creation.
 */
-VALUE wrap<Scrolling>(int argc, VALUE *argv, VALUE info)
+VALUE Scrolling_initialize(int argc, VALUE *argv, VALUE self)
 {
-   Scrolling *ptr = new Scrolling;
+   Scrolling *ptr = getPtr<Scrolling>(self);
 
    if (argc >= 1)
       ptr->setSprite(StringValuePtr(argv[0]));
    
-   VALUE tdata = Data_Wrap_Struct(info, 0, wrapped_free<Scrolling>, ptr);
-   return tdata;
+   return Qnil;
 }
 
 void Scrolling::setSprite(char *spr)
@@ -225,6 +223,8 @@ VALUE Scrolling_play(VALUE self)
 void defineScrolling()
 {
    VALUE cScroll = defClass<Scrolling>("Scrolling", "Drawable");
+   defMethod(cScroll, "initialize", Scrolling_initialize, -1);
+
    defMethod(cScroll, "setSprite", Scrolling_setSprite, 1);
    defMethod(cScroll, "setDir", Scrolling_setDir, 1);
    defMethod(cScroll, "setSpeed", Scrolling_setSpeed, 1);

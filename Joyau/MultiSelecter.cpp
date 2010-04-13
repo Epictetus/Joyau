@@ -17,12 +17,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "MultiSelecter.hpp"
 
 template<>
-/*
-  call-seq: new()
-
-  Creates a new selecter.
-*/
-VALUE wrap<MultiHorizontalMsgSelecter>(int argc, VALUE *argv, VALUE info)
+VALUE wrap<MultiHorizontalMsgSelecter>(VALUE info)
 {
    MultiHorizontalMsgSelecter *ptr = new MultiHorizontalMsgSelecter;
    ptr->setClass("MultiHorizontalMsgSelecter");
@@ -32,12 +27,7 @@ VALUE wrap<MultiHorizontalMsgSelecter>(int argc, VALUE *argv, VALUE info)
 }
 
 template<>
-/*
-  call-seq: new()
-
-  Creates a new selecter.
-*/
-VALUE wrap<MultiVerticalMsgSelecter>(int argc, VALUE *argv, VALUE info)
+VALUE wrap<MultiVerticalMsgSelecter>(VALUE info)
 {
    MultiVerticalMsgSelecter *ptr = new MultiVerticalMsgSelecter;
    ptr->setClass("MultiVerticalMsgSelecter");

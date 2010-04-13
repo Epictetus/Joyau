@@ -25,7 +25,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
   showing an animated sprite.
 */
 
-template<>
 /*
   call-seq: new()
             new(filename)
@@ -33,20 +32,23 @@ template<>
 
   Creates a Sprite.
 */
-VALUE wrap<Sprite>(int argc, VALUE *argv, VALUE info)
+VALUE Sprite_initialize(int argc, VALUE *argv, VALUE self)
 {
-   Sprite *ptr = NULL;
-   VALUE tdata;
+   Sprite *ptr = getPtr<Sprite>(self);
    
    if (argc >= 1) {
       if (rb_obj_is_kind_of(argv[0], getClass("Buffer"))) {
-	 ptr = new Sprite(getRef<Buffer>(argv[0]));
+	 try {
+	    ptr->createFromBuffer(getRef<Buffer>(argv[0]));
+	 }
+	 catch (const RubyException &e) {
+	    e.rbRaise();
+	 }
       }
       else {
 	 argv[0] = rb_obj_as_string(argv[0]);
 
 	 try {
-	    ptr = new Sprite;
 	    ptr->setPicture(StringValuePtr(argv[0]));
 	 }
 	 catch (const RubyException &e) {
@@ -54,11 +56,8 @@ VALUE wrap<Sprite>(int argc, VALUE *argv, VALUE info)
 	 }
       }
    }
-   else
-      ptr = new Sprite;
    
-   tdata = Data_Wrap_Struct(info, 0, wrapped_free<Sprite>, ptr);
-   return tdata;
+   return Qnil;
 }
 
 Sprite::Sprite(const Buffer &buf):
@@ -78,6 +77,11 @@ Sprite::Sprite(const Buffer &buf):
    hTile(0),
    autoDir(false)
 {
+   setClass("Sprite");
+   createFromBuffer(buf);
+}
+
+void Sprite::createFromBuffer(const Buffer &buf) {
    sprite = buf.img;
    if (!sprite) {
       throw RubyException(rb_eRuntimeError, 
@@ -89,8 +93,6 @@ Sprite::Sprite(const Buffer &buf):
 
    _stretchX = sprite->stretchX;
    _stretchY = sprite->stretchY;
-
-   setClass("Sprite");
 }
 
 void Sprite::setResName(const std::string &name) {
@@ -531,6 +533,7 @@ VALUE Sprite_to_buf2(VALUE self) {
 void defineSprite()
 {
    VALUE cSprite = defClass<Sprite>("Sprite", "Drawable");
+   defMethod(cSprite, "initialize", Sprite_initialize, -1);
    defMethod(cSprite, "setPicture", Sprite_setPicture, 1);
    defMethod(cSprite, "buffer=", Sprite_setBuffer, 1);
    defMethod(cSprite, "res_name=", Sprite_setResName, 1);

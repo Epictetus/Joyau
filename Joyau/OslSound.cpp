@@ -152,7 +152,6 @@ VALUE OslMusic_playing_on(VALUE self) {
    return INT2FIX(ref.playingOn());
 }
 
-template <>
 /*
   call-seq: new
             new(filename, type = Joyau::OslMusic::FMT_NONE)
@@ -160,10 +159,11 @@ template <>
   Creates a new sound. You can directlyload it, and specify
   whether or not it should be played as a stream.
 */
-VALUE wrap<OslMusic>(int argc, VALUE *argv, VALUE info) {
+VALUE OslMusic_initialize(int argc, VALUE *argv, VALUE self) {
    VALUE filename, stream;
    rb_scan_args(argc, argv, "02", &filename, &stream);
-   OslMusic *ptr = new OslMusic;
+   
+   OslMusic *ptr = getPtr<OslMusic>(self);
 
    if (!NIL_P(filename)) {
       if (NIL_P(stream))
@@ -178,12 +178,13 @@ VALUE wrap<OslMusic>(int argc, VALUE *argv, VALUE info) {
       }
    }
 
-   VALUE tdata = Data_Wrap_Struct(info, 0, wrapped_free<OslMusic>, ptr);
-   return tdata;
+   return Qnil;
 }
 
 void defineOslMusic() {
    VALUE cOslMusic = defClass<OslMusic>("OslMusic");
+   defMethod(cOslMusic, "initialize", OslMusic_initialize, -1);
+
    defMethod(cOslMusic, "play", OslMusic_play, 1);
    defMethod(cOslMusic, "pause", OslMusic_pause, 0);
    defMethod(cOslMusic, "resume", OslMusic_resume, 0);

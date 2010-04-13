@@ -158,7 +158,6 @@ void AudioObject::stopSource()
   and to play them at each call of play.
 */
 
-template<>
 /*
   call-seq: Joyau::Sound.new
             Joyau::Sound.new(filename)
@@ -168,25 +167,24 @@ template<>
       sound = Joyau::Sound.new
       sound = Joyau::Sound.new("music.wav")
 */
-VALUE wrap<Sound>(int argc, VALUE *argv, VALUE info)
+VALUE Sound_initialize(int argc, VALUE *argv, VALUE self)
 {
-   Sound *ptr = new Sound;
-
+   Sound &ref = getRef<Sound>(self);
+   
    VALUE filename;
    rb_scan_args(argc, argv, "01", &filename);
 
    if (!NIL_P(filename)) {
       try {
 	 filename = rb_obj_as_string(filename);
-	 ptr->loadWav(StringValuePtr(filename));
+	 ref.loadWav(StringValuePtr(filename));
       }
       catch (const RubyException &e) {
 	 e.rbRaise();
       }
    }
    
-   VALUE tdata = Data_Wrap_Struct(info, 0, wrapped_free<Sound>, ptr);
-   return tdata;
+   return Qnil;
 }
 
 /*
@@ -201,7 +199,7 @@ VALUE wrap<Sound>(int argc, VALUE *argv, VALUE info)
   Will loop while there is something to play.
 */
 
-template<>
+
 /*
   call-seq: Joyau::Stream.new
             Joyau::Stream.new(filename)
@@ -211,9 +209,9 @@ template<>
       stream = Joyau::Stream.new
       stream = Joyau::Stream.new("music.ogg")
 */
-VALUE wrap<Stream>(int argc, VALUE *argv, VALUE info)
+VALUE Stream_initialize(int argc, VALUE *argv, VALUE self)
 {
-   Stream *ptr = new Stream;
+   Stream &ref = getRef<Stream>(self);
 
    VALUE filename;
    rb_scan_args(argc, argv, "01", &filename);
@@ -221,15 +219,14 @@ VALUE wrap<Stream>(int argc, VALUE *argv, VALUE info)
    if (!NIL_P(filename)) {
       try {
 	 filename = rb_obj_as_string(filename);
-	 ptr->loadOgg(StringValuePtr(filename));
+	 ref.loadOgg(StringValuePtr(filename));
       }
       catch (const RubyException &e) {
 	 e.rbRaise();
       }
    }
 
-   VALUE tdata = Data_Wrap_Struct(info, 0, wrapped_free<Stream>, ptr);
-   return tdata;
+   return Qnil;
 }
 
 /*
@@ -239,7 +236,6 @@ VALUE wrap<Stream>(int argc, VALUE *argv, VALUE info)
   used for their positions.
 */
 
-template<>
 /*
   call-seq: Joyau::Vector3f.new
             Joyau::Vector3f.new(x, y, z)
@@ -249,9 +245,9 @@ template<>
       vector = Joyau::Vector3f.new
       vector = Joyau::Vector3f.new(10, 15, 5)
 */
-VALUE wrap<Vector3f>(int argc, VALUE *argv, VALUE info)
+VALUE Vector3f_initialize(int argc, VALUE *argv, VALUE self)
 {
-   Vector3f *ptr = new Vector3f;
+   Vector3f &ref = getRef<Vector3f>(self);
 
    VALUE x, y, z;
    rb_scan_args(argc, argv, "03", &x, &y, &z);
@@ -260,13 +256,12 @@ VALUE wrap<Vector3f>(int argc, VALUE *argv, VALUE info)
       if (NIL_P(y) || NIL_P(z))
 	 rb_raise(rb_eArgError, "3 arguments expected if at least on is given.");
       
-      ptr->x = NUM2DBL(x);
-      ptr->y = NUM2DBL(y);
-      ptr->z = NUM2DBL(z);
+      ref.x = NUM2DBL(x);
+      ref.y = NUM2DBL(y);
+      ref.z = NUM2DBL(z);
    }
 
-   VALUE tdata = Data_Wrap_Struct(info, 0, wrapped_free<Vector3f>, ptr);
-   return tdata;
+   return Qnil;
 }
 
 
@@ -978,6 +973,9 @@ VALUE Listener_directionOp(VALUE self, VALUE val)
 void defineAudio()
 {
    VALUE cVector3f = defClass<Vector3f>("Vector3f");
+   
+   defMethod(cVector3f, "initialize", Vector3f_initialize, -1);
+   
    defMethod(cVector3f, "x=", Vector3f_setX, 1);
    defMethod(cVector3f, "y=", Vector3f_setY, 1);
    defMethod(cVector3f, "z=", Vector3f_setZ, 1);
@@ -991,6 +989,7 @@ void defineAudio()
    defMethod(cVector3f, "==", Vector3f_eq, 1);
 
    VALUE cAudioObject = defClass<AudioObject>("AudioObject");
+   
    defMethod(cAudioObject, "setPos", AudioObject_setPos, 3);
    defMethod(cAudioObject, "setDirection", AudioObject_setDirection, 3);
    defMethod(cAudioObject, "setVelocity", AudioObject_setVelocity, 3);
@@ -1002,6 +1001,8 @@ void defineAudio()
    defMethod(cAudioObject, "playing?", AudioObject_playing, 0);
 
    VALUE cSound = defClass<Sound>("Sound", "AudioObject");
+   defMethod(cSound, "initialize", Sound_initialize, -1);
+
    defMethod(cSound, "loadWav", Sound_loadWav, 1);
    defMethod(cSound, "play", Sound_play, 0);
    defMethod(cSound, "pause", Sound_play, 0);
@@ -1010,6 +1011,8 @@ void defineAudio()
    defAlias(cSound, "loadWav", "load_wav");
 
    VALUE cStream = defClass<Stream>("Stream", "AudioObject");
+   defMethod(cStream, "initialize", Stream_initialize, -1);
+
    defMethod(cStream, "loadOgg", Stream_loadOgg, 1);
    defMethod(cStream, "play", Stream_play, 0);
    defMethod(cStream, "update", Stream_update, 0);

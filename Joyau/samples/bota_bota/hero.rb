@@ -1,10 +1,6 @@
-require 'joyau/inherited'
-
 class Hero < Joyau::Sprite
-  joyau_inherited
-
   def initialize(pic = nil)
-    setPicture("pic.png".dup)
+    super("pic.png")
     @projectils = []
   end
 

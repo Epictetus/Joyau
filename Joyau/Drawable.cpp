@@ -26,7 +26,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
   For instance, you can get one from Joyau::Drawable#boundingRect.
 */
 
-template<>
 /*
   call-seq: Joyau::Rect.new
             Joyau::Rect.new(x, y)
@@ -34,26 +33,26 @@ template<>
 
   Creates a new Rect.
 */
-VALUE wrap<Rect>(int argc, VALUE *argv, VALUE info)
+VALUE Rect_initialize(int argc, VALUE *argv, VALUE self)
 {
-   Rect *ptr = new Rect;
+   Rect &ref = getRef<Rect>(self);
 
    VALUE x, y, w, h;
    rb_scan_args(argc, argv, "04", &x, &y, &w, &h);
 
    if (!NIL_P(x) && !NIL_P(y))
    {
-      ptr->x = FIX2INT(x);
-      ptr->y = FIX2INT(y);
+      ref.x = FIX2INT(x);
+      ref.y = FIX2INT(y);
+      
       if (!NIL_P(w) && !NIL_P(h))
       {
-	 ptr->w = FIX2INT(w);
-	 ptr->h = FIX2INT(h);
+	 ref.w = FIX2INT(w);
+	 ref.h = FIX2INT(h);
       }
    }
 
-   VALUE tdata = Data_Wrap_Struct(info, 0, wrapped_free<Rect>, ptr);
-   return tdata;
+   return Qnil;
 }
 
 
@@ -63,28 +62,26 @@ VALUE wrap<Rect>(int argc, VALUE *argv, VALUE info)
   Represents a point. Can be used to get an object's position, or to set it.
 */
 
-template<> // I don't like this syntax, yet I didn't find anything else for rdoc.
 /*
   call-seq: Joyau::Point.new
             Joyau::Point.new(x, y)
 
   Creates a new Point.
 */
-VALUE wrap<Point>(int argc, VALUE *argv, VALUE info)
+VALUE Point_initialize(int argc, VALUE *argv, VALUE self)
 {
-   Point *ptr = new Point;
+   Point &ref = getRef<Point>(self);
 
    VALUE x, y;
    rb_scan_args(argc, argv, "02", &x, &y);
 
    if (!NIL_P(x) && !NIL_P(y))
    {
-      ptr->x = FIX2INT(x);
-      ptr->y = FIX2INT(y);
+      ref.x = FIX2INT(x);
+      ref.y = FIX2INT(y);
    }
 
-   VALUE tdata = Data_Wrap_Struct(info, 0, wrapped_free<Point>, ptr);
-   return tdata;
+   return Qnil;
 }
 
 /*
@@ -662,6 +659,8 @@ VALUE Drawable_to_buf(VALUE self) {
 void defineDrawable()
 {
    VALUE cPoint = defClass<Point>("Point");
+   defMethod(cPoint, "initialize", Point_initialize, -1);
+
    defMethod(cPoint, "x", Point_getX, 0);
    defMethod(cPoint, "y", Point_getY, 0);
 
@@ -673,6 +672,8 @@ void defineDrawable()
    defMethod(cPoint, "==", Point_eq, 1);
 
    VALUE cRect = defClass<Rect>("Rect");
+   defMethod(cRect, "initialize", Rect_initialize, -1);
+
    defMethod(cRect, "x", Rect_getX, 0);
    defMethod(cRect, "y", Rect_getY, 0);
    defMethod(cRect, "w", Rect_getW, 0);

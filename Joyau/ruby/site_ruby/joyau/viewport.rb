@@ -12,8 +12,6 @@
 
 # :startdoc:
 
-require 'joyau/inherited'
-
 module Joyau
   #
   # When writing  game, we might have to think about hero's position,
@@ -25,8 +23,6 @@ module Joyau
   #
   class Viewport < Drawable
     attr_reader :objects
-
-    joyau_inherited
 
     # Creates a new Viewport.
     def initialize

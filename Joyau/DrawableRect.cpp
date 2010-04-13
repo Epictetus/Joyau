@@ -22,29 +22,27 @@
   Drawable used when drawing rects.
 */
 
-template<>
 /*
   call-seq: new()
-            new(x, y [, w, h])
+            new(x, y [, x2, y2])
 
   Creates a new DrawableRect.
 */
-VALUE wrap<DrawableRect>(int argc, VALUE *argv, VALUE info)
+VALUE DrawableRect_initialize(int argc, VALUE *argv, VALUE self)
 {
-   DrawableRect *ptr = new DrawableRect;
+   DrawableRect &ref = getRef<DrawableRect>(self);
 
    VALUE x1, y1, x2, y2;
    rb_scan_args(argc, argv, "04", &x1, &y1, &x2, &y2);
 
    if (!NIL_P(x1)  && !NIL_P(y1))
    {
-      ptr->setPos(FIX2INT(x1), FIX2INT(y1));
+      ref.setPos(FIX2INT(x1), FIX2INT(y1));
       if (argc >= 4)
-	 ptr->setCorner(FIX2INT(x2), FIX2INT(y2));
+	 ref.setCorner(FIX2INT(x2), FIX2INT(y2));
    }
 
-   VALUE tdata = Data_Wrap_Struct(info, 0, wrapped_free<DrawableRect>, ptr);
-   return tdata;
+   return Qnil;
 }
 
 DrawableRect::DrawableRect(): 
@@ -181,6 +179,8 @@ VALUE DrawableRect_getCorner(VALUE self)
 void defineDrawableRect()
 {
    VALUE cDrawableRect = defClass<DrawableRect>("DrawableRect", "FillableShape");
+   defMethod(cDrawableRect, "initialize", DrawableRect_initialize, -1);
+
    defMethod(cDrawableRect, "resize", DrawableRect_resize, 2);
    defMethod(cDrawableRect, "w=", DrawableRect_setW, 1);
    defMethod(cDrawableRect, "h=", DrawableRect_setH, 1);

@@ -22,34 +22,32 @@
   Class used when drawing Circle.
 */
 
-template<>
 /*
   call-seq: new(radius, x, y)
             new(radius, point)
   
   Creates a new circle.
 */
-VALUE wrap<Circle>(int argc, VALUE *argv, VALUE info)
+VALUE Circle_initialize(int argc, VALUE *argv, VALUE self)
 {
-   Circle *ptr = new Circle;
+   Circle &ref = getRef<Circle>(self);
 
    VALUE radius, arg2, arg3;
    rb_scan_args(argc, argv, "03", &radius, &arg2, &arg3);
 
    if (!NIL_P(radius))
    {
-      ptr->setRadius(FIX2INT(radius));
+      ref.setRadius(FIX2INT(radius));
       
       if (NIL_P(arg3) && !NIL_P(arg2))
-      	 ptr->setPos(getRef<Point>(arg2));
+      	 ref.setCenter(getRef<Point>(arg2).x, getRef<Point>(arg2).y);
       else if (!NIL_P(arg2))
-	 ptr->setPos(FIX2INT(arg2), FIX2INT(arg3));
+	 ref.setCenter(FIX2INT(arg2), FIX2INT(arg3));
       else
 	 rb_raise(rb_eArgError, "Center's position not given.");
    }
 
-   VALUE tdata = Data_Wrap_Struct(info, 0, wrapped_free<Circle>, ptr);
-   return tdata;
+   return Qnil;
 }
 
 void Circle::setCenter(int x, int y)
@@ -177,6 +175,8 @@ VALUE Circle_getRadius(VALUE self)
 void defineCircle()
 {
    VALUE cCircle = defClass<Circle>("Circle", "FillableShape");
+   defMethod(cCircle, "initialize", Circle_initialize, -1);
+
    defMethod(cCircle, "setRadius", Circle_setRadius, 1);
    defMethod(cCircle, "setCenter", Circle_setCenter, 2);
    defMethod(cCircle, "center=", Circle_setCenterPoint, 1);

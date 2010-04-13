@@ -25,12 +25,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 */
 
 template<>
-/*
-  call-seq: new()
-
-  Creates a new message selecter. 
-*/
-VALUE wrap<HorizontalMsgSelecter>(int argc, VALUE *argv, VALUE info)
+VALUE wrap<HorizontalMsgSelecter>(VALUE info)
 {
    HorizontalMsgSelecter *ptr = new HorizontalMsgSelecter;
    ptr->setClass("HorizontalMsgSelecter");
@@ -40,12 +35,7 @@ VALUE wrap<HorizontalMsgSelecter>(int argc, VALUE *argv, VALUE info)
 }
 
 template<>
-/*
-  call-seq: new()
-
-  Creates a new message selecter. 
-*/
-VALUE wrap<VerticalMsgSelecter>(int argc, VALUE *argv, VALUE info)
+VALUE wrap<VerticalMsgSelecter>(VALUE info)
 {
    VerticalMsgSelecter *ptr = new VerticalMsgSelecter;
    ptr->setClass("VerticalMsgSelecter");

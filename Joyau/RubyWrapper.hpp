@@ -117,10 +117,11 @@ template<typename T> void wrapped_free(void *info)
 /** Returns a ruby object, whose class is info, and in which we've
  *  wrapped a new object, whose type is T. 
  */
-template<typename T> VALUE wrap(int argc, VALUE *argv, VALUE info)
+template<typename T> VALUE wrap(VALUE info)
 {
    T *ptr = new T;
    VALUE tdata = Data_Wrap_Struct(info, 0, wrapped_free<T>, ptr);
+    
    return tdata;
 }
 
@@ -168,11 +169,12 @@ template<typename T> VALUE defClass(const char *name,
 				    VALUE father = rb_cObject)
 {
    VALUE ret = rb_define_class_under(JOYAU_MOD, name, father);
-   VALUE (*func)(int, VALUE*, VALUE) = &wrap<T>;
+   VALUE (*func)(VALUE) = &wrap<T>;
    
-   rb_define_singleton_method(ret, "new", (VALUE(*)(...))func, -1);
+   rb_define_alloc_func(ret, func);
    return ret;
 }
+
 
 /** Returns a Ruby class.
  *  @param name class name.

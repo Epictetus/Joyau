@@ -174,22 +174,19 @@ void _oslRenderParticles(PARTICULE * Part)
   saved in a picture.
 */
 
-template <>
 /*
   call-seq: new
             new(filename)
 
   Creates a new particles generator.
  */
-    VALUE wrap < Particles > (int argc, VALUE * argv, VALUE info) {
-   Particles *ptr = new Particles;
-   VALUE tdata;
+VALUE Particles_initialize(int argc, VALUE * argv, VALUE self) {
+   Particles *ptr = getPtr<Particles>(self);
 
    if (argc >= 1)
       ptr->setFile(StringValuePtr(argv[0]));
 
-   tdata = Data_Wrap_Struct(info, 0, wrapped_free < Particles >, ptr);
-   return tdata;
+   return Qnil;
 }
 
 Particles::Particles(const Particles & obj)

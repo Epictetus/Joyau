@@ -14,7 +14,7 @@
 
 require 'joyau/color'
 require 'joyau/inspect'
-require 'joyau/inherited'
+# require 'joyau/inherited'
 
 module Joyau
   #
@@ -32,8 +32,8 @@ module Joyau
   # You may also change the <em>keys</em> used  for controlling this object.
   #
   class Danzeff < Drawable
-    joyau_inherited
-
+    # joyau_inherited
+    
     # Creates a new Danzeff keyboard.
     def initialize # :nodoc:
       @pages = [ 

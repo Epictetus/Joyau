@@ -1,11 +1,6 @@
-require 'joyau/inherited'
-
 class Ghost < Joyau::Sprite
-  joyau_inherited
-
   def initialize(pic = nil)
-    setPicture(pic) if pic
-    
+    super(pic) if pic
     @projectils = []
   end
 
