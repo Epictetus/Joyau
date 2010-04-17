@@ -7,7 +7,7 @@ require 'fileutils'
 
 require 'net/ftp'
 
-JOYAU_VERSION = "1.0.3"
+JOYAU_VERSION = "1.1.0"
 
 JoyauTask.new do |conf|
   conf.srcs = Dir['*.cpp']
