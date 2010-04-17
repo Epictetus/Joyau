@@ -124,7 +124,7 @@ task :release_dir => ['psp:eboot', 'psp:prx', 'rdoc_site', 'rdoc',
   FileUtils.cp_r 'ruby', 'Joyau-release'
 
   FileUtils.cp Dir['*.[hc]pp'] |  Dir['*.rb'] | ['Rakefile'], 'Joyau-release/src'
-  FileUtils.cp_r 'console', 'Joyau-release/src'
+  # FileUtils.cp_r 'console', 'Joyau-release/src'
   FileUtils.cp_r 'intrafont', 'Joyau-release/src'
   FileUtils.cp_r 'eboot', 'Joyau-release/src'
   FileUtils.cp_r 'socket', 'Joyau-release/src'
