@@ -159,7 +159,7 @@ task :release_dir => ['psp:eboot', 'psp:prx', 'rdoc_site', 'rdoc',
 
   ["socket.rb", "bigdecimal.rb", "digest/bubblebabble.rb",
    "fcntl.rb", "stringio.rb", "strscan.rb", "thread.rb",
-   "zlib.rb", "nkf.rb", "etc.rb", "syck.rb"].each do |filename|
+   "zlib.rb", "nkf.rb", "etc.rb", "syck.rb", "enumerator.rb"].each do |filename|
     ext_name = case filename
                when /(\w+)\.rb/
                  $1
