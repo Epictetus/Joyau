@@ -4,9 +4,8 @@ require 'joyau/init'
 
 Joyau.init(:intrafont)
 
-#begin
+begin
   require 'spec'
-=begin
 rescue LoadError
   require 'rubygems/dependency_installer'
 
@@ -18,7 +17,6 @@ rescue LoadError
 
   Joyau.exitGame
 end
-=end
 
 Dir["spec/*.rb"].each do |f| 
   puts "loading #{f}..."
