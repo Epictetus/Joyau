@@ -21,7 +21,7 @@ describe Joyau::Sprite do
   end
 
   it "should divide its size with auto tilling" do
-    sprite = Joyau::Sprite.new("res/bg.png")
+    sprite = @drawable
     old_width, old_height = sprite.w, sprite.h
 
     sprite.setAnim(4, 4)
@@ -31,7 +31,7 @@ describe Joyau::Sprite do
   end
 
   it "should change its size through manual tiles" do
-    sprite = Joyau::Sprite.new("res/bg.png")
+    sprite = @drawable
     sprite.setTile(10, 10, 30, 30)
 
     sprite.w.should == 30
