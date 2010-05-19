@@ -1,0 +1,26 @@
+require 'fileutils'
+
+file "ruby" do
+  FileUtils.mkdir_p "ruby/site_ruby/"
+  ['ruby/1.8', 'ruby/site_ruby/joyau', 'ruby/site_ruby/joyau.rb', 
+   'ruby/site_ruby/rbconfig.rb'].each do |i|
+    FileUtils.ln_s File.expand_path(File.dirname(__FILE__)) + "/../#{i}", i, :verbose => true
+  end
+end
+
+file "Joyau.prx" do
+  FileUtils.ln_s '../Joyau.prx', 'Joyau.prx'
+end
+
+task :tests => ["ruby", "Joyau.prx"] do
+  trap('INT') { system "pspsh -e reset" }
+
+  IO.popen("pspsh", 'w+') do |pipe|
+    pipe.puts "./Joyau.prx"
+    
+    line = ''
+    puts line while line = pipe.gets
+  end
+end
+
+task :default => [:tests]
