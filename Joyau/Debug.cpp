@@ -110,7 +110,7 @@ VALUE Debug_setX(VALUE self, VALUE x) {
   Sets the position of the place where text will be written.
 */
 VALUE Debug_setY(VALUE self, VALUE y) {
-   pspDebugScreenSetXY(pspDebugScreenGetX(), INT2FIX(y));
+   pspDebugScreenSetXY(pspDebugScreenGetX(), FIX2INT(y));
    return y;
 }
 
