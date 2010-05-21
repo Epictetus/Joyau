@@ -157,9 +157,14 @@ void Buffer::draw() {
 
 void Buffer::draw(Drawable &obj) {
    OSL_IMAGE *old = oslGetDrawBuffer();
-   setActual();
+   
+   if (img != old)
+      setActual();
+   
    obj.draw();
-   oslSetDrawBuffer(old);
+
+   if (img != old)
+      oslSetDrawBuffer(old);
 }
 
 void Buffer::draw(Buffer &obj) {
@@ -795,7 +800,7 @@ VALUE Painter_drawLine(int argc, VALUE *argv, VALUE self) {
 }
 
 /*
-  call-seq: drawLine(x1, y1, x2, y2, col1, col2 = nil, col3 = nil, col4 = nil)
+  call-seq: drawFillRect(x1, y1, x2, y2, col1, col2 = nil, col3 = nil, col4 = nil)
 
   Draws a filled rect on the buffer.
 */
@@ -1066,7 +1071,7 @@ void defineBuffer() {
    defClassMethod(cBuffer, "actual", Buffer_getActual, 0);
 
    defClassMethod(cBuffer, "[]", Buffer_find, -1);
-   
+      
    defAlias(cBuffer, "setPos", "pos=");
 
    VALUE cPainter = defClass<Painter>("Painter");
