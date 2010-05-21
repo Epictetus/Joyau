@@ -106,13 +106,10 @@ bool Point::operator==(const Point &op) const
    return x == op.x && y == op.y;
 }
 
-Drawable::Drawable()
+Drawable::Drawable():
+   _w(0), _h(0), _x(0), _y(0),
+   movedX(0), movedY(0)
 {
-   _x = 0;
-   _y = 0;
-   _w = 0;
-   _h = 0;
-
    setClass("Drawable");
 }
 

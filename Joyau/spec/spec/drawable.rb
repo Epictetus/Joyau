@@ -16,13 +16,15 @@ shared_examples_for "all drawables" do
   end
 
   it "should uncount back moves" do
-    @drawable.clearMove
-
     @drawable.move(100, 100)
     @drawable.move(-10, -40)
 
     @drawable.should be_at(90, 60)
     @drawable.should have_moved_of(90, 60)
+  end
+
+  it "should not have moved when created" do
+    @drawable.should_not have_moved
   end
 end
 
