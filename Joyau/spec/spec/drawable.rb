@@ -3,7 +3,7 @@ require 'joyau_helper'
 shared_examples_for "all drawables" do
   it "should not have moved after being drawn" do
     @drawable.move(100, 100)
-    @drawable.draw
+    Joyau.draw { @drawable.draw }
     
     @drawable.should_not have_moved
   end
