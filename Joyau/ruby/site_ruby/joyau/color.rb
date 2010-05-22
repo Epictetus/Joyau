@@ -203,3 +203,31 @@ class Hash
     Joyau::Color.new(self)
   end
 end
+
+class Symbol
+  @@colors = {
+    :red     => Joyau.color(255, 0, 0),
+    :blue    => Joyau.color(0, 0, 255),
+    :green   => Joyau.color(0, 255, 0),
+    :black   => Joyau.color(0, 0, 0),
+    :white   => Joyau.color(255, 255, 255),
+    :none    => Joyau.color(0, 0, 0, 0),
+    :gray    => Joyau.color(128, 128, 128),
+    :cyan    => Joyau.color(0, 255, 255),
+    :yellow  => Joyau.color(255, 255, 0),
+    :fuschia => Joyau.color(255, 0, 255)
+  }
+
+  # Converts a symbol to a color hash.
+  #
+  # Valid colors are red, blue, green, black, white,
+  # none, gray, cyan, yellow, and fuschia. If you try to send
+  # this message to another symbol, an ArgumentError will be raised.
+  def to_hash
+    if @@colors[self]
+      return @@colors[self]
+    else
+      raise ArgumentError, "#{self} is not a valid color."
+    end
+  end
+end
