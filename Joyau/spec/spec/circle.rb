@@ -4,6 +4,10 @@ require "spec/drawable.rb"
 describe Joyau::Circle do
   before :each do
     @drawable = Joyau::Circle.new
+    @drawable.center = Joyau::Point.new(1, 1)
+    @drawable.radius = 1
+
+    @drawable.clearMove
   end
 
   it_should_behave_like "all drawables"
