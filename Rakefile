@@ -34,7 +34,7 @@ libs = %w(socket/socket.c socket/getnameinfo.c socket/getaddrinfo.c
           etc/etc.c
           syck/bytecode.c syck/gram.c syck/implicit.c syck/rubyext.c
           syck/token.c syck/emitter.c syck/handler.c syck/node.c syck/syck.c
-          syck/yaml2byte.c)
+          syck/yaml2byte.c).map { |i| "src/#{i}" }
 
 static_libs = %w(-losl -ljpeg -lpng -lz -lpspsdk -lpspvfpu -lpspctrl -lpspumd
                  -lpsppower -lpspgu -lpspmpeg -lpspaudiocodec -lpspaudiolib 
@@ -47,11 +47,11 @@ cflags = %w(-G0 -Wall -D_PSP_ -DHAVE_STRUCT_TIMESPEC)
 PSPTask.new do |t|
   t.objdir = "./obj/"
 
-  t.srcs = Dir['*.cpp'] | libs
+  t.srcs = Dir['src/*.cpp'] | libs
   t.libs = static_libs | t.libs
 
   t.cflags = t.cflags | cflags
-  t.incdir << "-I./intrafont/"
+  t.incdir << "-I./src/intrafont/"
 
   t.target = "jrelease"
   t.icon0  = "eboot/ICON0.png"
@@ -63,11 +63,11 @@ end
 PSPTask.new(:dbg) do |t|
   t.objdir = "./obj_prx/"
 
-  t.srcs = Dir['*.cpp'] | libs
+  t.srcs = Dir['src/*.cpp'] | libs
   t.libs = static_libs | t.libs
 
   t.cflags = t.cflags | cflags | ["-g", "-O0"]
-  t.incdir << "-I./intrafont/"
+  t.incdir << "-I./src/intrafont/"
 
   t.target = "Joyau"
 
@@ -109,7 +109,7 @@ srcs = ["main.cpp",
         "Triangle.cpp",
         "Wlan.cpp",
         "Debug.cpp",	
-        "OslSound.cpp"]
+        "OslSound.cpp"].map { |i| "src/#{i}" }
 
 Rake::RDocTask.new do |rd|
   rd.rdoc_files.include(*srcs)
@@ -141,45 +141,31 @@ task :release_dir => ['psp:eboot', 'dbg:prx', 'rdoc_site', 'rdoc',
   FileUtils.rm_r 'Joyau-release' if File.exist? 'Joyau-release'
   
   Dir.mkdir 'Joyau-release'
-  Dir.mkdir 'Joyau-release/src'
-  
+    
   FileUtils.cp_r 'doc', 'Joyau-release'
   FileUtils.cp_r 'samples', 'Joyau-release'
   FileUtils.cp_r 'ruby', 'Joyau-release'
-
-  FileUtils.cp Dir['*.[hc]pp'] |  Dir['*.rb'] | ['Rakefile'], 'Joyau-release/src'
-  # FileUtils.cp_r 'console', 'Joyau-release/src'
-  FileUtils.cp_r 'intrafont', 'Joyau-release/src'
-  FileUtils.cp_r 'eboot', 'Joyau-release/src'
-  FileUtils.cp_r 'socket', 'Joyau-release/src'
-  FileUtils.cp_r 'bigdecimal', 'Joyau-release/src'
-  FileUtils.cp_r 'digest', 'Joyau-release/src'
-  FileUtils.cp_r 'enumerator', 'Joyau-release/src'
-  FileUtils.cp_r 'fcntl', 'Joyau-release/src'
-  FileUtils.cp_r 'stringio', 'Joyau-release/src'
-  FileUtils.cp_r 'strscan', 'Joyau-release/src'
-  FileUtils.cp_r 'thread', 'Joyau-release/src'
-  FileUtils.cp_r 'zlib', 'Joyau-release/src'
-  FileUtils.cp_r 'nkf', 'Joyau-release/src'
-
+  FileUtils.cp_r 'src', 'Joyau-release'
+  
   FileUtils.cp 'EBOOT.PBP', 'Joyau-release'
   FileUtils.cp 'Joyau.prx', 'Joyau-release'
+  FileUtils.cp 'Rakefile', 'Joyau-release'
   FileUtils.cp 'README', 'Joyau-release' if File.exist? 'README'
 
   system "tar -xvf ruby-1.8.7-p248.tar.bz2"
   FileUtils.cp_r "ruby-1.8.7-p248/lib", "Joyau-release/ruby/1.8/"
   FileUtils.rm_r "ruby-1.8.7-p248"
 
-  FileUtils.cp_r 'bigdecimal/lib/bigdecimal', 'Joyau-release/ruby/1.8'
+  FileUtils.cp_r 'src/bigdecimal/lib/bigdecimal', 'Joyau-release/ruby/1.8'
 
   FileUtils.mkdir 'Joyau-release/ruby/1.8/digest/' unless
     File.exist? 'Joyau-release/ruby/1.8/digest/'
-  FileUtils.cp 'digest/lib/digest.rb', 'Joyau-release/ruby/1.8/'
-  FileUtils.cp 'digest/lib/sha1.rb', 'Joyau-release/ruby/1.8/digest/'
-  FileUtils.cp 'digest/lib/md5.rb', 'Joyau-release/ruby/1.8/digest/'
-  FileUtils.cp 'digest/sha2/lib/sha2.rb', 'Joyau-release/ruby/1.8/digest/'
+  FileUtils.cp 'src/digest/lib/digest.rb', 'Joyau-release/ruby/1.8/'
+  FileUtils.cp 'src/digest/lib/sha1.rb', 'Joyau-release/ruby/1.8/digest/'
+  FileUtils.cp 'src/digest/lib/md5.rb', 'Joyau-release/ruby/1.8/digest/'
+  FileUtils.cp 'src/digest/sha2/lib/sha2.rb', 'Joyau-release/ruby/1.8/digest/'
   
-  FileUtils.cp 'nkf/lib/kconv.rb', 'Joyau-release/ruby/1.8/'
+  FileUtils.cp 'src/nkf/lib/kconv.rb', 'Joyau-release/ruby/1.8/'
 
   ["socket.rb", "bigdecimal.rb", "digest/bubblebabble.rb",
    "fcntl.rb", "stringio.rb", "strscan.rb", "thread.rb",
