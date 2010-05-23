@@ -1,54 +1,78 @@
-require 'joyau_rake'
+require 'rubygems'
+
+begin
+  require 'rake/psp_task'
+rescue LoadError
+  raise "Please install psp_task."
+end
+
 require 'joyau_rdoc'
 require 'rake/rdoctask'
 require 'rake/packagetask'
-
 require 'fileutils'
 
 require 'net/ftp'
 
 JOYAU_VERSION = "1.1.0"
 
-JoyauTask.new do |conf|
-  conf.srcs = Dir['*.cpp']
+libs = %w(socket/socket.c socket/getnameinfo.c socket/getaddrinfo.c
+          socket/pspsocket.c
+          bigdecimal/bigdecimal.c
+          digest/sha2/sha2init.c digest/sha2/sha2.c 
+          digest/rmd160/rmd160.c digest/rmd160/rmd160init.c
+          digest/bubblebabble/bubblebabble.c
+          digest/sha1/sha1.c digest/sha1/sha1init.c
+          digest/md5/md5.c digest/md5/md5init.c
+          digest/digest.c
+          enumerator/enumerator.c
+          fcntl/fcntl.c
+          stringio/stringio.c
+          strscan/strscan.c
+          thread/thread.c
+          zlib/zlib.c
+          nkf/nkf.c
+          etc/etc.c
+          syck/bytecode.c syck/gram.c syck/implicit.c syck/rubyext.c
+          syck/token.c syck/emitter.c syck/handler.c syck/node.c syck/syck.c
+          syck/yaml2byte.c)
 
-  libs = %w(socket/socket.c socket/getnameinfo.c socket/getaddrinfo.c
-            socket/pspsocket.c
-            bigdecimal/bigdecimal.c
-            digest/sha2/sha2init.c digest/sha2/sha2.c 
-            digest/rmd160/rmd160.c digest/rmd160/rmd160init.c
-            digest/bubblebabble/bubblebabble.c
-            digest/sha1/sha1.c digest/sha1/sha1init.c
-            digest/md5/md5.c digest/md5/md5init.c
-            digest/digest.c
-            enumerator/enumerator.c
-            fcntl/fcntl.c
-            stringio/stringio.c
-            strscan/strscan.c
-            thread/thread.c
-            zlib/zlib.c
-            nkf/nkf.c
-            etc/etc.c
-            syck/bytecode.c syck/gram.c syck/implicit.c syck/rubyext.c
-            syck/token.c syck/emitter.c syck/handler.c syck/node.c syck/syck.c
-            syck/yaml2byte.c )
-  
-  conf.srcs = Dir['*.cpp'] | libs
-  
-  static_libs = %w(-losl -ljpeg -lpng -lz -lpspsdk -lpspvfpu -lpspctrl -lpspumd
-                   -lpsppower -lpspgu -lpspmpeg -lpspaudiocodec -lpspaudiolib 
-                   -lalut -lOpenAL32 -lpsprtc -lvorbisfile  -lvorbis -lmikmod
-                   -lpspaudio -lpspusb -lpspusbstor -lpsphprm -lpsputility
-                   -lpspwlan -lpspgum -lruby -lm -logg -lpsprtc -lstdc++)
+static_libs = %w(-losl -ljpeg -lpng -lz -lpspsdk -lpspvfpu -lpspctrl -lpspumd
+                 -lpsppower -lpspgu -lpspmpeg -lpspaudiocodec -lpspaudiolib 
+                 -lalut -lOpenAL32 -lpsprtc -lvorbisfile  -lvorbis -lmikmod
+                 -lpspaudio -lpspusb -lpspusbstor -lpsphprm -lpsputility
+                 -lpspwlan -lpspgum -lruby -lm -logg -lpsprtc -lstdc++)
 
-  conf.libs = static_libs | conf.libs
+cflags = %w(-G0 -Wall -D_PSP_ -DHAVE_STRUCT_TIMESPEC)
 
-  conf.target = 'Joyau'
-  conf.icon = 'eboot/ICON0.png'
-  conf.pic1 = 'eboot/PIC1.png'
+PSPTask.new do |t|
+  t.objdir = "./obj/"
 
-  conf.incdir << "-I./intrafont/"
-  conf.cflags = conf.cflags | %w(-G0 -Wall -D_PSP_ -DHAVE_STRUCT_TIMESPEC)
+  t.srcs = Dir['*.cpp'] | libs
+  t.libs = static_libs | t.libs
+
+  t.cflags = t.cflags | cflags
+  t.incdir << "-I./intrafont/"
+
+  t.target = "jrelease"
+  t.icon0  = "eboot/ICON0.png"
+  t.pic1   = "eboot/PIC1.png"
+
+  t.build_eboot = true
+end
+
+PSPTask.new(:dbg) do |t|
+  t.objdir = "./obj_prx/"
+
+  t.srcs = Dir['*.cpp'] | libs
+  t.libs = static_libs | t.libs
+
+  t.cflags = t.cflags | cflags | ["-g"]
+  t.incdir << "-I./intrafont/"
+
+  t.target = "Joyau"
+
+
+  t.build_prx = true
 end
 
 Rake::RDocTask.new(:rdoc_site) do |rd|
@@ -98,7 +122,7 @@ Rake::RDocTask.new(:ri) do |rd|
 end
 
 
-task "ruby-1.8.7-p248.tar.bz2" do
+file "ruby-1.8.7-p248.tar.bz2" do
   ftp = Net::FTP.new
   ftp.connect("ftp.ruby-lang.org", 21)
 
@@ -112,7 +136,7 @@ task "ruby-1.8.7-p248.tar.bz2" do
 end
 
 desc "Create a release directory"
-task :release_dir => ['psp:eboot', 'psp:prx', 'rdoc_site', 'rdoc', 
+task :release_dir => ['psp:eboot', 'dbg:prx', 'rdoc_site', 'rdoc', 
                       'ruby-1.8.7-p248.tar.bz2'] do
   FileUtils.rm_r 'Joyau-release' if File.exist? 'Joyau-release'
   
@@ -196,10 +220,10 @@ desc "Create an EBOOT"
 task :default => "psp:eboot"
 
 desc "Create a PRX"
-task :debug => "psp:prx"
+task :debug => "dbg:prx"
 
 desc "Clean the directory"
-task :clean => ['psp:clean', 'clobber_rdoc', 'clobber_rdoc_site', 
+task :clean => ['psp:clean', 'dbg:clean', 'clobber_rdoc', 'clobber_rdoc_site', 
                 'clobber_package'] do
   FileUtils.rm_r 'Joyau-release' if File.exist? 'Joyau-release'
 end
