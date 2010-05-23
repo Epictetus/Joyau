@@ -66,7 +66,7 @@ PSPTask.new(:dbg) do |t|
   t.srcs = Dir['*.cpp'] | libs
   t.libs = static_libs | t.libs
 
-  t.cflags = t.cflags | cflags | ["-g", "-G0"]
+  t.cflags = t.cflags | cflags | ["-g", "-O0"]
   t.incdir << "-I./intrafont/"
 
   t.target = "Joyau"
