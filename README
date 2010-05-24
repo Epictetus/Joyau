@@ -1,15 +1,15 @@
-Joyau is a Ruby interpreter for the PSP. It runs a file called "script.rb".
-It is oriented for game creation; you can easily create sprites and maps through
-its built-in classes.
+Joyau is a Ruby interpreter for the PSP, which I wrote because I've always
+prefered Ruby to Lua, Python, or C++. It has a great amount of features, and 
+is probably powerful enough to write the homebrews that are often released.
 
-Notice some features:
-- If an exception is not caught, Joyau will show you a debugging screen.
-- Joyau adds some directories to the load path, where you can put Ruby's stdlib,
-  or Joyau which has a Ruby part too.
+It notably supports the following features:
+- text drawing through intrafont
+- image manipulation (buffers, sprites)
+- MP3 and WAV playback
+- Basic drawing (circles, rects, lines)
+- Sockets
 
-Joyau can be compiled with rake. Use rake --task to see what is possible. 
-Bassicaly:
-- By default, Joyau's EBOOT is built.
-- rdoc and rdoc_site : Will build Joyau's documentation.
-- debug : Will build the PRX, which can be used for debugging purpose.
-- release : Will create a release package from this directory.
+Check the documentation for more informations.
+
+To run your program, write your code in a script.rb file. You'll obviously need
+Joyau's EBOOT, and might want to use the ruby directory.
