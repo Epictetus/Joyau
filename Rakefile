@@ -1,11 +1,5 @@
 require 'rubygems'
 
-begin
-  require 'rake/psp_task'
-rescue LoadError
-  raise "Please install psp_task."
-end
-
 require 'joyau_rdoc'
 require 'rake/rdoctask'
 require 'rake/packagetask'
@@ -18,7 +12,7 @@ JOYAU_VERSION = "1.1.0"
 libs = %w(socket/socket.c socket/getnameinfo.c socket/getaddrinfo.c
           socket/pspsocket.c
           bigdecimal/bigdecimal.c
-          digest/sha2/sha2init.c digest/sha2/sha2.c 
+          digest/sha2/sha2init.c digest/sha2/sha2.c
           digest/rmd160/rmd160.c digest/rmd160/rmd160init.c
           digest/bubblebabble/bubblebabble.c
           digest/sha1/sha1.c digest/sha1/sha1init.c
@@ -37,42 +31,48 @@ libs = %w(socket/socket.c socket/getnameinfo.c socket/getaddrinfo.c
           syck/yaml2byte.c).map { |i| "src/#{i}" }
 
 static_libs = %w(-losl -ljpeg -lpng -lz -lpspsdk -lpspvfpu -lpspctrl -lpspumd
-                 -lpsppower -lpspgu -lpspmpeg -lpspaudiocodec -lpspaudiolib 
+                 -lpsppower -lpspgu -lpspmpeg -lpspaudiocodec -lpspaudiolib
                  -lalut -lOpenAL32 -lpsprtc -lvorbisfile  -lvorbis -lmikmod
                  -lpspaudio -lpspusb -lpspusbstor -lpsphprm -lpsputility
                  -lpspwlan -lpspgum -lruby -lm -logg -lpsprtc -lstdc++)
 
 cflags = %w(-G0 -Wall -D_PSP_ -DHAVE_STRUCT_TIMESPEC)
 
-PSPTask.new do |t|
-  t.objdir = "./obj/"
+begin
+  require 'rake/psp_task'
 
-  t.srcs = Dir['src/*.cpp'] | libs
-  t.libs = static_libs | t.libs
+  PSPTask.new do |t|
+    t.objdir = "./obj/"
 
-  t.cflags = t.cflags | cflags
-  t.incdir << "-I./src/intrafont/"
+    t.srcs = Dir['src/*.cpp'] | libs
+    t.libs = static_libs | t.libs
 
-  t.target = "jrelease"
-  t.icon0  = "eboot/ICON0.png"
-  t.pic1   = "eboot/PIC1.png"
+    t.cflags = t.cflags | cflags
+    t.incdir << "-I./src/intrafont/"
 
-  t.build_eboot = true
-end
+    t.target = "jrelease"
+    t.icon0  = "eboot/ICON0.png"
+    t.pic1   = "eboot/PIC1.png"
 
-PSPTask.new(:dbg) do |t|
-  t.objdir = "./obj_prx/"
+    t.build_eboot = true
+  end
 
-  t.srcs = Dir['src/*.cpp'] | libs
-  t.libs = static_libs | t.libs
+  PSPTask.new(:dbg) do |t|
+    t.objdir = "./obj_prx/"
 
-  t.cflags = t.cflags | cflags | ["-g", "-O0"]
-  t.incdir << "-I./src/intrafont/"
+    t.srcs = Dir['src/*.cpp'] | libs
+    t.libs = static_libs | t.libs
 
-  t.target = "Joyau"
+    t.cflags = t.cflags | cflags | ["-g", "-O0"]
+    t.incdir << "-I./src/intrafont/"
+
+    t.target = "Joyau"
 
 
-  t.build_prx = true
+    t.build_prx = true
+  end
+rescue LoadError
+  puts "Please install psp_task: gem install psp_task"
 end
 
 Rake::RDocTask.new(:rdoc_site) do |rd|
@@ -86,29 +86,29 @@ srcs = ["main.cpp",
         "Drawable.cpp",
         "Sprite.cpp",
         "Shape.cpp",
-        "Line.cpp", 
-        "Audio.cpp", 
-        "Kernel.cpp", 
-        "DrawableText.cpp", 
-        "Manager.cpp", 
-        "GameMap.cpp", 
-        "MessageBox.cpp", 
-        "Timer.cpp", 
-        "Particles.cpp", 
-        "CircleMenu.cpp", 
-        "Scrolling.cpp", 
-        "Font.cpp", 
-        "Keys.cpp", 
-        "Circle.cpp", 
-        "Graphics.cpp", 
-        "MsgSelecter.cpp", 
-        "Usb.cpp", 
-        "MultiSelecter.cpp", 
-        "Buffer.cpp", 
-        "DrawableRect.cpp", 
+        "Line.cpp",
+        "Audio.cpp",
+        "Kernel.cpp",
+        "DrawableText.cpp",
+        "Manager.cpp",
+        "GameMap.cpp",
+        "MessageBox.cpp",
+        "Timer.cpp",
+        "Particles.cpp",
+        "CircleMenu.cpp",
+        "Scrolling.cpp",
+        "Font.cpp",
+        "Keys.cpp",
+        "Circle.cpp",
+        "Graphics.cpp",
+        "MsgSelecter.cpp",
+        "Usb.cpp",
+        "MultiSelecter.cpp",
+        "Buffer.cpp",
+        "DrawableRect.cpp",
         "Triangle.cpp",
         "Wlan.cpp",
-        "Debug.cpp",	
+        "Debug.cpp",
         "OslSound.cpp"].map { |i| "src/#{i}" }
 
 Rake::RDocTask.new do |rd|
@@ -127,26 +127,26 @@ file "ruby-1.8.7-p248.tar.bz2" do
   ftp.connect("ftp.ruby-lang.org", 21)
 
   ftp.login("anonymous", "")
-  
+
   puts "Downloading ruby-1.8.7-p248.tar.bz2..."
-  ftp.getbinaryfile("pub/ruby/1.8/ruby-1.8.7-p248.tar.bz2", 
+  ftp.getbinaryfile("pub/ruby/1.8/ruby-1.8.7-p248.tar.bz2",
                     "ruby-1.8.7-p248.tar.bz2")
 
   ftp.close
 end
 
 desc "Create a release directory"
-task :release_dir => ['psp:eboot', 'dbg:prx', 'rdoc_site', 'rdoc', 
+task :release_dir => ['psp:eboot', 'dbg:prx', 'rdoc_site', 'rdoc',
                       'ruby-1.8.7-p248.tar.bz2'] do
   FileUtils.rm_r 'Joyau-release' if File.exist? 'Joyau-release'
-  
+
   Dir.mkdir 'Joyau-release'
-    
+
   FileUtils.cp_r 'doc', 'Joyau-release'
   FileUtils.cp_r 'samples', 'Joyau-release'
   FileUtils.cp_r 'ruby', 'Joyau-release'
   FileUtils.cp_r 'src', 'Joyau-release'
-  
+
   FileUtils.cp 'EBOOT.PBP', 'Joyau-release'
   FileUtils.cp 'Joyau.prx', 'Joyau-release'
   FileUtils.cp 'Rakefile', 'Joyau-release'
@@ -164,7 +164,7 @@ task :release_dir => ['psp:eboot', 'dbg:prx', 'rdoc_site', 'rdoc',
   FileUtils.cp 'src/digest/lib/sha1.rb', 'Joyau-release/ruby/1.8/digest/'
   FileUtils.cp 'src/digest/lib/md5.rb', 'Joyau-release/ruby/1.8/digest/'
   FileUtils.cp 'src/digest/sha2/lib/sha2.rb', 'Joyau-release/ruby/1.8/digest/'
-  
+
   FileUtils.cp 'src/nkf/lib/kconv.rb', 'Joyau-release/ruby/1.8/'
 
   ["socket.rb", "bigdecimal.rb", "digest/bubblebabble.rb",
@@ -209,7 +209,7 @@ desc "Create a PRX"
 task :debug => "dbg:prx"
 
 desc "Clean the directory"
-task :clean => ['psp:clean', 'dbg:clean', 'clobber_rdoc', 'clobber_rdoc_site', 
+task :clean => ['psp:clean', 'dbg:clean', 'clobber_rdoc', 'clobber_rdoc_site',
                 'clobber_package'] do
   FileUtils.rm_r 'Joyau-release' if File.exist? 'Joyau-release'
 end
